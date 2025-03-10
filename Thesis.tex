@@ -1,0 +1,72 @@
+\documentclass{unicam_thesis}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{braket}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage{glossaries}
+\usepackage{mathabx}
+\usepackage[nottoc]{tocbibind}
+\usepackage{hyperref}
+
+\makeglossaries
+
+% Classical automata
+\newacronym{dfa}{DFA}{Deterministic Finite Automaton}
+\newacronym{nfa}{NFA}{Nondeterministic Finite Automaton}
+\newacronym{pfa}{PFA}{Probabilistic Finite Automaton}
+\newacronym{2dfa}{2DFA}{Two-way Deterministic Finite Automaton}
+
+% Quantum automata
+\newacronym{qfa}{QFA}{Quantum Finite Automaton}
+\newacronym{1qfac}{1QFAC}{One-way Quantum Finite Automaton with Classical States}
+\newacronym{ot-qfa}{OT-QFA}{Quantum Finite Automaton with Open Time Evolution}
+\newacronym{2qfa}{2QFA}{Two-way Quantum Finite Automaton}
+\newacronym{mm-1qfa}{MM-1QFA}{Measure-Many One-way Quantum Finite Automaton}
+
+\title{Systematic Taxonomy of Quantum Finite Automata: Bridging Classical and Quantum Computational Models}
+
+\university{Universit\`a degli Studi di Camerino}
+\school{Scienze e Tecnologie}
+\course{Laurea in Informatica (Classe L-31)}
+
+
+\author{Marta Musso}
+\advisor{Relatore Name}
+% add Michele Loreti
+\coadvisor2{Correlatore Name}
+\academicyear{2024/2025}
+\matricola{122360}
+
+\theoremstyle{definition} \newtheorem{esempio}{Esempio}[chapter]
+\theoremstyle{definition}
+\newtheorem{definizione}{Definizione}[chapter] \theoremstyle{plain}
+\newtheorem{teorema}{Teorema}[chapter]
+
+\graphicspath{{Screenshot/},{Pictures/},{API/},{Source/}}
+\addbibresource{biblio.bib}
+\begin{document}
+
+\maketitle
+\input{Abstract/Abstract}
+
+\tableofcontents
+%\printglossary[type=\acronymtype, title=List of Acronyms]
+%\lstlistoflistings
+%\listoffigures
+%\listoftables
+
+\input{Introduction/Introduction}
+\input{Background/Background}
+\input{LiteratureReview/LiteratureReview}
+\input{Conclusion/Conclusion}
+
+
+\appendix
+
+\printbibliography
+
+\printindex
+
+\input{Acknowledgments}
+
+\end{document}

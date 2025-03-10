@@ -1,0 +1,91 @@
+\section{Classical Finite Automata}
+\label{sec:classical-finite-automata} 
+
+Finite automata form the cornerstone of formal language theory, providing mathematical frameworks to analyze computational limits and language recognition capabilities. This section systematically examines deterministic, nondeterministic, probabilistic, and two-way variants, emphasizing their structural relationships and computational boundaries. 
+
+\subsection{Shared Foundations}
+\label{subsec:shared-foundations} 
+
+The study of automata begins with foundational concepts in formal language theory. An \textit{alphabet} $\Sigma$ is a finite set of symbols (e.g., $\Sigma = \{0,1\}$), while a \textit{string} $w$ over $\Sigma$ is a finite sequence of symbols with length $\|w\|$ \cite{hopcroft2006introduction}. The empty string $\epsilon$ has $\|\epsilon\| = 0$. A \textit{language} $L$ is a set of strings, i.e., $L \subseteq \Sigma^\ast$, where $\Sigma^\ast$ denotes the Kleene closure—the set of all finite strings over $\Sigma$ \cite{hopcroft2006introduction}. Key operations include:
+\begin{itemize}
+    \item \textit{Concatenation}: Combining strings $u$ and $v$ into $uv$.
+    \item \textit{Union/Intersection}: $L_1 \cup L_2$ and $L_1 \cap L_2$.
+    \item \textit{Kleene Star}: $L^\ast = \bigcup_{i=0}^\infty L^i$, where $L^0 = \{\epsilon\}$ \cite{hopcroft2006introduction}.
+\end{itemize} 
+
+Languages are categorized by recognition models:
+\begin{itemize}
+    \item \textit{Regular languages ($\text{REG}$)}: Recognized by DFAs, NFAs, or regular expressions \cite{hopcroft2006introduction}.
+    \item \textit{Stochastic languages}: Recognized by probabilistic finite automata (PFAs) with bounded error \cite{rabin1963probabilistic}.
+\end{itemize} 
+
+Regular languages exhibit critical closure properties under union, intersection, complement, concatenation, and Kleene star \cite{hopcroft2006introduction}. These properties underpin decidability proofs and equivalence checks, forming the basis for analyzing quantum automata in later chapters. 
+
+\subsection{Deterministic Finite Automata (DFA)}
+\label{subsec:dfa} 
+
+A DFA is a quintuple $M = (Q, \Sigma, \delta, q_0, F)$, where:
+\begin{itemize}
+    \item $Q$: Finite set of states.
+    \item $\Sigma$: Input alphabet.
+    \item $\delta: Q \times \Sigma \to Q$: Deterministic transition function.
+    \item $q_0 \in Q$: Initial state.
+    \item $F \subseteq Q$: Accepting states \cite{hopcroft2006introduction}.
+\end{itemize} 
+
+Computation proceeds deterministically: for input $w = a_1 a_2 \dots a_n$, the state evolves as $\delta(q_{i-1}, a_i) = q_i$ \cite{hopcroft2006introduction}. A string $w$ is accepted if $\delta(q_0, w) \in F$. DFAs recognize precisely the regular languages, with expressive power strictly weaker than context-free languages \cite{hopcroft2006introduction}. 
+
+Key properties include:
+\begin{itemize}
+    \item \textit{Minimization}: Hopcroft's algorithm reduces DFAs to minimal form in $O(n \log n)$ time \cite{hopcroft2006introduction}.
+    \item \textit{Emptiness Problem}: Decidable via reachability analysis from $q_0$ to $F$ \cite{hopcroft2006introduction}.
+    \item \textit{Pumping Lemma}: For any $L \in \text{REG}$, there exists $p$ such that any $w \in L$ with $\|w\| \geq p$ can be decomposed as $w = xyz$ (with $\|xy\| \leq p$, $\|y\| \geq 1$) such that $xy^i z \in L$ for all $i \geq 0$ \cite{hopcroft2006introduction}.
+\end{itemize} 
+
+\subsection{Nondeterministic Finite Automata (NFA)}
+\label{subsec:nfa} 
+
+NFAs generalize DFAs by allowing multiple transitions per input symbol. Formally, an NFA is a quintuple $M = (Q, \Sigma, \delta, q_0, F)$, where $\delta: Q \times (\Sigma \cup \{\epsilon\}) \to 2^Q$ enables $\epsilon$-transitions and nondeterministic branching \cite{hopcroft2006introduction}. A string $w$ is accepted if \textit{any} computational path leads to $F$. 
+
+Despite apparent increased power, NFAs recognize the same class of languages as DFAs ($\text{REG}$) \cite{hopcroft2006introduction}. However, they can be exponentially more succinct: for example, an NFA recognizing $\{w \mid w \text{ contains } ab\}$ requires only $3$ states, while the equivalent DFA requires $2^3 = 8$ states \cite{hopcroft2006introduction}. Subset construction converts an NFA with $n$ states to a DFA with up to $2^n$ states \cite{hopcroft2006introduction}. 
+
+NFAs inherit closure properties from DFAs but lack unique minimization—equivalence checks require conversion to DFAs \cite{hopcroft2006introduction}. 
+
+\subsection{Probabilistic Finite Automata (PFA)}
+\label{subsec:pfa} 
+
+PFAs introduce probabilistic transitions. A PFA is defined as $M = (Q, \Sigma, \delta, q_0, F)$, where $\delta: Q \times \Sigma \times Q \to [0, 1]$ specifies transition probabilities \cite{rabin1963probabilistic}. A string $w$ is accepted if the probability of ending in $F$ exceeds a threshold $\lambda \in [0, 1]$ \cite{rabin1963probabilistic}. 
+
+PFAs recognize \textit{stochastic languages} (a superset of $\text{REG}$), including non-regular languages like $L_{eq} = \{a^n b^n \mid n \geq 1\}$ with bounded error \cite{rabin1963probabilistic}. However, their computational power comes at a cost:
+\begin{itemize}
+    \item \textit{Emptiness Problem}: Undecidable—no algorithm can determine if $\Pr[\text{accept}] > 0$ \cite{paz1971introduction}.
+    \item \textit{Equivalence}: Undecidable for PFAs, unlike DFAs/NFAs \cite{paz1971introduction}.
+\end{itemize} 
+
+These limitations highlight the trade-offs between expressiveness and decidability in probabilistic models. 
+
+\subsection{Two-Way Finite Automata (2DFA, 2NFA, 2PFA)}
+\label{subsec:2dfa} 
+
+Two-way automata extend finite automata with bidirectional tape heads. A 2DFA is defined as $M = (Q, \Sigma, \delta, q_0, F)$, where $\delta: Q \times \Sigma \to Q \times \{L, R\}$ governs state transitions and head movement \cite{kondacs1997power}. Despite this added capability, 2DFAs recognize only $\text{REG}$, though they can achieve exponential state savings for certain languages \cite{kondacs1997power}. 
+
+Two-way probabilistic finite automata (2PFAs) significantly enhance power. For example, a 2PFA recognizes $L_{eq} = \{a^n b^n\}$ with bounded error in polynomial time, a feat impossible for one-way PFAs \cite{kondacs1997power}. However, 2PFAs sacrifice decidability:
+\begin{itemize}
+    \item \textit{Emptiness Problem}: Undecidable due to probabilistic ambiguity \cite{kondacs1997power}.
+    \item \textit{Equivalence}: Undecidable for 2PFAs \cite{kondacs1997power}.
+\end{itemize} 
+
+These models bridge classical and quantum automata, as their bidirectional access prefigures quantum interference effects in 2QFAs \cite{ambainis2009superiority}. 
+
+\subsection{Key Theorems}
+\label{subsec:key-theorems} 
+
+\begin{enumerate}
+    \item \textit{Kleene's Theorem}: A language is regular if and only if it is recognized by a DFA/NFA or described by a regular expression \cite{hopcroft2006introduction}.
+    \item \textit{Subset Construction Theorem}: Every NFA can be converted to an equivalent DFA, with up to $2^n$ states \cite{hopcroft2006introduction}.
+    \item \textit{Myhill-Nerode Theorem}: Characterizes $\text{REG}$ via string indistinguishability, forming the basis for DFA minimization \cite{hopcroft2006introduction}.
+    \item \textit{Rabin's Theorem}: PFAs recognize stochastic languages, a strict superset of $\text{REG}$ \cite{rabin1963probabilistic}.
+    \item \textit{Sipser's Theorem}: 2PFAs recognize $\text{REG}$ in logarithmic space but require exponential time for non-regular languages \cite{sipser1980halting}.
+\end{enumerate} 
+
+These theorems collectively delineate the boundaries of classical finite automata, setting the stage for quantum extensions in subsequent chapters. 
