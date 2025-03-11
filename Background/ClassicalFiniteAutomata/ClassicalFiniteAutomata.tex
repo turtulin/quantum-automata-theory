@@ -3,44 +3,10 @@
 
 Finite automata form the cornerstone of formal language theory, providing mathematical frameworks to analyze computational limits and language recognition capabilities. This section systematically examines deterministic, nondeterministic, probabilistic, and two-way variants, emphasizing their structural relationships and computational boundaries. 
 
-\subsection{Shared Foundations}
-\label{subsec:shared-foundations} 
+\input{Background/ClassicalFiniteAutomata/SharedFoundations.tex}
+\input{Background/ClassicalFiniteAutomata/DFA.tex}
 
-The study of automata begins with foundational concepts in formal language theory. An \textit{alphabet} $\Sigma$ is a finite set of symbols (e.g., $\Sigma = \{0,1\}$), while a \textit{string} $w$ over $\Sigma$ is a finite sequence of symbols with length $\|w\|$ \cite{hopcroft2006introduction}. The empty string $\epsilon$ has $\|\epsilon\| = 0$. A \textit{language} $L$ is a set of strings, i.e., $L \subseteq \Sigma^\ast$, where $\Sigma^\ast$ denotes the Kleene closure—the set of all finite strings over $\Sigma$ \cite{hopcroft2006introduction}. Key operations include:
-\begin{itemize}
-    \item \textit{Concatenation}: Combining strings $u$ and $v$ into $uv$.
-    \item \textit{Union/Intersection}: $L_1 \cup L_2$ and $L_1 \cap L_2$.
-    \item \textit{Kleene Star}: $L^\ast = \bigcup_{i=0}^\infty L^i$, where $L^0 = \{\epsilon\}$ \cite{hopcroft2006introduction}.
-\end{itemize} 
 
-Languages are categorized by recognition models:
-\begin{itemize}
-    \item \textit{Regular languages ($\text{REG}$)}: Recognized by DFAs, NFAs, or regular expressions \cite{hopcroft2006introduction}.
-    \item \textit{Stochastic languages}: Recognized by probabilistic finite automata (PFAs) with bounded error \cite{rabin1963probabilistic}.
-\end{itemize} 
-
-Regular languages exhibit critical closure properties under union, intersection, complement, concatenation, and Kleene star \cite{hopcroft2006introduction}. These properties underpin decidability proofs and equivalence checks, forming the basis for analyzing quantum automata in later chapters. 
-
-\subsection{Deterministic Finite Automata (DFA)}
-\label{subsec:dfa} 
-
-A DFA is a quintuple $M = (Q, \Sigma, \delta, q_0, F)$, where:
-\begin{itemize}
-    \item $Q$: Finite set of states.
-    \item $\Sigma$: Input alphabet.
-    \item $\delta: Q \times \Sigma \to Q$: Deterministic transition function.
-    \item $q_0 \in Q$: Initial state.
-    \item $F \subseteq Q$: Accepting states \cite{hopcroft2006introduction}.
-\end{itemize} 
-
-Computation proceeds deterministically: for input $w = a_1 a_2 \dots a_n$, the state evolves as $\delta(q_{i-1}, a_i) = q_i$ \cite{hopcroft2006introduction}. A string $w$ is accepted if $\delta(q_0, w) \in F$. DFAs recognize precisely the regular languages, with expressive power strictly weaker than context-free languages \cite{hopcroft2006introduction}. 
-
-Key properties include:
-\begin{itemize}
-    \item \textit{Minimization}: Hopcroft's algorithm reduces DFAs to minimal form in $O(n \log n)$ time \cite{hopcroft2006introduction}.
-    \item \textit{Emptiness Problem}: Decidable via reachability analysis from $q_0$ to $F$ \cite{hopcroft2006introduction}.
-    \item \textit{Pumping Lemma}: For any $L \in \text{REG}$, there exists $p$ such that any $w \in L$ with $\|w\| \geq p$ can be decomposed as $w = xyz$ (with $\|xy\| \leq p$, $\|y\| \geq 1$) such that $xy^i z \in L$ for all $i \geq 0$ \cite{hopcroft2006introduction}.
-\end{itemize} 
 
 \subsection{Nondeterministic Finite Automata (NFA)}
 \label{subsec:nfa} 
@@ -89,3 +55,4 @@ These models bridge classical and quantum automata, as their bidirectional acces
 \end{enumerate} 
 
 These theorems collectively delineate the boundaries of classical finite automata, setting the stage for quantum extensions in subsequent chapters. 
+\newpage

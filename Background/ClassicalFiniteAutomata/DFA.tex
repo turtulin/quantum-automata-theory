@@ -1,0 +1,23 @@
+
+\subsection{Deterministic Finite Automata (DFA)}
+\label{subsec:dfa} 
+
+A DFA is a quintuple $M = (Q, \Sigma, \delta, q_0, F)$, where:
+\begin{itemize}
+    \item $Q$: Finite set of states.
+    \item $\Sigma$: Input alphabet.
+    \item $\delta: Q \times \Sigma \to Q$: Deterministic transition function.
+    \item $q_0 \in Q$: Initial state.
+    \item $F \subseteq Q$: Accepting states \cite{hopcroft2006introduction}.
+\end{itemize} 
+
+Computation proceeds deterministically: for input $w = a_1 a_2 \dots a_n$, the state evolves as $\delta(q_{i-1}, a_i) = q_i$ \cite{hopcroft2006introduction}. A string $w$ is accepted if $\delta(q_0, w) \in F$. DFAs recognize precisely the regular languages, with expressive power strictly weaker than context-free languages \cite{hopcroft2006introduction}. 
+
+Key properties include:
+\begin{itemize}
+    \item \textit{Minimization}: Hopcroft's algorithm reduces DFAs to minimal form in $O(n \log n)$ time \cite{hopcroft2006introduction}.
+    \item \textit{Emptiness Problem}: Decidable via reachability analysis from $q_0$ to $F$ \cite{hopcroft2006introduction}.
+    \item \textit{Pumping Lemma}: For any $L \in \text{REG}$, there exists $p$ such that any $w \in L$ with $\|w\| \geq p$ can be decomposed as $w = xyz$ (with $\|xy\| \leq p$, $\|y\| \geq 1$) such that $xy^i z \in L$ for all $i \geq 0$ \cite{hopcroft2006introduction}.
+\end{itemize} 
+
+\newpage
