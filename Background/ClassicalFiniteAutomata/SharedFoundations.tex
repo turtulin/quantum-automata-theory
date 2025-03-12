@@ -161,7 +161,7 @@ Closure properties determine how language classes behave under operations:
     \item $\text{Stochastic Languages}$: Closed under union, intersection, and concatenation, but \textit{not} under complementation or Kleene star \cite{rabin1963probabilistic, paz1971introduction}.  
 \end{itemize}
 
-\textit{Example}:  
+\noindent\textit{Example}:  
 $\text{REG}$’s closure under intersection ensures that $L_1 \cap L_2$ is regular if $L_1, L_2 \in \text{REG}$. In contrast, stochastic languages are closed under intersection but not under complementation, as shown by their inability to recognize $\overline{L_{\text{eq}}}$ for $L_{\text{eq}} = \{a^n b^n \mid n \geq 1\}$ \cite{rabin1963probabilistic}.  
 
 
@@ -181,7 +181,7 @@ $\text{REG}$’s closure under intersection ensures that $L_1 \cap L_2$ is regul
 \end{table}
 
 \subsubsection{Chomsky Hierarchy}
-Formal languages are stratified by the \textbf{Chomsky hierarchy} \cite{chomsky1956three, hopcroft2006introduction}:  
+Formal languages are stratified by the Chomsky hierarchy \cite{chomsky1956three, hopcroft2006introduction}:  
 \begin{enumerate}
     \item \textbf{Type-3 (Regular)}: Recognized by DFAs \cite{hopcroft2006introduction}.  
     \item \textbf{Type-2 (Context-Free)}: Recognized by PDAs \cite{chomsky1956three}.  
@@ -232,4 +232,54 @@ Formal languages are stratified by the \textbf{Chomsky hierarchy} \cite{chomsky1
     \caption{Example DFA recognizing even number of 1s}
     \label{fig:dfa-example}
 \end{figure}
-\newpage
+
+\subsubsection{Automata Definition Fundamentals}  
+All automata share core structural components \cite{hopcroft2006introduction, chomsky1956three}.  
+
+\begin{definition}[Classical Finite Automaton]
+    \label{def:finite-automaton}
+    A \textit{finite automaton} is a computational model that processes input symbols to recognize languages. Formally, a finite automaton $M$ is a quintuple $(Q, \Sigma, \delta, q_0, F)$, where:
+    \begin{itemize}
+        \item {States ($Q$)}: A finite set of configurations representing computational progress \cite{hopcroft2006introduction}. 
+        \item {Input Alphabet ($\Sigma$)}: Defined symbols the automaton processes \cite{hopcroft2006introduction}.
+        \item {Transition Function ($\delta$)}: Governs state changes based on input \cite{chomsky1956three}:  
+        \begin{itemize}
+            \item \textit{Deterministic}: $\delta: Q \times \Sigma \to Q$ (e.g., DFA) \cite{hopcroft2006introduction}.  
+            \item \textit{Nondeterministic}: $\delta: Q \times \Sigma \to 2^Q$ (e.g., NFA) \cite{rabin1963probabilistic}.  
+        \end{itemize}
+        \item {Initial State ($q_0 \in Q$)}: The starting configuration \cite{hopcroft2006introduction}. 
+        \item {Accept States ($F \subseteq Q$)}: Terminal states indicating successful computation \cite{hopcroft2006introduction}.
+    \end{itemize} 
+\end{definition}
+
+\noindent\textit{Example}: The DFA in Figure \ref{fig:dfa-example} has:  
+\begin{itemize}
+    \item $Q = \{q_0, q_1\}$  
+    \item $\Sigma = \{0, 1\}$  
+    \item $\delta(q_0, 1) = q_1$, $\delta(q_1, 0) = q_0$ \textit{(partial specification)}  
+    \item $F = \{q_1\}$ (accepts even number of 1s)  
+\end{itemize}
+\noindent\textbf{Graphical notation}: 
+\begin{itemize}
+    \item States: Circles with $q_i$ labels  
+        \item Initial state: Arrow pointing to the state ($q_0$)  
+        \item Accept states: Double circles ($q_1$ in \ref{fig:dfa-example})  
+        \item Transitions: Directed edges labeled with input symbols  
+\end{itemize}
+
+
+
+\begin{table}[htbp]
+    \centering
+      \begin{tabular}{@{}lllll@{}}
+          \toprule
+          \textbf{Automaton} & \textbf{State Memory} & \textbf{Transition Type} & \textbf{Acceptance Condition} \\ \midrule
+          DFA & None & Deterministic & Final state membership \cite{hopcroft2006introduction} \\
+          NFA & None & Nondeterministic & Existence of accepting path \cite{hopcroft2006introduction} \\
+          PDA & Stack & Deterministic/Nondet. & Final state + empty stack \cite{chomsky1956three} \\
+          Turing Machine & Tape & Deterministic & Halting in accept state \cite{turing1936computable} \\
+          \bottomrule
+      \end{tabular}%
+    \caption{Automata representation variations}
+    \label{tab:automata-variations}
+\end{table}

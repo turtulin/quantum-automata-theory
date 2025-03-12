@@ -1,0 +1,31 @@
+\subsection{Superposition and Entanglement}
+\label{subsec:superposition}
+
+\textbf{Superposition} enables parallel computation. The Hadamard gate ($H$) creates uniform superpositions:
+\[
+H|0\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}}, \quad H|1\rangle = \frac{|0\rangle - |1\rangle}{\sqrt{2}}.
+\]
+
+\textbf{Entanglement} arises in multi-qubit states that cannot be factored. The Bell states are maximally entangled:
+\[
+|\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}, \quad |\Phi^-\rangle = \frac{|00\rangle - |11\rangle}{\sqrt{2}},
+\]
+\[
+|\Psi^+\rangle = \frac{|01\rangle + |10\rangle}{\sqrt{2}}, \quad |\Psi^-\rangle = \frac{|01\rangle - |10\rangle}{\sqrt{2}}.
+\]
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+  \node[draw,rectangle] (h) at (0,0) {$H$};
+  \node[draw,circle] (cnot) at (2,0) {$\oplus$};
+  \draw[->] (-1,0) -- (h);
+  \draw[->] (h) -- (cnot);
+  \draw[->] (cnot) -- (3,0);
+  \draw[->] (cnot) -- (2,-1) node[below] {$|\Phi^+\rangle$};
+\end{tikzpicture}
+\caption{Quantum circuit generating the Bell state $|\Phi^+\rangle$.}
+\label{fig:bell_circuit}
+\end{figure}
+
+Entanglement is critical for quantum teleportation \cite{bennett1993teleporting} and enables exponential speedups in algorithms like Shor's \cite{shor1999polynomial}.

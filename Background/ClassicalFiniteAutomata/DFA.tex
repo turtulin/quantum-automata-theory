@@ -1,23 +1,55 @@
-
 \subsection{Deterministic Finite Automata (DFA)}
 \label{subsec:dfa} 
 
-A DFA is a quintuple $M = (Q, \Sigma, \delta, q_0, F)$, where:
+As a specialization of the general finite automaton framework~\ref{def:finite-automaton} established in Section~\ref{subsec:shared-foundations}, a Deterministic Finite Automaton (DFA)\cite{hopcroft2006introduction} is formally defined as a quintuple \( M = (Q, \Sigma, \delta, q_0, F) \) where:
 \begin{itemize}
-    \item $Q$: Finite set of states.
-    \item $\Sigma$: Input alphabet.
-    \item $\delta: Q \times \Sigma \to Q$: Deterministic transition function.
-    \item $q_0 \in Q$: Initial state.
-    \item $F \subseteq Q$: Accepting states \cite{hopcroft2006introduction}.
-\end{itemize} 
+    \item \( Q \): Finite set of states
+    \item \( \Sigma \): Finite input alphabet
+    \item \( \delta: Q \times \Sigma \rightarrow Q \): Total transition function
+    \item \( q_0 \in Q \): Unique initial state
+    \item \( F \subseteq Q \): Set of accepting states
+\end{itemize}
 
-Computation proceeds deterministically: for input $w = a_1 a_2 \dots a_n$, the state evolves as $\delta(q_{i-1}, a_i) = q_i$ \cite{hopcroft2006introduction}. A string $w$ is accepted if $\delta(q_0, w) \in F$. DFAs recognize precisely the regular languages, with expressive power strictly weaker than context-free languages \cite{hopcroft2006introduction}. 
+\subsubsection{Language Recognition and Expressive Power}
+DFAs precisely characterize the class of regular languages (\(\mathsf{REG}\)) within the Chomsky hierarchy \cite{hopcroft2006introduction}. Key properties include:
 
-Key properties include:
-\begin{itemize}
-    \item \textit{Minimization}: Hopcroft's algorithm reduces DFAs to minimal form in $O(n \log n)$ time \cite{hopcroft2006introduction}.
-    \item \textit{Emptiness Problem}: Decidable via reachability analysis from $q_0$ to $F$ \cite{hopcroft2006introduction}.
-    \item \textit{Pumping Lemma}: For any $L \in \text{REG}$, there exists $p$ such that any $w \in L$ with $\|w\| \geq p$ can be decomposed as $w = xyz$ (with $\|xy\| \leq p$, $\|y\| \geq 1$) such that $xy^i z \in L$ for all $i \geq 0$ \cite{hopcroft2006introduction}.
-\end{itemize} 
+\begin{enumerate}
+    \item \textbf{Closure Properties}: Closed under union, intersection, complement, concatenation, and Kleene star \cite{myhill1957finite}.
+    \item \textbf{Limitations}: Cannot recognize non-regular languages like \( \{a^nb^n | n \geq 0\} \) (pumping lemma consequence) \cite{sipser2012introduction}.
+    \item \textbf{Equivalence}: All regular expressions have corresponding DFAs and vice versa (Kleene's theorem) \cite{kleene1956representation}.
+\end{enumerate}
 
-\newpage
+The Myhill-Nerode theorem provides a canonical minimal DFA for any regular language, establishing state minimality criteria \cite{nerode1958linear}.
+
+\subsubsection{Graphical Representation}
+Consider the DFA in Figure~\ref{fig:dfa-example} recognizing strings with an even number of \texttt{0}s and \texttt{1}s. The automaton transitions between states based on input symbols, accepting strings that satisfy the parity constraints.
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
+        \node[state, initial, accepting, initial text={}] (q0) {$q_0$};
+        \node[state] (q1) [right=of q0] {$q_1$};
+        \node[state] (q2) [below=of q1] {$q_2$};
+        \node[state] (q3) [left=of q2] {$q_3$};
+
+        \path[->]
+        (q0) edge [bend left] node {1} (q1)
+        (q0) edge [bend right] node[swap] {0} (q3)
+        (q1) edge [bend right] node[swap] {0} (q2)
+        (q1) edge [bend left] node {1} (q0)
+        (q2) edge [bend left] node {1} (q3)
+        (q2) edge [bend right] node[swap] {0} (q1)
+        (q3) edge [bend right] node[swap] {0} (q0)
+        (q3) edge [bend left] node {1} (q2);
+    \end{tikzpicture}
+    \caption{DFA recognizing even numbers of \texttt{0}s and \texttt{1}s.}
+    \label{fig:dfa-example}
+\end{figure}
+
+\(
+L = \{ w \in \{0, 1\}^* \mid \text{the number of } 0\text{'s in } w \text{ is even and the number of } 1\text{'s in } w \text{ is even} \}
+\) is the language recognized by this DFA.
+
+The DFA is deterministic because for each state and input symbol (either \texttt{0} or \texttt{1}), there is exactly one transition defined. This ensures that from any given state, the next state is uniquely determined by the current input symbol, leaving no ambiguity in the automaton's behavior.
+
+The structure of the DFA ensures that it keeps track of the parity (even or odd) of the counts of \texttt{0}s and \texttt{1}s as it processes each input symbol, transitioning between states accordingly to accept only those strings that meet the specified criteria.

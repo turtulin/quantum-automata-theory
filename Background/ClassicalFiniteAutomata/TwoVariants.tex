@@ -1,0 +1,191 @@
+\subsection{Two-Way Finite Automata Variants}
+\label{subsec:two-way-variants}
+
+This section examines bidirectional automata models that extend one-way finite automata through tape head reversibility. These classical models provide foundational insights for complexity analysis in quantum computing contexts \cite{hopcroft2006introduction}. We analyze their computational mechanics, state complexity advantages, and language recognition capabilities while emphasizing structural parallels with quantum counterparts.
+
+\subsubsection{Two-Way Deterministic Finite Automata (2DFA)}
+\label{subsubsec:2dfa}
+
+As an extension of the deterministic framework established in Section~\ref{subsec:dfa}, a Two-Way Deterministic Finite Automaton (2DFA) \cite{kondacs1997power} is formally defined as a septuple \( M = (Q, \Sigma, \delta, q_0, F, \triangleleft, \triangleright) \) where:
+\begin{itemize}
+    \item \( \triangleleft, \triangleright \): Left/right triangular endmarkers delimiting input
+    \item \( \delta: Q \times (\Sigma \cup \{\triangleleft, \triangleright\}) \rightarrow Q \times \{L, R, S\} \)
+    \item \( S \): "Stay" operation maintaining head position
+\end{itemize}
+
+\paragraph{Operational Mechanics}
+The bidirectional capability enables:
+\begin{enumerate}
+    \item \textbf{Cross-verification}: Rechecking input symbols for patterns like palindromes
+    \item \textbf{Multi-pass validation}: Repeated scans with \( O(1) \) space complexity
+    \item \textbf{Deterministic transitions}: \( \delta(q, a) = (q', d) \) with \( d \in \{L, R, S\} \)
+    \item \textbf{Boundary handling}: Special transitions at \( \triangleleft \) and \( \triangleright \) markers
+\end{enumerate}
+
+\paragraph{State Complexity Advantages}
+2DFAs demonstrate significant savings over 1DFAs:
+\begin{itemize}
+    \item Recognize \( L_{eq} = \{a^n b^n | n \geq 0\} \) with \( O(n) \) states vs. 1DFA's exponential requirements \cite{yakaryilmaz2010succinctness}
+    \item Implement context-free-like validations through bidirectional sweeps \cite{hopcroft2006introduction}
+    \item Achieve \( O(\sqrt{n}) \) state efficiency for languages with periodic structures \cite{kondacs1997power}
+\end{itemize}
+
+\paragraph{Example: Even 01 Substrings}
+Figure~\ref{fig:2dfa-example} shows a 2DFA recognizing \( L = \{w \in \{0,1\}^* \mid \text{even number of } 01 \text{ substrings}\} \). The states \( q_0 \)-\( q_3 \) track substring counts using bidirectional verification:
+\begin{itemize}
+    \item \( q_0 \): Initial state scanning right
+    \item \( q_1 \): Reverse scan after detecting '0'
+    \item \( q_2 \): Validate '1' completion
+    \item \( q_3 \): Boundary error handling
+\end{itemize}
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+        \node[state, initial, accepting] (q0) {$q_0$};
+        \node[state] (q1) [right=of q0] {$q_1$};
+        \node[state] (q2) [below=of q1] {$q_2$};
+        \node[state] (q3) [left=of q2] {$q_3$};
+
+        \path[->]
+        (q0) edge [bend left] node {$0$} (q1)
+        (q0) edge [loop above] node {$1$} (q0)
+        (q1) edge [bend left] node {$1$} (q2)
+        (q1) edge [bend right] node[swap] {$0$} (q3)
+        (q2) edge [bend left] node {$\triangleleft$} (q0)
+        (q2) edge [loop right] node {$0,1$} (q2)
+        (q3) edge [bend right] node[swap] {$\triangleright$} (q0);
+    \end{tikzpicture}
+    \caption{2DFA with triangular endmarkers recognizing even 01 substrings}
+    \label{fig:2dfa-example}
+\end{figure}
+
+\subsubsection{Two-Way Nondeterministic Finite Automata (2NFA)}
+\label{subsubsec:2nfa}
+
+Generalizing the NFA framework from Section~\ref{subsec:nfa}, a Two-Way Nondeterministic Finite Automaton (2NFA) \cite{hopcroft2006introduction} has transition function:
+\[
+\delta: Q \times (\Sigma \cup \{\triangleleft, \triangleright\}) \rightarrow 2^{Q \times \{L, R, S\}}
+\]
+
+\paragraph{Key Advantages}
+\begin{enumerate}
+    \item \textbf{Exponential state savings}: Recognizes \( \{a^n b^{2n} | n \geq 0\} \) with \( O(1) \) states \cite{yakaryilmaz2010succinctness}
+    \item \textbf{Guess-and-verify paradigm}: 
+        \begin{itemize}
+            \item Nondeterministically "guess" split points (e.g., \( a^k \) in \( a^k b^{2k} \))
+            \item Verify guesses through bidirectional traversal
+        \end{itemize}
+    \item \textbf{CFL recognition}: Simulates context-free validations in \( O(n) \) time \cite{hromkovic2000probabilistic}
+\end{enumerate}
+
+\paragraph{Example: Palindrome Recognition}
+Figure~\ref{fig:2nfa-example} demonstrates a 2NFA for \( L_{pal} = \{ww^R | w \in \{0,1\}^*\} \):
+\begin{itemize}
+    \item Nondeterministically guess midpoint at \( \triangleright \)
+    \item Match symbols bidirectionally from guessed position
+    \item Accept if all symbol pairs match
+\end{itemize}
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
+        \node[state, initial] (q0) {$q_0$};
+        \node[state] (q1) [right=of q0] {$q_1$};
+        \node[state, accepting] (q2) [right=of q1] {$q_2$};
+
+        \path[->]
+        (q0) edge [loop above] node {$0,1,R$} (q0)
+        (q0) edge node {$\triangleright$} (q1)
+        (q1) edge [loop above] node {$0,1,L$} (q1)
+        (q1) edge [bend left] node {$0$} (q2)
+        (q2) edge [bend left] node {$0$} (q1)
+        (q1) edge [bend right] node[swap] {$1$} (q2)
+        (q2) edge [bend right] node[swap] {$1$} (q1);
+    \end{tikzpicture}
+    \caption{2NFA for palindrome recognition with triangular endmarkers}
+    \label{fig:2nfa-example}
+\end{figure}
+
+\subsubsection{Two-Way Probabilistic Finite Automata (2PFA)}
+\label{subsubsec:2pfa}
+
+Extending the PFA framework from Section~\ref{subsec:pfa}, a Two-Way Probabilistic Finite Automaton (2PFA) \cite{freivalds1981probabilistic} is defined with:
+\[
+\delta(q, a, q', d) = 
+\begin{cases} 
+p \in [0,1] & \text{probability of transition} \\
+0 & \text{otherwise}
+\end{cases}
+\]
+satisfying \( \sum_{q',d} \delta(q, a, q', d) = 1 \).
+
+\paragraph{Computational Phases}
+\begin{enumerate}
+    \item \textbf{Initialization}: Start at \( \triangleleft \) with distribution \( \delta(q_0) \)
+    \item \textbf{Evolution}: Apply transition matrix to current state distribution
+    \item \textbf{Measurement}: Check for acceptance after each step with possible halting
+    \item \textbf{Error reduction}: Use amplitude amplification for bounded error \cite{nielsen2010quantum}
+\end{enumerate}
+
+\paragraph{Recognition Capabilities}
+\begin{itemize}
+    \item \textbf{Non-Regular Languages}: Recognizes \( \{a^n b^n\} \) with bounded error \( \epsilon < 1/2 \) in \( O(n^2) \) time \cite{freivalds1981probabilistic}
+    \item \textbf{Space-Time Tradeoff}: \( O(\log n) \) space requires \( O(n^3) \) time \cite{papadimitriou1994computational}
+    \item \textbf{Language examples}:
+        \begin{itemize}
+            \item \( L_{maj} = \{w \in \{a,b\}^* | |w|_a > |w|_b\} \)
+            \item \( L_{eq} = \{a^n b^n | n \geq 0\} \)
+        \end{itemize}
+\end{itemize}
+
+\paragraph{Example: Majority Language}
+Figure~\ref{fig:2pfa-example} shows a 2PFA for \( L_{maj} \):
+\begin{itemize}
+    \item Uses probabilistic counters with bidirectional sweeps
+    \item Maintains \( O(\log n) \) states through quantum-like interference patterns
+    \item Achieves \( 2/3 \) correctness probability through repeated passes
+\end{itemize}
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+        \node[state, initial] (q0) {$q_0$};
+        \node[state] (q1) [right=of q0] {$q_1$};
+        \node[state, accepting] (q2) [right=of q1] {$q_2$};
+
+        \path[->]
+        (q0) edge [loop above] node[align=center] {$a:0.6R$\\$b:0.4R$} (q0)
+        (q0) edge node {$\triangleright:0.5$} (q1)
+        (q1) edge [loop above] node[align=center] {$a:0.3L$\\$b:0.7L$} (q1)
+        (q1) edge node {$\triangleleft:0.7$} (q2);
+    \end{tikzpicture}
+    \caption{2PFA for majority language with probabilistic transitions}
+    \label{fig:2pfa-example}
+\end{figure}
+
+\paragraph{Cut-Point Variations}
+\begin{description}
+    \item[Isolated Cut-Point] \( \lambda \pm \epsilon \): Recognizes exactly regular languages \cite{rabin1963probabilistic}
+    \item[Non-Isolated Cut-Point] \( \lambda = 0 \): Recognizes languages beyond regular \cite{paz1971introduction}
+    \item[Bounded Error] \( \epsilon < 1/2 \): Enables quantum-inspired error tolerance \cite{nielsen2010quantum}
+\end{description}
+
+\subsubsection{Comparative Analysis}
+Table~\ref{tab:two-way-comparison} summarizes capabilities:
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        Model & Language Class & Time Complexity & Space Complexity & State Complexity & Key Reference \\
+        \hline
+        2DFA & REG & \( O(n^2) \) & \( O(1) \) & \( O(\sqrt{n}) \) & \cite{hopcroft2006introduction} \\
+        2NFA & REG & \( O(n) \) & \( O(1) \) & \( O(1) \) (CFLs) & \cite{yakaryilmaz2010succinctness} \\
+        2PFA & REG \( \subset L \subseteq \) P & \( O(n^3) \) & \( O(\log n) \) & \( O(n) \) & \cite{freivalds1981probabilistic} \\
+        \hline
+    \end{tabular}
+    \caption{Classical two-way automata capabilities with triangular endmarkers}
+    \label{tab:two-way-comparison}
+\end{table}
+
+These classical models establish crucial baselines for quantum counterparts like 2QCFA and 2QFA \cite{ambainis2002quantum}, particularly in demonstrating how bidirectional access enhances computational power while maintaining space constraints. The triangular endmarkers (\(\triangleleft, \triangleright\)) enable precise boundary handling critical for quantum tape operations \cite{kondacs1997power}.

@@ -1,0 +1,70 @@
+\subsection{Probabilistic Finite Automata (PFA)}
+\label{subsec:pfa}
+
+As a generalization of the classical finite automaton framework~\ref{def:finite-automaton} established in Section~\ref{subsec:shared-foundations}, a Probabilistic Finite Automaton (PFA)\cite{rabin1963probabilistic} is formally defined as a quintuple \( M = (Q, \Sigma, \delta, \pi, F) \) where:
+\begin{itemize}
+    \item \( Q \): Finite set of states
+    \item \( \Sigma \): Finite input alphabet
+    \item \( \delta: Q \times \Sigma \times Q \rightarrow [0,1] \): Probabilistic transition function satisfying \( \sum_{q' \in Q} \delta(q, \sigma, q') = 1 \) for all \( q \in Q \), \( \sigma \in \Sigma \)
+    \item \( \pi \in \mathbb{R}^{|Q|} \): Initial state distribution vector with \( \sum_{q \in Q} \pi_q = 1 \)
+    \item \( F \subseteq Q \): Set of accepting states
+\end{itemize}
+
+\subsubsection{Language Recognition and Expressive Power}
+PFAs recognize stochastic languages through probabilistic acceptance criteria. The language recognized by a PFA \( M \) with cut-point \( \lambda \in [0,1) \) is:
+\[ L(M, \lambda) = \{ w \in \Sigma^* \mid \Pr[M \text{ accepts } w] > \lambda \} \]
+
+Key variants and their properties include:
+
+\begin{enumerate}
+    \item \textbf{Isolated Cut-Point (\( \lambda \) with margin \( \epsilon > 0 \))}:
+    \[ \Pr[M \text{ accepts } w] \begin{cases} 
+    \geq \lambda + \epsilon & \text{if } w \in L \\
+    \leq \lambda - \epsilon & \text{if } w \notin L 
+    \end{cases} \]
+    Recognizes exactly the regular languages \cite{rabin1963probabilistic}
+    
+    \item \textbf{Non-Isolated Cut-Point (\( \lambda = 0 \))}:
+    \[ L(M, 0) = \{ w \mid \Pr[M \text{ accepts } w] > 0 \} \]
+    Recognizes languages beyond regular, including context-sensitive \cite{paz1971introduction}
+    
+    \item \textbf{Strict Cut-Point (\( \lambda = 1 \))}:
+    \[ L(M, 1) = \{ w \mid \Pr[M \text{ accepts } w] = 1 \} \]
+    Equivalent to deterministic finite automata \cite{salomaa1969probabilistic}
+\end{enumerate}
+
+\subsubsection{Closure Properties}
+PFAs exhibit nuanced closure characteristics compared to classical models:
+\begin{itemize}
+    \item Closed under union, intersection, and reversal \cite{paz1971introduction}
+    \item \textbf{Not closed} under complementation unless using isolated cut-points \cite{bertoni1994closure}
+    \item Kleene star closure requires additional constraints on transition probabilities \cite{hromkovic2000probabilistic}
+\end{itemize}
+
+\subsubsection{Graphical Representation}
+Consider a PFA recognizing \( L_{\text{maj}} = \{ w \in \{a,b\}^* \mid |w|_a > |w|_b \} \) with probability \( \geq 2/3 \):
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
+        \node[state, initial, initial text={$\pi=1$}] (q0) {$q_0$};
+        \node[state, accepting] (q1) [right=of q0] {$q_1$};
+        
+        \path[->]
+        (q0) edge [loop above] node {a(0.6), b(0.4)} (q0)
+        (q0) edge [bend left] node {a(0.4), b(0.6)} (q1)
+        (q1) edge [loop above] node {a(0.3), b(0.7)} (q1)
+        (q1) edge [bend left] node {a(0.7), b(0.3)} (q0);
+    \end{tikzpicture}
+    \caption{PFA for majority language with probabilistic transitions}
+    \label{fig:pfa-example}
+\end{figure}
+
+This PFA maintains a probability distribution across states, with transitions weighted by input symbol probabilities. Acceptance occurs when the cumulative probability in \( F \) exceeds the cut-point after processing the entire input.
+
+\subsubsection{Key Theoretical Results}
+\begin{enumerate}
+    \item \textbf{Rabin's Theorem}: PFAs with isolated cut-points recognize exactly \(\mathsf{REG}\) \cite{rabin1963probabilistic}
+    \item \textbf{Pumping Lemma}: Probabilistic version requires probability bounds on loop iterations \cite{paz1971introduction}
+    \item \textbf{Equivalence Problem}: Undecidable for PFAs with non-isolated cut-points \cite{tzelepis2021undecidable}
+\end{enumerate}
