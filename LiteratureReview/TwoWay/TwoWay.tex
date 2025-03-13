@@ -1,0 +1,197 @@
+\section{Two-way Quantum Finite Automata (QFAs)}
+\label{sec:two-way-qfas}
+
+Two-way QFAs extend one-way models by permitting bidirectional head movement, thereby enhancing their computational power. In two-way QFA models the head may move both left and right (or remain stationary), which allows the automaton to exploit quantum interference over multiple passes of the input. This section discusses standard two-way QFAs, hybrid variants that incorporate classical control, and multihead/tape extensions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Standard Models}
+\label{subsec:two-way-standard}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{2QFA (Two-Way QFA)}
+\label{sssec:2qfa}
+\begin{definition}[2QFA]
+A two-way quantum finite automaton (\gls{2qfa}) is defined as 
+\[
+M = (Q, \Sigma, \delta, q_0, Q_{\text{acc}}, Q_{\text{rej}}),
+\]
+where:
+\begin{itemize}
+    \item \( Q \) is a finite set of quantum states, partitioned into accepting states \( Q_{\text{acc}} \), rejecting states \( Q_{\text{rej}} \), and non-halting states \( Q_{\text{non}} = Q \setminus (Q_{\text{acc}} \cup Q_{\text{rej}}) \).
+    \item \( \Sigma \) is the input alphabet, extended with left and right end-markers (e.g., \( \# \) and \( \$ \)).
+    \item \( \delta: Q \times \Gamma \to \mathbb{C}^{\, Q \times \{ \leftarrow, \downarrow, \rightarrow \}} \) is the transition function (with \( \Gamma = \Sigma \cup \{ \#, \$ \} \)) that specifies both the unitary evolution and the head movement.
+    \item \( q_0 \in Q \) is the initial state.
+\end{itemize}
+\end{definition}
+
+\textbf{Operation}:  
+Given an input \( w = \sigma_1\sigma_2\ldots\sigma_n \), the automaton repeatedly applies the corresponding unitary operators while moving its head in a left, right, or stationary direction as dictated by \(\delta\). The use of intermediate measurements (or deferred measurement techniques) allows the 2QFA to decide acceptance based on quantum interference effects. This capability enables 2QFA to recognize certain non-regular languages – for instance, the language 
+\[
+L_{\text{eq}} = \{a^n b^n \mid n \geq 0\}
+\]
+has been shown to be recognizable with bounded error in linear time \cite{kondacs1997power, yakaryilmaz2010succinctness}.
+
+\textbf{Key Features}:
+\begin{itemize}
+    \item Recognizes non-regular languages such as \( L_{\text{eq}} \) with bounded error.
+    \item Exhibits quantum interference that can yield exponential state savings over classical two-way automata.
+\end{itemize}
+
+\textbf{Limitations}:
+\begin{itemize}
+    \item Requires quantum registers whose size may scale with the input.
+    \item Error management and decoherence remain significant challenges.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Hybrid Models}
+\label{subsec:two-way-hybrid}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{2QCFA (Two-Way QFA with Classical Control)}
+\label{sssec:2qcfa}
+\begin{definition}[2QCFA]
+A two-way quantum finite automaton with classical control (\gls{2qcfa}) is defined as 
+\[
+M = (S, Q, \Sigma, \Theta, \delta, s_0, q_0, S_{\text{acc}}, S_{\text{rej}}),
+\]
+where:
+\begin{itemize}
+    \item \( S \) is a finite set of classical control states.
+    \item \( Q \) is a finite set of quantum states.
+    \item \( \Sigma \) is the input alphabet, augmented with appropriate end-markers.
+    \item \( \Theta \) assigns quantum operations (either unitary transformations or measurements) based on the current classical state and input symbol.
+    \item \( \delta: S \times \Sigma \to S \) governs the classical state transitions and head movements.
+    \item \( s_0 \in S \) and \( q_0 \in Q \) are the initial classical and quantum states, respectively.
+    \item \( S_{\text{acc}} \) and \( S_{\text{rej}} \) are the sets of accepting and rejecting classical states.
+\end{itemize}
+\end{definition}
+
+\textbf{Operation}:  
+In a \gls{2qcfa}, the classical component controls the head movement and decides when to invoke quantum operations as dictated by \( \Theta \). Adaptive measurements are performed based on the classical state, allowing the automaton to decide acceptance using a small quantum register. This model is powerful enough to recognize languages such as \( L_{\text{eq}} \) and palindromes in polynomial time while using a constant number of quantum states \cite{ambainis2002quantum}.
+
+\textbf{Key Features}:
+\begin{itemize}
+    \item Can recognize certain non-regular languages in polynomial time.
+    \item Combines the reliability of classical control with the parallelism of quantum computation.
+\end{itemize}
+
+\textbf{Limitations}:
+\begin{itemize}
+    \item Synchronization between the classical and quantum components adds complexity.
+    \item The decidability of the equivalence problem for 2QCFA remains an open issue.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Multihead/Tape Extensions}
+\label{subsec:multihead-tape}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{2TQCFA (Two-Tape QCFA)}
+\label{sssec:2tqcfa}
+\begin{definition}[2TQCFA]
+A two-tape quantum finite automaton with classical control (\gls{2tqcfa}) is defined as 
+\[
+M = (S, Q, \Sigma_1 \times \Sigma_2, \Theta, \delta, s_0, q_0, S_{\text{acc}}, S_{\text{rej}}),
+\]
+where:
+\begin{itemize}
+    \item \( \Sigma_1 \) and \( \Sigma_2 \) are the input alphabets for the two tapes.
+    \item The remaining components are defined analogously to those in a 2QCFA.
+    \item The transition function \(\delta\) synchronizes the head movements on both tapes.
+\end{itemize}
+\end{definition}
+
+\textbf{Operation}:  
+The automaton simultaneously reads from two tapes, which allows it to verify language properties involving correlated substrings. For example, languages such as 
+\[
+L = \{a^n b^n c^n \mid n \geq 1\}
+\]
+can be recognized efficiently by comparing symbols from the two tapes \cite{zheng2012two}.
+
+\textbf{Key Features}:
+\begin{itemize}
+    \item Enhanced recognition power compared to single-tape 2QCFA.
+    \item Can recognize some languages beyond context-free languages in polynomial time.
+\end{itemize}
+
+\textbf{Limitations}:
+\begin{itemize}
+    \item Increased synchronization complexity between tape heads.
+    \item Higher error-correction overhead.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{kTQCFA (k-Tape QCFA)}
+\label{sssec:ktqcfa}
+\begin{definition}[kTQCFA]
+A k-tape quantum finite automaton with classical control (\gls{ktqcfa}) generalizes 2TQCFA to \( k \) tapes. It is defined as 
+\[
+M = \Bigl(S, Q, \bigtimes_{i=1}^{k} \Sigma_i, \Theta, \delta, s_0, q_0, S_{\text{acc}}, S_{\text{rej}}\Bigr),
+\]
+where:
+\begin{itemize}
+    \item Each tape has its own alphabet \( \Sigma_i \).
+    \item The transition function coordinates head movements across all \( k \) tapes.
+\end{itemize}
+\end{definition}
+
+\textbf{Operation}:  
+The automaton processes input from \( k \) tapes simultaneously. This multi-tape configuration enables efficient recognition of languages with complex structural dependencies – for example, languages like 
+\[
+L = \{a^n b^{n^2} \mid n \geq 1\}
+\]
+can be recognized more effectively through parallel comparisons \cite{zheng2012two}.
+
+\textbf{Key Features}:
+\begin{itemize}
+    \item Potential for exponential state savings compared to classical multi-tape automata.
+    \item Greater expressive power for languages with intricate dependencies.
+\end{itemize}
+
+\textbf{Limitations}:
+\begin{itemize}
+    \item Complexity and overhead increase with the number of tapes \( k \).
+    \item Synchronizing multiple tape heads becomes progressively challenging.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Summary of Two-Way QFA Models}
+\begin{itemize}
+    \item \textbf{Standard 2QFA}: Allow unrestricted bidirectional head movement with full quantum control. They can recognize non-regular languages such as \( L_{\text{eq}} \) with bounded error, though they require quantum registers that scale with the input.
+    \item \textbf{Hybrid 2QCFA}: Combine classical control with a small quantum register. These automata can recognize non-regular languages (e.g., \( L_{\text{eq}} \) and palindromes) in polynomial time while using only a constant number of quantum states.
+    \item \textbf{Multihead/Tape Extensions (2TQCFA and kTQCFA)}: Extend the two-way model to multiple tapes. Such models enhance recognition power further—capable of processing languages with complex structural dependencies—but at the cost of increased synchronization and error-correction complexity.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Detailed Hierarchy of Two-Way QFA Models}
+\label{subsec:two-way-hierarchy}
+
+\begin{figure}[ht]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[node distance=1.2cm and 1.5cm, auto,
+    every node/.style={draw, rectangle, align=center, minimum width=2.8cm, minimum height=0.9cm, font=\small}]
+
+    % Level 1: Standard Two-Way QFA
+    \node (2QFA) {2QFA};
+
+    % Level 2: Hybrid Two-Way Models
+    \node (2QCFA) [above=of 2QFA] {2QCFA};
+
+    % Level 3: Multihead/Tape Extensions
+    \node (2TQCFA) [above left=of 2QCFA, xshift=-0.5cm] {2TQCFA};
+    \node (kTQCFA) [above right=of 2QCFA, xshift=0.5cm] {kTQCFA};
+
+    % Draw vertical arrows (increasing expressive power)
+    \draw[->] (2QFA) -- (2QCFA);
+    \draw[->] (2QCFA) -- (2TQCFA);
+    \draw[->] (2QCFA) -- (kTQCFA);
+    
+    % Horizontal arrows for comparability
+    \draw[<->] (2TQCFA) -- (kTQCFA) node[midway, fill=white] {generalization};
+\end{tikzpicture}
+}
+\caption{Detailed hierarchy of two-way QFA models by expressive power. Vertical arrows indicate an increase in expressive power from standard to hybrid and then to multi-tape extensions, while the horizontal arrow denotes that kTQCFA generalize 2TQCFA.}
+\label{fig:two-way-detailed-hierarchy}
+\end{figure}

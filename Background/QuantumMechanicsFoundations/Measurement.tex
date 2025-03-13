@@ -1,18 +1,40 @@
+
 \subsection{Measurement and Probabilistic Outcomes}
 \label{subsec:measurement}
 
-Measurement collapses a state to a basis vector. For $|\psi\rangle = \sum_i \alpha_i|i\rangle$, the probability of outcome $i$ is $|\alpha_i|^2$ (Born rule). For example, measuring $|\Phi^+\rangle$ in the computational basis yields $|00\rangle$ or $|11\rangle$ with 50\% probability each.
+Measurement in quantum mechanics is a fundamentally probabilistic process. When a quantum system in state
+\[
+|\psi\rangle = \sum_i \alpha_i|i\rangle
+\]
+is measured in the orthonormal basis \(\{|i\rangle\}\), the \textbf{Born rule} states that the outcome corresponding to \(|i\rangle\) is observed with probability
+\[
+P(i) = |\alpha_i|^2.
+\]
+This process is typically described as a \emph{projective measurement}, after which the state collapses to the observed eigenstate.
+
+More generally, measurements can be described by \textbf{Positive Operator-Valued Measures (POVMs)}, which provide a framework for describing generalized measurements that are not necessarily projective. In a POVM, each measurement outcome is associated with a positive operator \(E_i\) satisfying \(\sum_i E_i = I\). The probability of outcome \(i\) is then given by
+\[
+P(i) = \langle\psi| E_i |\psi\rangle.
+\]
+
+For example, measuring the Bell state \( |\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}} \) in the computational basis yields the outcomes \( |00\rangle \) or \( |11\rangle \) with 50\% probability each, as summarized in Table~\ref{tab:bell_measurement}.
 
 \begin{table}[h]
 \centering
-\caption{Measurement outcomes for $|\Phi^+\rangle$.}
+\caption{Measurement outcomes for \( |\Phi^+\rangle \).}
 \label{tab:bell_measurement}
 \begin{tabular}{|c|c|}
 \hline
 \textbf{Outcome} & \textbf{Probability} \\ \hline
-$|00\rangle$      & 50\%                \\ \hline
-$|11\rangle$      & 50\%                \\ \hline
+\( |00\rangle \)      & 50\%                \\ \hline
+\( |11\rangle \)      & 50\%                \\ \hline
 \end{tabular}
 \end{table}
 
-Mixed states are described by density matrices $\rho = \sum_i p_i |\psi_i\rangle\langle\psi_i|$. This formalism is essential for open quantum systems \cite{breuer2002theory}.
+Measurement is an irreversible process and plays a critical role in quantum algorithms as well as in quantum automata theory, where it provides the means to extract classical information from quantum computations.
+
+Mixed states, which describe statistical ensembles of quantum states, are represented by density matrices:
+\[
+\rho = \sum_i p_i |\psi_i\rangle\langle\psi_i|,
+\]
+with \(p_i \ge 0\) and \(\sum_i p_i = 1\). This formalism is essential when considering open systems subject to decoherence.
