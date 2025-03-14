@@ -334,7 +334,7 @@ Enhanced models extend the standard QFA framework by allowing non-unitary evolut
 \subsection{Advanced Variants}
 \label{subsec:advanced-variants}
 
-Advanced QFA variants extend the capabilities of one-way and two-way QFA models by incorporating restricted bidirectional motion or processing of multiple symbols at once. These models aim to bridge the gap between the expressive power of one-way QFA and that of full two-way QFA, often achieving enhanced recognition capabilities with bounded error while retaining some of the simplicity of one-way motion.
+Advanced QFA variants extend the capabilities of one-way and two-way QFA models by incorporating restricted bidirectional motion or by processing multiple symbols simultaneously. These models bridge the gap between the expressive power of strictly one-way QFA and full two-way QFA, often achieving enhanced recognition capabilities with bounded error while retaining some of the simplicity of one-way motion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{1.5QFA (One-and-a-Half Way QFA)}
@@ -348,26 +348,31 @@ where:
 \begin{itemize}
     \item \( Q \) is a finite set of quantum basis states.
     \item \( \Sigma \) is the input alphabet.
-    \item \( \delta \) is a transition function that, besides inducing unitary operations, allows the tape head to move primarily rightward but also permits occasional stationary moves or limited leftward moves.
+    \item \( \delta \) is a transition function that, besides inducing unitary operations, permits the tape head to move primarily rightward while allowing occasional stationary moves or limited leftward moves.
     \item \( q_0 \in Q \) is the initial state.
     \item \( F \subseteq Q \) is the set of accepting states.
 \end{itemize}
 \end{definition}
 
 \textbf{Operation}:  
-The automaton processes the input from left to right. Unlike standard one-way QFA, a 1.5QFA is permitted limited backward (leftward) motion or to remain stationary on a given symbol, thereby providing a restricted form of bidirectional scanning. This additional flexibility allows for an enhanced control over state transitions, which can improve the automaton's ability to recognize certain non-regular patterns under bounded error \cite{kondacs1997power}.
+The automaton processes the input from left to right. Unlike standard one-way QFA, a 1.5QFA is allowed limited backward (leftward) motion or to remain stationary on a symbol, thereby providing a restricted form of bidirectional scanning. This extra flexibility enables more refined control over state transitions and can improve recognition of certain non-regular patterns under bounded error \cite{kondacs1997power}.
 
-\textbf{Key Features}:
-\begin{itemize}
-    \item Enhanced computational power compared to strictly one-way QFA.
-    \item Capable of recognizing certain non-regular languages with bounded error.
-    \item More expressive than MO-1QFA while remaining less powerful than full two-way QFA.
-\end{itemize}
+\paragraph{Language Acceptance:}  
+A 1.5QFA accepts languages with bounded error probability. The model’s restricted bidirectional motion enables it to recognize some non-regular languages that are beyond the reach of strictly one-way QFA, although its overall recognition power remains below that of full two-way QFA models.
 
-\textbf{Limitations}: 
+\paragraph{Key Features and Limitations:}
 \begin{itemize}
-    \item The restricted backward motion, while beneficial, still limits the overall expressive power relative to fully two-way models.
-    \item The complexity of the head motion may lead to increased implementation challenges.
+    \item \textbf{Key Features:}
+    \begin{itemize}
+        \item Enhanced computational power relative to strictly one-way QFA.
+        \item Ability to recognize certain non-regular languages under bounded error conditions.
+        \item Improved flexibility in managing state transitions via limited backward or stationary moves.
+    \end{itemize}
+    \item \textbf{Limitations:}
+    \begin{itemize}
+        \item The restricted backward motion still limits the overall expressive power compared to full two-way models.
+        \item Increased complexity in head movement can pose practical implementation challenges.
+    \end{itemize}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -382,35 +387,41 @@ where:
 \begin{itemize}
     \item \( Q \) is a finite set of quantum states.
     \item \( \Sigma \) is the input alphabet.
-    \item The transition function \(\delta\) depends on \( k \)-length substrings rather than individual symbols; that is, for each block of \( k \) symbols a corresponding unitary operator is applied \cite{belovs2007multi}.
+    \item The transition function \(\delta\) depends on \( k \)-length substrings rather than on individual symbols; for each block of \( k \) symbols, a corresponding unitary operator is applied \cite{belovs2007multi}.
     \item \( q_0 \in Q \) is the initial state.
     \item \( F \subseteq Q \) is the set of accepting states.
 \end{itemize}
 \end{definition}
 
 \textbf{Operation}:  
-In an ML-QFA, the input is partitioned into consecutive blocks of \( k \) symbols. For each block, a unitary operator corresponding to the entire \( k \)-letter substring is applied, thereby simulating a form of multi-head or parallel processing. This block-wise processing allows the automaton to capture dependencies over longer segments of the input, which is particularly useful for recognizing patterns beyond the capabilities of single-letter transitions \cite{belovs2007multi}.
+The ML-QFA partitions the input into consecutive blocks of \( k \) symbols. For each block, it applies a unitary operator corresponding to the entire \( k \)-letter substring. This block-wise (or parallel) processing allows the automaton to capture dependencies over longer segments of the input, thereby simulating a form of multi-head or parallel processing \cite{belovs2007multi}.
 
-\textbf{Key Features}:
-\begin{itemize}
-    \item Simulates classical multi-head automata by processing multiple symbols simultaneously.
-    \item Can recognize some context-sensitive languages with bounded error.
-\end{itemize}
+\paragraph{Language Acceptance:}  
+ML-QFA accept languages by processing multiple symbols simultaneously. This capability enables them to recognize some complex patterns, including certain context-sensitive languages, under bounded error. However, the approach comes at the cost of an exponential increase in state complexity with respect to the block size \( k \).
 
-\textbf{Limitations}: 
+\paragraph{Key Features and Limitations:}
 \begin{itemize}
-    \item The state complexity of the automaton tends to grow exponentially with the block size \( k \), which can limit practical implementations.
-    \item Increased computational overhead in managing and designing unitary operators for blocks rather than individual symbols.
+    \item \textbf{Key Features:}
+    \begin{itemize}
+        \item Simulates multi-head or parallel processing by handling blocks of symbols.
+        \item Enhanced ability to capture long-range dependencies in the input.
+        \item Potential to recognize more complex language classes compared to single-letter QFA.
+    \end{itemize}
+    \item \textbf{Limitations:}
+    \begin{itemize}
+        \item Exponential growth in state complexity with increasing block size \( k \).
+        \item Increased computational overhead in designing and managing block-based unitary operators.
+    \end{itemize}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Summary of Advanced Variants}
-The advanced QFA variants discussed exhibit unique trade-offs that aim to enhance the computational power of standard one-way QFA models:
+The advanced QFA variants discussed above offer distinct trade-offs:
 \begin{itemize}
-    \item \textbf{1.5QFA} extend the traditional one-way model by allowing restricted backward moves or stationary steps. This limited bidirectional motion improves the recognition of certain non-regular languages with bounded error, yet it remains less powerful than full two-way QFA.
-    \item \textbf{ML-QFA} process input in blocks of \( k \) symbols, effectively simulating a multi-head behavior. This capability allows ML-QFA to recognize more complex language patterns (including some context-sensitive languages), but at the cost of exponential growth in state complexity with increasing block size.
+    \item \textbf{1.5QFA} extend the traditional one-way model by incorporating restricted bidirectional motion, which improves recognition of some non-regular languages under bounded error.
+    \item \textbf{ML-QFA} process input in blocks, simulating a parallel processing model that can capture more complex patterns, though with increased state complexity.
 \end{itemize}
-Overall, advanced QFA variants offer enhanced recognition capabilities and greater expressiveness than standard one-way QFA models, although they do so with increased implementation complexity and resource requirements.
+Overall, these advanced variants bridge the gap between the simplicity of one-way QFA and the expressive power of full two-way QFA, while introducing additional challenges in terms of implementation and computational overhead.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

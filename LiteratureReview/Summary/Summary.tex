@@ -1,41 +1,98 @@
-
 \section{Summary and Comparative Analysis}
 \label{sec:summary-comparative}
 
-In summary, the quantum finite automata literature comprises a rich variety of models, each balancing quantum resources with computational power:
-\begin{itemize}
-    \item \textbf{One-way QFAs}:  
-    \begin{itemize}
-        \item \textit{MO-1QFA} employs a single measurement at the end, yielding a model with relatively simple dynamics but limited language recognition power.
-        \item \textit{MM-1QFA} interweaves unitary evolution with measurements after each symbol, thus recognizing a larger subset of regular languages (and even some non-regular languages) with bounded error.
-        \item \textit{LQFA} integrate unitary operations with immediate measurements, offering a trade-off between measurement overhead and expressiveness.
-    \end{itemize}
-    \item \textbf{Hybrid Models}:  
-    \begin{itemize}
-        \item \textit{1QFAC} merge classical control with quantum processing to recognize all regular languages and sometimes even non-regular languages with significant state savings.
-        \item \textit{CL-1QFA} use control languages to guide measurement outcomes, ensuring closure under Boolean operations.
-    \end{itemize}
-    \item \textbf{Enhanced Models}:  
-    \begin{itemize}
-        \item \textit{EQFA} and \textit{OT-QFA} extend the basic models by allowing non-unitary evolution (via superoperators or CPTP maps) and open system dynamics, thereby simulating classical automata and, in some cases, recognizing non-regular languages.
-        \item \textit{A-QFA} leverage ancilla qubits to simulate additional quantum resources.
-    \end{itemize}
-    \item \textbf{Two-way QFAs}:  
-    \begin{itemize}
-        \item \textit{2QFA} allow bidirectional head movement and can recognize some non-regular languages (e.g., \( \{a^n b^n\} \)) with bounded error in linear time.
-        \item \textit{2QCFA} hybridize classical control with two-way quantum evolution, enabling recognition of complex languages with limited quantum resources.
-    \end{itemize}
-    \item \textbf{Multihead/Tape Extensions}:  
-    \begin{itemize}
-        \item \textit{2TQCFA} and \textit{kTQCFA} extend two-way QFAs to multiple tapes, further increasing their computational power and efficiency for languages with intricate structure.
-    \end{itemize}
-    \item \textbf{Interactive Models}:  
-    \begin{itemize}
-        \item \textit{QIP} systems incorporate interactive proofs with quantum verifiers, linking QFA models with complexity classes like PSPACE.
-        \item \textit{QMIP} systems extend this framework to multiple provers, opening avenues for recognizing languages beyond the reach of single-prover systems.
-    \end{itemize}
-\end{itemize}
+The literature on quantum finite automata (QFA) reveals a diverse landscape of computational models, each tailored to balance quantum resources with expressive power. At the most fundamental level, one-way QFAs such as MO-1QFA and MM-1QFA offer elegant, conceptually simple frameworks. For instance, the MO-1QFA model—employing a single measurement at the end—boasts straightforward dynamics that, however, limit its language recognition capabilities to reversible regular languages. In contrast, the MM-1QFA interweaves unitary evolution with intermediate measurements, thereby extending its acceptance range to include a larger subset of regular languages and, in some cases, even non-regular languages under bounded error conditions. This increase in expressive power, however, is not without cost; the integration of frequent measurements adds complexity in terms of error management and circuit design.
 
-A central theme across these models is the trade-off between expressive power and resource efficiency. While many one-way QFA models recognize only proper subsets of the regular languages, hybrid and enhanced models have been developed to bridge the gap with classical finite automata. Two-way models, on the other hand, leverage bidirectional motion to achieve recognition of non-regular languages under bounded error. Interactive models further extend the capabilities by incorporating communication protocols.
+Hybrid models, such as 1QFAC and CL-1QFA, seek to blend classical control mechanisms with quantum processing. The 1QFAC model, for example, leverages classical state control to effectively simulate deterministic finite automata, thereby recognizing all regular languages and sometimes even certain non-regular languages with significant state savings. Meanwhile, the CL-1QFA employs control languages that guide the measurement outcomes, ensuring desirable closure properties under Boolean operations. These models illustrate a recurring theme: as expressive power increases, so does the need for intricate coordination between quantum and classical elements.
 
-This taxonomy not only resolves inconsistencies in earlier literature but also highlights open research problems in equivalence checking, minimization, and error management. As quantum hardware progresses, these theoretical models will be crucial for guiding the design of efficient quantum algorithms and automata implementations.
+Enhanced models push these boundaries further. EQFA and OT-QFA introduce non-unitary evolution through superoperators or completely positive trace-preserving (CPTP) maps, which not only enable the simulation of classical automata but also, in some cases, facilitate the recognition of non-regular languages. Similarly, the A-QFA model uses ancilla qubits to simulate additional quantum resources, providing a pathway to overcome the inherent limitations of simpler QFA models. However, the richer dynamics offered by these enhanced models come at the price of increased resource requirements and greater susceptibility to decoherence and noise.
+
+Turning to two-way QFAs, models such as 2QFA and 2QCFA leverage bidirectional head movement to harness quantum interference more effectively. The 2QFA, with its unrestricted movement, can recognize certain non-regular languages (e.g., \( \{a^n b^n\} \)) in linear time under bounded error, yet it demands quantum registers that grow with the input size. On the other hand, the hybrid 2QCFA mitigates some of this cost by integrating classical control with a small quantum register. This trade-off allows 2QCFA to recognize complex languages—such as palindromes—using only a constant number of quantum states, albeit at the expense of a more complicated synchronization mechanism between the classical and quantum components.
+
+Multihead and multitape extensions, exemplified by 2TQCFA and kTQCFA, further amplify computational power by enabling parallel processing across multiple input streams. These models are particularly effective for languages characterized by intricate structural dependencies. While they offer substantial gains in expressiveness, their increased complexity in synchronizing multiple tape heads and managing error correction represents a significant engineering challenge.
+
+Interactive models, encompassing QIP and QMIP systems, introduce an additional layer of computational interplay. QIP systems couple a resource-limited quantum verifier with a single unbounded prover, thereby linking QFA models to complexity classes such as PSPACE. QMIP systems extend this framework to incorporate multiple non-communicating provers, a development that not only increases verification power but also opens the door to recognizing languages beyond the reach of single-prover systems. The practical implementation of such systems, however, is complicated by the need to manage quantum entanglement and the inherent sensitivity of the communication channels.
+
+\vspace{0.5em}
+In summary, the spectrum of QFA models represents a delicate balance: simpler one-way models achieve low resource overhead at the expense of expressive power, while hybrid, enhanced, two-way, and interactive models incrementally increase language recognition capabilities—albeit with concomitant increases in state complexity, error management demands, and implementation challenges.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Schematic Comparative Overview}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Model Category} & \textbf{Expressive Power (Languages Accepted)} & \textbf{Resource/Cost Trade-offs} \\
+\hline
+One-way QFAs & \begin{tabular}[c]{@{}l@{}}MO-1QFA: Reversible regular\\ MM-1QFA: Larger subset of regular (+some non-regular)\\ LQFA: Trade-off between measurement overhead and expressiveness\end{tabular} 
+& Low complexity, limited expressive power; intermediate measurements increase design overhead \\
+\hline
+Hybrid Models & \begin{tabular}[c]{@{}l@{}}1QFAC: All regular (sometimes non-regular)\\ CL-1QFA: Enhanced closure properties\end{tabular} 
+& Integration of classical control reduces quantum state requirements; additional coordination complexity \\
+\hline
+Enhanced Models & \begin{tabular}[c]{@{}l@{}}EQFA/OT-QFA: Simulate classical automata, recognize some non-regular languages\\ A-QFA: Additional quantum resources via ancilla qubits\end{tabular} 
+& Non-unitary operations and open system dynamics incur higher resource and error management costs \\
+\hline
+Two-way QFAs & \begin{tabular}[c]{@{}l@{}}2QFA: Some non-regular languages (e.g., \( \{a^n b^n\} \))\\ 2QCFA: Complex languages with constant quantum state usage\end{tabular} 
+& Bidirectional motion enhances recognition but may require scaling quantum registers; synchronization challenges \\
+\hline
+Multihead/Tape Extensions & \begin{tabular}[c]{@{}l@{}}2TQCFA/kTQCFA: Languages with intricate dependencies\end{tabular} 
+& Increased synchronization and parallel processing overhead \\
+\hline
+Interactive Models & \begin{tabular}[c]{@{}l@{}}QIP: Bounded-error languages (linked to PSPACE)\\ QMIP: Languages beyond single-prover capabilities (e.g., \( L_{\text{pal}} \))\end{tabular} 
+& Complex communication protocols; high sensitivity to noise and decoherence \\
+\hline
+\end{tabular}
+\caption{Comparative overview of QFA models in terms of expressive power and resource trade-offs.}
+\label{tab:comparison}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Graphical Comparison of QFA Models}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[node distance=1.8cm, auto, every node/.style={draw, rectangle, align=center, minimum width=3cm, minimum height=1cm, font=\small}]
+    % One-way models
+    \node (MO1) {MO-1QFA};
+    \node (MM1) [right=of MO1] {MM-1QFA};
+    \node (LQFA) [right=of MM1] {LQFA};
+
+    % Hybrid models below one-way
+    \node (1QFAC) [below=of MO1] {1QFAC};
+    \node (CL1) [below=of MM1] {CL-1QFA};
+
+    % Enhanced models
+    \node (EQFA) [below=of LQFA] {EQFA/OT-QFA};
+    \node (AQFA) [right=of EQFA] {A-QFA};
+
+    % Two-way models (top row)
+    \node (2QFA) [above=of MO1] {2QFA};
+    \node (2QCFA) [above=of MM1] {2QCFA};
+
+    % Multihead/Tape
+    \node (2TQCFA) [above=of 2QCFA, xshift=-1cm] {2TQCFA};
+    \node (kTQCFA) [above=of 2QCFA, xshift=1cm] {kTQCFA};
+
+    % Interactive models (separate branch)
+    \node (QIP) [below=of AQFA, yshift=-1cm] {QIP};
+    \node (QMIP) [right=of QIP] {QMIP};
+
+    % Arrows indicating extension/increased expressive power
+    \draw[->, thick] (MO1) -- (MM1);
+    \draw[->, thick] (MM1) -- (LQFA);
+    \draw[->, thick] (1QFAC) -- (CL1);
+    \draw[->, thick] (2QFA) -- (2QCFA);
+    \draw[->, thick] (2QCFA) -- (2TQCFA);
+    \draw[->, thick] (2QCFA) -- (kTQCFA);
+    \draw[->, thick] (QIP) -- (QMIP);
+\end{tikzpicture}
+\caption{Graphical comparison of QFA models. Horizontal and vertical arrows indicate extensions in expressive power and additional resource requirements. Models higher in the diagram are generally more expressive, while interactive models form an orthogonal extension capturing advanced computational paradigms.}
+\label{fig:qfa-graphical}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Summary of Promising Models for Future Research}
+Among the diverse models examined, the hybrid 2QCFA and the interactive QMIP systems appear particularly promising for future developments. The 2QCFA, by combining robust classical control with a minimal quantum component, offer an attractive balance between expressive power and practical resource constraints. Similarly, QMIP systems, despite their inherent complexity, pave the way for leveraging multiprover interactions to tackle verification problems beyond the reach of traditional single-prover systems.
+
+Overall, this taxonomy not only reconciles previous inconsistencies in QFA definitions and capabilities but also provides a clear roadmap for exploring new frontiers in quantum automata theory. As quantum hardware matures, these models will be instrumental in designing efficient quantum algorithms and automata implementations that fully harness the potential of quantum computing.

@@ -1,8 +1,7 @@
-
 \section{Interactive Quantum Automata}
 \label{sec:interactive-quantum}
 
-Interactive quantum automata integrate communication between a resource-limited quantum verifier and an (often unbounded) prover.
+Interactive quantum automata integrate communication between a resource-limited quantum verifier and an (often unbounded) prover. These models extend standard QFA by introducing interactive protocols where the verifier and prover exchange quantum messages over multiple rounds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Quantum Interactive Proof Systems (QIP)}
@@ -11,22 +10,28 @@ Interactive quantum automata integrate communication between a resource-limited 
 A Quantum Interactive Proof (QIP) system consists of a polynomial-time quantum verifier \( V \) and an unbounded quantum prover \( P \) who exchange messages via a quantum channel. The verifier is typically modeled as a QFA with limited memory. A system with \( k \) rounds of interaction is denoted as \(\text{QIP}(k)\) \cite{nishimura2009application, zheng2015power}.
 \end{definition}
 
-\textbf{Operation}: The verifier processes an input \( w \) by alternating between local quantum operations and rounds of communication with the prover. The overall transition is governed by a function
+\textbf{Operation}:  
+The verifier processes an input \( w \) by alternating between local quantum operations and rounds of communication with the prover. The overall transition is governed by a function
 \[
 \delta: Q \times \Sigma \times \Gamma \to \mathbb{C}^{\, Q \times Q},
 \]
-where \( \Gamma \) is the communication alphabet. Acceptance is determined by measuring the verifier’s final state after the prescribed rounds \cite{zheng2015power}.
+where \( \Gamma \) is the communication alphabet. After the prescribed rounds of interaction, the verifier performs a measurement on its final state to decide acceptance.
 
-\textbf{Key Features}:
-\begin{itemize}
-    \item QIP systems have been shown to be equivalent in power to PSPACE in the classical setting.
-    \item QFA-based verifiers (e.g., using 2QFA) can recognize languages beyond the regular class with bounded error.
-\end{itemize}
+\paragraph{Language Acceptance:}  
+A QIP system accepts an input \( w \) if the verifier’s final measurement yields an accepting outcome with probability exceeding a specified threshold (typically above \( \frac{1}{2} \)), thereby ensuring bounded-error recognition of the language.
 
-\textbf{Limitations}:
+\paragraph{Key Features and Limitations:}
 \begin{itemize}
-    \item Requires precise control of quantum communication channels.
-    \item The verifier’s state complexity may scale with the input for complex languages.
+    \item \textbf{Key Features:}
+    \begin{itemize}
+        \item QIP systems have been shown to be equivalent in power to PSPACE in the classical setting.
+        \item QFA-based verifiers (e.g., using 2QFA) can recognize languages beyond the regular class with bounded error.
+    \end{itemize}
+    \item \textbf{Limitations:}
+    \begin{itemize}
+        \item Precise control of quantum communication channels is required.
+        \item The verifier’s state complexity may scale with the input for more complex languages.
+    \end{itemize}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -36,16 +41,51 @@ where \( \Gamma \) is the communication alphabet. Acceptance is determined by me
 Quantum Merlin-Arthur (QMIP) systems extend QIP by involving multiple non-communicating provers. Formally, a QMIP system with \( k \) provers is denoted as \(\text{QMIP}(k)\). In these systems, the verifier receives quantum witness states from each prover and performs a quantum verification procedure \cite{scegulnaja2010postselection, yamakami2014constant}.
 \end{definition}
 
-\textbf{Operation}: The verifier (modeled as a 2QFA-based machine) receives quantum witness states from the provers and processes them using a quantum circuit. The final state is measured to decide acceptance. The provers are not allowed to communicate with each other, and the verification is non-adaptive \cite{scegulnaja2010postselection}.
+\textbf{Operation}:  
+The verifier, typically modeled as a 2QFA-based machine, receives quantum witness states from the provers and processes them using a quantum circuit. A final measurement is performed on the verifier’s state to decide acceptance. The provers do not communicate with each other, and the verification process is non-adaptive.
 
-\textbf{Key Features}:
+\paragraph{Language Acceptance:}  
+A QMIP system accepts an input if the combined verification procedure yields an accepting outcome with probability above a predetermined threshold, thereby ensuring bounded-error recognition of the target language.
+
+\paragraph{Key Features and Limitations:}
 \begin{itemize}
-    \item QMIP systems capture complexity classes such as MIP\(^*\), and are strictly more powerful than single-prover QIP systems.
-    \item They can recognize languages (e.g., the palindrome language \( L_{\text{pal}} = \{ww^R \mid w \in \{0,1\}^*\} \)) with exponential state savings compared to classical multiprover interactive proofs.
+    \item \textbf{Key Features:}
+    \begin{itemize}
+        \item QMIP systems capture complexity classes such as MIP\(^*\) and are strictly more powerful than single-prover QIP systems.
+        \item They can recognize languages (e.g., the palindrome language \( L_{\text{pal}} = \{ww^R \mid w \in \{0,1\}^*\} \)) with exponential state savings compared to classical multiprover interactive proofs.
+    \end{itemize}
+    \item \textbf{Limitations:}
+    \begin{itemize}
+        \item Managing entanglement among multiple provers complicates the verification process.
+        \item Practical implementations are highly sensitive to noise and decoherence.
+    \end{itemize}
 \end{itemize}
 
-\textbf{Limitations}:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Summary of Interactive Quantum Automata Models}
+The interactive quantum automata models discussed above demonstrate the following trade-offs:
 \begin{itemize}
-    \item Managing entanglement among multiple provers complicates the verification process.
-    \item Practical implementations are highly sensitive to noise and decoherence.
+    \item \textbf{QIP Systems:}  
+    \begin{itemize}
+        \item Employ a single prover with a polynomial-time quantum verifier.
+        \item Are capable of recognizing languages with bounded error, leveraging quantum communication.
+    \end{itemize}
+    \item \textbf{QMIP Systems:}  
+    \begin{itemize}
+        \item Extend QIP by using multiple non-communicating provers.
+        \item Offer enhanced verification power, capturing complexity classes such as MIP\(^*\), at the cost of increased complexity in managing entanglement and communication.
+    \end{itemize}
 \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Graphical Comparison of Interactive Quantum Automata Models}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[node distance=2.5cm, auto, every node/.style={draw, rectangle, align=center, minimum width=3.0cm, minimum height=1cm, font=\small}]
+    \node (QIP) {QIP\\(Single-Prover)};
+    \node (QMIP) [right=of QIP] {QMIP\\(Multi-Prover)};
+    \draw[->, thick] (QIP) -- (QMIP) node[midway, above] {Extension};
+\end{tikzpicture}
+\caption{Graphical comparison of interactive quantum automata models. QMIP systems extend QIP systems by incorporating multiple non-communicating provers, thereby enhancing verification power.}
+\label{fig:interactive-hierarchy}
+\end{figure}
