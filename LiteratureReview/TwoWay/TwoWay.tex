@@ -8,10 +8,10 @@ Two-way QFAs extend one-way models by permitting bidirectional head movement, th
 \label{subsec:two-way-standard}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{2QFA (Two-Way QFA)}
+\subsubsection{\acrfull{2qfa}}
 \label{sssec:2qfa}
-\begin{definition}[2QFA]
-A two-way quantum finite automaton (\gls{2qfa}) is defined as 
+\begin{definition}[\gls{2qfa}]
+A \gls{2qfa} is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, Q_{\text{acc}}, Q_{\text{rej}}),
 \]
@@ -53,10 +53,10 @@ can be recognized with bounded error in linear time \cite{kondacs1997power, yaka
 \label{subsec:two-way-hybrid}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{2QCFA (Two-Way QFA with Classical Control)}
+\subsubsection{\gls{2qcfa}}
 \label{sssec:2qcfa}
-\begin{definition}[2QCFA]
-A two-way quantum finite automaton with classical control (\gls{2qcfa}) is defined as 
+\begin{definition}[\gls{2qcfa}]
+A \gls{2qcfa} is defined as 
 \[
 M = (S, Q, \Sigma, \Theta, \delta, s_0, q_0, S_{\text{acc}}, S_{\text{rej}}),
 \]
@@ -76,7 +76,7 @@ where:
 In a \gls{2qcfa}, the classical component directs the head movement and determines when to invoke quantum operations via \( \Theta \). Adaptive measurements are performed based on the current classical state, allowing the automaton to decide acceptance using a small quantum register.
 
 \paragraph{Language Acceptance:}  
-2QCFA can recognize certain non-regular languages, such as \( L_{\text{eq}} \) and palindromes, in polynomial time while using only a constant number of quantum states \cite{ambainis2002quantum}.
+\gls{2qcfa} can recognize certain non-regular languages, such as \( L_{\text{eq}} \) and palindromes, in polynomial time while using only a constant number of quantum states \cite{ambainis2002quantum}.
 
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
@@ -97,10 +97,10 @@ In a \gls{2qcfa}, the classical component directs the head movement and determin
 \label{subsec:multihead-tape}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{2TQCFA (Two-Tape QCFA)}
+\subsubsection{\gls{2tqcfa}}
 \label{sssec:2tqcfa}
-\begin{definition}[2TQCFA]
-A two-tape quantum finite automaton with classical control (\gls{2tqcfa}) is defined as 
+\begin{definition}[\gls{2tqcfa}]
+A \gls{2tqcfa} is defined as 
 \[
 M = (S, Q, \Sigma_1 \times \Sigma_2, \Theta, \delta, s_0, q_0, S_{\text{acc}}, S_{\text{rej}}),
 \]
@@ -137,10 +137,10 @@ by comparing corresponding symbols from the two tapes \cite{zheng2012two}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{kTQCFA (k-Tape QCFA)}
+\subsubsection{\gls{ktqcfa}}
 \label{sssec:ktqcfa}
-\begin{definition}[kTQCFA]
-A k-tape quantum finite automaton with classical control (\gls{ktqcfa}) generalizes the two-tape model to \( k \) tapes. It is defined as 
+\begin{definition}[\gls{ktqcfa}]
+A \gls{ktqcfa} generalizes the two-tape model to \( k \) tapes. It is defined as 
 \[
 M = \Bigl(S, Q, \bigtimes_{i=1}^{k} \Sigma_i, \Theta, \delta, s_0, q_0, S_{\text{acc}}, S_{\text{rej}}\Bigr),
 \]
