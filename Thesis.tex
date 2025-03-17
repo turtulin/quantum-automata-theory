@@ -3,8 +3,9 @@
 \usepackage{listings}
 \usepackage{braket}
 \usepackage[backend=bibtex]{biblatex}
-\usepackage{glossaries}
+\usepackage[automake,toc,acronyms,nonumberlist, nopostdot]{glossaries}
 \usepackage{mathabx}
+\usepackage{amsthm}
 \usepackage{graphicx} 
 \usepackage{tikz}  
 \usetikzlibrary{positioning, arrows.meta, calc, automata, positioning, backgrounds, fit, shapes.geometric}
@@ -18,31 +19,33 @@
 \usepackage{lmodern}
 \usepackage[nottoc]{tocbibind}
 \usepackage{hyperref}
-\newtheorem{definition}{Definition}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{assumption}{Assumption}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{exercise}{Exercise}[section]
+\newtheorem{algorithm}{Algorithm}[section]
+\newtheorem{concept}{Concept}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem{observation}{Observation}[section]
+\newtheorem{notation}{Notation}[section]
+
+
+
 \tikzset{rejecting/.style={circle, draw, red, dashed}}
 
 \makeglossaries
-
-% Classical automata
-\newacronym{dfa}{DFA}{Deterministic Finite Automaton}
-\newacronym{nfa}{NFA}{Nondeterministic Finite Automaton}
-\newacronym{pfa}{PFA}{Probabilistic Finite Automaton}
-\newacronym{2dfa}{2DFA}{Two-way Deterministic Finite Automaton}
-
-% Quantum automata
-\newacronym{qfa}{QFA}{Quantum Finite Automaton}
-\newacronym{moqfa}{MOQFA}{Measure-Once Quantum Finite Automaton}
-\newacronym{mmqfa}{MMQFA}{Measure-Many Quantum Finite Automaton}
-\newacronym{cl-1qfa}{CL-1QFA}{One-way Quantum Finite Automaton with Classical States}
-\newacronym{ot-qfa}{OT-QFA}{Quantum Finite Automaton with Open Time Evolution}
-\newacronym{2qfa}{2QFA}{Two-way Quantum Finite Automaton}
-\newacronym{1qfac}{1QFAC}{One-way Quantum Finite Automaton with Classical States}
-\newacronym{eqfa}{EQFA}{Enhanced Quantum Finite Automaton}
-\newacronym{otqfa}{OTQFA}{Open Time Evolution Quantum Finite Automaton}
-\newacronym{a-qfa}{A-QFA}{Ancilla-Based Quantum Finite Automaton}
-\newacronym{2qcfa}{2QCFA}{Two-way Quantum Classical Finite Automaton}
-\newacronym{2tqcfa}{2TQCFA}{Two-way Two-Tape Quantum Classical Finite Automaton}
-\newacronym{ktqcfa}{KTQCFA}{k-Tape Quantum Classical Finite Automaton}
+\loadglsentries[acronym]{myglossaries}
 
 \title{Systematic Taxonomy of Quantum Finite Automata: Bridging Classical and Quantum Computational Models}
 
@@ -53,15 +56,10 @@
 
 \author{Marta Musso}
 \advisor{Relatore Name}
-% add Michele Loreti
+% add Marcello Bonsangue, Michele Loreti
 \coadvisor2{Correlatore Name}
 \academicyear{2024/2025}
 \matricola{122360}
-
-\theoremstyle{definition} \newtheorem{esempio}{Esempio}[chapter]
-\theoremstyle{definition}
-\newtheorem{definizione}{Definizione}[chapter] \theoremstyle{plain}
-\newtheorem{teorema}{Teorema}[chapter]
 
 \graphicspath{{Screenshot/},{Pictures/},{API/},{Source/}}
 \addbibresource{biblio.bib}
@@ -71,7 +69,7 @@
 \input{Abstract/Abstract}
 
 \tableofcontents
-%\printglossary[type=\acronymtype, title=List of Acronyms]
+
 %\lstlistoflistings
 %\listoffigures
 %\listoftables
@@ -82,8 +80,8 @@
 \input{Conclusion/Conclusion}
 
 
+\printglossary[title={Abbreviations},type=acronym,style=long]
 \appendix
-
 \printbibliography
 
 \printindex

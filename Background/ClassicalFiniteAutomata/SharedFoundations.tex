@@ -1,202 +1,209 @@
-
 \subsection{Shared Foundations}
-\label{subsec:shared-foundations} 
+\label{subsec:shared-foundations}
 
-The study of automata begins with foundational concepts in formal language theory, pioneered by figures such as Stephen Kleene \cite{kleene1956representation}, Noam Chomsky \cite{chomsky1956three}, Alan Turing \cite{hopcroft2006introduction}, and Michael Rabin \cite{rabin1963probabilistic}. Their work established the mathematical scaffolding for analyzing computational models. Below, we elaborate on core definitions, operations, and language classifications, augmented with practical examples and formal specifications.
+The study of automata begins with foundational concepts in formal language theory, pioneered by figures such as Stephen Kleene \cite{kleene1956representation}, Noam Chomsky \cite{chomsky1956three}, Alan Turing \cite{hopcroft2006introduction}, and Michael Rabin \cite{rabin1963probabilistic}. Their seminal work established the mathematical scaffolding for analyzing computational models and laid the groundwork for both classical and modern computational theories. In this subsection, we elaborate on core definitions, fundamental operations, and language classifications, supplemented with practical examples, formal specifications, and key theoretical results.
+
+\begin{notation}[Symbols]
+In this thesis, the following notations are used:
+\begin{itemize}
+    \item $\Sigma$: an alphabet, i.e., a non-empty finite set of symbols.
+    \item $\Sigma^\ast$: the Kleene closure of $\Sigma$, the set of all finite strings over $\Sigma$.
+    \item $\epsilon$: the empty string (with $\|\epsilon\| = 0$).
+    \item $\|w\|$: the length of a string $w$.
+\end{itemize}
+\end{notation}
 
 \subsubsection{Alphabets and Strings}
-An \textit{alphabet} $\Sigma$ is a non-empty, finite set of symbols. For instance:
-\begin{itemize}
-    \item The \textbf{binary alphabet} $\Sigma = \{0, 1\}$ is foundational in digital computing \cite{hopcroft2006introduction}.
-    \item The \textbf{ASCII alphabet} $\Sigma_{\text{ASCII}}$ contains 128 characters for text encoding \cite{cady1986ascii}.
-\end{itemize}
+An \textit{alphabet} $\Sigma$ is defined as a non-empty, finite set of symbols that serve as the basic elements for constructing strings and, consequently, languages. For instance:
 
-A \textit{string} (or \textit{word}) $w$ over $\Sigma$ is a finite sequence of symbols $a_1a_2\ldots a_n$, where $a_i \in \Sigma$. The \textbf{length} of $w$, denoted $\|w\|$, is the number of symbols in $w$. The \textbf{empty string} $\epsilon$ has $\|\epsilon\| = 0$ \cite{hopcroft2006introduction}.  
-\newline
+\begin{example}
+\textbf{Binary Alphabet:} $\Sigma = \{0, 1\}$ is central to digital computing and coding theory \cite{hopcroft2006introduction}.
+\end{example}
 
-\noindent\textit{Examples}:  
-\begin{itemize}
-    \item For $\Sigma = \{a, b\}$, $w = aba$ has $\|w\| = 3$ \cite{hopcroft2006introduction}.  
-    \item The string $w = \epsilon$ represents "no input" in automata models \cite{hopcroft2006introduction}.
-\end{itemize}
+\begin{example}
+\textbf{ASCII Alphabet:} $\Sigma_{\text{ASCII}}$, which contains 128 distinct characters used for text encoding \cite{cady1986ascii}.
+\end{example}
 
-\noindent{Key string operations include:}
+A \textit{string} (or \textit{word}) $w$ over $\Sigma$ is a finite sequence of symbols $a_1a_2\ldots a_n$, where each $a_i \in \Sigma$. The \textbf{length} of $w$, denoted by $\|w\|$, is defined as the total number of symbols in the string. The special string $\epsilon$, known as the \textbf{empty string}, has a length of zero ($\|\epsilon\| = 0$) \cite{hopcroft2006introduction}.
+
+\begin{example}
+For $\Sigma = \{a, b\}$, consider the string $w = aba$. Then, $\|w\| = 3$. Conversely, $w = \epsilon$ represents the absence of input.
+\end{example}
+
+\begin{remark}
+The concepts of $\Sigma$, $\Sigma^\ast$, and $\epsilon$ form the foundation for all language constructions and are pivotal when defining operations such as concatenation and the Kleene star.
+\end{remark}
+
+In addition to defining strings, several operations are essential for manipulating them:
 \begin{itemize}
-    \item \textbf{Reversal}: $w^R$ reverses the order of symbols (e.g., $(abc)^R = cba$) \cite{hopcroft2006introduction}.  
-    \item \textbf{Substring}: A string $v$ is a substring of $w$ if $w = xvy$ for some $x, y$ \cite{hopcroft2006introduction}.  
+    \item \textbf{Reversal}: The operation $w^R$ produces the string obtained by reversing the order of symbols in $w$ (e.g., $(abc)^R = cba$) \cite{hopcroft2006introduction}.
+    \item \textbf{Substring}: A string $v$ is a substring of $w$ if there exist (possibly empty) strings $x$ and $y$ such that $w = xvy$ \cite{hopcroft2006introduction}.
 \end{itemize}
 
 \subsubsection{Languages and Operations}
-A \textit{language} $L$ is a subset of $\Sigma^\ast$, the \textbf{Kleene closure} of $\Sigma$, defined as the set of all finite strings over $\Sigma$:  
+A \textit{language} $L$ is a subset of $\Sigma^\ast$, where $\Sigma^\ast$ denotes the \textbf{Kleene closure} of $\Sigma$, defined as:
 \[
 \Sigma^\ast = \bigcup_{n=0}^\infty \Sigma^n, \quad \text{where } \Sigma^0 = \{\epsilon\}.
-\]\cite{kleene1956representation}
+\]
+\cite{kleene1956representation}
 
-\textbf{Language Operations}:  
+Languages are constructed and manipulated using various operations. These operations are central to proofs of language properties and decidability:
+
 \begin{enumerate}
-    \item \textbf{Concatenation}: For languages $L_1$ and $L_2$,  
+    \item \textbf{Concatenation}: For two languages $L_1$ and $L_2$, their concatenation is defined by 
     \[
-    L_1 \cdot L_2 = \{xy \mid x \in L_1, y \in L_2\}.
-    \]  
-    \textit{Example}: If $L_1 = \{a, ab\}$ and $L_2 = \{b, ba\}$, then $L_1 \cdot L_2 = \{ab, aba, abb, abba\}$.\cite{hopcroft2006introduction}
+    L_1 \cdot L_2 = \{xy \mid x \in L_1,\, y \in L_2\}.
+    \]
+    \begin{example}
+    Let $L_1 = \{a, ab\}$ and $L_2 = \{b, ba\}$. Then,
+    \[
+    L_1 \cdot L_2 = \{ab, aba, abb, abba\},
+    \]
+    which demonstrates the formation of new languages by joining strings from different languages \cite{hopcroft2006introduction}.
+    \end{example}
 
-    \item \textbf{Union/Intersection}:  
+    \item \textbf{Union/Intersection}: These operations are defined as:
     \begin{align*}
         L_1 \cup L_2 &= \{w \mid w \in L_1 \text{ or } w \in L_2\}, \\
         L_1 \cap L_2 &= \{w \mid w \in L_1 \text{ and } w \in L_2\}.
-    \end{align*}\cite{hopcroft2006introduction}
+    \end{align*}
+    They allow the combination or filtering of languages based on shared elements \cite{hopcroft2006introduction}.
 
-    \item \textbf{Kleene Star}:  
+    \item \textbf{Kleene Star}: The Kleene star operation generates the set of all possible concatenations (including the empty string) of elements from a language:
     \[
     L^\ast = \bigcup_{i=0}^\infty L^i, \quad \text{where } L^i = \underbrace{L \cdot L \cdots L}_{i \text{ times}}.
-    \]  
-\cite{kleene1956representation}
-    \textit{Example}: If $L = \{0, 1\}$, then $L^\ast$ includes all binary strings, including $\epsilon$ \cite{hopcroft2006introduction}.  
+    \]
+    \begin{example}
+    For $L = \{0, 1\}$, the set $L^\ast$ comprises all binary strings, including $\epsilon$ \cite{hopcroft2006introduction}.
+    \end{example}
 
-    \item \textbf{Complement}: $\overline{L} = \Sigma^\ast \setminus L$ \cite{hopcroft2006introduction}.  
-    \item \textbf{Homomorphism}: A function $h: \Sigma^\ast \to \Gamma^\ast$ that replaces symbols (e.g., $h(a) = 01$ maps $a \to 01$) \cite{hopcroft2006introduction}.  
-    \item \textbf{Inverse Homomorphism}: $h^{-1}(L) = \{w \mid h(w) \in L\}$.  
-    \cite{hopcroft2006introduction}
+    \item \textbf{Complement}: The complement of a language $L$ with respect to $\Sigma^\ast$ is defined as 
+    \[
+    \overline{L} = \Sigma^\ast \setminus L.
+    \]
+    This operation is useful for expressing languages indirectly \cite{hopcroft2006introduction}.
+
+    \item \textbf{Homomorphism}: A homomorphism is a function $h: \Sigma^\ast \to \Gamma^\ast$ that maps each symbol in $\Sigma$ to a string in $\Gamma^\ast$. For example, if $h(a) = 01$, then every occurrence of $a$ in a string is replaced by $01$ \cite{hopcroft2006introduction}.
+
+    \item \textbf{Inverse Homomorphism}: Given a homomorphism $h$, the inverse homomorphism is defined by 
+    \[
+    h^{-1}(L) = \{w \mid h(w) \in L\},
+    \]
+    which retrieves the pre-images from the target language \cite{hopcroft2006introduction}.
 \end{enumerate}
 
 \subsubsection{Language Categories}
-Languages are classified by their recognition models and structural complexity:  
+Languages are classified according to the type of automata that recognize them and their inherent structural complexity. The main categories are as follows:
 
 \begin{enumerate}
-    \item \textbf{Regular Languages ($\text{REG}$)}:  
-    Recognized by \textit{deterministic finite automata (DFA)}, \textit{nondeterministic finite automata (NFA)}, or \textit{regular expressions} \cite{hopcroft2006introduction}.  
-    \textit{Example}: $L = \{w \in \{a, b\}^\ast \mid w \text{ contains } aba\}$ is regular \cite{hopcroft2006introduction}.  
+    \item \textbf{\glspl{dfa} and \glspl{nfa}}:  
+    These languages are recognized by \gls{dfa} and \gls{nfa} and can be generated by regular expressions \cite{hopcroft2006introduction}. 
+    \begin{example}
+    $L = \{w \in \{a, b\}^\ast \mid w \text{ contains } aba\}$ is a regular language \cite{hopcroft2006introduction}.
+    \end{example}
+    
+    \item \textbf{\glspl{pda}}:  
+    These languages are recognized by \gls{pda} and generated by context-free grammars \cite{chomsky1956three, hopcroft2006introduction}.  
+    \begin{example}
+    $L_{\text{pal}} = \{ww^R \mid w \in \{a, b\}^\ast\}$, the language of palindromes, is a classic example \cite{chomsky1956three}.
+    \end{example}
 
-    \item \textbf{Context-Free Languages ($\text{CFL}$)}:  
-    Recognized by \textit{pushdown automata (PDA)} \cite{chomsky1956three, hopcroft2006introduction}.  
-    \textit{Example}: $L_{\text{pal}} = \{ww^R \mid w \in \{a, b\}^\ast\}$ (palindromes) \cite{chomsky1956three}.  
+    \item \textbf{Context-Sensitive Languages}:  
+    Recognized by linear-bounded automata, these languages have structural constraints that extend beyond context-free languages \cite{chomsky1956three, hopcroft2006introduction}.  
+    \begin{example}
+    $L = \{a^n b^n c^n \mid n \geq 1\}$ is an example of a context-sensitive language \cite{chomsky1956three}.
+    \end{example}
 
-    \item \textbf{Context-Sensitive Languages ($\text{CSL}$)}:  
-    Recognized by \textit{linear-bounded automata} \cite{chomsky1956three, hopcroft2006introduction}.  
-    \textit{Example}: $L = \{a^n b^n c^n \mid n \geq 1\}$ \cite{chomsky1956three}.  
-
-    \item \textbf{Recursively Enumerable Languages ($\text{Type-0}$)}:  
-    Recognized by \textit{Turing machines}, formalized by Alan Turing to define computability limits \cite{hopcroft2006introduction}.  
-    \textit{Example}: The Halting Problem’s language \cite{hopcroft2006introduction}.  
+    \item \textbf{Recursively Enumerable Languages (Type-0)}:  
+    Recognized by \glspl{tm}, these languages embody the notion of algorithmic computability \cite{hopcroft2006introduction, turing1936computable}.  
+    \begin{example}
+    The language corresponding to the Halting Problem is recursively enumerable \cite{hopcroft2006introduction}.
+    \end{example}
 
     \item \textbf{Stochastic Languages}:  
-    Recognized by \textit{probabilistic finite automata (PFA)} with bounded error \cite{rabin1963probabilistic}.  
-    \textit{Example}: $L_{\text{eq}} = \{a^n b^n \mid n \geq 1\}$ is stochastic but not regular. A PFA can accept this language with probability $\geq \frac{2}{3}$ for valid strings and $\leq \frac{1}{3}$ for invalid ones, leveraging probabilistic state transitions \cite{rabin1963probabilistic}.  % MODIFIED: Expanded example
-
-    \begin{figure}[h]
-        \centering
-        \resizebox{0.9\textwidth}{!}{ % Scale to fit page width
-        \begin{tikzpicture}[
-            tape/.style={draw, minimum height=1.5cm, minimum width=2cm, font=\large},
-            head/.style={draw, fill=blue!20, minimum size=1.5cm, font=\large},
-            state/.style={draw, circle, minimum size=2cm, font=\large},
-            transition/.style={font=\small, above=8pt},
-            >=Stealth,
-            node distance=3.5cm, % Increased horizontal spacing
-            every edge/.style={thick}
-        ]
-            % Tape cells with improved spacing
-            \foreach \x [count=\i from 0] in {0,...,4} {
-                \node[tape] (cell\x) at (\i*3, 0) {$\sigma_{\x}$};
-            }
-            
-            % Tape head (centered vertically)
-            \node[head, above=3cm of cell2] (head) {$q_i$}; % Increased vertical spacing
-            \draw[->, thick] (head.south) -- (cell2.north);
-            
-            % State transitions with optimized path and label positioning
-            \node[state, right=5cm of head] (state1) {$q_j$}; % Increased horizontal spacing
-            \draw[->, dashed, thick, out=0, in=180] % Straighter arrow path
-                (head.east) to 
-                node[transition, pos=0.5, anchor=south] % Centered label
-                    {$\delta(q_i, \sigma) = (q_j, \sigma', R)$} 
-                (state1.west);
-            
-            % Ellipsis for infinite tape
-            \node[right=1cm of cell4] (dotsR) {$\cdots$};
-            \node[left=1cm of cell0] (dotsL) {$\cdots$};
-            
-            % Transition example below tape (centered)
-            \node[below=2cm of cell2, font=\small] (transition) 
-                {Example: $\delta(q_1, 0) = (q_2, 1, R)$};
-            \draw[->, dotted] (transition.north) -- (cell2.south);
-            
-            % Write operation visualization
-            \draw[->, blue!50, dashed, -{Stealth[length=3mm]}] 
-                ($(cell2.south)+(0,-0.5)$) -- 
-                node[below, pos=0.5, font=\small] {Write $\sigma'$, Move $\rightarrow$} 
-                ($(cell3.south)+(0,-0.5)$);
-        \end{tikzpicture}
-        }
-        \caption{Schematic of a Turing machine: tape cells, head, and state transitions}
-        \label{fig:turing-machine}
-    \end{figure}
+    Recognized by \glspl{pfa} with bounded error, stochastic languages allow for probabilistic acceptance criteria \cite{rabin1963probabilistic}.  
+    \begin{example}
+    $L_{\text{eq}} = \{a^n b^n \mid n \geq 1\}$ is stochastic but not regular. A \gls{pfa} can accept it with probability at least $\frac{2}{3}$ for strings in $L_{\text{eq}}$ and at most $\frac{1}{3}$ for strings not in $L_{\text{eq}}$ \cite{rabin1963probabilistic}.
+    \end{example}
 \end{enumerate}
+
+\begin{definition}[Regular Language]
+A language $L \subseteq \Sigma^\ast$ is \textit{regular} if there exists a \gls{dfa} (or an equivalent \gls{nfa}) that accepts exactly the strings in $L$.
+\end{definition}
+
+\begin{theorem}[Pumping Lemma for Regular Languages]
+\label{thm:pumping-lemma}
+Let $L \subseteq \Sigma^\ast$ be a regular language. Then there exists an integer $p \geq 1$, known as the \textit{pumping length}, such that every string $s \in L$ with $\|s\| \geq p$ can be decomposed into three parts $s = xyz$, satisfying:
+\begin{enumerate}
+    \item $|xy| \leq p$,
+    \item $|y| \geq 1$, and
+    \item For all $i \geq 0$, the string $xy^iz \in L$.
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+If a language $L$ fails to satisfy the conditions of Theorem~\ref{thm:pumping-lemma} for any possible pumping length $p$, then $L$ is not regular.
+\end{corollary}
+
+\subsubsection{Closure Properties}
+Closure properties determine how language classes behave under various operations—a critical aspect in proving decidability and constructing new languages:
+
+\begin{itemize}
+    \item \textbf{\glspl{dfa} and \glspl{nfa}}: Regular languages are closed under union, intersection, complement, concatenation, and Kleene star \cite{hopcroft2006introduction}.
+    \item \textbf{\glspl{pda}}: Context-free languages are closed under union and Kleene star, but not under intersection or complement \cite{chomsky1956three, hopcroft2006introduction}.
+    \item \textbf{Context-Sensitive Languages}: Context-sensitive languages are closed under union, intersection, and complement \cite{chomsky1956three, hopcroft2006introduction}.
+    \item \textbf{Stochastic Languages}: Stochastic languages are closed under union, intersection, and concatenation, but not under complementation or Kleene star \cite{rabin1963probabilistic, paz1971introduction}.
+\end{itemize}
+
+\begin{observation}
+Closure properties not only simplify the construction of new languages from known ones but also play a key role in proving undecidability results. For instance, the non-closure of context-free languages under intersection and complementation is a cornerstone in many undecidability proofs.
+\end{observation}
+
+\begin{example}
+The closure of regular languages under intersection guarantees that if $L_1, L_2 \in \glspl{dfa}$ (or, equivalently, recognized by \glspl{nfa}) then $L_1 \cap L_2$ is also regular. In contrast, although stochastic languages are closed under intersection, they are not closed under complementation, as demonstrated by the inability to recognize 
+\[
+\overline{L_{\text{eq}}} \quad \text{for} \quad L_{\text{eq}} = \{a^n b^n \mid n \geq 1\}
+\]
+\cite{rabin1963probabilistic}.
+\end{example}
 
 \begin{table}[h]
     \centering
     \begin{adjustbox}{max width=\textwidth}
-    \begin{tabular}{@{}lllll@{}}
-        \toprule
-        \textbf{Class} & \textbf{Recognizer} & \textbf{Example} & \textbf{Closure Properties} & \textbf{Pumping Lemma} \\ \midrule
-        Regular (REG) & DFA/NFA & $\{w | w \text{ contains } aba\}$ & Union, Concat, Kleene* & $xyz \text{ with } |xy| \leq p$ \\
-        Context-Free (CFL) & PDA & Palindromes & Union, Kleene* & $uvxyz \text{ with } |vxy| \leq p$ \\
-        Context-Sensitive (CSL) & LBA & $\{a^n b^n c^n\}$ & Intersection, Complement & - \\
-        Recursively Enumerable (Type-0) & Turing Machine & Halting Problem & All operations & - \\
-        Stochastic & PFA & $\{a^n b^n\}$ & Union, Intersection & - \\ % NEW: Added stochastic row
-        \bottomrule
-    \end{tabular}
-    \end{adjustbox}
-    \caption{Comparison of language classes}
-    \label{tab:language-comparison}
-\end{table}
-
-\subsubsection{Closure Properties}
-Closure properties determine how language classes behave under operations:  
-
-\begin{itemize}
-    \item $\text{REG}$: Closed under union, intersection, complement, concatenation, and Kleene star \cite{hopcroft2006introduction}.  
-    \item $\text{CFL}$: Closed under union and Kleene star, but \textit{not} under intersection or complement \cite{chomsky1956three, hopcroft2006introduction}.  
-    \item $\text{CSL}$: Closed under union, intersection, and complement \cite{chomsky1956three, hopcroft2006introduction}.  
-    \item $\text{Stochastic Languages}$: Closed under union, intersection, and concatenation, but \textit{not} under complementation or Kleene star \cite{rabin1963probabilistic, paz1971introduction}.  
-\end{itemize}
-
-\noindent\textit{Example}:  
-$\text{REG}$’s closure under intersection ensures that $L_1 \cap L_2$ is regular if $L_1, L_2 \in \text{REG}$. In contrast, stochastic languages are closed under intersection but not under complementation, as shown by their inability to recognize $\overline{L_{\text{eq}}}$ for $L_{\text{eq}} = \{a^n b^n \mid n \geq 1\}$ \cite{rabin1963probabilistic}.  
-
-
-\begin{table}[h]
-    \centering
     \begin{tabular}{@{}lccccc@{}}
         \toprule
-        \textbf{Operation} & REG & CFL & CSL & Stochastic & Type-0 \\ \midrule
-        Union & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
-        Intersection & \checkmark & $\times$ & \checkmark & \checkmark & \checkmark \\
-        Complement & \checkmark & $\times$ & \checkmark & $\times$ & \checkmark \\
-        Concatenation & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
-        Kleene* & \checkmark & \checkmark & \checkmark & $\times$ & \checkmark \\ \bottomrule
+        \textbf{Operation} & \glspl{dfa} & \glspl{pda} & Context-Sensitive & Stochastic & Type-0 \\ \midrule
+        Union          & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+        Intersection   & \checkmark & $\times$ & \checkmark & \checkmark & \checkmark \\
+        Complement     & \checkmark & $\times$ & \checkmark & $\times$ & \checkmark \\
+        Concatenation  & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+        Kleene Star    & \checkmark & \checkmark & \checkmark & $\times$ & \checkmark \\ \bottomrule
     \end{tabular}
-    \caption{Closure properties comparison}
+    \end{adjustbox}
+    \caption{Comparison of closure properties for different language classes}
     \label{tab:closure-properties}
 \end{table}
 
 \subsubsection{Chomsky Hierarchy}
-Formal languages are stratified by the Chomsky hierarchy \cite{chomsky1956three, hopcroft2006introduction}:  
+Formal languages are organized into a hierarchical framework known as the Chomsky hierarchy \cite{chomsky1956three, hopcroft2006introduction}:
 \begin{enumerate}
-    \item \textbf{Type-3 (Regular)}: Recognized by DFAs \cite{hopcroft2006introduction}.  
-    \item \textbf{Type-2 (Context-Free)}: Recognized by PDAs \cite{chomsky1956three}.  
-    \item \textbf{Type-1 (Context-Sensitive)}: Recognized by linear-bounded automata \cite{chomsky1956three}.  
-    \item \textbf{Type-0 (Recursively Enumerable)}: Recognized by Turing machines \cite{hopcroft2006introduction}, which formalize the notion of \textit{algorithmic computability} \cite{turing1936computable}.  
+    \item \textbf{Type-3 (Regular)}: Languages recognized by \glspl{dfa} (or \glspl{nfa}) \cite{hopcroft2006introduction}.
+    \item \textbf{Type-2 (Context-Free)}: Languages recognized by \gls{pda} \cite{chomsky1956three}.
+    \item \textbf{Type-1 (Context-Sensitive)}: Languages recognized by linear-bounded automata \cite{chomsky1956three}.
+    \item \textbf{Type-0 (Recursively Enumerable)}: Languages recognized by Turing machines (\gls{tm}), which formalize the notion of algorithmic computability \cite{hopcroft2006introduction, turing1936computable}.
 \end{enumerate}
 
-\begin{figure} [h]
+\begin{concept}
+The Chomsky hierarchy not only classifies languages based on the computational power needed for recognition but also reflects the trade-offs between expressiveness and computational complexity.
+\end{concept}
+
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}
         \draw (0,0) ellipse (2 and 1);
         \draw (0,0.5) ellipse (2.5 and 1.5);
         \draw (0,1) ellipse (3 and 2);
         \draw (0,1.5) ellipse (3.5 and 2.5);
-
         \node at (0,0) {regular};
         \node at (0,1.3) {context-free};
         \node at (0,2.3) {context-sensitive};
@@ -206,80 +213,69 @@ Formal languages are stratified by the Chomsky hierarchy \cite{chomsky1956three,
     \label{fig:chomsky-hierarchy}
 \end{figure}
 
-
 \subsubsection{Practical Implications}
+The theoretical constructs discussed above are not only of academic interest but also have significant practical applications:
 \begin{itemize}
-    \item \textbf{Regular Expressions}: Used in text processing (e.g., \texttt{grep}, lexical analyzers) \cite{kernighan1984unix, hopcroft2006introduction}.  
-    \item \textbf{Context-Free Grammars}: Define programming language syntax (e.g., Python’s grammar) \cite{chomsky1956three, hopcroft2006introduction}.  
-    \item \textbf{Closure Properties}: Enable decidability proofs (e.g., emptiness testing for DFAs) \cite{hopcroft2006introduction}.  
-    \item \textbf{Stochastic Models}: Applied in natural language processing and speech recognition for probabilistic pattern matching \cite{rabin1963probabilistic}.  
+    \item \textbf{Regular Expressions}: Extensively used in text processing (e.g., in tools such as \texttt{grep} and in lexical analyzers) \cite{kernighan1984unix, hopcroft2006introduction}.
+    \item \textbf{Context-Free Grammars}: Form the basis for defining the syntax of programming languages such as Python and Java \cite{chomsky1956three, hopcroft2006introduction}.
+    \item \textbf{Closure Properties}: Provide a framework for proving decidability results (e.g., the emptiness problem for \glspl{dfa}) \cite{hopcroft2006introduction}.
+    \item \textbf{Stochastic Models}: Are applied in areas like natural language processing and speech recognition, where probabilistic pattern matching is essential \cite{rabin1963probabilistic}.
 \end{itemize}
 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.8cm,
-        semithick, state/.style={circle, draw, minimum size=1.5cm}]
-    
-    \node[state, initial] (q0) {$q_0$};
-    \node[state, accepting] (q1) [right of=q0] {$q_1$};
-    
-    \path 
-    (q0) edge [loop above] node {$0$} (q0)
-         edge [bend left] node {$1$} (q1)
-    (q1) edge [loop above] node {$1$} (q1)
-         edge [bend left] node {$0$} (q0);
-    \end{tikzpicture}
-    \caption{Example DFA recognizing even number of 1s}
-    \label{fig:dfa-example}
-\end{figure}
-
-\subsubsection{Automata Definition Fundamentals}  
-All automata share core structural components \cite{hopcroft2006introduction, chomsky1956three}.  
+\subsubsection{Automata Definition Fundamentals}
+All automata share several core structural components that provide the basis for their computational behavior \cite{hopcroft2006introduction, chomsky1956three}.
 
 \begin{definition}[Classical Finite Automaton]
-    \label{def:finite-automaton}
-    A \textit{finite automaton} is a computational model that processes input symbols to recognize languages. Formally, a finite automaton $M$ is a quintuple $(Q, \Sigma, \delta, q_0, F)$, where:
-    \begin{itemize}
-        \item {States ($Q$)}: A finite set of configurations representing computational progress \cite{hopcroft2006introduction}. 
-        \item {Input Alphabet ($\Sigma$)}: Defined symbols the automaton processes \cite{hopcroft2006introduction}.
-        \item {Transition Function ($\delta$)}: Governs state changes based on input \cite{chomsky1956three}:  
-        \begin{itemize}
-            \item \textit{Deterministic}: $\delta: Q \times \Sigma \to Q$ (e.g., DFA) \cite{hopcroft2006introduction}.  
-            \item \textit{Nondeterministic}: $\delta: Q \times \Sigma \to 2^Q$ (e.g., NFA) \cite{rabin1963probabilistic}.  
-        \end{itemize}
-        \item {Initial State ($q_0 \in Q$)}: The starting configuration \cite{hopcroft2006introduction}. 
-        \item {Accept States ($F \subseteq Q$)}: Terminal states indicating successful computation \cite{hopcroft2006introduction}.
-    \end{itemize} 
+\label{def:finite-automaton}
+A \textit{finite automaton} is a computational model that processes input symbols to recognize languages. Formally, a finite automaton $M$ is a quintuple $(Q, \Sigma, \delta, q_0, F)$, where:
+\begin{itemize}
+    \item \textbf{States ($Q$)}: A finite set of configurations representing the progress of computation \cite{hopcroft2006introduction}.
+    \item \textbf{Input Alphabet ($\Sigma$)}: A finite set of symbols that the automaton processes \cite{hopcroft2006introduction}.
+    \item \textbf{Transition Function ($\delta$)}: A function that governs state changes based on input. For deterministic models, $\delta: Q \times \Sigma \to Q$ (i.e., a \gls{dfa}); for nondeterministic models, $\delta: Q \times \Sigma \to 2^Q$ (i.e., an \gls{nfa}) \cite{chomsky1956three, hopcroft2006introduction}.
+    \item \textbf{Initial State ($q_0 \in Q$)}: The starting configuration of the automaton \cite{hopcroft2006introduction}.
+    \item \textbf{Accept States ($F \subseteq Q$)}: A subset of states that, when reached, indicate successful recognition of an input string \cite{hopcroft2006introduction}.
+\end{itemize}
 \end{definition}
 
-\noindent\textit{Example}: The DFA in Figure \ref{fig:dfa-example} has:  
-\begin{itemize}
-    \item $Q = \{q_0, q_1\}$  
-    \item $\Sigma = \{0, 1\}$  
-    \item $\delta(q_0, 1) = q_1$, $\delta(q_1, 0) = q_0$ \textit{(partial specification)}  
-    \item $F = \{q_1\}$ (accepts even number of 1s)  
-\end{itemize}
-\noindent\textbf{Graphical notation}: 
-\begin{itemize}
-    \item States: Circles with $q_i$ labels  
-        \item Initial state: Arrow pointing to the state ($q_0$)  
-        \item Accept states: Double circles ($q_1$ in \ref{fig:dfa-example})  
-        \item Transitions: Directed edges labeled with input symbols  
-\end{itemize}
+\begin{remark}
+The quintuple $(Q, \Sigma, \delta, q_0, F)$ is a standard representation that facilitates uniform analysis across different classes of automata.
+\end{remark}
 
+\begin{example}
+The \gls{dfa} in Figure~\ref{fig:dfa-example} is defined by:
+\begin{itemize}
+    \item $Q = \{q_0, q_1\}$,
+    \item $\Sigma = \{0, 1\}$,
+    \item Transitions such as $\delta(q_0, 1) = q_1$ and $\delta(q_1, 0) = q_0$ (partial specification),
+    \item $F = \{q_1\}$, indicating that the automaton accepts strings with an even number of 1s.
+\end{itemize}
+\end{example}
 
+\begin{observation}
+Graphical representations—using states, transitions, and designated initial/accept states—provide an intuitive understanding of automata behavior that complements the formal definitions.
+\end{observation}
+
+Graphical notation typically includes:
+\begin{itemize}
+    \item \textbf{States}: Represented by circles labeled with $q_i$.
+    \item \textbf{Initial state}: Indicated by an incoming arrow (e.g., pointing to $q_0$).
+    \item \textbf{Accept states}: Denoted by double circles (e.g., $q_1$ in Figure~\ref{fig:dfa-example}).
+    \item \textbf{Transitions}: Illustrated by directed edges with labels representing input symbols.
+\end{itemize}
 
 \begin{table}[htbp]
     \centering
+    \begin{adjustbox}{max width=\textwidth}
       \begin{tabular}{@{}lllll@{}}
           \toprule
           \textbf{Automaton} & \textbf{State Memory} & \textbf{Transition Type} & \textbf{Acceptance Condition} \\ \midrule
-          DFA & None & Deterministic & Final state membership \cite{hopcroft2006introduction} \\
-          NFA & None & Nondeterministic & Existence of accepting path \cite{hopcroft2006introduction} \\
-          PDA & Stack & Deterministic/Nondet. & Final state + empty stack \cite{chomsky1956three} \\
-          Turing Machine & Tape & Deterministic & Halting in accept state \cite{turing1936computable} \\
+          \gls{dfa} & None & Deterministic & Final state membership \cite{hopcroft2006introduction} \\
+          \gls{nfa} & None & Nondeterministic & Existence of an accepting path \cite{hopcroft2006introduction} \\
+          \gls{pda} & Stack & Deterministic/Nondeterministic & Final state and empty stack \cite{chomsky1956three} \\
+          \gls{tm} & Tape & Deterministic & Halting in an accept state \cite{turing1936computable} \\
           \bottomrule
-      \end{tabular}%
+      \end{tabular}
+    \end{adjustbox}
     \caption{Automata representation variations}
     \label{tab:automata-variations}
 \end{table}

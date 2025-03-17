@@ -1,26 +1,41 @@
 
+
 \subsection{Qubits and Quantum States}
 \label{subsec:qubits}
 
-A \textit{qubit} is the fundamental unit of quantum information. Mathematically, a qubit is represented as a normalized vector in a two-dimensional complex Hilbert space, i.e. 
+\begin{definition}[Qubit]
+A \emph{\gls{qubit}} is the fundamental unit of quantum information. It is represented as a normalized vector in a two-dimensional complex Hilbert space,
 \[
 \mathcal{H} = \mathbb{C}^2.
 \]
-The standard (computational) basis states are defined as
+\end{definition}
+
+\begin{notation}[Computational Basis]
+The standard (computational) basis states for a qubit are defined as
 \[
 |0\rangle = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \quad |1\rangle = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
 \]
-A general qubit state is given by
+\end{notation}
+
+\begin{definition}[General Qubit State]
+A general state of a \gls{qubit} is given by
 \[
 |\psi\rangle = \alpha|0\rangle + \beta|1\rangle, \quad \text{with } |\alpha|^2 + |\beta|^2 = 1,
 \]
-where $\alpha,\beta \in \mathbb{C}$ are the \textit{probability amplitudes}. Note that global phase factors (i.e. multiplication of the state by an overall phase factor $e^{i\gamma}$) are physically irrelevant.
+where \(\alpha,\beta \in \mathbb{C}\) are the \emph{probability amplitudes}.
+\end{definition}
 
-A convenient geometrical representation of qubit states is provided by the \textbf{Bloch sphere}. Any pure qubit state can be written as
+\begin{remark}
+Global phase factors—i.e. multiplying the state by an overall phase \(e^{i\gamma}\)—do not affect the physical properties of the qubit.
+\end{remark}
+
+\begin{example}[Bloch Sphere Representation]
+Any pure state of a \gls{qubit} can be written in the form
 \[
 |\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle,
 \]
-with $\theta \in [0, \pi]$ and $\phi \in [0, 2\pi)$. Figure~\ref{fig:bloch_sphere} illustrates this representation.
+with \(\theta \in [0,\pi]\) and \(\phi \in [0,2\pi)\). Figure~\ref{fig:bloch_sphere} illustrates the \textbf{Bloch sphere} representation of a qubit.
+\end{example}
 
 \begin{figure}[h]
 \centering
@@ -32,14 +47,18 @@ with $\theta \in [0, \pi]$ and $\phi \in [0, 2\pi)$. Figure~\ref{fig:bloch_spher
   \draw[->, thick] (-2.2,0) -- (2.2,0) node[right] {$x$ (real axis)};
   \draw[->, thick] (0,-2.2) -- (0,2.2) node[above] {$z$ (vertical axis)};
   % Bloch vector
-  \draw[->, red, thick] (0,0) -- (1.414,1.414) node[right] {$|\psi\rangle$};
+  \draw[->, red, thick] (0,0) -- (1.414,1.414) node[right] {\(\;|\psi\rangle\)};
 \end{tikzpicture}
-\caption{Bloch sphere representation of a qubit.}
+\caption{Bloch sphere representation of a \gls{qubit}.}
 \label{fig:bloch_sphere}
 \end{figure}
 
-For multi-qubit systems the state space is the tensor product of individual qubit spaces. For example, a two-qubit system is described by
+\begin{observation}
+For multi-qubit systems, the overall state space is given by the tensor product of individual qubit spaces. For instance, a two-qubit system is described by
 \[
 |\psi\rangle = \sum_{i,j \in \{0,1\}} \alpha_{ij}\, |i\rangle \otimes |j\rangle, \quad \sum_{i,j} |\alpha_{ij}|^2 = 1.
 \]
-This exponential growth in the state space is at the heart of quantum parallelism.
+This exponential scaling of the state space underpins the potential of quantum parallelism.
+\end{observation}
+
+

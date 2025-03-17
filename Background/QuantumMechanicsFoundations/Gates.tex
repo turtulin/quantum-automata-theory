@@ -2,32 +2,45 @@
 \subsection{Quantum Gates and Circuits}
 \label{subsec:gates}
 
-Quantum gates are the building blocks of quantum circuits. They are represented by \emph{unitary operators} \(U\) (i.e. \(U^\dagger U = I\)) that govern the evolution of quantum states. Key single-qubit gates include:
+\begin{definition}[Quantum Gate]
+A \emph{quantum gate} is a unitary operator \(U\) acting on a quantum state, meaning that \(U^\dagger U = I\). Quantum gates manipulate \glspl{qubit} and form the basic operations in quantum circuits.
+\end{definition}
+
+\begin{notation}[Single-Qubit Gates]
+Key single-qubit gates include:
 \begin{itemize}
-    \item \textbf{Pauli-X (bit-flip):} 
+    \item \textbf{Pauli-X (bit-flip):}
     \[
     X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix},
     \]
-    which acts as \(X|0\rangle = |1\rangle\) and \(X|1\rangle = |0\rangle\).
-    \item \textbf{Hadamard (creating superpositions):}
+    which performs \(X|0\rangle = |1\rangle\) and \(X|1\rangle = |0\rangle\).
+    \item \textbf{Hadamard:}
     \[
-    H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}.
+    H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix},
     \]
-    \item \textbf{Phase shift:}
+    creating superpositions as seen in the previous section.
+    \item \textbf{Phase Shift:}
     \[
     R_\phi = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\phi} \end{pmatrix}.
     \]
 \end{itemize}
+\end{notation}
 
-Two-qubit gates, such as the \textbf{Controlled-NOT (CNOT) gate}, introduce entanglement. The CNOT gate acts on a pair of qubits as
+\begin{definition}[Two-Qubit Gate]
+A two-qubit gate, such as the \gls{cnot} gate, acts on a pair of qubits. The \gls{cnot} gate flips the second (target) qubit if the first (control) qubit is \(|1\rangle\); formally,
 \[
 \text{CNOT}|a\rangle|b\rangle = |a\rangle|a \oplus b\rangle,
 \]
 where \(\oplus\) denotes addition modulo 2.
+\end{definition}
 
-Quantum circuits decompose complex algorithms into sequences of gate operations. A universal gate set (e.g., \(\{H, T, \text{CNOT}\}\)) can approximate any unitary operation to arbitrary precision, forming the basis for the quantum circuit model.
+\begin{remark}
+A universal set of quantum gates, for example \(\{H, T, \gls{cnot}\}\), can approximate any unitary operation to arbitrary precision, thereby forming the foundation of the quantum circuit model.
+\end{remark}
 
-Figure~\ref{fig:deutsch_circuit} shows an example quantum circuit used in the Deutsch-Jozsa algorithm, illustrating the interplay of Hadamard gates and entangling operations.
+\begin{example}[Deutsch-Jozsa Quantum Circuit]
+Figure~\ref{fig:deutsch_circuit} shows a quantum circuit used in the Deutsch-Jozsa algorithm. The circuit demonstrates the application of Hadamard gates before and after the oracle \(U_f\), highlighting the interplay of superposition and entanglement in quantum computation.
+\end{example}
 
 \begin{figure}[h]
 \centering

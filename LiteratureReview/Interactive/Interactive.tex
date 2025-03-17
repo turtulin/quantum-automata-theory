@@ -4,10 +4,10 @@
 Interactive quantum automata integrate communication between a resource-limited quantum verifier and an (often unbounded) prover. These models extend standard QFA by introducing interactive protocols where the verifier and prover exchange quantum messages over multiple rounds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Quantum Interactive Proof Systems (QIP)}
+\subsubsection{\gls{qip} Systems}
 \label{sssec:qip}
-\begin{definition}[Quantum Interactive Proof (QIP) System]
-A Quantum Interactive Proof (QIP) system consists of a polynomial-time quantum verifier \( V \) and an unbounded quantum prover \( P \) who exchange messages via a quantum channel. The verifier is typically modeled as a QFA with limited memory. A system with \( k \) rounds of interaction is denoted as \(\text{QIP}(k)\) \cite{nishimura2009application, zheng2015power}.
+\begin{definition}[\gls{qip} System]
+A \gls{qip} system consists of a polynomial-time quantum verifier \( V \) and an unbounded quantum prover \( P \) who exchange messages via a quantum channel. The verifier is typically modeled as a QFA with limited memory. A system with \( k \) rounds of interaction is denoted as \(\text{QIP}(k)\) \cite{nishimura2009application, zheng2015power}.
 \end{definition}
 
 \textbf{Operation}:  
@@ -24,7 +24,7 @@ A QIP system accepts an input \( w \) if the verifier’s final measurement yiel
 \begin{itemize}
     \item \textbf{Key Features:}
     \begin{itemize}
-        \item QIP systems have been shown to be equivalent in power to PSPACE in the classical setting.
+        \item \gls{qip} systems have been shown to be equivalent in power to PSPACE in the classical setting.
         \item QFA-based verifiers (e.g., using 2QFA) can recognize languages beyond the regular class with bounded error.
     \end{itemize}
     \item \textbf{Limitations:}
@@ -35,10 +35,10 @@ A QIP system accepts an input \( w \) if the verifier’s final measurement yiel
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Quantum Merlin-Arthur (QMIP) Systems}
+\subsubsection{\gls{qmip} Systems}
 \label{sssec:qmip}
-\begin{definition}[QMIP System]
-Quantum Merlin-Arthur (QMIP) systems extend QIP by involving multiple non-communicating provers. Formally, a QMIP system with \( k \) provers is denoted as \(\text{QMIP}(k)\). In these systems, the verifier receives quantum witness states from each prover and performs a quantum verification procedure \cite{scegulnaja2010postselection, yamakami2014constant}.
+\begin{definition}[\gls{qmip} System]
+    \gls{qmip} systems extend QIP by involving multiple non-communicating provers. Formally, a QMIP system with \( k \) provers is denoted as \(\text{QMIP}(k)\). In these systems, the verifier receives quantum witness states from each prover and performs a quantum verification procedure \cite{scegulnaja2010postselection, yamakami2014constant}.
 \end{definition}
 
 \textbf{Operation}:  
@@ -65,12 +65,12 @@ A QMIP system accepts an input if the combined verification procedure yields an 
 \subsection*{Summary of Interactive Quantum Automata Models}
 The interactive quantum automata models discussed above demonstrate the following trade-offs:
 \begin{itemize}
-    \item \textbf{QIP Systems:}  
+    \item \textbf{\gls{qip} Systems:}  
     \begin{itemize}
         \item Employ a single prover with a polynomial-time quantum verifier.
         \item Are capable of recognizing languages with bounded error, leveraging quantum communication.
     \end{itemize}
-    \item \textbf{QMIP Systems:}  
+    \item \textbf{\gls{qmip} Systems:}  
     \begin{itemize}
         \item Extend QIP by using multiple non-communicating provers.
         \item Offer enhanced verification power, capturing complexity classes such as MIP\(^*\), at the cost of increased complexity in managing entanglement and communication.

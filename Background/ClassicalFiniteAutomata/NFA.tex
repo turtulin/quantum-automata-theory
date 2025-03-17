@@ -1,25 +1,50 @@
-\subsection{Nondeterministic Finite Automata (NFA)}
+
+\subsection{Nondeterministic Finite Automata (\gls{nfa})}
 \label{subsec:nfa}
 
-As a generalization of the deterministic framework established in Section~\ref{subsec:dfa}, a Nondeterministic Finite Automaton (NFA)\cite{hopcroft2006introduction} allows multiple possible transitions for a given state-symbol pair. Formally, an NFA is defined as a quintuple \( M = (Q, \Sigma, \delta, q_0, F) \) where:
+\begin{definition}[Nondeterministic Finite Automaton]
+A \gls{nfa} is a quintuple 
+\[
+M = (Q, \Sigma, \delta, q_0, F)
+\]
+where:
 \begin{itemize}
-    \item \( Q \): Finite set of states
-    \item \( \Sigma \): Input alphabet
-    \item \( \delta: Q \times (\Sigma \cup \{\epsilon\}) \rightarrow 2^Q \): Nondeterministic transition function
-    \item \( q_0 \in Q \): Initial state
-    \item \( F \subseteq Q \): Accepting states
+    \item \( Q \) is a finite set of states,
+    \item \( \Sigma \) is an input alphabet,
+    \item \( \delta: Q \times (\Sigma \cup \{\epsilon\}) \rightarrow 2^Q \) is a nondeterministic transition function,
+    \item \( q_0 \in Q \) is the initial state, and
+    \item \( F \subseteq Q \) is the set of accepting states.
 \end{itemize}
+\end{definition}
 
-\subsubsection{Language Recognition and Expressive Power}
-NFAs recognize the same class of regular languages (\(\mathsf{REG}\)) as DFAs but offer greater representational flexibility through:
+\begin{remark}
+Unlike \glspl{dfa}, a \gls{nfa} may have multiple transitions for a given state and input symbol, including transitions on the empty string \(\epsilon\). This nondeterminism allows for multiple computational paths.
+\end{remark}
+
+\begin{example}
+Figure~\ref{fig:nfa-example} depicts a \gls{nfa} that recognizes the language 
+\[
+L = \{ w \in \{a,b\}^* \mid w \text{ contains the substring } ab \}.
+\]
+\end{example}
+
+\begin{algorithm}[Subset Construction for \glspl{nfa}]
+\label{alg:subset}
+To convert an \gls{nfa} \( N = (Q, \Sigma, \delta, q_0, F) \) into an equivalent \gls{dfa}:
 \begin{enumerate}
-    \item \textbf{Epsilon transitions}: Allowing state changes without input consumption \cite{hopcroft2006introduction}
-    \item \textbf{Multiple transitions}: Permitting multiple possible paths for a single input symbol \cite{GeeksforGeeksDFA2024}
-    \item \textbf{Subset equivalence}: NFAs can be converted to equivalent DFAs via the powerset construction, though potentially with \( 2^{|Q|} \) states \cite{hopcroft2006introduction}
+    \item Compute the \(\epsilon\)-closure of the initial state: \( S_0 = \epsilon\text{-closure}(\{q_0\}) \).
+    \item For each \gls{dfa} state \( S \subseteq Q \) and each input symbol \(\sigma \in \Sigma\), define 
+    \[
+    \delta_{\text{\gls{dfa}}}(S, \sigma) = \epsilon\text{-closure}\Big(\bigcup_{q \in S} \delta(q, \sigma)\Big).
+    \]
+    \item Mark \( S \) as accepting if \( S \cap F \neq \emptyset \).
+    \item Repeat until no new states are produced.
 \end{enumerate}
+\end{algorithm}
 
-\subsubsection{Graphical Representation}
-Consider the NFA in Figure~\ref{fig:nfa-example} recognizing \( L = \Sigma^*ab \). The automaton demonstrates nondeterministic branching and epsilon transitions:
+\begin{observation}
+The subset construction algorithm may produce up to \(2^{|Q|}\) states in the worst case, illustrating a potential state explosion when converting an \gls{nfa} to a \gls{dfa}.
+\end{observation}
 
 \begin{figure}[h]
     \centering  
@@ -36,23 +61,6 @@ Consider the NFA in Figure~\ref{fig:nfa-example} recognizing \( L = \Sigma^*ab \
     \caption{NFA recognizing \( L = \Sigma^*ab \)}
     \label{fig:nfa-example}
 \end{figure}
-
-\(
-L = \{ w \in \{a, b\}^* \mid w \text{ contains the substring } ab \}
-\) is recognized by this NFA. Key features include:
-\begin{itemize}
-    \item Nondeterministic branching: \( q_0 \) has two transitions on \( a \)
-    \item Implicit epsilon transitions via loopback on \( q_0 \)
-    \item Acceptance via any path reaching \( q_2 \)
-\end{itemize}
-
-\subsubsection{Equivalent DFA Construction}
-Using the subset construction method \cite{hopcroft2006introduction}, we derive the equivalent DFA shown in Figure~\ref{fig:dfa-conversion}. The conversion process involves:
-\begin{enumerate}
-    \item \textbf{State creation}: Each DFA state represents a subset of NFA states
-    \item \textbf{Transition calculation}: For each subset \( S \subseteq Q \) and input \( \sigma \), \( \delta_{DFA}(S, \sigma) = \bigcup_{q \in S} \delta_{NFA}(q, \sigma) \)
-    \item \textbf{Acceptance condition}: A DFA state is accepting if it contains any NFA accepting state \cite{GeeksforGeeksDFA2024}
-\end{enumerate}
 
 \begin{figure}[h]
     \centering  
@@ -72,53 +80,3 @@ Using the subset construction method \cite{hopcroft2006introduction}, we derive 
     \caption{Equivalent DFA for NFA in Figure~\ref{fig:nfa-example} \cite{hopcroft2006introduction}}
     \label{fig:dfa-conversion}
 \end{figure}
-
-\noindent{}Key observations:
-\begin{itemize}
-    \item The DFA contains only 3 states instead of the theoretical maximum \( 2^3 = 8 \) \cite{hopcroft2006introduction}
-    \item State \(\{q_0, q_2\}\) is accepting as it contains \( q_2 \)
-    \item Transitions preserve the language \( L = \{ w \in \{a, b\}^* \mid w \text{ contains } ab \} \)
-\end{itemize}
-
-\subsubsection{Key Features}
-\begin{enumerate}
-    \item \textbf{Expressive equivalence}: NFAs and DFAs have equal computational power \cite{hopcroft2006introduction}
-    \item \textbf{Space-time tradeoff}: NFAs can express certain languages (e.g., \( \Sigma^*ab\Sigma^* \)) more succinctly than DFAs \cite{bianchi2014size}
-    \item \textbf{Decision algorithms}: Emptiness testing and membership verification have polynomial complexity \cite{rabin1963probabilistic}
-\end{enumerate}
-
-\subsubsection{Closure Properties and Complementation}
-All regular language closure properties hold for NFAs \textit{indirectly} through their equivalence to DFAs \cite{hopcroft2006introduction}.
-However, when directly manipulating NFAs, some operations like complementation require special handling due to nondeterminism:
-
-\begin{enumerate}
-    \item \textbf{Standard Operations}: 
-    NFAs naturally support closure under \textit{union}, \textit{concatenation}, and \textit{Kleene star} through $\epsilon$-transitions and state duplication \cite{GeeksforGeeksDFA2024}. These operations can be implemented without determinization.
-    
-    \item \textbf{Complementation Challenge}: 
-    Unlike DFAs, direct state-swapping in NFAs does \textit{not} yield valid complementation. This limitation arises because:
-    \begin{itemize}
-        \item Nondeterministic paths may allow acceptance through alternate routes even after state inversion \cite{rabin1963probabilistic}
-        \item Epsilon transitions can create implicit acceptance paths unaffected by state swaps \cite{hopcroft2006introduction}
-    \end{itemize}
-    
-    \item \textbf{Proper Complementation Method}:
-    To compute $\overline{L(N)}$ for an NFA $N$:
-    \begin{enumerate}
-        \item Convert $N$ to equivalent DFA $D$ via subset construction \cite{hopcroft2006introduction}
-        \item Swap accepting/non-accepting states in $D$ to get $\overline{D}$ \cite{GeeksforGeeksDFA2024}
-    \end{enumerate}
-    This two-step process ensures correctness but may incur exponential state blowup \cite{bianchi2014size}
-    
-    \item \textbf{Equivalence Preservation}:
-    The subset construction guarantees language equivalence between NFAs and DFAs \cite{hopcroft2006introduction}, forming the basis for all NFA complementation proofs
-    
-    \item \textbf{Intersection Handling}:
-    While DFAs allow direct product-construction for intersection \cite{hopcroft2006introduction}, NFAs require:
-    \begin{enumerate}
-        \item Conversion to DFAs for both languages
-        \item Standard product construction on DFAs
-    \end{enumerate}
-\end{enumerate}
-
-The nondeterministic paradigm serves as a conceptual bridge to quantum automata models, particularly in handling superposition-like state transitions \cite{ambainis2009superiority}.

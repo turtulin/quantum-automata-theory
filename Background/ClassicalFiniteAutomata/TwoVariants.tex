@@ -1,16 +1,25 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Two-Way Finite Automata Variants
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Two-Way Finite Automata Variants}
 \label{subsec:two-way-variants}
 
-Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages (both 1DFA and 2DFA recognize exactly the regular languages), two‐way models can be exponentially more succinct than one‐way models and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
+Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages (both one‐way and two‐way automata recognize exactly the regular languages), two‐way models can be exponentially more succinct than one‐way models and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
 
-\subsubsection{Two-Way Deterministic Finite Automata (2DFA)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Two-Way Deterministic Finite Automata (2DFA)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{\acrfull{2dfa}}
 \label{subsubsec:2dfa}
 
-A \emph{Two-Way Deterministic Finite Automaton (2DFA)} is formally defined as an 8-tuple 
+\begin{definition}[Two-Way Deterministic Finite Automaton]
+A \gls{2dfa} is formally defined as an 8-tuple 
 \[
 M = (Q, \Sigma, L, R, \delta, s, t, r),
 \]
-where
+where:
 \begin{itemize}
   \item \(Q\) is a finite set of states,
   \item \(\Sigma\) is a finite input alphabet,
@@ -20,29 +29,170 @@ where
   \item \(t\in Q\) is the (unique) accept state, and
   \item \(r\in Q\) (with \(r\neq t\)) is the (unique) reject state.
 \end{itemize}
-In addition, the transition function is assumed to satisfy the following conditions:
+In addition, the transition function is assumed to satisfy:
 \begin{itemize}
-  \item For every state \(q\in Q\), when reading the left endmarker, the head always moves to the right; that is, \(\delta(q,L) = (q', R)\) for some \(q'\in Q\).
-  \item Similarly, when reading the right endmarker, the head always moves to the left: \(\delta(q,R) = (q', L)\).
+  \item For every state \(q\in Q\), when reading the left endmarker \(L\), the head always moves to the right; that is, \(\delta(q,L) = (q', R)\) for some \(q'\in Q\).
+  \item Similarly, when reading the right endmarker \(R\), the head always moves to the left: \(\delta(q,R) = (q', L)\).
   \item Once the machine reaches the accept state \(t\) (or the reject state \(r\)), it remains there (the transition always maps back to itself) while moving in a fixed direction.
 \end{itemize}
+\end{definition}
 
-\paragraph{Operational Mechanics}
-The two-way motion allows the automaton to make multiple passes over the input. A typical operation is to scan right until an endmarker is reached, then reverse direction to verify some property of a prefix or suffix, and so on. Although every 2DFA can be simulated by a one-way DFA, the simulation may incur an exponential increase in the number of states.
+\begin{remark}
+The two-way motion allows the automaton to perform multiple passes over the input, which can result in an exponential reduction in the number of states compared to one-way automata, though at the expense of increased operational complexity.
+\end{remark}
 
-\paragraph{Example: First and Last Symbol Equality}
-As a simple example, consider the language 
+\begin{example}[First and Last Symbol Equality]
+Consider the language 
 \[
 L = \{ w\in \{0,1\}^* \mid \text{the first symbol of } w \text{ equals the last symbol} \}.
 \]
-A 2DFA for \(L\) works as follows:
+A \gls{2dfa} for \(L\) operates as follows:
 \begin{enumerate}
   \item Start at the left endmarker \(L\) and immediately move right to read the first symbol; store it in the control.
-  \item Continue scanning to the right until the right endmarker \(R\) is reached.
+  \item Continue scanning right until the right endmarker \(R\) is reached.
   \item Upon reading \(R\), reverse direction (move left) and, in the process, skip any blank moves until the last symbol is reached.
   \item Compare the stored first symbol with the last symbol. If they are equal, move to the accept state \(t\); otherwise, move to the reject state \(r\).
 \end{enumerate}
-A possible (simplified) state diagram is as follows:
+A simplified state diagram illustrating this process is provided in Figure~\ref{fig:2dfa-example}.
+\end{example}
+
+\begin{observation}
+Although every \gls{2dfa} can be simulated by a one-way \gls{dfa}, such a simulation may require an exponential increase in the number of states.
+\end{observation}
+
+\paragraph{Operational Mechanics}
+The two-way motion enables the automaton to make multiple passes over the input, which is particularly useful for verifying properties that depend on both the prefix and the suffix of the input string.
+
+\paragraph{State Complexity and Conversion Algorithms}
+For some families of regular languages, \glspl{2dfa} can be exponentially more succinct than their one-way counterparts. Conversion algorithms—such as those proposed by Shepherdson and Kozen—use crossing sequences to simulate two-way behavior in a one-way \gls{dfa}, typically at the cost of exponential state blow-up.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Two-Way Nondeterministic Finite Automata (2NFA)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{\acrfull{2nfa}}
+\label{subsubsec:2nfa}
+
+\begin{definition}[Two-Way Nondeterministic Finite Automaton]
+A \gls{2nfa} is defined similarly to a \gls{2dfa} but with a nondeterministic transition function. Formally, a \gls{2nfa} is an 8-tuple
+\[
+M = (Q, \Sigma, L, R, \delta, s, t, r),
+\]
+where:
+\begin{itemize}
+    \item \(Q\) is a finite set of states,
+    \item \(\Sigma\) is a finite input alphabet,
+    \item \(L\) and \(R\) are the left and right endmarkers (with \(L,R\notin\Sigma\)),
+    \item \(\delta: Q \times (\Sigma \cup \{L,R\}) \to 2^{\,Q \times \{L,R\}}\) is the nondeterministic transition function,
+    \item \(s\in Q\) is the start state,
+    \item \(t\in Q\) is the unique accept state, and
+    \item \(r\in Q\) (with \(r\neq t\)) is the unique reject state.
+\end{itemize}
+The transition function obeys similar boundary conditions as in the \gls{2dfa} case.
+\end{definition}
+
+\begin{remark}
+The nondeterminism in a \gls{2nfa} allows it to "guess" important positions within the input and verify them via bidirectional traversal, which can lead to significant state savings compared to deterministic models.
+\end{remark}
+
+\begin{example}[Symmetry Check (Toy Version)]
+Consider the language 
+\[
+L_{sym} = \{ w \in \{0,1\}^* \mid \text{the first two symbols equal the last two symbols} \}.
+\]
+A high-level description of a \gls{2nfa} for \(L_{sym}\) is:
+\begin{enumerate}
+    \item Scan right from the left endmarker \(L\) while nondeterministically guessing the point where comparison will occur.
+    \item Upon reaching the right endmarker \(R\), reverse direction.
+    \item While moving left, nondeterministically check that the stored first two symbols match the corresponding symbols at the end.
+    \item If both comparisons succeed, transition to the accept state \(t\); otherwise, transition to the reject state \(r\).
+\end{enumerate}
+Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mechanism.
+\end{example}
+
+\begin{observation}
+\glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognize remains the same (i.e., the regular languages).
+\end{observation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Two-Way Probabilistic Finite Automata (2PFA)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{\acrfull{2pfa}}
+\label{subsubsec:2pfa}
+
+\begin{definition}[Two-Way Probabilistic Finite Automaton]
+A \gls{2pfa} is an 8-tuple
+\[
+M = (Q, \Sigma, L, R, \delta, s, t, r),
+\]
+where:
+\begin{itemize}
+    \item \(Q\) is a finite set of states,
+    \item \(\Sigma\) is a finite input alphabet,
+    \item \(L\) and \(R\) are the left and right endmarkers (with \(L,R \notin \Sigma\)),
+    \item \(\delta: Q \times (\Sigma \cup \{L,R\}) \to \mathbb{R}_{\ge 0}^{\,Q \times \{L,R\}}\) is a probabilistic transition function such that
+    \[
+    \sum_{(q',d)\in Q\times\{L,R\}} \delta(q,a,q',d) = 1 \quad \text{for all } q \in Q \text{ and } a \in \Sigma \cup \{L,R\},
+    \]
+    \item \(s\in Q\) is the start state,
+    \item \(t\in Q\) is the unique accept state, and
+    \item \(r\in Q\) (with \(r\neq t\)) is the unique reject state.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+A \gls{2pfa} extends the probabilistic finite automaton by allowing bidirectional head movement. Its transitions are governed by probability distributions, and acceptance is determined by whether the cumulative probability of reaching the accept state exceeds a predetermined cut-point.
+\end{remark}
+
+\begin{example}[Majority Language]
+Consider the language 
+\[
+L_{maj} = \{ w \in \{a,b\}^* \mid \#a(w) > \#b(w) \}.
+\]
+A \gls{2pfa} for \(L_{maj}\) operates by making probabilistic passes over the input, updating state probabilities, and eventually halting in the accept state \(t\) if the acceptance probability is high enough. Figure~\ref{fig:2pfa-example} provides a schematic illustration of such a machine.
+\end{example}
+
+\begin{theorem}[Rabin's Theorem for \glspl{pfa}]
+\label{thm:2pfa-rabin}
+A \gls{pfa} with an isolated cut-point recognizes exactly the class of regular languages. This result extends to \glspl{2pfa} under analogous conditions.
+\end{theorem}
+
+\begin{proposition}
+If a \gls{2pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognize languages beyond the regular class.
+\end{proposition}
+
+\begin{corollary}
+For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognized language is equivalent to that of a \gls{dfa}.
+\end{corollary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Comparative Analysis of Two-Way Models
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Comparative Analysis of Two-Way Models}
+\label{subsubsec:two-way-comparison}
+
+\begin{table}[h]
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+    \begin{tabular}{|l|c|c|c|c|l|}
+        \hline
+        \textbf{Model} & \textbf{Language Class} & \textbf{Time Complexity} & \textbf{Space Complexity} & \textbf{State Complexity} & \textbf{Key Reference} \\
+        \hline
+        \gls{2dfa}  & REG & \(O(n^2)\) & \(O(1)\) & May be exponentially smaller than 1DFA & \cite{hopcroft2006introduction} \\
+        \gls{2nfa}  & REG & \(O(n)\) & \(O(1)\) & Can be exponentially more succinct than 1DFA & \cite{yakaryilmaz2010succinctness} \\
+        \gls{2pfa}  & \( \mbox{REG} \subset L \subseteq \mbox{P} \) & \(O(n^3)\) & \(O(\log n)\) & Varies with error bounds & \cite{freivalds1981probabilistic} \\
+        \hline
+    \end{tabular}
+    \end{adjustbox}
+    \caption{Comparison of classical two-way automata models (using explicit endmarkers).}
+    \label{tab:two-way-comparison}
+\end{table}
+
+\begin{remark}
+The comparative analysis illustrates that while all two-way automata recognize only regular languages, the two-way models often achieve significant advantages in state complexity and, in some cases, time complexity, compared to their one-way counterparts.
+\end{remark}
 
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto]
@@ -60,62 +210,6 @@ A possible (simplified) state diagram is as follows:
     (q2) edge [bend right] node [swap] {if mismatch} (r);
 \end{tikzpicture}
 \end{center}
-
-(Here the transitions “compare” and “store” are implemented in the finite control; note that the full formal construction would encode the stored symbol as part of the state.)
-
-\paragraph{State Complexity Advantages and Conversion Algorithms}
-For some families of regular languages, two-way machines can be much more succinct than their one-way counterparts. In fact, there exist regular languages for which a 2DFA with \(O(n)\) states has an equivalent 1DFA requiring exponentially many states. (See, e.g., \cite{yakaryilmaz2010succinctness} for related discussions.) Note, however, that one must be careful when citing specific languages—languages like 
-\[
-L_{eq} = \{a^n b^n \mid n\ge0\}
-\]
-are not regular and hence are not recognized by any DFA, two-way or one-way.
-
-Several algorithms exist to convert a 2DFA into a 1DFA. Shepherdson's and Kozen's constructions use the notion of \emph{crossing sequences} or \emph{tables} that capture the information carried by the head when it moves across the boundary between portions of the input. Although these constructions are effective, they typically incur an exponential blow-up in the number of states.
-
-\paragraph{Summary}
-In summary, while two-way deterministic finite automata do not recognize more languages than one-way automata, they offer significant advantages in state complexity for certain regular languages and provide a natural framework for multi-pass verification of input properties. Algorithms for transforming a 2DFA into a 1DFA, though constructive, may lead to an exponential increase in the number of states.
-
-% You may include further details or additional examples if desired.
-
-\subsubsection{Two-Way Nondeterministic Finite Automata (2NFA)}
-\label{subsubsec:2nfa}
-
-A \emph{Two-Way Nondeterministic Finite Automaton (2NFA)} is defined similarly to the 2DFA but with a nondeterministic transition function. Formally, a 2NFA is an 8-tuple
-\[
-M = (Q, \Sigma, L, R, \delta, s, t, r),
-\]
-where
-\begin{itemize}
-    \item \(Q\) is a finite set of states,
-    \item \(\Sigma\) is a finite input alphabet,
-    \item \(L\) and \(R\) are the left and right endmarkers (with \(L,R\notin\Sigma\)),
-    \item \(\delta: Q \times (\Sigma \cup \{L,R\}) \to 2^{\,Q \times \{L,R\}}\) is the transition function,
-    \item \(s\in Q\) is the start state,
-    \item \(t\in Q\) is the unique accept state, and
-    \item \(r\in Q\) (with \(r\neq t\)) is the unique reject state.
-\end{itemize}
-The transition function is required to obey similar boundary conditions as for 2DFAs: when reading \(L\) the head must move right and when reading \(R\) it must move left; moreover, once the machine reaches \(t\) or \(r\) its state does not change.
-
-\paragraph{Key Advantages}
-\begin{enumerate}
-    \item \textbf{Exponential state savings}: For certain families of regular languages there exist 2NFAs that are exponentially more succinct than any equivalent one‐way DFA \cite{yakaryilmaz2010succinctness}. 
-    \item \textbf{Guess-and-verify paradigm}: Nondeterminism naturally enables the machine to \emph{guess} important positions (for example, a split point in the input) and then \emph{verify} the guess via bidirectional traversal.
-    \item \textbf{Enhanced succinctness via bidirectional motion}: Even though 2NFAs recognize only regular languages, the ability to re-read the input in both directions may yield machines with very few states compared to their one‐way counterparts.
-\end{enumerate}
-
-\paragraph{Example: Symmetry Check (Toy Version)}
-To illustrate the nondeterministic bidirectional strategy, consider a (toy) 2NFA for the regular language 
-\[
-L_{sym} = \{ w \in \{0,1\}^* \mid \mbox{the first two symbols equal the last two symbols} \}.
-\]
-A high-level description of a 2NFA for \(L_{sym}\) is as follows:
-\begin{enumerate}
-    \item In the initial phase the machine scans right from the left endmarker \(L\) and nondeterministically \emph{guesses} the point at which it will compare the first two symbols with the last two symbols.
-    \item On reading the right endmarker \(R\) it reverses direction.
-    \item While moving left, the machine nondeterministically \emph{checks} that the symbol it sees at the far left (recorded during the first phase) matches the corresponding symbol at the right.
-    \item If both comparisons succeed, the automaton enters the accept state \(t\); otherwise, it eventually transitions to the reject state \(r\).
-\end{enumerate}
-Figure~\ref{fig:2nfa-example} (adapted below) schematically illustrates such a mechanism. (Note that this diagram is a simplified illustration of the guess-and-check strategy rather than a complete formal construction.)
 
 \begin{figure}[h]
     \centering  
@@ -135,57 +229,6 @@ Figure~\ref{fig:2nfa-example} (adapted below) schematically illustrates such a m
     \label{fig:2nfa-example}
 \end{figure}
 
-\subsubsection{Two-Way Probabilistic Finite Automata (2PFA)}
-\label{subsubsec:2pfa}
-
-A \emph{Two-Way Probabilistic Finite Automaton (2PFA)} extends the classical probabilistic finite automaton (PFA) by allowing the input head to move both left and right. Formally, a 2PFA is an 8-tuple
-\[
-M = (Q, \Sigma, L, R, \delta, s, t, r),
-\]
-where the components \(Q, \Sigma, L, R, s, t,\) and \(r\) are as defined for 2DFAs. The transition function now is
-\[
-\delta: Q \times (\Sigma \cup \{L,R\}) \to \mathbb{R}_{\ge 0}^{\,Q \times \{L,R\}},
-\]
-and for every state \(q\) and symbol \(a\in\Sigma\cup\{L,R\}\) it satisfies
-\[
-\sum_{(q',d)\in Q\times\{L,R\}} \delta(q,a,q',d) = 1.
-\]
-In other words, \(\delta(q,a,q',d)\) is the probability of moving from state \(q\) to \(q'\) while moving in direction \(d\) upon reading \(a\).
-
-\paragraph{Computational Phases}
-A typical 2PFA operates in the following phases:
-\begin{enumerate}
-    \item \textbf{Initialization}: The automaton starts at the left endmarker \(L\) in state \(s\) with an initial probability distribution (typically, a point mass at \(s\)).
-    \item \textbf{Evolution}: The machine updates its state probabilistically according to the transition function \(\delta\) while moving its head bidirectionally.
-    \item \textbf{Measurement and Halting}: At any step the machine may enter the accept state \(t\) or the reject state \(r\); once one of these states is reached, the computation halts (with the head continuing in a fixed direction).
-    \item \textbf{Error Reduction}: Standard techniques (e.g., repeating the computation or amplitude amplification ideas) are used to achieve bounded-error probabilities.
-\end{enumerate}
-
-\paragraph{Recognition Capabilities}
-Some key features of 2PFAs include:
-\begin{itemize}
-    \item \textbf{Recognition of some nonregular languages}: Unlike deterministic models, 2PFAs with bounded error have been shown to recognize certain nonregular languages such as \( \{a^n b^n \mid n \ge 0\}\) in \(O(n^2)\) time \cite{freivalds1981probabilistic}.
-    \item \textbf{Space-Time Tradeoffs}: With \(O(\log n)\) space, certain 2PFAs can achieve polynomial time recognition of specific languages \cite{papadimitriou1994computational}.
-    \item \textbf{Language Examples}: Common examples include
-        \begin{itemize}
-            \item \(L_{maj} = \{ w \in \{a,b\}^* \mid \#a(w) > \#b(w) \}\), and
-            \item \(L_{eq} = \{a^n b^n \mid n \ge 0\}\) (recognized with bounded error).
-        \end{itemize}
-\end{itemize}
-
-\paragraph{Example: Majority Language}
-As an illustrative example, consider a 2PFA for the majority language
-\[
-L_{maj} = \{ w \in \{a,b\}^* \mid \#a(w) > \#b(w) \}.
-\]
-A high-level description is as follows:
-\begin{enumerate}
-    \item The automaton makes a probabilistic pass from left to right over the input (bounded by endmarkers), updating a probabilistic counter.
-    \item It then may reverse direction and perform additional sweeps to refine its decision.
-    \item After a sufficient number of passes, the machine halts in \(t\) with high probability if \(w\) belongs to \(L_{maj}\) (and in \(r\) otherwise).
-\end{enumerate}
-Figure~\ref{fig:2pfa-example} illustrates a schematic 2PFA with sample probabilistic transitions.
-
 \begin{figure}[h]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
@@ -201,35 +244,3 @@ Figure~\ref{fig:2pfa-example} illustrates a schematic 2PFA with sample probabili
     \caption{Schematic 2PFA for a majority language (with sample probabilistic transitions).}
     \label{fig:2pfa-example}
 \end{figure}
-
-\paragraph{Cut-Point Variations}
-The language recognized by a 2PFA may be defined in various ways:
-\begin{description}
-    \item[Isolated Cut-Point:] The automaton accepts if the probability is at least \(\lambda+\epsilon\) and rejects if at most \(\lambda-\epsilon\); in this case the recognized languages are exactly the regular languages \cite{rabin1963probabilistic}.
-    \item[Non-Isolated Cut-Point:] With \(\lambda=0\) the model may recognize languages beyond the regular class \cite{paz1971introduction}.
-    \item[Bounded Error:] If the error is bounded below \(1/2\), techniques similar to amplitude amplification can be applied \cite{nielsen2010quantum}.
-\end{description}
-
-\subsubsection{Comparative Analysis of Two-Way Models}
-\label{subsubsec:two-way-comparison}
-
-Table~\ref{tab:two-way-comparison} summarizes key computational parameters of classical two-way automata models. (Here “REG” denotes the class of regular languages.)
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|l|c|c|c|c|l|}
-        \hline
-        \textbf{Model} & \textbf{Language Class} & \textbf{Time Complexity} & \textbf{Space Complexity} & \textbf{State Complexity} & \textbf{Key Reference} \\
-        \hline
-        2DFA  & REG & \(O(n^2)\) & \(O(1)\) & May be exponentially smaller than 1DFA & \cite{hopcroft2006introduction} \\
-        2NFA  & REG & \(O(n)\) & \(O(1)\) & Can be exponentially more succinct than 1DFA & \cite{yakaryilmaz2010succinctness} \\
-        2PFA  & \( \mbox{REG} \subset L \subseteq \mbox{P} \) & \(O(n^3)\) & \(O(\log n)\) & Varies with error bounds & \cite{freivalds1981probabilistic} \\
-        \hline
-    \end{tabular}
-    \caption{Comparison of classical two-way automata models (using explicit endmarkers).}
-    \label{tab:two-way-comparison}
-\end{table}
-
-These classical models provide essential baselines for more advanced variants—such as two-way quantum finite automata (2QFA) and two-way quantum-classical automata (2QCFA) \cite{kondacs1997power}—demonstrating how bidirectional access can significantly reduce state complexity while maintaining strict space constraints.
-
-% References for the citations used in this section should be added to your bibliography.

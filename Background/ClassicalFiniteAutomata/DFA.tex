@@ -1,28 +1,42 @@
-\subsection{Deterministic Finite Automata (DFA)}
-\label{subsec:dfa} 
 
-As a specialization of the general finite automaton framework~\ref{def:finite-automaton} established in Section~\ref{subsec:shared-foundations}, a Deterministic Finite Automaton (DFA)\cite{hopcroft2006introduction} is formally defined as a quintuple \( M = (Q, \Sigma, \delta, q_0, F) \) where:
+\subsection{Deterministic Finite Automata (\gls{dfa})}
+\label{subsec:dfa}
+
+\begin{definition}[Deterministic Finite Automaton]
+A \gls{dfa} is a quintuple 
+\[
+M = (Q, \Sigma, \delta, q_0, F)
+\]
+where:
 \begin{itemize}
-    \item \( Q \): Finite set of states
-    \item \( \Sigma \): Finite input alphabet
-    \item \( \delta: Q \times \Sigma \rightarrow Q \): Total transition function
-    \item \( q_0 \in Q \): Unique initial state
-    \item \( F \subseteq Q \): Set of accepting states
+    \item \( Q \) is a finite set of states,
+    \item \( \Sigma \) is a finite input alphabet,
+    \item \( \delta: Q \times \Sigma \rightarrow Q \) is a total transition function,
+    \item \( q_0 \in Q \) is the unique initial state, and
+    \item \( F \subseteq Q \) is the set of accepting states.
 \end{itemize}
+\end{definition}
 
-\subsubsection{Language Recognition and Expressive Power}
-DFAs precisely characterize the class of regular languages (\(\mathsf{REG}\)) within the Chomsky hierarchy \cite{hopcroft2006introduction}. Key properties include:
+\begin{remark}
+A \gls{dfa} has the property that for every state \( q \in Q \) and every input symbol \( \sigma \in \Sigma \), there is exactly one transition defined, ensuring deterministic behavior.
+\end{remark}
 
-\begin{enumerate}
-    \item \textbf{Closure Properties}: Closed under union, intersection, complement, concatenation, and Kleene star \cite{myhill1957finite}.
-    \item \textbf{Limitations}: Cannot recognize non-regular languages like \( \{a^nb^n | n \geq 0\} \) (pumping lemma consequence) \cite{sipser2012introduction}.
-    \item \textbf{Equivalence}: All regular expressions have corresponding DFAs and vice versa (Kleene's theorem) \cite{kleene1956representation}.
-\end{enumerate}
+\begin{theorem}[Myhill-Nerode Theorem]
+\label{thm:myhill-nerode}
+A language \( L \subseteq \Sigma^* \) is regular if and only if the equivalence relation defined by 
+\[
+x \sim_L y \iff \forall z \in \Sigma^*,\, xz \in L \Longleftrightarrow yz \in L
+\]
+has finitely many equivalence classes. Consequently, every regular language has a unique minimal \gls{dfa} up to isomorphism.
+\end{theorem}
 
-The Myhill-Nerode theorem provides a canonical minimal DFA for any regular language, establishing state minimality criteria \cite{nerode1958linear}.
-
-\subsubsection{Graphical Representation}
-Consider the DFA in Figure~\ref{fig:dfa-example} recognizing strings with an even number of \texttt{0}s and \texttt{1}s. The automaton transitions between states based on input symbols, accepting strings that satisfy the parity constraints.
+\begin{example}
+Consider the language 
+\[
+L = \{ w \in \{0,1\}^* \mid \text{the number of \(0\)'s and \(1\)'s in \(w\) are both even} \}.
+\]
+Figure~\ref{fig:dfa-example} shows a \gls{dfa} recognizing \( L \).
+\end{example}
 
 \begin{figure}[h]
     \centering  
@@ -46,10 +60,6 @@ Consider the DFA in Figure~\ref{fig:dfa-example} recognizing strings with an eve
     \label{fig:dfa-example}
 \end{figure}
 
-\(
-L = \{ w \in \{0, 1\}^* \mid \text{the number of } 0\text{'s in } w \text{ is even and the number of } 1\text{'s in } w \text{ is even} \}
-\) is the language recognized by this DFA.
-
-The DFA is deterministic because for each state and input symbol (either \texttt{0} or \texttt{1}), there is exactly one transition defined. This ensures that from any given state, the next state is uniquely determined by the current input symbol, leaving no ambiguity in the automaton's behavior.
-
-The structure of the DFA ensures that it keeps track of the parity (even or odd) of the counts of \texttt{0}s and \texttt{1}s as it processes each input symbol, transitioning between states accordingly to accept only those strings that meet the specified criteria.
+\begin{observation}
+    Graphical representations (see Figure~\ref{fig:dfa-example}) provide an intuitive view of how the \gls{dfa} tracks the parity of \(0\)'s and \(1\)'s, reinforcing its deterministic nature.
+\end{observation}

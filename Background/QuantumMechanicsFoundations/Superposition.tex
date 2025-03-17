@@ -2,12 +2,23 @@
 \subsection{Superposition and Entanglement}
 \label{subsec:superposition}
 
-\textbf{Superposition} is the principle that a quantum state can exist as a linear combination of basis states. This underlies the quantum parallelism exploited by quantum algorithms. For example, applying the Hadamard gate \(H\) to \(|0\rangle\) creates a uniform superposition:
+\begin{definition}[Superposition]
+\emph{Superposition} is the principle that a quantum state may exist as a linear combination of basis states. This property enables quantum systems to be in multiple configurations simultaneously and is central to the power of quantum algorithms.
+\end{definition}
+
+\begin{example}[Hadamard Transformation]
+Applying the Hadamard gate \(H\) to the basis state \(|0\rangle\) creates a uniform superposition:
 \[
 H|0\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}}, \quad H|1\rangle = \frac{|0\rangle - |1\rangle}{\sqrt{2}}.
 \]
+\end{example}
 
-\textbf{Entanglement} is a uniquely quantum correlation between subsystems. An entangled state is one that cannot be factored into a product of individual states. The \textbf{Bell states} are classic examples of maximally entangled two-qubit states:
+\begin{definition}[Entanglement]
+\emph{Entanglement} is a uniquely quantum phenomenon where the state of a composite system cannot be expressed as a product of the states of its individual subsystems. In such cases, the measurement outcomes on one subsystem are intrinsically correlated with those on another.
+\end{definition}
+
+\begin{example}[Bell States]
+The \textbf{Bell states} are examples of maximally entangled two-qubit states:
 \[
 |\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}, \quad
 |\Phi^-\rangle = \frac{|00\rangle - |11\rangle}{\sqrt{2}},
@@ -16,14 +27,17 @@ H|0\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}}, \quad H|1\rangle = \frac{|0
 |\Psi^+\rangle = \frac{|01\rangle + |10\rangle}{\sqrt{2}}, \quad
 |\Psi^-\rangle = \frac{|01\rangle - |10\rangle}{\sqrt{2}}.
 \]
-Beyond Bell states, multipartite entangled states such as the Greenberger–Horne–Zeilinger (GHZ) state
-\[
-|\text{GHZ}\rangle = \frac{|000\rangle + |111\rangle}{\sqrt{2}}
-\]
-and the W state
-\[
-|W\rangle = \frac{|001\rangle + |010\rangle + |100\rangle}{\sqrt{3}}
-\]
-play critical roles in quantum communication and error correction.
+\end{example}
 
-Entanglement is essential for phenomena like quantum teleportation \cite{bennett1993teleporting}, superdense coding, and it contributes to the potential exponential speedup in algorithms such as Shor's factorization algorithm \cite{shor1999polynomial}.
+\begin{example}[Multipartite Entangled States]
+Important multipartite entangled states include the \gls{ghz} state and the W state:
+\[
+|\text{GHZ}\rangle = \frac{|000\rangle + |111\rangle}{\sqrt{2}}, \quad
+|W\rangle = \frac{|001\rangle + |010\rangle + |100\rangle}{\sqrt{3}}.
+\]
+These states are essential for applications in quantum communication and quantum error correction.
+\end{example}
+
+\begin{observation}
+Entanglement is the resource behind many quantum protocols such as quantum teleportation \cite{bennett1993teleporting} and superdense coding, and it plays a pivotal role in the computational speedup promised by algorithms like Shor's factorization algorithm \cite{shor1999polynomial}.
+\end{observation}

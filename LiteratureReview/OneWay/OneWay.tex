@@ -1,19 +1,19 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{One-way Quantum Finite Automata (QFAs)}
+\section{One-way Quantum Finite Automata (qfas)}
 \label{sec:one-way-qfas}
 
-One-way \gls{qfa} process the input tape in a single left-to-right pass. In this section, we review the standard models of one-way \gls{qfa}, including both the measure-once and measure-many variants, and we also describe a notable alternative model—the Latvian \gls{qfa} (LQFA). For each model we detail the formal definition, the operational mechanism, the class of languages accepted, and the inherent limitations.
+One-way \gls{qfa} process the input tape in a single left-to-right pass. In this section, we review the standard models of one-way \gls{qfa}, including both the measure-once and measure-many variants, and we also describe a notable alternative model—the Latvian \gls{qfa} (Lqfa). For each model we detail the formal definition, the operational mechanism, the class of languages accepted, and the inherent limitations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Standard Models}
 \label{subsec:standard-models}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{MO-1QFA (Measure-Once QFA)}
+\subsubsection{mo-1qfa (Measure-Once qfa)}
 \label{sssec:mo-1qfa}
-\begin{definition}[MO-1QFA]
-An \gls{moqfa} is defined as 
+\begin{definition}[mo-1qfa]
+An \gls{mo-1qfa} is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, F),
 \]
@@ -28,14 +28,14 @@ where:
 \end{definition}
 
 \textbf{Operation}:  
-An \gls{moqfa} reads an input word \( w = \sigma_1\sigma_2\cdots\sigma_n \) by applying, in sequence, the corresponding unitary operator for each symbol:
+An \gls{mo-1qfa} reads an input word \( w = \sigma_1\sigma_2\cdots\sigma_n \) by applying, in sequence, the corresponding unitary operator for each symbol:
 \[
 |\psi\rangle = U_{\sigma_n} \cdots U_{\sigma_1} |q_0\rangle.
 \]
 Only after processing the entire input (typically terminated by the end-marker) is a single projective measurement performed. The measurement projects \( |\psi\rangle \) onto the subspace spanned by \( F \); if the projection is nonzero, the input is accepted \cite{moore2000quantum,bertoni2001regular}.
 
 \paragraph{Language Acceptance:}  
-Due to the requirement that all transformations be unitary and the measurement occurs only once at the end, \gls{moqfa} are known to recognize exactly the reversible regular languages \cite{BrodskyPippenger2004,bertoni2001regular}. In practice, this means that they:
+Due to the requirement that all transformations be unitary and the measurement occurs only once at the end, \gls{mo-1qfa} are known to recognize exactly the reversible regular languages \cite{BrodskyPippenger2004,bertoni2001regular}. In practice, this means that they:
 \begin{itemize}
     \item \textbf{Accept}: Regular languages with a reversible structure (e.g., certain periodic languages or those with symmetrical state transitions).
     \item \textbf{Reject}: Non-reversible regular languages, many finite languages, and all non-regular languages such as 
@@ -47,15 +47,15 @@ Due to the requirement that all transformations be unitary and the measurement o
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
     \item \textbf{Simplicity:} The model’s single measurement at the end simplifies the analysis of its evolution.
-    \item \textbf{Efficiency:} Although \gls{moqfa} can be state-efficient, their expressive power is limited.
+    \item \textbf{Efficiency:} Although \gls{mo-1qfa} can be state-efficient, their expressive power is limited.
     \item \textbf{Limitations:} Their acceptance power is strictly contained within the class of regular languages; they cannot recognize languages that require multiple measurements or context-sensitive checks.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{MM-1QFA (Measure-Many QFA)}
+\subsubsection{mm-1qfa (Measure-Many qfa)}
 \label{sssec:mm-1qfa}
-\begin{definition}[MM-1QFA]
-An \gls{mmqfa} is defined as 
+\begin{definition}[mm-1qfa]
+An \gls{mm-1qfa} is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, Q_{acc}, Q_{rej}, Q_{non}),
 \]
@@ -75,14 +75,14 @@ where:
 \end{definition}
 
 \textbf{Operation}:  
-The \gls{mmqfa} processes the input word symbol by symbol. After each unitary transformation \( U_\sigma \), an intermediate measurement is performed using the observable defined by the orthogonal decomposition 
+The \gls{mm-1qfa} processes the input word symbol by symbol. After each unitary transformation \( U_\sigma \), an intermediate measurement is performed using the observable defined by the orthogonal decomposition 
 \[
 \mathcal{H}_{|Q|} = \mathrm{span}\{ |q\rangle : q \in Q_{acc} \} \oplus \mathrm{span}\{ |q\rangle : q \in Q_{rej} \} \oplus \mathrm{span}\{ |q\rangle : q \in Q_{non} \}.
 \]
 If the outcome falls in \( Q_{acc} \) or \( Q_{rej} \), the computation halts with acceptance or rejection, respectively; if the outcome is in \( Q_{non} \), the computation continues with the next symbol \cite{kondacs1997power,ambainis2009superiority}.
 
 \paragraph{Language Acceptance:}  
-\gls{mmqfa} have been shown to accept certain languages with bounded error that are not accepted by \gls{moqfa}. For instance:
+\gls{mm-1qfa} have been shown to accept certain languages with bounded error that are not accepted by \gls{mo-1qfa}. For instance:
 \begin{itemize}
     \item They can recognize some non-regular patterns such as the balanced language 
     \[
@@ -91,20 +91,20 @@ If the outcome falls in \( Q_{acc} \) or \( Q_{rej} \), the computation halts wi
     under bounded-error acceptance conditions, although this comes with restrictions on error bounds \cite{kondacs1997power}.
     \item They offer an exponential state advantage over classical \gls{dfa} for specific languages (e.g., modular languages \( L_{\text{mod}} = \{w \in \Sigma^* \mid |w| \equiv 0 \mod p\} \)) \cite{ambainis2009superiority}.
 \end{itemize}
-However, due to the reversibility imposed by unitarity and the intermediate measurement process, \gls{mmqfa} still cannot recognize all regular languages and are generally less powerful than their two-way counterparts.
+However, due to the reversibility imposed by unitarity and the intermediate measurement process, \gls{mm-1qfa} still cannot recognize all regular languages and are generally less powerful than their two-way counterparts.
 
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
-    \item \textbf{Intermediate Measurements:} Frequent measurements enable a finer control of state evolution, which can sometimes allow the recognition of languages beyond the reach of \gls{moqfa}.
-    \item \textbf{Space Efficiency:} In certain cases, \gls{mmqfa} achieve an exponential reduction in the number of states compared to classical automata.
+    \item \textbf{Intermediate Measurements:} Frequent measurements enable a finer control of state evolution, which can sometimes allow the recognition of languages beyond the reach of \gls{mo-1qfa}.
+    \item \textbf{Space Efficiency:} In certain cases, \gls{mm-1qfa} achieve an exponential reduction in the number of states compared to classical automata.
     \item \textbf{Limitations:} Despite these advantages, the model’s overall computational power is still strictly bounded by regularity constraints and is generally weaker than two-way quantum models.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{LQFA (Latvian QFA)}
+\subsubsection{Lqfa (Latvian qfa)}
 \label{sssec:lqfa}
-\begin{definition}[LQFA]
-A Latvian \gls{qfa} (LQFA) is defined as 
+\begin{definition}[Lqfa]
+A \gls{lqfa} is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, F),
 \]
@@ -119,10 +119,10 @@ where:
 \end{definition}
 
 \textbf{Operation}:  
-In an LQFA, each input symbol is processed in two stages. First, a unitary transformation corresponding to the symbol is applied. Then, a measurement is immediately performed, and the outcome determines whether the automaton halts (by entering an accepting state) or continues processing. This hybrid approach is designed to capture additional probabilistic behaviors without fully relinquishing unitarity \cite{ambainis2002quantum}.
+In an Lqfa, each input symbol is processed in two stages. First, a unitary transformation corresponding to the symbol is applied. Then, a measurement is immediately performed, and the outcome determines whether the automaton halts (by entering an accepting state) or continues processing. This hybrid approach is designed to capture additional probabilistic behaviors without fully relinquishing unitarity \cite{ambainis2002quantum}.
 
 \paragraph{Language Acceptance:}  
-The LQFA model typically recognizes a subset of the languages accepted by \gls{mmqfa}. More precisely:
+The Lqfa model typically recognizes a subset of the languages accepted by \gls{mm-1qfa}. More precisely:
 \begin{itemize}
     \item \textbf{Accepts:} Certain regular languages that have an inherent reversible structure. However, due to the immediate measurements, the model may only correctly recognize languages where the measurement outcomes consistently reinforce the desired computation.
     \item \textbf{Rejects:} Some simple regular languages (e.g., languages of the form \( a\Sigma^* \)) may not be accepted reliably if the measurement collapses the state in an undesired way.
@@ -131,17 +131,17 @@ The LQFA model typically recognizes a subset of the languages accepted by \gls{m
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
     \item \textbf{Measurement-Driven Dynamics:} The interleaving of unitary operations with measurements can lead to lower overall state complexity for specific tasks.
-    \item \textbf{Restricted Closure Properties:} The immediate measurement strategy results in a model that does not exhibit the same robust closure properties as \gls{mmqfa}.
-    \item \textbf{Expressive Power:} While LQFA can sometimes simulate \gls{mmqfa} behavior, their expressive power remains a proper subset of the languages accepted by more general one-way quantum automata.
+    \item \textbf{Restricted Closure Properties:} The immediate measurement strategy results in a model that does not exhibit the same robust closure properties as \gls{mm-1qfa}.
+    \item \textbf{Expressive Power:} While Lqfa can sometimes simulate \gls{mm-1qfa} behavior, their expressive power remains a proper subset of the languages accepted by more general one-way quantum automata.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Summary of One-Way QFA Standard Models}
+\subsection*{Summary of One-Way qfa Standard Models}
 Each of the standard one-way \gls{qfa} models discussed exhibits distinct advantages and limitations:
 \begin{itemize}
-    \item \textbf{\gls{moqfa}} perform a single measurement at the end of computation, resulting in a simple operational model that recognizes exactly the reversible regular languages.
-    \item \textbf{\gls{mmqfa}} incorporate intermediate measurements, enhancing their capability to recognize certain patterns and offering exponential state advantages in some cases, albeit still limited to a subset of regular languages.
-    \item \textbf{LQFA} blend unitary transformations with immediate measurements at each step, resulting in a model with unique probabilistic dynamics but with reduced closure properties.
+    \item \textbf{\gls{mo-1qfa}} perform a single measurement at the end of computation, resulting in a simple operational model that recognizes exactly the reversible regular languages.
+    \item \textbf{\gls{mm-1qfa}} incorporate intermediate measurements, enhancing their capability to recognize certain patterns and offering exponential state advantages in some cases, albeit still limited to a subset of regular languages.
+    \item \textbf{Lqfa} blend unitary transformations with immediate measurements at each step, resulting in a model with unique probabilistic dynamics but with reduced closure properties.
 \end{itemize}
 Overall, while one-way \gls{qfa} models can outperform classical automata in state efficiency for some languages, their language acceptance power remains restricted by the constraints imposed by unitarity and measurement. Advanced models, including hybrid and two-way variants, are required to overcome these limitations.
 
@@ -152,10 +152,10 @@ Overall, while one-way \gls{qfa} models can outperform classical automata in sta
 Hybrid models combine classical and quantum components to exploit the advantages of both paradigms. In these models, a classical control unit steers the application of quantum operations, thus enabling the recognition of a wide class of languages while potentially reducing state complexity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{1QFAC (One-Way QFA with Classical States)}
+\subsubsection{1qfac (One-Way qfa with Classical States)}
 \label{sssec:1qfac}
-\begin{definition}[1QFAC]
-A one-way QFA with classical states (\gls{1qfac}) is defined as 
+\begin{definition}[1qfac]
+A one-way qfa with classical states (\gls{1qfac}) is defined as 
 \[
 M = (S, Q, \Sigma, \delta, \mu, s_0, q_0, F),
 \]
@@ -185,10 +185,10 @@ Due to the classical control, \gls{1qfac} can recognize all regular languages. I
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{CL-1QFA (Control Language QFA)}
+\subsubsection{CL-1qfa (Control Language qfa)}
 \label{sssec:cl-1qfa}
-\begin{definition}[CL-1QFA]
-A Control Language QFA (\gls{cl-1qfa}) is defined as 
+\begin{definition}[CL-1qfa]
+A Control Language qfa (\gls{cl-1qfa}) is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, \mathcal{L}),
 \]
@@ -216,22 +216,22 @@ In a \gls{cl-1qfa}, the automaton processes the input by applying the correspond
 \end{itemize}
 
 \subsection*{Summary of Hybrid Models}
-The hybrid models (1QFAC and CL-1QFA) combine classical control with quantum operations:
+The hybrid models (1qfaC and CL-1qfa) combine classical control with quantum operations:
 \begin{itemize}
-    \item \textbf{1QFAC} use a classical control unit to direct quantum state transformations, enabling recognition of all regular languages with potential exponential succinctness.
-    \item \textbf{CL-1QFA} incorporate a control language that constrains measurement outcomes, ensuring Boolean closure and bounded-error recognition of regular languages.
+    \item \textbf{1qfaC} use a classical control unit to direct quantum state transformations, enabling recognition of all regular languages with potential exponential succinctness.
+    \item \textbf{CL-1qfa} incorporate a control language that constrains measurement outcomes, ensuring Boolean closure and bounded-error recognition of regular languages.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Enhanced Models}
 \label{subsec:enhanced-models}
 
-Enhanced models extend the capabilities of standard QFA by permitting more general quantum operations. Such models allow non-unitary evolution, intermediate measurements, and the use of ancillary qubits, thereby capturing a wider range of quantum effects.
+Enhanced models extend the capabilities of standard qfa by permitting more general quantum operations. Such models allow non-unitary evolution, intermediate measurements, and the use of ancillary qubits, thereby capturing a wider range of quantum effects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{EQFA (Enhanced QFA)}
+\subsubsection{Eqfa (Enhanced qfa)}
 \label{sssec:eqfa}
-\begin{definition}[EQFA]
+\begin{definition}[Eqfa]
 An enhanced quantum finite automaton (\gls{eqfa}) is defined as 
 \[
 M = (\Sigma, Q, \{U_\sigma\}_{\sigma\in\Gamma}, Q_{\text{acc}}, Q_{\text{rej}}, Q_{\text{non}}, q_0),
@@ -247,10 +247,10 @@ where:
 \end{definition}
 
 \textbf{Operation}:  
-An \gls{eqfa} applies, for each input symbol, the corresponding superoperator \( U_\sigma \) followed by a measurement in the basis corresponding to the partition of \( Q \). Unlike standard QFA, measurements can occur at intermediate steps and need not be projective onto strictly unitary subspaces. This flexible framework allows the automaton to simulate irreversible operations and model decoherence effects \cite{paschen2000quantum}.
+An \gls{eqfa} applies, for each input symbol, the corresponding superoperator \( U_\sigma \) followed by a measurement in the basis corresponding to the partition of \( Q \). Unlike standard qfa, measurements can occur at intermediate steps and need not be projective onto strictly unitary subspaces. This flexible framework allows the automaton to simulate irreversible operations and model decoherence effects \cite{paschen2000quantum}.
 
 \paragraph{Language Acceptance:}  
-EQFA can simulate classical finite automata and, under unbounded error, can even recognize certain non-regular languages \cite{nayak1999optimal}. Their expressive power is enhanced by the ability to incorporate non-unitary processes; however, this comes at the expense of increased complexity in error analysis.
+Eqfa can simulate classical finite automata and, under unbounded error, can even recognize certain non-regular languages \cite{nayak1999optimal}. Their expressive power is enhanced by the ability to incorporate non-unitary processes; however, this comes at the expense of increased complexity in error analysis.
 
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
@@ -260,9 +260,9 @@ EQFA can simulate classical finite automata and, under unbounded error, can even
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{OT-QFA (Open-Time Evolution QFA)}
+\subsubsection{OT-qfa (Open-Time Evolution qfa)}
 \label{sssec:ot-qfa}
-\begin{definition}[OT-QFA]
+\begin{definition}[OT-qfa]
 A quantum finite automaton with open time evolution (\gls{otqfa}) is defined as 
 \[
 M = (\Sigma, Q, \delta, q_0, F),
@@ -282,23 +282,23 @@ For an input \( w = \sigma_1\sigma_2\cdots\sigma_n \), the state evolves as
 \[
 \rho' = \delta(\sigma_n) \circ \cdots \circ \delta(\sigma_1) \, (|q_0\rangle\langle q_0|).
 \]
-Acceptance is determined by the projection of \( \rho' \) onto the subspace spanned by \( F \). This model captures the effects of noise and decoherence in realistic quantum systems, thereby unifying various one-way QFA models under a common framework \cite{hirvensalo2012quantum}.
+Acceptance is determined by the projection of \( \rho' \) onto the subspace spanned by \( F \). This model captures the effects of noise and decoherence in realistic quantum systems, thereby unifying various one-way qfa models under a common framework \cite{hirvensalo2012quantum}.
 
 \paragraph{Language Acceptance:}  
-OT-QFA are capable of recognizing all regular languages and, under certain conditions, even some non-regular languages. However, the open-system dynamics may lead to undecidability issues in certain decision problems.
+OT-qfa are capable of recognizing all regular languages and, under certain conditions, even some non-regular languages. However, the open-system dynamics may lead to undecidability issues in certain decision problems.
 
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
     \item \textbf{Realism:} Models the effects of noise and decoherence inherent in physical quantum systems.
-    \item \textbf{Unification:} Provides a general framework that encompasses several one-way QFA models.
+    \item \textbf{Unification:} Provides a general framework that encompasses several one-way qfa models.
     \item \textbf{Undecidability:} Some decision problems become undecidable due to the non-unitary, open-system dynamics.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{A-QFA (Ancilla-Based QFA)}
+\subsubsection{A-qfa (Ancilla-Based qfa)}
 \label{sssec:a-qfa}
-\begin{definition}[A-QFA]
-An ancilla-based QFA (\gls{a-qfa}) extends the standard MO-1QFA model by incorporating ancillary qubits. It is defined as 
+\begin{definition}[A-qfa]
+An ancilla-based qfa (\gls{a-qfa}) extends the standard mo-1qfa model by incorporating ancillary qubits. It is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, F),
 \]
@@ -313,34 +313,34 @@ allowing the automaton to simulate additional quantum resources or classical non
 In an \gls{a-qfa}, the evolution involves both the primary quantum state and the ancillary qubits. The unitary operator \(\delta\) acts on the composite space, facilitating interference between the main system and the ancilla. At the end of the computation, a global measurement is performed on \(\mathcal{H}_{\text{total}}\) to decide acceptance based on whether the resulting state projects onto the subspace corresponding to \( F \).
 
 \paragraph{Language Acceptance:}  
-Ancilla-based QFA can simulate all regular languages with improved efficiency. Moreover, in some configurations, they are capable of recognizing non-regular languages with one-sided error, thus offering a trade-off between resource usage and recognition power.
+Ancilla-based qfa can simulate all regular languages with improved efficiency. Moreover, in some configurations, they are capable of recognizing non-regular languages with one-sided error, thus offering a trade-off between resource usage and recognition power.
 
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
-    \item \textbf{Enhanced Expressiveness:} The use of ancilla qubits extends the computational capabilities beyond those of standard MO-1QFA.
+    \item \textbf{Enhanced Expressiveness:} The use of ancilla qubits extends the computational capabilities beyond those of standard mo-1qfa.
     \item \textbf{Succinctness:} Can achieve exponential savings in state complexity for certain languages.
     \item \textbf{Resource Overhead:} The need to manage additional ancillary qubits increases the complexity of both the physical implementation and the theoretical analysis.
 \end{itemize}
 
 \subsection*{Summary of Enhanced Models}
-Enhanced models extend the standard QFA framework by allowing non-unitary evolution and additional quantum resources:
+Enhanced models extend the standard qfa framework by allowing non-unitary evolution and additional quantum resources:
 \begin{itemize}
-    \item \textbf{EQFA} support intermediate measurements and non-unitary transitions, thereby simulating classical automata and—under unbounded error—recognizing some non-regular languages.
-    \item \textbf{OT-QFA} model open-system dynamics via CPTP maps, capturing realistic decoherence while recognizing all regular languages (and some non-regular languages under specific conditions).
-    \item \textbf{A-QFA} incorporate ancillary qubits to expand the computational Hilbert space, offering improved state succinctness and extended recognition capabilities.
+    \item \textbf{Eqfa} support intermediate measurements and non-unitary transitions, thereby simulating classical automata and—under unbounded error—recognizing some non-regular languages.
+    \item \textbf{OT-qfa} model open-system dynamics via CPTP maps, capturing realistic decoherence while recognizing all regular languages (and some non-regular languages under specific conditions).
+    \item \textbf{A-qfa} incorporate ancillary qubits to expand the computational Hilbert space, offering improved state succinctness and extended recognition capabilities.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Advanced Variants}
 \label{subsec:advanced-variants}
 
-Advanced QFA variants extend the capabilities of one-way and two-way QFA models by incorporating restricted bidirectional motion or by processing multiple symbols simultaneously. These models bridge the gap between the expressive power of strictly one-way QFA and full two-way QFA, often achieving enhanced recognition capabilities with bounded error while retaining some of the simplicity of one-way motion.
+Advanced qfa variants extend the capabilities of one-way and two-way qfa models by incorporating restricted bidirectional motion or by processing multiple symbols simultaneously. These models bridge the gap between the expressive power of strictly one-way qfa and full two-way qfa, often achieving enhanced recognition capabilities with bounded error while retaining some of the simplicity of one-way motion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{1.5QFA (One-and-a-Half Way QFA)}
+\subsubsection{1.5qfa (One-and-a-Half Way qfa)}
 \label{sssec:1.5qfa}
-\begin{definition}[1.5QFA]
-A 1.5-way QFA is defined as 
+\begin{definition}[1.5qfa]
+A 1.5-way qfa is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, F),
 \]
@@ -355,16 +355,16 @@ where:
 \end{definition}
 
 \textbf{Operation}:  
-The automaton processes the input from left to right. Unlike standard one-way QFA, a 1.5QFA is allowed limited backward (leftward) motion or to remain stationary on a symbol, thereby providing a restricted form of bidirectional scanning. This extra flexibility enables more refined control over state transitions and can improve recognition of certain non-regular patterns under bounded error \cite{kondacs1997power}.
+The automaton processes the input from left to right. Unlike standard one-way qfa, a 1.5qfa is allowed limited backward (leftward) motion or to remain stationary on a symbol, thereby providing a restricted form of bidirectional scanning. This extra flexibility enables more refined control over state transitions and can improve recognition of certain non-regular patterns under bounded error \cite{kondacs1997power}.
 
 \paragraph{Language Acceptance:}  
-A 1.5QFA accepts languages with bounded error probability. The model’s restricted bidirectional motion enables it to recognize some non-regular languages that are beyond the reach of strictly one-way QFA, although its overall recognition power remains below that of full two-way QFA models.
+A 1.5qfa accepts languages with bounded error probability. The model’s restricted bidirectional motion enables it to recognize some non-regular languages that are beyond the reach of strictly one-way qfa, although its overall recognition power remains below that of full two-way qfa models.
 
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
     \item \textbf{Key Features:}
     \begin{itemize}
-        \item Enhanced computational power relative to strictly one-way QFA.
+        \item Enhanced computational power relative to strictly one-way qfa.
         \item Ability to recognize certain non-regular languages under bounded error conditions.
         \item Improved flexibility in managing state transitions via limited backward or stationary moves.
     \end{itemize}
@@ -376,10 +376,10 @@ A 1.5QFA accepts languages with bounded error probability. The model’s restric
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{ML-QFA (Multi-Letter QFA)}
+\subsubsection{ML-qfa (Multi-Letter qfa)}
 \label{sssec:ml-qfa}
-\begin{definition}[ML-QFA]
-An ML-QFA processes the input in blocks of \( k \) symbols and is defined as 
+\begin{definition}[ML-qfa]
+An ML-qfa processes the input in blocks of \( k \) symbols and is defined as 
 \[
 M = (Q, \Sigma, \delta, q_0, F),
 \]
@@ -394,10 +394,10 @@ where:
 \end{definition}
 
 \textbf{Operation}:  
-The ML-QFA partitions the input into consecutive blocks of \( k \) symbols. For each block, it applies a unitary operator corresponding to the entire \( k \)-letter substring. This block-wise (or parallel) processing allows the automaton to capture dependencies over longer segments of the input, thereby simulating a form of multi-head or parallel processing \cite{belovs2007multi}.
+The ML-qfa partitions the input into consecutive blocks of \( k \) symbols. For each block, it applies a unitary operator corresponding to the entire \( k \)-letter substring. This block-wise (or parallel) processing allows the automaton to capture dependencies over longer segments of the input, thereby simulating a form of multi-head or parallel processing \cite{belovs2007multi}.
 
 \paragraph{Language Acceptance:}  
-ML-QFA accept languages by processing multiple symbols simultaneously. This capability enables them to recognize some complex patterns, including certain context-sensitive languages, under bounded error. However, the approach comes at the cost of an exponential increase in state complexity with respect to the block size \( k \).
+ML-qfa accept languages by processing multiple symbols simultaneously. This capability enables them to recognize some complex patterns, including certain context-sensitive languages, under bounded error. However, the approach comes at the cost of an exponential increase in state complexity with respect to the block size \( k \).
 
 \paragraph{Key Features and Limitations:}
 \begin{itemize}
@@ -405,7 +405,7 @@ ML-QFA accept languages by processing multiple symbols simultaneously. This capa
     \begin{itemize}
         \item Simulates multi-head or parallel processing by handling blocks of symbols.
         \item Enhanced ability to capture long-range dependencies in the input.
-        \item Potential to recognize more complex language classes compared to single-letter QFA.
+        \item Potential to recognize more complex language classes compared to single-letter qfa.
     \end{itemize}
     \item \textbf{Limitations:}
     \begin{itemize}
@@ -416,16 +416,16 @@ ML-QFA accept languages by processing multiple symbols simultaneously. This capa
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Summary of Advanced Variants}
-The advanced QFA variants discussed above offer distinct trade-offs:
+The advanced qfa variants discussed above offer distinct trade-offs:
 \begin{itemize}
-    \item \textbf{1.5QFA} extend the traditional one-way model by incorporating restricted bidirectional motion, which improves recognition of some non-regular languages under bounded error.
-    \item \textbf{ML-QFA} process input in blocks, simulating a parallel processing model that can capture more complex patterns, though with increased state complexity.
+    \item \textbf{1.5qfa} extend the traditional one-way model by incorporating restricted bidirectional motion, which improves recognition of some non-regular languages under bounded error.
+    \item \textbf{ML-qfa} process input in blocks, simulating a parallel processing model that can capture more complex patterns, though with increased state complexity.
 \end{itemize}
-Overall, these advanced variants bridge the gap between the simplicity of one-way QFA and the expressive power of full two-way QFA, while introducing additional challenges in terms of implementation and computational overhead.
+Overall, these advanced variants bridge the gap between the simplicity of one-way qfa and the expressive power of full two-way qfa, while introducing additional challenges in terms of implementation and computational overhead.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Detailed Hierarchy of One-Way QFA Models}
+\subsection*{Detailed Hierarchy of One-Way qfa Models}
 \label{subsec:hierarchy-diagram}
 
 \begin{figure}[ht]
@@ -435,44 +435,44 @@ Overall, these advanced variants bridge the gap between the simplicity of one-wa
         every node/.style={draw, rectangle, align=center, minimum width=2.8cm, minimum height=0.9cm, font=\small}]
     
         % Level 1: Standard Models
-        \node (MO1) {MO-1QFA};
-        \node (MM1) [above left=of MO1, xshift=-0.5cm] {MM-1QFA};
-        \node (LQFA) [above right=of MO1, xshift=0.5cm] {LQFA};
+        \node (mo1) {mo-1qfa};
+        \node (mm1) [above left=of mo1, xshift=-0.5cm] {mm-1qfa};
+        \node (Lqfa) [above right=of mo1, xshift=0.5cm] {Lqfa};
         
         % Level 2: Hybrid Models
-        \node (QFAC) [above left=of MM1, xshift=-0.5cm] {1QFAC};
-        \node (CL1) [above right=of LQFA, xshift=0.5cm] {CL-1QFA};
+        \node (qfaC) [above left=of mm1, xshift=-0.5cm] {1qfaC};
+        \node (CL1) [above right=of Lqfa, xshift=0.5cm] {CL-1qfa};
         
         % Level 3: Enhanced Models
-        \node (EQFA) [above left=of QFAC, xshift=-0.5cm] {EQFA};
-        \node (OTQFA) [above=of QFAC] {OT-QFA};
-        \node (AQFA) [above right=of CL1, xshift=0.5cm] {A-QFA};
+        \node (Eqfa) [above left=of qfaC, xshift=-0.5cm] {Eqfa};
+        \node (OTqfa) [above=of qfaC] {OT-qfa};
+        \node (Aqfa) [above right=of CL1, xshift=0.5cm] {A-qfa};
         
         % Level 4: Advanced Variants
-        \node (OneHalf) [above left=of EQFA, xshift=-0.5cm] {1.5QFA};
-        \node (MLQFA) [above right=of OTQFA, xshift=0.5cm] {ML-QFA};
+        \node (OneHalf) [above left=of Eqfa, xshift=-0.5cm] {1.5qfa};
+        \node (MLqfa) [above right=of OTqfa, xshift=0.5cm] {ML-qfa};
         
         % Vertical arrows (increasing expressive power)
-        \draw[->] (MO1) -- (MM1);
-        \draw[->] (MO1) -- (LQFA);
-        \draw[->] (MM1) -- (QFAC);
-        \draw[->] (LQFA) -- (CL1);
-        \draw[->] (QFAC) -- (EQFA);
-        \draw[->] (QFAC) -- (OTQFA);
-        \draw[->] (CL1) -- (AQFA);
-        \draw[->] (EQFA) -- (OneHalf);
-        \draw[->] (OTQFA) -- (MLQFA);
-        \draw[->] (AQFA) -- (MLQFA);
+        \draw[->] (mo1) -- (mm1);
+        \draw[->] (mo1) -- (Lqfa);
+        \draw[->] (mm1) -- (qfaC);
+        \draw[->] (Lqfa) -- (CL1);
+        \draw[->] (qfaC) -- (Eqfa);
+        \draw[->] (qfaC) -- (OTqfa);
+        \draw[->] (CL1) -- (Aqfa);
+        \draw[->] (Eqfa) -- (OneHalf);
+        \draw[->] (OTqfa) -- (MLqfa);
+        \draw[->] (Aqfa) -- (MLqfa);
         
         % Horizontal arrows indicating comparable expressive power
-        \draw[<->] (MM1) -- (LQFA) node[midway, fill=white] {comparable};
-        \draw[<->] (QFAC) -- (CL1) node[midway, fill=white] {comparable};
-        \draw[<->] (EQFA) -- (OTQFA) node[midway, fill=white] {comparable};
-        \draw[<->] (OTQFA) -- (AQFA) node[midway, fill=white] {comparable};
-        \draw[<->] (OneHalf) -- (MLQFA) node[midway, fill=white] {advanced};
+        \draw[<->] (mm1) -- (Lqfa) node[midway, fill=white] {comparable};
+        \draw[<->] (qfaC) -- (CL1) node[midway, fill=white] {comparable};
+        \draw[<->] (Eqfa) -- (OTqfa) node[midway, fill=white] {comparable};
+        \draw[<->] (OTqfa) -- (Aqfa) node[midway, fill=white] {comparable};
+        \draw[<->] (OneHalf) -- (MLqfa) node[midway, fill=white] {advanced};
     \end{tikzpicture}
     }
-    \caption{Detailed hierarchy of one-way QFA models by expressive power. Vertical arrows indicate a strict increase in expressive power from lower to higher levels, while horizontal arrows denote models with comparable expressive capabilities.}
+    \caption{Detailed hierarchy of one-way qfa models by expressive power. Vertical arrows indicate a strict increase in expressive power from lower to higher levels, while horizontal arrows denote models with comparable expressive capabilities.}
     \label{fig:one-way-detailed-hierarchy}
     \end{figure}
     
