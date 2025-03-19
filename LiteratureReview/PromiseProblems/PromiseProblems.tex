@@ -1,0 +1,126 @@
+\section{Promise Problem Solvers}
+\label{sec:promise-qfa}
+
+This section examines quantum automata designed for language recognition under precise error constraints, focusing on exact and bounded-error models.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\acrfull{exact-qfa}}
+\label{subsec:exact-qfa}
+
+\begin{definition}[\gls{exact-qfa}]
+An exact quantum finite automaton is defined as:
+\[
+M = (Q, \Sigma, \{\mathcal{U}_\sigma\}, q_0, Q_{acc}, Q_{rej})
+\]
+\textbf{where:}
+\begin{itemize}
+    \item $\mathcal{U}_\sigma \in \mathbb{C}^{|Q| \times |Q|}$: Unitary transition matrices
+    \item $Q_{acc} \cup Q_{rej} \subseteq Q$: Partitioned outcome states
+    \item $Q_{acc} \cap Q_{rej} = \emptyset$
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{Unitary Evolution:} For input $w = \sigma_1...\sigma_n$:
+    \[
+    \ket{\psi_w} = \mathcal{U}_{\sigma_n} \cdots \mathcal{U}_{\sigma_1} \ket{q_0}
+    \]
+    \item \textbf{Exact Measurement:} Project onto $Q_{acc}$ and $Q_{rej}$ subspaces
+    \item \textbf{Zero Error:} $\text{supp}(\psi_w) \subseteq Q_{acc} \cup Q_{rej}$ for all $w$ \cite{nayak1999optimal}
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+Solves \textbf{promise problems} with strict separation:
+\[
+L = \{w \in \Sigma^* \mid \|\Pi_{acc}\ket{\psi_w}\|^2 = 1\}
+\]
+\[
+\overline{L} = \{w \in \Sigma^* \mid \|\Pi_{rej}\ket{\psi_w}\|^2 = 1\}
+\]
+including the EVENODD$_k$ problem for any $k \in \mathbb{N}$.
+
+\paragraph{Advantages:}
+\begin{itemize}
+    \item Perfect completeness/soundness ($\epsilon = 0$)
+    \item Exponential state advantage over classical exact automata
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item Only recognizes languages with trivial automorphism groups
+    \item Requires precise initialization of quantum states
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\acrfull{beqfa}}
+\label{subsec:beqfa}
+
+\begin{definition}[\gls{beqfa}]
+A bounded-error quantum finite automaton is defined as:
+\[
+M = (Q, \Sigma, \delta, q_0, \epsilon, \{\mathcal{M}_\sigma\})
+\]
+\textbf{where:}
+\begin{itemize}
+    \item $\mathcal{M}_\sigma$: Quantum operations with $\|\mathcal{M}_\sigma\| \leq 1$
+    \item $\epsilon < \frac{1}{2}$: Error bound
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{Amplitude Amplification:} Applies Grover-like iterations:
+    \[
+    \mathcal{M}_\sigma = -U_\sigma S_0 U_\sigma^\dagger S_\chi
+    \]
+    where $S_0, S_\chi$ are phase oracles
+    \item \textbf{Bounded Distinction:} Maintains:
+    \[
+    |\bra{\psi_w}Q_{acc}\ket{\psi_w} - \chi_L(w)| \leq \epsilon \quad \forall w
+    \]
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+Recognizes \textbf{modular languages} with:
+\[
+\text{Pr}[M \text{ accepts } w] = \cos^2\left(\frac{\pi |w|_a}{p}\right) \pm \epsilon
+\]
+for prime $p$, solving MOD$_p$ problems \cite{ambainis2002quantum}.
+
+\paragraph{Advantages:}
+\begin{itemize}
+    \item Tolerates implementation inaccuracies
+    \item Recognizes non-promise languages through thresholding
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item Error rate depends on input structure ($\epsilon \propto 1/\sqrt{n}$)
+    \item Fails on languages requiring perfect interference
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Comparative Analysis and Hierarchy}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=2.5cm]
+\node (exact) [draw, align=center] {\gls{exact-qfa}\\ Zero Error};
+\node (bounded) [draw, right=of exact, align=center] {\gls{beqfa}\\ Bounded Error};
+
+\draw[->] (exact) edge node[above, align=center] {+ Error Tolerance\\ + Language Coverage} (bounded);
+\end{tikzpicture}
+\caption{Relationship between promise problem solvers. Bounded-error models subsume exact recognition with relaxed constraints.}
+\label{fig:promise-hierarchy}
+\end{figure}
+
+\textbf{Key Comparisons:}
+\begin{itemize}
+    \item \textbf{Error Tradeoff:} Exact-QFA (0 error) vs Bounded-QFA ($\epsilon < 1/2$)
+    \item \textbf{Language Classes:} 
+    \begin{itemize}
+        \item Exact: EVENODD$_k$, $L_{pal}^{exact}$
+        \item Bounded: MOD$_p$, $L_{threshold}$
+    \end{itemize}
+    \item \textbf{Complexity:} Exact-QFA requires $O(\log p)$ states vs $O(1)$ for bounded
+\end{itemize}

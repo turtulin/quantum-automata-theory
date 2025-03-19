@@ -1,91 +1,171 @@
 \section{Interactive Quantum Automata}
 \label{sec:interactive-quantum}
 
-Interactive quantum automata integrate communication between a resource-limited quantum verifier and an (often unbounded) prover. These models extend standard \gls{qfa} by introducing interactive protocols where the verifier and prover exchange quantum messages over multiple rounds.
+Interactive quantum automata extend the capabilities of standard \glspl{qfa} through verifier-prover protocols, enabling recognition of language classes beyond classical interactive proofs. This section details three key models with increasing expressive power.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\gls{qip} Systems}
-\label{sssec:qip}
-\begin{definition}[\gls{qip} System]
-A \gls{qip} system consists of a polynomial-time quantum verifier \( V \) and an unbounded quantum prover \( P \) who exchange messages via a quantum channel. The verifier is typically modeled as a \gls{qfa} with limited memory. A system with \( k \) rounds of interaction is denoted as \(\text{QIP}(k)\) \cite{nishimura2009application, zheng2015power}.
-\end{definition}
+\subsection{\acrfull{qip} with 1QFA Verifier}
+\label{subsec:qip1qfa}
 
-\textbf{Operation}:  
-The verifier processes an input \( w \) by alternating between local quantum operations and rounds of communication with the prover. The overall transition is governed by a function
+\begin{definition}[\gls{qip1qfa}]
+A quantum interactive proof system with 1QFA verifier is defined as:
 \[
-\delta: Q \times \Sigma \times \Gamma \to \mathbb{C}^{\, Q \times Q},
+M = (V_{1QFA}, P, \Sigma, \delta_V, \delta_P, k)
 \]
-where \( \Gamma \) is the communication alphabet. After the prescribed rounds of interaction, the verifier performs a measurement on its final state to decide acceptance.
-
-\paragraph{Language Acceptance:}  
-A QIP system accepts an input \( w \) if the verifier’s final measurement yields an accepting outcome with probability exceeding a specified threshold (typically above \( \frac{1}{2} \)), thereby ensuring bounded-error recognition of the language.
-
-\paragraph{Key Features and Limitations:}
+\textbf{where:}
 \begin{itemize}
-    \item \textbf{Key Features:}
-    \begin{itemize}
-        \item \gls{qip} systems have been shown to be equivalent in power to PSPACE in the classical setting.
-        \item \gls{qfa}-based verifiers (e.g., using \gls{2qfa}) can recognize languages beyond the regular class with bounded error.
-    \end{itemize}
-    \item \textbf{Limitations:}
-    \begin{itemize}
-        \item Precise control of quantum communication channels is required.
-        \item The verifier’s state complexity may scale with the input for more complex languages.
-    \end{itemize}
+    \item $V_{1QFA} = (Q, \Sigma, \delta, q_0, Q_{acc})$ is a measure-many 1QFA
+    \item $P$ is an unbounded quantum prover
+    \item $k$: Number of interaction rounds
+    \item $\delta_V: Q \times \Sigma \rightarrow \mathcal{U}(Q)$: Verifier's unitary transitions
+    \item $\delta_P: \mathcal{H}_P \rightarrow \mathcal{H}_P$: Prover's strategy
 \end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\gls{qmip} Systems}
-\label{sssec:qmip}
-\begin{definition}[\gls{qmip} System]
-    \gls{qmip} systems extend QIP by involving multiple non-communicating provers. Formally, a QMIP system with \( k \) provers is denoted as \(\text{QMIP}(k)\). In these systems, the verifier receives quantum witness states from each prover and performs a quantum verification procedure \cite{scegulnaja2010postselection, yamakami2014constant}.
 \end{definition}
 
-\textbf{Operation}:  
-The verifier, typically modeled as a \gls{2qfa}-based machine, receives quantum witness states from the provers and processes them using a quantum circuit. A final measurement is performed on the verifier’s state to decide acceptance. The provers do not communicate with each other, and the verification process is non-adaptive.
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{Initialization:} Verifier prepares initial state $\ket{q_0}$
+    \item \textbf{Input Processing:} For each symbol $\sigma_i$:
+    \begin{itemize}
+        \item Verifier applies $U_{\sigma_i} = \delta_V(q, \sigma_i)$
+        \item Exchanges quantum messages with prover via EPR pairs
+    \end{itemize}
+    \item \textbf{Final Measurement:} Projective measurement on $Q_{acc}$
+\end{enumerate}
 
-\paragraph{Language Acceptance:}  
-A QMIP system accepts an input if the combined verification procedure yields an accepting outcome with probability above a predetermined threshold, thereby ensuring bounded-error recognition of the target language.
+\paragraph{Language Acceptance:}
+Recognizes \textbf{regular languages} with perfect completeness and soundness $\epsilon < 1/2$ \cite{nishimura2009application}. Specifically:
+\[
+L(M) = \{w \in \Sigma^* \mid \text{Pr}[V_{1QFA} \text{ accepts } w] \geq 2/3\}
+\]
 
-\paragraph{Key Features and Limitations:}
+\paragraph{Advantages:}
 \begin{itemize}
-    \item \textbf{Key Features:}
-    \begin{itemize}
-        \item QMIP systems capture complexity classes such as MIP\(^*\) and are strictly more powerful than single-prover QIP systems.
-        \item They can recognize languages (e.g., the palindrome language \( L_{\text{pal}} = \{ww^R \mid w \in \{0,1\}^*\} \)) with exponential state savings compared to classical multiprover interactive proofs.
-    \end{itemize}
-    \item \textbf{Limitations:}
-    \begin{itemize}
-        \item Managing entanglement among multiple provers complicates the verification process.
-        \item Practical implementations are highly sensitive to noise and decoherence.
-    \end{itemize}
+    \item Exponential speedup for regular language recognition vs classical IP
+    \item Maintains 1QFA's space efficiency ($O(\log n)$ qubits)
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item Cannot recognize non-regular languages
+    \item Requires perfect quantum channel between verifier-prover
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Summary of Interactive Quantum Automata Models}
-The interactive quantum automata models discussed above demonstrate the following trade-offs:
+\subsection{\acrfull{qip} with 2QFA Verifier}
+\label{subsec:qip2qfa}
+
+\begin{definition}[\gls{qip2qfa}]
+A quantum interactive proof system with 2QFA verifier extends the model:
+\[
+M = (V_{2QFA}, P, \Sigma, \delta_V, \delta_P, k, \Gamma)
+\]
+\textbf{where:}
 \begin{itemize}
-    \item \textbf{\gls{qip} Systems:}  
-    \begin{itemize}
-        \item Employ a single prover with a polynomial-time quantum verifier.
-        \item Are capable of recognizing languages with bounded error, leveraging quantum communication.
-    \end{itemize}
-    \item \textbf{\gls{qmip} Systems:}  
-    \begin{itemize}
-        \item Extend QIP by using multiple non-communicating provers.
-        \item Offer enhanced verification power, capturing complexity classes such as MIP\(^*\), at the cost of increased complexity in managing entanglement and communication.
-    \end{itemize}
+    \item $V_{2QFA}$ adds tape head movements $\{\leftarrow, \rightarrow, \downarrow\}$
+    \item $\Gamma$: Additional work tape for intermediate calculations
+    \item $\delta_V: Q \times \Sigma \times \Gamma \rightarrow Q \times \Gamma \times \{\leftarrow, \rightarrow, \downarrow\}$
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{Bidirectional Scanning:} Verifier makes multiple passes over input
+    \item \textbf{Entanglement Generation:} Creates GHZ states with prover during reverse moves
+    \item \textbf{Interactive Phase:} Prover supplies witness states through quantum teleportation
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+Recognizes \textbf{non-context-free languages} including:
+\[
+L = \{a^nb^nc^n \mid n \geq 0\} \quad \text{and} \quad L_{pal} = \{ww^R \mid w \in \Sigma^*\}
+\]
+with bounded error $\epsilon = 1/3$ \cite{zheng2015power}.
+
+\paragraph{Advantages:}
+\begin{itemize}
+    \item Solves PSPACE-complete problems with polynomial-time verifier
+    \item Exponential improvement over classical interactive proofs for certain languages
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item Quantum memory scales with input size ($O(n)$ qubits)
+    \item High decoherence risk during bidirectional motion
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Graphical Comparison of Interactive Quantum Automata Models}
-\begin{figure}[ht]
+\subsection{\acrfull{qmip} with 2QCFA Verifier}
+\label{subsec:qmip2qcfa}
+
+\begin{definition}[\gls{qmip2qcfa}]
+A multi-prover quantum interactive proof system with 2QCFA verifier is defined as:
+\[
+M = (V_{2QCFA}, \{P_i\}_{i=1}^k, \Sigma, \delta_{cl}, \delta_{qu}, \{\delta_{P_i}\}, \mathcal{M})
+\]
+\textbf{where:}
+\begin{itemize}
+    \item $V_{2QCFA} = (S, Q, \Sigma, \Theta, s_0, q_0)$ combines:
+    \begin{itemize}
+        \item Classical states $S$
+        \item Quantum states $Q$
+        \item Transition function $\Theta: S \times \Sigma \rightarrow \mathcal{U}(Q)$
+    \end{itemize}
+    \item $k$ non-communicating provers $\{P_i\}$
+    \item Joint measurement $\mathcal{M}$ using Bell basis
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{Classical Coordination:} Verifier uses $S$ to synchronize:
+    \begin{itemize}
+        \item Head movements on multiple tapes
+        \item Timing of quantum operations
+    \end{itemize}
+    \item \textbf{Entangled Queries:} Verifier sends $k$-partite entangled states to provers
+    \item \textbf{Consistency Check:} Verifier verifies provers' responses using stabilizer measurements
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+Recognizes \textbf{recursively enumerable languages} including:
+\[
+L_{primes} = \{n \in \mathbb{N} \mid n \text{ is prime}\}
+\]
+with completeness 1 and soundness $\epsilon < 1/2^k$ \cite{shor1999polynomial}.
+
+\paragraph{Advantages:}
+\begin{itemize}
+    \item Unconditional security against provers via no-cloning theorem
+    \item Recognizes undecidable languages in the limit $k \rightarrow \infty$
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item Experimental implementation requires fault-tolerant quantum networks
+    \item Verifier complexity grows as $O(k^2)$
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Comparative Analysis and Hierarchy}
+\begin{figure}[h]
 \centering
-\begin{tikzpicture}[node distance=2.5cm, auto, every node/.style={draw, rectangle, align=center, minimum width=3.0cm, minimum height=1cm, font=\small}]
-    \node (QIP) {QIP\\(Single-Prover)};
-    \node (QMIP) [right=of QIP] {QMIP\\(Multi-Prover)};
-    \draw[->, thick] (QIP) -- (QMIP) node[midway, above] {Extension};
+\begin{tikzpicture}[node distance=2cm]
+\node (qip1) [draw, align=center] {\gls{qip1qfa}\\ Regular Langs};
+\node (qip2) [draw, right=of qip1, align=center] {\gls{qip2qfa}\\ Non-CFLs};
+\node (qmip) [draw, right=of qip2, align=center] {\gls{qmip2qcfa}\\ RE Langs};
+
+\draw[->] (qip1) edge node[above, align=center] {+ Bidirectional\\ + Entanglement} (qip2)
+          (qip2) edge node[above, align=center] {+ Multiple Provers\\ + Classical Control} (qmip);
 \end{tikzpicture}
-\caption{Graphical comparison of interactive quantum automata models. QMIP systems extend QIP systems by incorporating multiple non-communicating provers, thereby enhancing verification power.}
+
+\caption{Expressive hierarchy of interactive quantum automata. Arrows indicate added capabilities.}
 \label{fig:interactive-hierarchy}
 \end{figure}
+
+\textbf{Key Comparisons:}
+\begin{itemize}
+    \item \textbf{Space Complexity:} QIP(1QFA): $O(\log n)$, QIP(2QFA): $O(n)$, QMIP(2QCFA): $O(1)$ quantum + $O(n)$ classical
+    \item \textbf{Error Bounds:} All models achieve $\epsilon < 1/3$ through parallel repetition
+    \item \textbf{Practicality:} QIP(1QFA) most implementable, QMIP(2QCFA) requires major hardware advances
+\end{itemize}

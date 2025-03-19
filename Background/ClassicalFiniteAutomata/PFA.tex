@@ -28,7 +28,7 @@ In a \gls{pfa}, transitions are probabilistic. The acceptance of an input string
 \end{remark}
 
 \begin{example}
-Figure~\ref{fig:pfa-example} illustrates a \gls{pfa} that recognizes the language 
+Figure~\ref{fig:pfa-example} illustrates a \gls{pfa} that recognises the language 
 \[
 L_{\text{maj}} = \{ w \in \{a,b\}^* \mid |w|_a > |w|_b \},
 \]
@@ -37,15 +37,15 @@ where the acceptance probability is at least \( \frac{2}{3} \).
 
 \begin{theorem}[Rabin's Theorem for \glspl{pfa}]
 \label{thm:rabin}
-A \gls{pfa} with an isolated cut-point recognizes exactly the class of regular languages.
+A \gls{pfa} with an isolated cut-point recognises exactly the class of regular languages.
 \end{theorem}
 
 \begin{proposition}
-If a \gls{pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognize languages beyond the regular class, including some context-sensitive languages.
+If a \gls{pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognise languages beyond the regular class, including some context-sensitive languages.
 \end{proposition}
 
 \begin{corollary}
-For a \gls{pfa} with a strict cut-point (\(\lambda = 1\)), the recognized language is equivalent to that of a \gls{dfa}.
+For a \gls{pfa} with a strict cut-point (\(\lambda = 1\)), the recognised language is equivalent to that of a \gls{dfa}.
 \end{corollary}
 
 \begin{observation}

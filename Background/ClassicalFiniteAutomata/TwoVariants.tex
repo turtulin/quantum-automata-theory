@@ -5,7 +5,7 @@
 \subsection{Two-Way Finite Automata Variants}
 \label{subsec:two-way-variants}
 
-Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages (both one‐way and two‐way automata recognize exactly the regular languages), two‐way models can be exponentially more succinct than one‐way models and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
+Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages (both one‐way and two‐way automata recognise exactly the regular languages), two‐way models can be exponentially more succinct than one‐way models and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Two-Way Deterministic Finite Automata (2DFA)
@@ -111,7 +111,7 @@ Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mec
 \end{example}
 
 \begin{observation}
-\glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognize remains the same (i.e., the regular languages).
+\glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognise remains the same (i.e., the regular languages).
 \end{observation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -155,15 +155,15 @@ A \gls{2pfa} for \(L_{maj}\) operates by making probabilistic passes over the in
 
 \begin{theorem}[Rabin's Theorem for \glspl{pfa}]
 \label{thm:2pfa-rabin}
-A \gls{pfa} with an isolated cut-point recognizes exactly the class of regular languages. This result extends to \glspl{2pfa} under analogous conditions.
+A \gls{pfa} with an isolated cut-point recognises exactly the class of regular languages. This result extends to \glspl{2pfa} under analogous conditions.
 \end{theorem}
 
 \begin{proposition}
-If a \gls{2pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognize languages beyond the regular class.
+If a \gls{2pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognise languages beyond the regular class.
 \end{proposition}
 
 \begin{corollary}
-For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognized language is equivalent to that of a \gls{dfa}.
+For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognised language is equivalent to that of a \gls{dfa}.
 \end{corollary}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -191,7 +191,7 @@ For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognized langu
 \end{table}
 
 \begin{remark}
-The comparative analysis illustrates that while all two-way automata recognize only regular languages, the two-way models often achieve significant advantages in state complexity and, in some cases, time complexity, compared to their one-way counterparts.
+The comparative analysis illustrates that while all two-way automata recognise only regular languages, the two-way models often achieve significant advantages in state complexity and, in some cases, time complexity, compared to their one-way counterparts.
 \end{remark}
 
 \begin{center}

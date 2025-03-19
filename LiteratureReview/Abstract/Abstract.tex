@@ -1,0 +1,165 @@
+\section{Abstract and Algebraic Quantum Finite Automata}
+\label{sec:abstract-qfa}
+
+This section explores quantum automata models defined through algebraic structures and abstract mathematical frameworks, providing foundational insights into quantum computational paradigms.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\acrfull{abstract-qfa} (Manin's Framework)}
+\label{subsec:abstract-qfa}
+
+\begin{definition}[\gls{abstract-qfa}]
+An abstract quantum automaton is defined as:
+\[
+\mathcal{A} = (\mathcal{H}, \Sigma, \{\mathcal{I}_\sigma\}, \ket{\psi_0}, \mathcal{P})
+\]
+\textbf{where:}
+\begin{itemize}
+    \item $\mathcal{H}$: Hilbert space of quantum states
+    \item $\Sigma$: Input alphabet
+    \item $\mathcal{I}_\sigma: \mathcal{H} \rightarrow \mathcal{H}$: Isometric operators for each $\sigma \in \Sigma$
+    \item $\ket{\psi_0} \in \mathcal{H}$: Initial state
+    \item $\mathcal{P} = \{P_a, P_r\}$: Projection operators for acceptance/rejection
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{State Evolution:} For input $w = \sigma_1...\sigma_n$:
+    \[
+    \ket{\psi_w} = \mathcal{I}_{\sigma_n} \circ \cdots \circ \mathcal{I}_{\sigma_1} (\ket{\psi_0})
+    \]
+    \item \textbf{Measurement:} Apply projective measurement $\mathcal{P}$
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+Recognizes \textbf{all languages in BQP} through polynomial-time simulations of concrete QFA models \cite{moore2000quantum}. Specifically:
+\[
+L(\mathcal{A}) = \{w \in \Sigma^* \mid \|P_a\ket{\psi_w}\|^2 \geq 2/3\}
+\]
+
+\paragraph{Advantages:}
+\begin{itemize}
+    \item Provides categorical framework for unifying all QFA variants
+    \item Enables complexity analysis via operator algebra methods
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item No direct physical implementation scheme
+    \item Undecidable equivalence problem for isometric operators
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\acrfull{olva}}
+\label{subsec:olva}
+
+\begin{definition}[\gls{olva}]
+An orthomodular lattice-valued automaton is defined as:
+\[
+M = (L, \Sigma, \delta, l_0, F)
+\]
+\textbf{where:}
+\begin{itemize}
+    \item $L$: Orthomodular lattice modeling quantum logic
+    \item $\delta: L \times \Sigma \rightarrow L$: Transition function preserving lattice operations
+    \item $l_0 \in L$: Initial element
+    \item $F \subseteq L$: Accepting elements
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{State Transitions:} For input $\sigma$:
+    \[
+    l_{i+1} = \delta(l_i, \sigma) \land (l_i \lor \neg l_i)
+    \]
+    \item \textbf{Acceptance:} Check $l_n \in F$ using lattice order
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+Recognizes \textbf{quantum decision languages} closed under:
+\[
+L = \{w \mid \bigvee_{i=1}^n (p_i(w) \land \neg q_i(w)) \in F\}
+\]
+where $p_i,q_i$ are lattice-valued predicates \cite{moore2000quantum}.
+
+\paragraph{Advantages:}
+\begin{itemize}
+    \item Models quantum superposition through lattice joins
+    \item Captures contextuality via non-distributive lattices
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item NP-hard membership problem for general lattices
+    \item Limited to propositional quantum logics
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\acrfull{mpsqfa}}
+\label{subsec:mpsqfa}
+
+\begin{definition}[\gls{mpsqfa}]
+A matrix product state automaton is defined as:
+\[
+M = (\Sigma, \{A_\sigma\}, \ket{\psi_0}, \bra{\psi_F}, D)
+\]
+\textbf{where:}
+\begin{itemize}
+    \item $A_\sigma \in \mathbb{C}^{D \times D}$: Transition matrices for $\sigma \in \Sigma$
+    \item $\ket{\psi_0} \in \mathbb{C}^D$: Initial MPS
+    \item $\bra{\psi_F} \in \mathbb{C}^D$: Final measurement vector
+    \item $D$: Bond dimension
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{Input Processing:} For $w = \sigma_1...\sigma_n$:
+    \[
+    \alpha(w) = \bra{\psi_F} A_{\sigma_n} \cdots A_{\sigma_1} \ket{\psi_0}
+    \]
+    \item \textbf{Acceptance:} $w$ accepted iff $|\alpha(w)|^2 \geq \theta$
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+Simulates \textbf{1D quantum spin systems} recognizing languages with:
+\[
+L = \{w \in \Sigma^n \mid \text{tr}\left(\bigotimes_{i=1}^n A_{w_i}\right) \neq 0\}
+\]
+for nearest-neighbor Hamiltonians \cite{bertoni2001quantum}.
+
+\paragraph{Advantages:}
+\begin{itemize}
+    \item Efficient simulation of quantum many-body systems
+    \item Polynomial-time training via density matrix renormalization
+\end{itemize}
+
+\paragraph{Limitations:}
+\begin{itemize}
+    \item Restricted to 1D entanglement structures
+    \item Bond dimension $D$ grows exponentially with language complexity
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Comparative Analysis and Hierarchy}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=2.2cm]
+\node (mps) [draw, align=center] {\gls{mpsqfa}\\ 1D Spin Systems};
+\node (ol) [draw, right=of mps, align=center] {\gls{olva}\\ Quantum Logics};
+\node (abs) [draw, right=of ol, align=center] {\gls{abstract-qfa}\\ BQP Class};
+
+\draw[->] (mps) edge node[above, align=center] {+ Algebraic Structure\\ + Entanglement} (ol)
+          (ol) edge node[above, align=center] {+ Categorical Framework\\ + Universal Models} (abs);
+\end{tikzpicture}
+\caption{Expressive hierarchy of abstract/algebraic QFAs. Arrows indicate increasing mathematical generality.}
+\label{fig:abstract-hierarchy}
+\end{figure}
+
+\textbf{Key Comparisons:}
+\begin{itemize}
+    \item \textbf{Expressiveness:} MPSQFA $\subset$ OLVA $\subset$ AbstractQFA
+    \item \textbf{Complexity:} MPSQFA (P), OLVA (NP), AbstractQFA (BQP)
+    \item \textbf{Implementation:} MPSQFA physically realizable, AbstractQFA purely theoretical
+\end{itemize}
