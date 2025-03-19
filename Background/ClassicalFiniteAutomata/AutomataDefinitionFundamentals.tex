@@ -1,0 +1,77 @@
+\subsection{\acrshort{cfa} Definition Fundamentals}
+\label{subsec:automata-definition-fundamentals}
+All automata share several core structural components that provide the basis for their computational behavior \cite{hopcroft2006introduction, chomsky1956three}.
+
+\begin{definition}[\acrfull{cfa}]
+\label{def:finite-automaton}
+A \textit{finite automaton} is a computational model that processes input symbols to recognize languages. Formally, a finite automaton $M$ is a quintuple $(Q, \Sigma, \delta, q_0, F)$, where:
+\begin{itemize}
+    \item \textbf{States ($Q$)}: A finite set of configurations representing the progress of computation \cite{hopcroft2006introduction}.
+    \item \textbf{Input Alphabet ($\Sigma$)}: A finite set of symbols that the automaton processes \cite{hopcroft2006introduction}.
+    \item \textbf{Transition Function ($\delta$)}: A function that governs state changes based on input. For deterministic models, $\delta: Q \times \Sigma \to Q$ (i.e., a \gls{dfa}); for nondeterministic models, $\delta: Q \times \Sigma \to 2^Q$ (i.e., an \gls{nfa}) \cite{chomsky1956three, hopcroft2006introduction}.
+    \item \textbf{Initial State ($q_0 \in Q$)}: The starting configuration of the automaton \cite{hopcroft2006introduction}.
+    \item \textbf{Accept States ($F \subseteq Q$)}: A subset of states that, when reached, indicate successful recognition of an input string \cite{hopcroft2006introduction}.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+The quintuple $(Q, \Sigma, \delta, q_0, F)$ is a standard representation that facilitates uniform analysis across different classes of automata.
+\end{remark}
+
+\begin{example}
+The \gls{dfa} in Figure~\ref{fig:cfa-example} is defined by:
+\begin{itemize}
+    \item $Q = \{q_0, q_1\}$,
+    \item $\Sigma = \{0, 1\}$,
+    \item Transitions such as $\delta(q_0, 1) = q_1$ and $\delta(q_1, 0) = q_1$ \textit{(partial specification)},
+    \item $F = \{q_0\}$, indicating that the automaton accepts strings with an even number of 1s.
+\end{itemize}
+\end{example}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=2.5cm,
+                        semithick, every state/.style={minimum size=0.8cm}]
+        % States
+        \node[state, initial, accepting] (q0) {$q_0$};
+        \node[state] (q1) [right=of q0] {$q_1$};
+        
+        % Transitions
+        \path 
+            (q0) edge [loop above] node {$0$} (q0)
+                 edge [bend left=15] node {$1$} (q1)
+            (q1) edge [loop above] node {$0$} (q1)
+                 edge [bend left=15] node {$1$} (q0);
+    \end{tikzpicture}
+    \caption{DFA example recognizing strings with even number of 1s}
+    \label{fig:cfa-example}
+\end{figure}
+
+\begin{observation}
+Graphical representations—using states, transitions, and designated initial/accept states—provide an intuitive understanding of automata behavior that complements the formal definitions.
+\end{observation}
+
+Graphical notation typically includes:
+\begin{itemize}
+    \item \textbf{States}: Represented by circles labeled with $q_i$.
+    \item \textbf{Initial state}: Indicated by an incoming arrow (e.g., pointing to $q_0$).
+    \item \textbf{Accept states}: Denoted by double circles (e.g., $q_1$ in Figure~\ref{fig:cfa-example}).
+    \item \textbf{Transitions}: Illustrated by directed edges with labels representing input symbols.
+\end{itemize}
+
+\begin{table}[htbp]
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+      \begin{tabular}{@{}lllll@{}}
+          \toprule
+          \textbf{Automaton} & \textbf{State Memory} & \textbf{Transition Type} & \textbf{Acceptance Condition} \\ \midrule
+          \gls{dfa} & None & Deterministic & Final state membership \cite{hopcroft2006introduction} \\
+          \gls{nfa} & None & Nondeterministic & Existence of an accepting path \cite{hopcroft2006introduction} \\
+          \gls{pda} & Stack & Deterministic/Nondeterministic & Final state and empty stack \cite{chomsky1956three} \\
+          \gls{tm} & Tape & Deterministic & Halting in an accept state \cite{turing1936computable} \\
+          \bottomrule
+      \end{tabular}
+    \end{adjustbox}
+    \caption{Automata representation variations}
+    \label{tab:automata-variations}
+\end{table}

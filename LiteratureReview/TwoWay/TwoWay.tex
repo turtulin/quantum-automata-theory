@@ -1,7 +1,7 @@
-\section{Two-way Quantum Finite Automata (QFAs)}
+\section{\acrfull{2qfa}}
 \label{sec:two-way-qfas}
 
-Two-way QFAs extend one-way models by permitting bidirectional head movement, thereby enhancing their computational power. In two-way QFA models the head may move left, right, or remain stationary, which allows the automaton to exploit quantum interference over multiple passes of the input. In the following subsections, we detail the standard models, hybrid variants, and multihead/tape extensions. For each model, we provide a formal definition, describe its operation, discuss language acceptance properties, and list key features and limitations.
+\glspl{2qfa} extend one-way models by permitting bidirectional head movement, thereby enhancing their computational power. In \gls{2qfa} models the head may move left, right, or remain stationary, which allows the automaton to exploit quantum interference over multiple passes of the input. In the following subsections, we detail the standard models, hybrid variants, and multihead/tape extensions. For each model, we provide a formal definition, describe its operation, discuss language acceptance properties, and list key features and limitations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Standard Models}
@@ -28,7 +28,7 @@ where:
 Given an input \( w = \sigma_1\sigma_2\ldots\sigma_n \), the automaton repeatedly applies the corresponding unitary operators while moving its head left, right, or remaining stationary as dictated by \(\delta\). Intermediate measurements (or deferred measurement techniques) are employed so that quantum interference can be exploited across multiple passes of the input.
 
 \paragraph{Language Acceptance:}  
-A 2QFA is capable of accepting non-regular languages with bounded error. For example, it has been shown that the language 
+A \gls{2qfa} is capable of accepting non-regular languages with bounded error. For example, it has been shown that the language 
 \[
 L_{\text{eq}} = \{a^n b^n \mid n \geq 0\}
 \]
@@ -177,15 +177,15 @@ kTQCFA are designed to accept languages with intricate interdependencies that be
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Summary of Two-Way QFA Models}
+\subsection*{Summary of \glspl{2qfa} Models}
 \begin{itemize}
-    \item \textbf{Standard 2QFA}: Allow unrestricted bidirectional head movement with full quantum control. They can recognize non-regular languages such as \( L_{\text{eq}} \) with bounded error, though they require quantum registers that scale with the input.
-    \item \textbf{Hybrid 2QCFA}: Combine classical control with a small quantum register. These automata recognize non-regular languages (e.g., \( L_{\text{eq}} \) and palindromes) in polynomial time while using only a constant number of quantum states.
-    \item \textbf{Multihead/Tape Extensions (2TQCFA and kTQCFA)}: Extend the two-way model to multiple tapes, enhancing recognition power for languages with complex structural dependencies at the cost of increased synchronization and error-correction complexity.
+    \item \textbf{Standard \gls{2qfa}}: Allow unrestricted bidirectional head movement with full quantum control. They can recognize non-regular languages such as \( L_{\text{eq}} \) with bounded error, though they require quantum registers that scale with the input.
+    \item \textbf{Hybrid \gls{2qcfa}}: Combine classical control with a small quantum register. These automata recognize non-regular languages (e.g., \( L_{\text{eq}} \) and palindromes) in polynomial time while using only a constant number of quantum states.
+    \item \textbf{Multihead/Tape Extensions (\gls{2tqcfa} and \gls{ktqcfa})}: Extend the two-way model to multiple tapes, enhancing recognition power for languages with complex structural dependencies at the cost of increased synchronization and error-correction complexity.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Detailed Hierarchy of Two-Way QFA Models}
+\subsection*{Detailed Hierarchy of \glspl{2qfa} Models}
 \label{subsec:two-way-hierarchy}
 
 \begin{figure}[ht]
@@ -213,6 +213,6 @@ kTQCFA are designed to accept languages with intricate interdependencies that be
     \draw[<->] (2TQCFA) -- (kTQCFA) node[midway, fill=white] {generalization};
 \end{tikzpicture}
 }
-\caption{Detailed hierarchy of two-way QFA models by expressive power. Vertical arrows indicate an increase in expressive power from standard to hybrid and then to multi-tape extensions, while the horizontal arrow denotes that kTQCFA generalize 2TQCFA.}
+\caption{Detailed hierarchy of \gls{2qfa} models by expressive power. Vertical arrows indicate an increase in expressive power from standard to hybrid and then to multi-tape extensions, while the horizontal arrow denotes that kTQCFA generalize 2TQCFA.}
 \label{fig:two-way-detailed-hierarchy}
 \end{figure}

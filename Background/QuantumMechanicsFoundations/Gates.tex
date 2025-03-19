@@ -44,23 +44,10 @@ Figure~\ref{fig:deutsch_circuit} shows a quantum circuit used in the Deutsch-Joz
 
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}[node distance=1.8cm, auto]
-    \node (in1) at (0,0) {};
-    \node (in2) at (0,-1) {};
-    \node[draw, rectangle] (H1) at (1,0) {$H$};
-    \node[draw, rectangle] (H2) at (1,-1) {$H$};
-    \node[draw, rectangle] (Uf) at (3, -0.5) {\(U_f\)};
-    \node[draw, rectangle] (H3) at (5,0) {$H$};
-    \node[draw, rectangle] (H4) at (5,-1) {$H$};
-    \draw[->] (in1) -- (H1);
-    \draw[->] (in2) -- (H2);
-    \draw[->] (H1) -- (Uf);
-    \draw[->] (H2) -- (Uf);
-    \draw[->] (Uf) -- (H3);
-    \draw[->] (Uf) -- (H4);
-    \draw[->] (H3) -- ++(1,0) node[right] {Output};
-    \draw[->] (H4) -- ++(1,0) node[right] {Output};
-\end{tikzpicture}
+\begin{quantikz}
+    \lstick{$\ket{0}^{\otimes n}$} & \gate{H} \qwbundle{n} & \gate{U_f} \qwbundle{n+1} & \gate{H} \qwbundle{n} & \meter{} \qwbundle{n} \\
+    \lstick{$\ket{0}$} & \gate{X} & \gate{H} & \qw & \qw \\
+    \end{quantikz}
 \caption{Quantum circuit for the Deutsch-Jozsa algorithm.}
 \label{fig:deutsch_circuit}
 \end{figure}

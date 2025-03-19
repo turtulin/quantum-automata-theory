@@ -1,13 +1,13 @@
 \section{Interactive Quantum Automata}
 \label{sec:interactive-quantum}
 
-Interactive quantum automata integrate communication between a resource-limited quantum verifier and an (often unbounded) prover. These models extend standard QFA by introducing interactive protocols where the verifier and prover exchange quantum messages over multiple rounds.
+Interactive quantum automata integrate communication between a resource-limited quantum verifier and an (often unbounded) prover. These models extend standard \gls{qfa} by introducing interactive protocols where the verifier and prover exchange quantum messages over multiple rounds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\gls{qip} Systems}
 \label{sssec:qip}
 \begin{definition}[\gls{qip} System]
-A \gls{qip} system consists of a polynomial-time quantum verifier \( V \) and an unbounded quantum prover \( P \) who exchange messages via a quantum channel. The verifier is typically modeled as a QFA with limited memory. A system with \( k \) rounds of interaction is denoted as \(\text{QIP}(k)\) \cite{nishimura2009application, zheng2015power}.
+A \gls{qip} system consists of a polynomial-time quantum verifier \( V \) and an unbounded quantum prover \( P \) who exchange messages via a quantum channel. The verifier is typically modeled as a \gls{qfa} with limited memory. A system with \( k \) rounds of interaction is denoted as \(\text{QIP}(k)\) \cite{nishimura2009application, zheng2015power}.
 \end{definition}
 
 \textbf{Operation}:  
@@ -25,7 +25,7 @@ A QIP system accepts an input \( w \) if the verifier’s final measurement yiel
     \item \textbf{Key Features:}
     \begin{itemize}
         \item \gls{qip} systems have been shown to be equivalent in power to PSPACE in the classical setting.
-        \item QFA-based verifiers (e.g., using 2QFA) can recognize languages beyond the regular class with bounded error.
+        \item \gls{qfa}-based verifiers (e.g., using \gls{2qfa}) can recognize languages beyond the regular class with bounded error.
     \end{itemize}
     \item \textbf{Limitations:}
     \begin{itemize}
@@ -42,7 +42,7 @@ A QIP system accepts an input \( w \) if the verifier’s final measurement yiel
 \end{definition}
 
 \textbf{Operation}:  
-The verifier, typically modeled as a 2QFA-based machine, receives quantum witness states from the provers and processes them using a quantum circuit. A final measurement is performed on the verifier’s state to decide acceptance. The provers do not communicate with each other, and the verification process is non-adaptive.
+The verifier, typically modeled as a \gls{2qfa}-based machine, receives quantum witness states from the provers and processes them using a quantum circuit. A final measurement is performed on the verifier’s state to decide acceptance. The provers do not communicate with each other, and the verification process is non-adaptive.
 
 \paragraph{Language Acceptance:}  
 A QMIP system accepts an input if the combined verification procedure yields an accepting outcome with probability above a predetermined threshold, thereby ensuring bounded-error recognition of the target language.
