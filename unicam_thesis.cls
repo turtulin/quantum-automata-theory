@@ -189,12 +189,12 @@
   \vspace*{\stretch{7}}%
   {\rmfamily \LARGE \bfseries \@thetitle \par}%
   \vspace*{\stretch{7}}%
-  {Laureando \hfill Relatore \par}%
+  {Candidate \hfill Supervisor \par}%
   {\bfseries \large \@theauthor \hfill \@theadvisor \par}%
 \end{center}
-{\bfseries \small Matricola \@thematricola}%
+{\bfseries \small Student ID \@thematricola}%
 \begin{center}
-  {\hfill Correlatore \par}%
+  {\hfill Co-supervisor \par}%
   {\bfseries  \hfill \large  \@thecoadvisor2 \par}%
   \vspace*{\stretch{7}}%
   \hrule%

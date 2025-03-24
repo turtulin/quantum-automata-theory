@@ -1,4 +1,4 @@
-\subsection{\acrfull{nfa}}
+\subsection{Nondeterministic Finite Automata}
 \label{subsec:nfa}
 \begin{definition}[\gls{nfa}]
     A \gls{nfa} is a quintuple 
@@ -44,7 +44,7 @@ To convert an \gls{nfa} \( N = (Q, \Sigma, \delta, q_0, F) \) into an equivalent
     The subset construction algorithm may produce up to \(2^{|Q|}\) states in the worst case, illustrating a potential state explosion when converting an \gls{nfa} to a \gls{dfa} \cite{sipser2013introduction}.
 \end{observation}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
         \node[state, initial, initial text={}] (q0) {$q_0$};

@@ -1,9 +1,9 @@
-\section{\gls{1qfa}}
+\section{\glsentrylong{1qfa}}
 \label{sec:one-way-qfas}
 
 One-way \glspl{qfa} process the input tape in a single left-to-right pass. In this section, we review the standard models of one-way \gls{qfa}—including both the measure-once and measure-many variants—as well as a notable alternative model, the \gls{lqfa}. For each model, we detail a uniform definition that specifies the symbols and their meanings, the operational mechanism, language acceptance criteria, advantages, and limitations. A schematic summary at the end of each subsection highlights the key features.
 
-\subsection{\acrfull{mo-1qfa}}
+\subsection{\glsentrylong{mo-1qfa}}
 \label{subsec:mo-1qfa}
 \begin{definition}[\gls{mo-1qfa}]
 A measure-once one-way quantum finite automaton is defined as 
@@ -37,7 +37,7 @@ Accepts \textbf{reversible regular languages} (e.g., \( L_{\text{mod}} = \{a^{kp
     \item Reliance on a single final measurement may restrict recognition of more complex languages.
 \end{itemize}
 
-\subsection{\acrfull{mm-1qfa}}
+\subsection{\glsentrylong{mm-1qfa}}
 \label{subsec:mm-1qfa}
 \begin{definition}[\gls{mm-1qfa}]
 A measure-many one-way quantum finite automaton is defined as 
@@ -74,7 +74,7 @@ Recognises \textbf{a subclass of regular languages with bounded error} (e.g., \(
     \item Increased complexity due to frequent measurements.
 \end{itemize}
 
-\subsection{\gls{lqfa}}
+\subsection{\glsentrylong{lqfa}}
 \label{subsec:lqfa}
 \begin{definition}[\gls{lqfa} \cite{ambainis1998}]
 A Latvian quantum finite automaton is defined as 
@@ -109,7 +109,7 @@ Accepts a \textbf{subset of regular languages} (e.g., certain parity languages) 
     \item Not closed under concatenation.
 \end{itemize}
 
-\subsection{\acrfull{1qfac}}
+\subsection{\glsentrylong{1qfac}}
 \label{subsec:1qfac}
 \begin{definition}[\gls{1qfac}]
 A one-way quantum finite automaton with classical states is defined as 
@@ -153,7 +153,7 @@ Recognises \textbf{all regular languages} while requiring only \( O(\log n) \) q
 \end{itemize}
 \cite{qiu2009}
 
-\subsection{\acrfull{cl-1qfa}}
+\subsection{\glsentrylong{cl-1qfa}}
 \label{subsec:cl-1qfa}
 \begin{definition}[\gls{cl-1qfa}]
 A control-language-based quantum finite automaton is defined as 
@@ -188,7 +188,7 @@ Designed to recognise \textbf{regular languages closed under Boolean operations}
     \item Integration of two paradigms increases overall complexity.
 \end{itemize}
 
-\subsection{\acrfull{a-qfa}}
+\subsection{\glsentrylong{a-qfa}}
 \label{subsec:a-qfa}
 \begin{definition}[\gls{a-qfa}]
 An ancilla-based quantum finite automaton is defined as 
@@ -228,7 +228,7 @@ Recognises \textbf{all regular languages and some context-free languages} (e.g.,
     \item Enhanced risk of error propagation between subsystems.
 \end{itemize}
 
-\subsection{\acrfull{mlqfa}}
+\subsection{\glsentrylong{mlqfa}}
 \label{subsec:ml-qfa}
 \begin{definition}[\gls{mlqfa}]
 A multi-letter quantum finite automaton is defined as 
@@ -289,7 +289,7 @@ Recognises \textbf{context-free languages} (e.g., \( L = \{ww^R \mid w \in \Sigm
     \label{fig:qfa-hierarchy}
 \end{figure}
 
-\subsection{Comparison to Classical Finite Automata}
+\subsection*{Comparison to Classical Finite Automata}
 \label{subsec:classical-comparison}
 Quantum models exhibit both advantages and limitations compared to their classical counterparts:
 \begin{itemize}

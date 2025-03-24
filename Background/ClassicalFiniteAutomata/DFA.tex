@@ -1,4 +1,4 @@
-\subsection{\acrfull{dfa}}
+\subsection{Deterministic Finite Automata}
 \label{subsec:dfa}
 
 \begin{definition}[\gls{dfa}]
@@ -33,7 +33,7 @@ L = \{ w \in \{0,1\}^* \mid \text{the number of 0's and 1's in \( w \) are both 
 Figure~\ref{fig:dfa-example} shows a minimal \gls{dfa} for \( L \). Each state encodes a parity pair \((p_0, p_1)\), where \( p_0 \) and \( p_1 \) represent the parity (even/odd) of 0's and 1's, respectively.
 \end{example}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
         \node[state, initial, accepting, initial text={}] (q00) {$(0,0)$};

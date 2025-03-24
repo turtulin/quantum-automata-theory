@@ -7,10 +7,10 @@ Two-way finite automata extend the classical one‐way model by allowing the rea
 % Two-Way Deterministic Finite Automata (2DFA)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{\acrfull{2dfa}}
+\subsubsection{\glsentrylong{2dfa}}
 \label{subsubsec:2dfa}
 
-\begin{definition}[Two-Way Deterministic Finite Automaton]
+\begin{definition}[\glsentrylong{2dfa}]
 A \gls{2dfa} is formally defined as an 8-tuple 
 \[
 M = (Q, \Sigma, \triangleright, \dashv, \delta, s, t, r),
@@ -61,7 +61,7 @@ The two-way motion enables the automaton to make multiple passes over the input,
 \paragraph{State Complexity and Conversion Algorithms}
 For some families of regular languages, \glspl{2dfa} can be exponentially more succinct than their one-way counterparts. Conversion algorithms—such as those proposed by Shepherdson and Kozen—use crossing sequences to simulate two-way behavior in a one-way \gls{dfa}, typically at the cost of exponential state blow-up.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
         \node[state,initial,accepting] (q0) {\(q_0\)};
@@ -86,10 +86,10 @@ For some families of regular languages, \glspl{2dfa} can be exponentially more s
 % Two-Way Nondeterministic Finite Automata (2NFA)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{\acrfull{2nfa}}
+\subsubsection{\glsentrylong{2nfa}}
 \label{subsubsec:2nfa}
 
-\begin{definition}[Two-Way Nondeterministic Finite Automaton]
+\begin{definition}[\glsentrylong{2nfa}]
 A \gls{2nfa} is defined similarly to a \gls{2dfa} but with a nondeterministic transition function \cite{sakoda1978nfas}. Formally, a \gls{2nfa} is an 8-tuple
 \[
 M = (Q, \Sigma, \triangleright, \dashv, \delta, s, t, r),
@@ -130,7 +130,7 @@ Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mec
 \glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognize remains the same (i.e., the regular languages).
 \end{observation}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=2.2cm, on grid, auto]
         \node[state,initial] (q0) {\(q_0\)};
@@ -156,10 +156,10 @@ Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mec
 % Two-Way Probabilistic Finite Automata (2PFA)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{\acrfull{2pfa}}
+\subsubsection{\glsentrylong{2pfa}}
 \label{subsubsec:2pfa}
 
-\begin{definition}[Two-Way Probabilistic Finite Automaton]
+\begin{definition}[\glsentrylong{2pfa}]
 A \gls{2pfa} is an 8-tuple
 \[
 M = (Q, \Sigma, \triangleright, \dashv, \delta, s, t, r),
