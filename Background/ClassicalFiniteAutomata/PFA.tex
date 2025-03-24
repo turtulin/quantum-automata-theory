@@ -1,26 +1,25 @@
-
 \subsection{\acrfull{pfa}}
 \label{subsec:pfa}
 
 \begin{definition}[\gls{pfa}]
-A \gls{pfa} is a quintuple 
-\[
-M = (Q, \Sigma, \delta, \pi, F)
-\]
-where:
-\begin{itemize}
-    \item \( Q \) is a finite set of states,
-    \item \( \Sigma \) is a finite input alphabet,
-    \item \( \delta: Q \times \Sigma \times Q \rightarrow [0,1] \) is a probabilistic transition function such that 
+    A \gls{pfa} is a quintuple 
     \[
-    \sum_{q' \in Q} \delta(q, \sigma, q') = 1 \quad \text{for all } q \in Q \text{ and } \sigma \in \Sigma,
+    M = (Q, \Sigma, \delta, \pi, F)
     \]
-    \item \( \pi \in \mathbb{R}^{|Q|} \) is an initial state distribution vector with 
-    \[
-    \sum_{q \in Q} \pi_q = 1,
-    \]
-    \item \( F \subseteq Q \) is the set of accepting states.
-\end{itemize}
+    where:
+    \begin{itemize}
+        \item \( Q \) is a finite set of states,
+        \item \( \Sigma \) is a finite input alphabet,
+        \item \( \delta: Q \times \Sigma \times Q \rightarrow [0,1] \) is a probabilistic transition function such that 
+        \[
+        \sum_{q' \in Q} \delta(q, \sigma, q') = 1 \quad \text{for all } q \in Q \text{ and } \sigma \in \Sigma
+        \]\cite{rabin1963probabilistic},
+        \item \( \pi \in \mathbb{R}^{|Q|} \) is an initial state distribution vector with 
+        \[
+        \sum_{q \in Q} \pi_q = 1,
+        \]
+        \item \( F \subseteq Q \) is the set of accepting states.
+    \end{itemize}
 \end{definition}
 
 \begin{remark}
@@ -36,12 +35,12 @@ where the acceptance probability is at least \( \frac{2}{3} \).
 \end{example}
 
 \begin{theorem}[Rabin's Theorem for \glspl{pfa}]
-\label{thm:rabin}
-A \gls{pfa} with an isolated cut-point recognises exactly the class of regular languages.
+    \label{thm:rabin}
+    A \gls{pfa} with an isolated cut-point recognises exactly the class of regular languages \cite{rabin1963probabilistic}.
 \end{theorem}
 
 \begin{proposition}
-If a \gls{pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognise languages beyond the regular class, including some context-sensitive languages.
+    If a \gls{pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognise languages beyond the regular class, including some context-sensitive languages \cite{paz1971introduction}.
 \end{proposition}
 
 \begin{corollary}
@@ -49,8 +48,9 @@ For a \gls{pfa} with a strict cut-point (\(\lambda = 1\)), the recognised langua
 \end{corollary}
 
 \begin{observation}
-The closure properties of \glspl{pfa} differ from those of classical finite automata. In particular, complementation is not directly achievable unless an isolated cut-point is used.
+    The closure properties of \glspl{pfa} differ from those of classical finite automata. In particular, complementation is not directly achievable unless an isolated cut-point is used \cite{droste2009handbook}.
 \end{observation}
+
 \begin{figure}[h]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]

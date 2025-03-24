@@ -34,7 +34,7 @@ M = (V_{1QFA}, P, \Sigma, \delta_V, \delta_P, k)
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{regular languages} with perfect completeness and soundness $\epsilon < 1/2$ \cite{nishimura2009application}. Specifically:
+Recognizes \textbf{regular languages} with perfect completeness and soundness $\epsilon < 1/2$ \cite{yakaryilmaz2013verification}. Specifically:
 \[
 L(M) = \{w \in \Sigma^* \mid \text{Pr}[V_{1QFA} \text{ accepts } w] \geq 2/3\}
 \]
@@ -80,7 +80,7 @@ Recognizes \textbf{non-context-free languages} including:
 \[
 L = \{a^nb^nc^n \mid n \geq 0\} \quad \text{and} \quad L_{pal} = \{ww^R \mid w \in \Sigma^*\}
 \]
-with bounded error $\epsilon = 1/3$ \cite{zheng2015power}.
+with bounded error $\epsilon = 1/3$ \cite{zheng2012two}.
 
 \paragraph{Advantages:}
 \begin{itemize}
@@ -130,9 +130,10 @@ M = (V_{2QCFA}, \{P_i\}_{i=1}^k, \Sigma, \delta_{cl}, \delta_{qu}, \{\delta_{P_i
 \paragraph{Language Acceptance:}
 Recognizes \textbf{recursively enumerable languages} including:
 \[
-L_{primes} = \{n \in \mathbb{N} \mid n \text{ is prime}\}
+L_{SAT} = \{\phi \mid \phi \text{ is a satisfiable Boolean formula}\}
 \]
-with completeness 1 and soundness $\epsilon < 1/2^k$ \cite{shor1999polynomial}.
+
+with completeness 1 and soundness $\epsilon < 1/2^k$ \cite{kobayashi2003quantum}.
 
 \paragraph{Advantages:}
 \begin{itemize}

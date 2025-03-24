@@ -36,11 +36,8 @@ M = (Q_c, Q_q, \Sigma, \delta_c, \{\mathcal{U}_\sigma\}, q_{c0}, \ket{\psi_0}, F
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{context-sensitive languages} with:
-\[
-L = \{a^nb^nc^n | n \geq 0\} \quad \text{with error } \epsilon < 1/3 
-\]
-\cite{zheng2015power}
+Recognizes \textbf{some context-sensitive patterns} with:
+\[ L = \{a^nb^nc^n | n \geq 0\} \quad \text{with error } \epsilon < 1/3 \]\cite{zheng2012two, gruska2005}.
 
 \paragraph{Advantages:}
 \begin{itemize}
@@ -94,7 +91,7 @@ with perfect completeness.
 \paragraph{Advantages:}
 \begin{itemize}
     \item Efficient parity computation in $O(n)$ time
-    \item Constant quantum memory requirement
+    \item Constant quantum memory requirement \cite{yakaryilmaz2011}
 \end{itemize}
 
 \paragraph{Limitations:}
@@ -135,7 +132,7 @@ Solves \textbf{balanced languages} with:
 \[
 L = \{a^nb^n | n \geq 0\} \quad \text{with 1-sided error } \epsilon < 0.5 
 \]
-\cite{ambainis1998one}
+\cite{ambainis1998one, nakanishi2004}.
 
 \paragraph{Advantages:}
 \begin{itemize}
@@ -161,7 +158,7 @@ L = \{a^nb^n | n \geq 0\} \quad \text{with 1-sided error } \epsilon < 0.5
 \draw[->] (bcqfa) edge node[above, align=center] {+ State Control\\ + Tape Access} (qcpa)
           (qcpa) edge node[above, align=center] {+ Classical Logic\\ + Hybrid Transitions} (sqa);
 \end{tikzpicture}
-\caption{Hierarchy of hybrid quantum-classical automata. Arrows indicate increasing computational capabilities through added features.}
+\caption{Hierarchy of hybrid quantum-classical automata. \gls{sqa} recognizes select context-sensitive languages \cite{zheng2012two}, while \gls{bcqfa} specializes in balanced patterns \cite{ambainis1998}.}
 \label{fig:hybrid-hierarchy}
 \end{figure}
 

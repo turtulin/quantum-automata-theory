@@ -32,7 +32,7 @@ An abstract quantum automaton is defined as:
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{all languages in BQP} through polynomial-time simulations of concrete QFA models \cite{moore2000quantum}. Specifically:
+Recognizes \textbf{all languages in BQP} through polynomial-time simulations of concrete QFA models \cite{manin1980computable, gruska2005}. Specifically:
 \[
 L(\mathcal{A}) = \{w \in \Sigma^* \mid \|P_a\ket{\psi_w}\|^2 \geq 2/3\}
 \]
@@ -54,7 +54,7 @@ L(\mathcal{A}) = \{w \in \Sigma^* \mid \|P_a\ket{\psi_w}\|^2 \geq 2/3\}
 \label{subsec:olva}
 
 \begin{definition}[\gls{olva}]
-An orthomodular lattice-valued automaton is defined as:
+An \gls{olva} is defined as:
 \[
 M = (L, \Sigma, \delta, l_0, F)
 \]
@@ -70,9 +70,9 @@ M = (L, \Sigma, \delta, l_0, F)
 \paragraph{Operation:}
 \begin{enumerate}
     \item \textbf{State Transitions:} For input $\sigma$:
-    \[
-    l_{i+1} = \delta(l_i, \sigma) \land (l_i \lor \neg l_i)
-    \]
+\[
+l_{i+1} = \delta(l_i, \sigma) \land (l_i \lor \delta(l_i, \sigma)^\perp)
+\]
     \item \textbf{Acceptance:} Check $l_n \in F$ using lattice order
 \end{enumerate}
 
@@ -81,7 +81,7 @@ Recognizes \textbf{quantum decision languages} closed under:
 \[
 L = \{w \mid \bigvee_{i=1}^n (p_i(w) \land \neg q_i(w)) \in F\}
 \]
-where $p_i,q_i$ are lattice-valued predicates \cite{moore2000quantum}.
+where $p_i,q_i$ are lattice-valued predicates \cite{gudder1978quantum}.
 
 \paragraph{Advantages:}
 \begin{itemize}
@@ -100,7 +100,7 @@ where $p_i,q_i$ are lattice-valued predicates \cite{moore2000quantum}.
 \label{subsec:mpsqfa}
 
 \begin{definition}[\gls{mpsqfa}]
-A matrix product state automaton is defined as:
+A \gls{mpsqfa} is defined as:
 \[
 M = (\Sigma, \{A_\sigma\}, \ket{\psi_0}, \bra{\psi_F}, D)
 \]
@@ -127,7 +127,7 @@ Simulates \textbf{1D quantum spin systems} recognizing languages with:
 \[
 L = \{w \in \Sigma^n \mid \text{tr}\left(\bigotimes_{i=1}^n A_{w_i}\right) \neq 0\}
 \]
-for nearest-neighbor Hamiltonians \cite{bertoni2001quantum}.
+for nearest-neighbor Hamiltonians \cite{vidal2003efficient}.
 
 \paragraph{Advantages:}
 \begin{itemize}
@@ -153,7 +153,7 @@ for nearest-neighbor Hamiltonians \cite{bertoni2001quantum}.
 \draw[->] (mps) edge node[above, align=center] {+ Algebraic Structure\\ + Entanglement} (ol)
           (ol) edge node[above, align=center] {+ Categorical Framework\\ + Universal Models} (abs);
 \end{tikzpicture}
-\caption{Expressive hierarchy of abstract/algebraic QFAs. Arrows indicate increasing mathematical generality.}
+\caption{Expressive hierarchy of abstract/algebraic QFAs. \gls{mpsqfa} simulates 1D spin systems \cite{vidal2003efficient}, while \gls{abstract-qfa} captures BQP via Manin's framework \cite{manin1980computable}.}
 \label{fig:abstract-hierarchy}
 \end{figure}
 

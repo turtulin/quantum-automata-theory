@@ -24,7 +24,7 @@ M = (Q, \Sigma, \Gamma, \delta, q_0, F, \rho_{init})
 \begin{enumerate}
     \item \textbf{Enqueue:} Applies unitary $U_{enq}(\ket{q}\otimes\ket{\gamma}) = \ket{q'}\otimes\ket{\gamma\sigma}$
     \item \textbf{Dequeue:} Measures queue head via POVM $\{E_{deq}^\sigma\}$
-    \item \textbf{Real-Time Processing:} Operates in linear time $O(n)$ \cite{seegulnaja2010postselection}
+    \item \textbf{Real-Time Processing:} Operates in linear time $O(n)$ \cite{yakaryilmaz2010succinctness}
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
@@ -79,7 +79,7 @@ L = \{a^nb^{2^n} | n \geq 0\} \quad \text{with probability } \geq 3/4.
 
 \paragraph{Advantages:}
 \begin{itemize}
-    \item Quantum stack enables polynomial-time recognition of some EXPTIME languages
+    \item Quantum stack enables efficient recognition of some context-sensitive languages \cite{ambainis2002quantum}
     \item Overcomes pumping lemma restrictions through interference
 \end{itemize}
 
@@ -94,7 +94,7 @@ L = \{a^nb^{2^n} | n \geq 0\} \quad \text{with probability } \geq 3/4.
 \label{subsec:psqfa}
 
 \begin{definition}[\gls{psqfa}]
-A postselection QFA is defined as:
+A postselection QFA \cite{aaronson2005complexity} is defined as:
 \[
 M = (Q, \Sigma, \delta, q_0, Q_{post}, \Pi_{acc})
 \]
@@ -159,7 +159,7 @@ M = (Q, \Sigma, \Gamma, \delta, q_0, q_{acc}, q_{rej})
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{all BQP languages} with:
+Recognizes \textbf{all BQP languages} \cite{shor1994algorithms} with:
 \[
 w \in L \Rightarrow \text{Pr}[M \text{ accepts } w] \geq 2/3
 \]

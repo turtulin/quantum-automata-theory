@@ -1,11 +1,7 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Two-Way Finite Automata Variants
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Two-Way Finite Automata Variants}
 \label{subsec:two-way-variants}
 
-Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages (both one‐way and two‐way automata recognise exactly the regular languages), two‐way models can be exponentially more succinct than one‐way models and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
+Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages (both one‐way and two‐way automata recognize exactly the regular languages), two-way models can be exponentially more succinct than one-way models \cite{sakoda1978nfas, kozen1997automata} and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Two-Way Deterministic Finite Automata (2DFA)
@@ -17,22 +13,22 @@ Two-way finite automata extend the classical one‐way model by allowing the rea
 \begin{definition}[Two-Way Deterministic Finite Automaton]
 A \gls{2dfa} is formally defined as an 8-tuple 
 \[
-M = (Q, \Sigma, L, R, \delta, s, t, r),
+M = (Q, \Sigma, \triangleright, \dashv, \delta, s, t, r),
 \]
 where:
 \begin{itemize}
   \item \(Q\) is a finite set of states,
   \item \(\Sigma\) is a finite input alphabet,
-  \item \(L\) and \(R\) are special symbols called the left and right endmarkers, respectively (with \(L,R \notin \Sigma\)),
-  \item \(\delta: Q \times (\Sigma \cup \{L, R\}) \to Q \times \{L, R\}\) is the transition function,
+  \item \(\triangleright\) and \(\dashv\) are special symbols called the left and right endmarkers, respectively (with \(\triangleright,\dashv \notin \Sigma\)),
+  \item \(\delta: Q \times (\Sigma \cup \{\triangleright, \dashv\}) \to Q \times \{\triangleright,\dashv\}\) is the transition function,
   \item \(s\in Q\) is the start state,
   \item \(t\in Q\) is the (unique) accept state, and
   \item \(r\in Q\) (with \(r\neq t\)) is the (unique) reject state.
 \end{itemize}
 In addition, the transition function is assumed to satisfy:
 \begin{itemize}
-  \item For every state \(q\in Q\), when reading the left endmarker \(L\), the head always moves to the right; that is, \(\delta(q,L) = (q', R)\) for some \(q'\in Q\).
-  \item Similarly, when reading the right endmarker \(R\), the head always moves to the left: \(\delta(q,R) = (q', L)\).
+  \item For every state \(q\in Q\), when reading the left endmarker \(\triangleright\), the head always moves in the \(\dashv\) direction; that is, \(\delta(q,\triangleright) = (q', \dashv)\) for some \(q'\in Q\).
+  \item Similarly, when reading the right endmarker \(\dashv\), the head always moves in the \(\triangleright\) direction: \(\delta(q,\dashv) = (q', \triangleright)\).
   \item Once the machine reaches the accept state \(t\) (or the reject state \(r\)), it remains there (the transition always maps back to itself) while moving in a fixed direction.
 \end{itemize}
 \end{definition}
@@ -42,22 +38,21 @@ The two-way motion allows the automaton to perform multiple passes over the inpu
 \end{remark}
 
 \begin{example}[First and Last Symbol Equality]
-Consider the language 
-\[
-L = \{ w\in \{0,1\}^* \mid \text{the first symbol of } w \text{ equals the last symbol} \}.
-\]
-A \gls{2dfa} for \(L\) operates as follows:
-\begin{enumerate}
-  \item Start at the left endmarker \(L\) and immediately move right to read the first symbol; store it in the control.
-  \item Continue scanning right until the right endmarker \(R\) is reached.
-  \item Upon reading \(R\), reverse direction (move left) and, in the process, skip any blank moves until the last symbol is reached.
-  \item Compare the stored first symbol with the last symbol. If they are equal, move to the accept state \(t\); otherwise, move to the reject state \(r\).
-\end{enumerate}
-A simplified state diagram illustrating this process is provided in Figure~\ref{fig:2dfa-example}.
+    Consider the language 
+    \[
+    L = \{ w\in \{0,1\}^* \mid \text{the first symbol of } w \text{ equals the last symbol} \}.
+    \]
+    A \gls{2dfa} for \(L\) operates as follows:
+    \begin{enumerate}
+      \item Start at \(\triangleright\) and move in the \(\dashv\) direction to read the first symbol, transitioning to a state encoding this symbol (e.g., \(q_a\) for \(a \in \{0,1\}\)).
+      \item Continue moving in the \(\dashv\) direction until \(\dashv\) is reached.
+      \item Reverse direction and scan in the \(\triangleright\) direction to the last symbol.
+      \item Compare the stored symbol (encoded in the current state) with the last symbol. Accept if they match; reject otherwise.
+    \end{enumerate}
 \end{example}
 
 \begin{observation}
-Although every \gls{2dfa} can be simulated by a one-way \gls{dfa}, such a simulation may require an exponential increase in the number of states.
+    Although every \gls{2dfa} can be simulated by a one-way \gls{dfa}, such a simulation may require an exponential increase in the number of states \cite{shepherdson1959reduction}.
 \end{observation}
 
 \paragraph{Operational Mechanics}
@@ -65,6 +60,27 @@ The two-way motion enables the automaton to make multiple passes over the input,
 
 \paragraph{State Complexity and Conversion Algorithms}
 For some families of regular languages, \glspl{2dfa} can be exponentially more succinct than their one-way counterparts. Conversion algorithms—such as those proposed by Shepherdson and Kozen—use crossing sequences to simulate two-way behavior in a one-way \gls{dfa}, typically at the cost of exponential state blow-up.
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+        \node[state,initial,accepting] (q0) {\(q_0\)};
+        \node[state] (q1) [right=of q0] {\(q_1\)};
+        \node[state] (q2) [below=of q1] {\(q_2\)};
+        \node[state,accepting] (t) [left=of q2] {\(t\)};
+        \node[state,rejecting] (r) [right=of q2] {\(r\)};
+
+        \path[->]
+            (q0) edge node[above] {\(\triangleright \to \dashv,\, \text{store } a\)} (q1)
+            (q1) edge [loop above] node {\(\sigma,\dashv\)} (q1)
+            (q1) edge node[right] {\(\dashv \to \triangleright\)} (q2)
+            (q2) edge [loop below] node {\(\sigma,\triangleright\)} (q2)
+            (q2) edge node[below] {\(\triangleright: a = \text{last?}\)} (t)
+            (q2) edge node[above] {\(\triangleright: a \neq \text{last}\)} (r);
+    \end{tikzpicture}
+    \caption{2DFA for \(L = \{w \mid w_1 = w_{|w|}\}\). States encode the first symbol \(a \in \{0,1\}\). Transitions use \(\triangleright/\dashv\) to denote head movement directions and endmarkers.}
+    \label{fig:2dfa-example}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Two-Way Nondeterministic Finite Automata (2NFA)
@@ -74,16 +90,16 @@ For some families of regular languages, \glspl{2dfa} can be exponentially more s
 \label{subsubsec:2nfa}
 
 \begin{definition}[Two-Way Nondeterministic Finite Automaton]
-A \gls{2nfa} is defined similarly to a \gls{2dfa} but with a nondeterministic transition function. Formally, a \gls{2nfa} is an 8-tuple
+A \gls{2nfa} is defined similarly to a \gls{2dfa} but with a nondeterministic transition function \cite{sakoda1978nfas}. Formally, a \gls{2nfa} is an 8-tuple
 \[
-M = (Q, \Sigma, L, R, \delta, s, t, r),
+M = (Q, \Sigma, \triangleright, \dashv, \delta, s, t, r),
 \]
 where:
 \begin{itemize}
     \item \(Q\) is a finite set of states,
     \item \(\Sigma\) is a finite input alphabet,
-    \item \(L\) and \(R\) are the left and right endmarkers (with \(L,R\notin\Sigma\)),
-    \item \(\delta: Q \times (\Sigma \cup \{L,R\}) \to 2^{\,Q \times \{L,R\}}\) is the nondeterministic transition function,
+    \item \(\triangleright\) and \(\dashv\) are the left and right endmarkers (with \(\triangleright,\dashv \notin \Sigma\)),
+    \item \(\delta: Q \times (\Sigma \cup \{\triangleright,\dashv\}) \to 2^{\,Q \times \{\triangleright,\dashv\}}\) is the nondeterministic transition function,
     \item \(s\in Q\) is the start state,
     \item \(t\in Q\) is the unique accept state, and
     \item \(r\in Q\) (with \(r\neq t\)) is the unique reject state.
@@ -92,7 +108,7 @@ The transition function obeys similar boundary conditions as in the \gls{2dfa} c
 \end{definition}
 
 \begin{remark}
-The nondeterminism in a \gls{2nfa} allows it to "guess" important positions within the input and verify them via bidirectional traversal, which can lead to significant state savings compared to deterministic models.
+The nondeterminism in a \gls{2nfa} allows it to “guess” important positions within the input and verify them via bidirectional traversal, which can lead to significant state savings compared to deterministic models.
 \end{remark}
 
 \begin{example}[Symmetry Check (Toy Version)]
@@ -102,17 +118,39 @@ L_{sym} = \{ w \in \{0,1\}^* \mid \text{the first two symbols equal the last two
 \]
 A high-level description of a \gls{2nfa} for \(L_{sym}\) is:
 \begin{enumerate}
-    \item Scan right from the left endmarker \(L\) while nondeterministically guessing the point where comparison will occur.
-    \item Upon reaching the right endmarker \(R\), reverse direction.
-    \item While moving left, nondeterministically check that the stored first two symbols match the corresponding symbols at the end.
+    \item Scan in the \(\dashv\) direction from the left endmarker \(\triangleright\) while nondeterministically guessing the point where comparison will occur.
+    \item Upon reaching the right endmarker \(\dashv\), reverse direction.
+    \item While moving in the \(\triangleright\) direction, nondeterministically check that the stored first two symbols match the corresponding symbols at the end.
     \item If both comparisons succeed, transition to the accept state \(t\); otherwise, transition to the reject state \(r\).
 \end{enumerate}
 Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mechanism.
 \end{example}
 
 \begin{observation}
-\glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognise remains the same (i.e., the regular languages).
+\glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognize remains the same (i.e., the regular languages).
 \end{observation}
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=2.2cm, on grid, auto]
+        \node[state,initial] (q0) {\(q_0\)};
+        \node[state] (q1) [right=of q0] {\(q_1\)};
+        \node[state] (q2) [right=of q1] {\(q_2\)};
+        \node[state,accepting] (qa) [above=of q2] {\(t\)};
+        \node[state,rejecting] (qr) [below=of q2] {\(r\)};
+        
+        \path[->]
+            (q0) edge [loop above] node {\(\sigma,\dashv\)} (q0)
+            (q0) edge node {\(\triangleright \to \dashv\)} (q1)
+            (q1) edge [loop above] node {\(\sigma,\dashv\)} (q1)
+            (q1) edge node {\(\dashv \to \triangleright\)} (q2)
+            (q2) edge [bend left] node[above left] {\(\sigma,\triangleright\) (guess)} (q0)
+            (q2) edge node[right] {\(\sigma = \text{stored?}\)} (qa)
+            (q2) edge node[right] {\(\sigma \neq \text{stored}\)} (qr);
+    \end{tikzpicture}
+    \caption{2NFA for \(L_{\text{sym}} = \{ww^R\}\). The machine nondeterministically guesses the midpoint (via transition \(q_2 \to q_0\)) and verifies symmetry.}
+    \label{fig:2nfa-example}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Two-Way Probabilistic Finite Automata (2PFA)
@@ -124,16 +162,16 @@ Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mec
 \begin{definition}[Two-Way Probabilistic Finite Automaton]
 A \gls{2pfa} is an 8-tuple
 \[
-M = (Q, \Sigma, L, R, \delta, s, t, r),
+M = (Q, \Sigma, \triangleright, \dashv, \delta, s, t, r),
 \]
 where:
 \begin{itemize}
     \item \(Q\) is a finite set of states,
     \item \(\Sigma\) is a finite input alphabet,
-    \item \(L\) and \(R\) are the left and right endmarkers (with \(L,R \notin \Sigma\)),
-    \item \(\delta: Q \times (\Sigma \cup \{L,R\}) \to \mathbb{R}_{\ge 0}^{\,Q \times \{L,R\}}\) is a probabilistic transition function such that
+    \item \(\triangleright\) and \(\dashv\) are the left and right endmarkers (with \(\triangleright,\dashv \notin \Sigma\)),
+    \item \(\delta: Q \times (\Sigma \cup \{\triangleright,\dashv\}) \to \mathbb{R}_{\ge 0}^{\,Q \times \{\triangleright,\dashv\}}\) is a probabilistic transition function such that
     \[
-    \sum_{(q',d)\in Q\times\{L,R\}} \delta(q,a,q',d) = 1 \quad \text{for all } q \in Q \text{ and } a \in \Sigma \cup \{L,R\},
+    \sum_{(q',d)\in Q\times\{\triangleright,\dashv\}} \delta(q,a,q',d) = 1 \quad \text{for all } q \in Q \text{ and } a \in \Sigma \cup \{\triangleright,\dashv\},
     \]
     \item \(s\in Q\) is the start state,
     \item \(t\in Q\) is the unique accept state, and
@@ -153,18 +191,39 @@ L_{maj} = \{ w \in \{a,b\}^* \mid \#a(w) > \#b(w) \}.
 A \gls{2pfa} for \(L_{maj}\) operates by making probabilistic passes over the input, updating state probabilities, and eventually halting in the accept state \(t\) if the acceptance probability is high enough. Figure~\ref{fig:2pfa-example} provides a schematic illustration of such a machine.
 \end{example}
 
-\begin{theorem}[Rabin's Theorem for \glspl{pfa}]
-\label{thm:2pfa-rabin}
-A \gls{pfa} with an isolated cut-point recognises exactly the class of regular languages. This result extends to \glspl{2pfa} under analogous conditions.
+\begin{theorem}[Dwork-Stockmeyer Theorem]
+    \label{thm:2pfa-rabin}
+    A \gls{2pfa} with an isolated cut-point recognizes exactly the class of regular languages \cite{dwork1990time}.
 \end{theorem}
 
 \begin{proposition}
-If a \gls{2pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognise languages beyond the regular class.
+If a \gls{2pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognize languages beyond the regular class.
 \end{proposition}
 
 \begin{corollary}
-For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognised language is equivalent to that of a \gls{dfa}.
+For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognized language is equivalent to that of a \gls{dfa}.
 \end{corollary}
+
+\begin{figure}[h]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+        \node[state,initial] (q0) {\(q_0\)};
+        \node[state] (q1) [right=of q0] {\(q_1\)};
+        \node[state,accepting] (q2) [right=of q1] {\(t\)};
+        \node[state,rejecting] (qr) [below=of q1] {\(r\)};
+        
+        \path[->]
+            (q0) edge [loop above] node[align=center] 
+                {\(a:0.6,\dashv\)\\\(b:0.4,\dashv\)} (q0)
+            (q0) edge node[above] {\(\dashv \to \triangleright\)} (q1)
+            (q1) edge [loop above] node[align=center] 
+                {\(a:0.7,\triangleright\)\\\(b:0.3,\triangleright\)} (q1)
+            (q1) edge node[above] {\(\triangleright: \Pr(\text{accept}) \geq 2/3\)} (q2)
+            (q1) edge node[below left] {\(\triangleright: \Pr(\text{reject}) \geq 1/3\)} (qr);
+    \end{tikzpicture}
+    \caption{2PFA for \(L_{\text{maj}} = \{w \mid \#a(w) > \#b(w)\}\). Transitions use probabilistic counts with isolated cut-point \(\lambda = 2/3\), and head movements are indicated by \(\triangleright\) (leftward) and \(\dashv\) (rightward).}
+    \label{fig:2pfa-example}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comparative Analysis of Two-Way Models
@@ -173,74 +232,16 @@ For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognised langu
 \subsubsection{Comparative Analysis of Two-Way Models}
 \label{subsubsec:two-way-comparison}
 
-\begin{table}[h]
-    \centering
-    \begin{adjustbox}{max width=\textwidth}
-    \begin{tabular}{|l|c|c|c|c|l|}
-        \hline
-        \textbf{Model} & \textbf{Language Class} & \textbf{Time Complexity} & \textbf{Space Complexity} & \textbf{State Complexity} & \textbf{Key Reference} \\
-        \hline
-        \gls{2dfa}  & REG & \(O(n^2)\) & \(O(1)\) & May be exponentially smaller than 1DFA & \cite{hopcroft2006introduction} \\
-        \gls{2nfa}  & REG & \(O(n)\) & \(O(1)\) & Can be exponentially more succinct than 1DFA & \cite{yakaryilmaz2010succinctness} \\
-        \gls{2pfa}  & \( \mbox{REG} \subset L \subseteq \mbox{P} \) & \(O(n^3)\) & \(O(\log n)\) & Varies with error bounds & \cite{freivalds1981probabilistic} \\
-        \hline
-    \end{tabular}
-    \end{adjustbox}
-    \caption{Comparison of classical two-way automata models (using explicit endmarkers).}
-    \label{tab:two-way-comparison}
-\end{table}
+\begin{tabular}{|l|c|c|c|c|l|}
+    \hline
+    \textbf{Model} & \textbf{Language Class} & \textbf{Time} & \textbf{Space} & \textbf{States} & \textbf{Key Reference} \\ 
+    \hline
+    \gls{2dfa}  & REG & \(O(n^2)\) & \(O(1)\) & \(2^{\Theta(n)}\) & \cite{shepherdson1959reduction} \\
+    \gls{2nfa}  & REG & \(O(n)\) & \(O(1)\) & \(O(1)\) & \cite{sakoda1978nfas} \\
+    \gls{2pfa}  & REG (isolated cut) & \(O(n^3)\) & \(O(\log n)\) & \(O(1)\) & \cite{dwork1990time} \\
+    \hline
+\end{tabular}
 
 \begin{remark}
-The comparative analysis illustrates that while all two-way automata recognise only regular languages, the two-way models often achieve significant advantages in state complexity and, in some cases, time complexity, compared to their one-way counterparts.
-\end{remark}
-
-\begin{center}
-\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto]
-  \node[state,initial,accepting] (q0) {\(q_0\)};
-  \node[state] (q1) [right=of q0] {\(q_1\)};
-  \node[state] (q2) [below=of q1] {\(q_2\)};
-  \node[state,accepting] (t) [left=of q2] {\(t\)};
-  \node[state,rejecting] (r) [below=of q0] {\(r\)};
-
-  \path[->]
-    (q0) edge node {read first symbol, store \(a\)} (q1)
-    (q1) edge [bend left] node {scan right until \(R\)} (q2)
-    (q2) edge [bend left] node {reverse; on \(R\) switch to leftward} (q1)
-    (q2) edge node {at last symbol, compare with \(a\)} (t)
-    (q2) edge [bend right] node [swap] {if mismatch} (r);
-\end{tikzpicture}
-\end{center}
-
-\begin{figure}[h]
-    \centering  
-    \begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
-        \node[state, initial] (q0) {\(q_0\)};
-        \node[state] (q1) [right=of q0] {\(q_1\)};
-        \node[state, accepting] (q2) [right=of q1] {\(q_2\)};
-        \node[state, rejecting] (qr) [below=of q1] {\(r\)};
-        \path[->]
-            (q0) edge [loop above] node {\(0,1,R\)} (q0)
-            (q0) edge node {\(\triangleright\)} (q1)
-            (q1) edge [loop above] node {\(0,1,L\)} (q1)
-            (q1) edge [bend left] node {\(0/1\)} (q2)
-            (q1) edge [bend right] node[swap] {\(0/1\)} (qr);
-    \end{tikzpicture}
-    \caption{Schematic 2NFA illustrating a guess-and-check mechanism (for a toy symmetry language).}
-    \label{fig:2nfa-example}
-\end{figure}
-
-\begin{figure}[h]
-    \centering  
-    \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
-        \node[state, initial] (q0) {\(q_0\)};
-        \node[state] (q1) [right=of q0] {\(q_1\)};
-        \node[state, accepting] (q2) [right=of q1] {\(q_2\)};
-        \path[->]
-            (q0) edge [loop above] node[align=center] {\(a:0.6R\)\\\(b:0.4R\)} (q0)
-            (q0) edge node {\(\triangleright:0.5\)} (q1)
-            (q1) edge [loop above] node[align=center] {\(a:0.3L\)\\\(b:0.7L\)} (q1)
-            (q1) edge node {\(\triangleleft:0.7\)} (q2);
-    \end{tikzpicture}
-    \caption{Schematic 2PFA for a majority language (with sample probabilistic transitions).}
-    \label{fig:2pfa-example}
-\end{figure}
+The comparative analysis illustrates that while all two-way automata recognize only regular languages, the two-way models often achieve significant advantages in state complexity and, in some cases, time complexity, compared to their one-way counterparts.
+\end{remark} 

@@ -1,17 +1,16 @@
 
 \subsection{Measurement and Probabilistic Outcomes}
 \label{subsec:measurement}
-
 \begin{definition}[Projective Measurement]
-When a quantum system in state
-\[
-|\psi\rangle = \sum_i \alpha_i |i\rangle
-\]
-is measured in an orthonormal basis \(\{|i\rangle\}\), the \textbf{Born rule} states that the outcome corresponding to \(|i\rangle\) is observed with probability
-\[
-P(i) = |\alpha_i|^2.
-\]
-Such a measurement is called a \emph{projective measurement}, after which the state collapses to the observed eigenstate.
+    When a quantum system in state
+    \[
+    |\psi\rangle = \sum_i \alpha_i |i\rangle
+    \]
+    is measured in an orthonormal basis \(\{|i\rangle\}\), the \textbf{Born rule} states that the outcome corresponding to \(|i\rangle\) is observed with probability
+    \[
+    P(i) = |\alpha_i|^2.
+    \]
+    Such a measurement is called a \emph{projective measurement}, after which the state collapses to the observed eigenstate \cite{nielsen2010quantum}.
 \end{definition}
 
 \begin{remark}
@@ -19,14 +18,7 @@ Projective measurements are irreversible and disturb the quantum state. This irr
 \end{remark}
 
 \begin{definition}[POVM Measurement]
-A more general framework is provided by \glspl{povm} (Positive Operator-Valued Measures). In a \gls{povm}, each measurement outcome \(i\) is associated with a positive operator \(E_i\) satisfying
-\[
-\sum_i E_i = I.
-\]
-The probability of outcome \(i\) when measuring the state \(|\psi\rangle\) is given by
-\[
-P(i) = \langle\psi| E_i |\psi\rangle.
-\]
+    A more general framework is provided by Positive Operator-Valued Measures (POVMs). In a POVM, each measurement outcome \(i\) is associated with a positive operator \(E_i\) satisfying \(\sum_i E_i = I\). The probability of outcome \(i\) is \(\langle \psi | E_i | \psi \rangle\) \cite{nielsen2010quantum}.
 \end{definition}
 
 \begin{example}[Measurement of a Bell State]
@@ -54,9 +46,9 @@ Measurement is a critical process in quantum computation and quantum automata th
 \end{observation}
 
 \begin{definition}[Mixed State]
-A \emph{mixed state} describes a statistical ensemble of quantum states and is represented by a density matrix
-\[
-\rho = \sum_i p_i |\psi_i\rangle \langle\psi_i|,
-\]
-where \(p_i \ge 0\) and \(\sum_i p_i = 1\). This representation is essential when dealing with open systems affected by decoherence.
+    A \emph{mixed state} describes a statistical ensemble of quantum states (pure or mixed) and is represented by a density matrix
+    \[
+    \rho = \sum_i p_i |\psi_i\rangle \langle\psi_i|,
+    \]
+    where \(p_i \ge 0\) and \(\sum_i p_i = 1\). This representation is essential for modeling open quantum systems affected by decoherence \cite{nielsen2010quantum}.
 \end{definition}

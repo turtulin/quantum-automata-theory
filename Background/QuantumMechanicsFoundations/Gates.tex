@@ -35,8 +35,18 @@ where \(\oplus\) denotes addition modulo 2.
 \end{definition}
 
 \begin{remark}
-A universal set of quantum gates, for example \(\{H, T, \gls{cnot}\}\), can approximate any unitary operation to arbitrary precision, thereby forming the foundation of the quantum circuit model.
+    A universal set of quantum gates, for example \(\{H, T, \gls{cnot}\}\), can approximate any unitary operation to arbitrary precision \cite{nielsen2010quantum}, thereby forming the foundation of the quantum circuit model.
 \end{remark}
+
+\begin{figure}[h]
+    \centering
+    \begin{quantikz}
+        \lstick{\(|a\rangle\)} & \ctrl{1} & \qw \\
+        \lstick{\(|b\rangle\)} & \targ{} & \qw
+    \end{quantikz}
+    \caption{\gls{cnot} gate operation: \(|a,b\rangle \to |a, a \oplus b\rangle\).}
+    \label{fig:cnot-gate}
+  \end{figure}
 
 \begin{example}[Deutsch-Jozsa Quantum Circuit]
 Figure~\ref{fig:deutsch_circuit} shows a quantum circuit used in the Deutsch-Jozsa algorithm. The circuit demonstrates the application of Hadamard gates before and after the oracle \(U_f\), highlighting the interplay of superposition and entanglement in quantum computation.
@@ -45,9 +55,17 @@ Figure~\ref{fig:deutsch_circuit} shows a quantum circuit used in the Deutsch-Joz
 \begin{figure}[h]
 \centering
 \begin{quantikz}
-    \lstick{$\ket{0}^{\otimes n}$} & \gate{H} \qwbundle{n} & \gate{U_f} \qwbundle{n+1} & \gate{H} \qwbundle{n} & \meter{} \qwbundle{n} \\
-    \lstick{$\ket{0}$} & \gate{X} & \gate{H} & \qw & \qw \\
-    \end{quantikz}
+    \lstick{$\ket{0}^{\otimes n}$} 
+      & \gate{H} \qwbundle{n} 
+      & \gate[wires=2]{U_f} \qwbundle{n+1} 
+      & \gate{H} \qwbundle{n} 
+      & \meter{} \qwbundle{n} \\
+    \lstick{$\ket{0}$} 
+      & \gate{X} 
+      & \gate{H} \ghost{U_f} 
+      & \qw 
+      & \qw 
+\end{quantikz}
 \caption{Quantum circuit for the Deutsch-Jozsa algorithm.}
 \label{fig:deutsch_circuit}
 \end{figure}

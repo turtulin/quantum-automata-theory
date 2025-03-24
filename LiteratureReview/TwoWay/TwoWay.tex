@@ -93,7 +93,7 @@ Recognises \textbf{non-regular languages in polynomial time} with a constant-siz
 
 \paragraph{Limitations:}
 \begin{itemize}
-    \item The equivalence problem for these automata is undecidable.
+    \item The equivalence problem is undecidable \cite{hirvensalo2008}.
     \item There is inherent synchronization overhead between the classical and quantum components.
 \end{itemize}
 
@@ -130,8 +130,7 @@ The automaton processes both tapes in parallel. The classical control \( S \) sy
 \paragraph{Language Acceptance:}  
 Recognises \textbf{context-sensitive languages} such as:
 \begin{itemize}
-    \item \( L = \{a^n b^n c^n \mid n \geq 0\} \) \cite{zheng2012two}.
-    \item \( L = \{a^n b^{n^2}\} \) with polynomial time guarantees \cite{zheng2012two}.
+    \item \( L = \{a^n b^n c^n \mid n \geq 0\} \) \cite{zheng2012two, gruska2005}.
 \end{itemize}
 
 \paragraph{Advantages:}
@@ -181,7 +180,7 @@ Recognises languages with \( k \)-dimensional correlations, such as:
 
 \paragraph{Advantages:}
 \begin{itemize}
-    \item \textbf{Exponential State Savings:} Can recognise complex languages with only a constant number of quantum states.
+    \item \textbf{Exponential State Savings:} Recognizes complex languages with constant quantum states \cite{ambainis2002}.
     \item \textbf{Parallel Processing:} Leverages quantum superposition to correlate information across all \( k \) tapes simultaneously.
 \end{itemize}
 
@@ -210,6 +209,6 @@ Recognises languages with \( k \)-dimensional correlations, such as:
     % Horizontal dashed edge for generalization
     \draw[<->, dashed] (2TQCFA) -- (kTQCFA) node[midway, fill=white, align=center] {Generalization to\\ \( k \) tapes};
 \end{tikzpicture}
-\caption{Hierarchy of two-way QFA models. The \gls{ktqcfa} generalises the two-tape model (\gls{2tqcfa}) to \( k \) tapes, enhancing recognition power at the cost of increased synchronization complexity.}
+\caption{Hierarchy of two-way QFA models. The \gls{ktqcfa} generalises the two-tape model (\gls{2tqcfa}) to \( k \) tapes, enhancing recognition power at the cost of increased synchronization complexity \cite{gruska2005}.}
 \label{fig:two-way-hierarchy}
 \end{figure}

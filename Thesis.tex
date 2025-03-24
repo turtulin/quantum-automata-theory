@@ -20,7 +20,6 @@
 \usepackage[nottoc]{tocbibind}
 \usepackage{hyperref}
 
-
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}{Lemma}[section]
@@ -78,8 +77,15 @@
 \input{Introduction/Introduction}
 \input{Background/Background}
 \input{LiteratureReview/LiteratureReview}
-\input{Analysis/Analysis.tex}
+\input{Analysis/Analysis}
 \input{Conclusion/Conclusion}
+
+% Ensure that any & characters in the included files are within proper environments like tabular or align.
+% For example:
+% \begin{tabular}{c|c}
+% A & B \\
+% C & D \\
+% \end{tabular}
 
 
 \printglossary[title={Abbreviations},type=acronym,style=long]
