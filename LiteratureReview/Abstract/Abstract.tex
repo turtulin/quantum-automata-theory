@@ -1,4 +1,4 @@
-\section{Algebraic Quantum Finite Automata}
+\section{Algebraic Quantum Automata Models}
 \label{sec:abstract-qfa}
 
 This section explores quantum automata models defined through algebraic structures and abstract mathematical frameworks, providing foundational insights into quantum computational paradigms.
@@ -32,7 +32,7 @@ An abstract quantum automaton is defined as:
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{all languages in BQP} through polynomial-time simulations of concrete QFA models \cite{manin1980computable, gruska2005}. Specifically:
+Recognises \textbf{all languages in BQP} through polynomial-time simulations of concrete QFA models \cite{manin1980computable, gruska2005}. Specifically:
 \[
 L(\mathcal{A}) = \{w \in \Sigma^* \mid \|P_a\ket{\psi_w}\|^2 \geq 2/3\}
 \]
@@ -77,7 +77,7 @@ l_{i+1} = \delta(l_i, \sigma) \land (l_i \lor \delta(l_i, \sigma)^\perp)
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{quantum decision languages} closed under:
+Recognises \textbf{quantum decision languages} closed under:
 \[
 L = \{w \mid \bigvee_{i=1}^n (p_i(w) \land \neg q_i(w)) \in F\}
 \]

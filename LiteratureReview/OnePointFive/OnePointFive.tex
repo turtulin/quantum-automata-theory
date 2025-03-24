@@ -1,14 +1,14 @@
-\section{1.5-Way Quantum Finite Automata}
+\section{\glsentrylong{1.5qfa}}
 \label{sec:1.5qfa}
 
-The 1.5-way QFA model bridges the gap between one-way and two-way quantum automata by permitting limited lookback while maintaining linear time complexity. This section formalizes its enhanced computational capabilities through restricted bidirectional processing.
+The 1.5-way QFA model bridges the gap between one-way and two-way quantum automata by permitting limited lookback while maintaining linear time complexity. This section formalises its enhanced computational capabilities through restricted bidirectional processing.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{\glsentrylong{1.5qfa}}
 %\label{subsec:1.5qfa}
 
 \begin{definition}[\gls{1.5qfa}]
-A 1.5-way quantum finite automaton with window size $k$ is defined as:
+A \gls{1.5qfa} with window size $k$ is defined as:
 \[
 M = (Q, \Sigma, \delta, q_0, F, \circlearrowleft, k)
 \]
@@ -36,7 +36,7 @@ M = (Q, \Sigma, \delta, q_0, F, \circlearrowleft, k)
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{non-context-free languages} with bounded error $\epsilon < 1/3$:
+Recognises \textbf{non-context-free languages} with bounded error $\epsilon < 1/3$:
 \[
 L_1 = \{a^mb^nc^{b^n} \mid m,n \geq 1\} \quad \text{and} \quad L_2 = \{ww^Rw \mid w \in \{a,b\}^*\} 
 \]

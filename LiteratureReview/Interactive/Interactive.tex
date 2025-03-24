@@ -1,4 +1,4 @@
-\section{Interactive Quantum Automata}
+\section{Interactive Quantum Automata Models}
 \label{sec:interactive-quantum}
 
 Interactive quantum automata extend the capabilities of standard \glspl{qfa} through verifier-prover protocols, enabling recognition of language classes beyond classical interactive proofs. This section details three key models with increasing expressive power.
@@ -34,7 +34,7 @@ M = (V_{1QFA}, P, \Sigma, \delta_V, \delta_P, k)
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{regular languages} with perfect completeness and soundness $\epsilon < 1/2$ \cite{yakaryilmaz2013verification}. Specifically:
+Recognises \textbf{regular languages} with perfect completeness and soundness $\epsilon < 1/2$ \cite{yakaryilmaz2013verification}. Specifically:
 \[
 L(M) = \{w \in \Sigma^* \mid \text{Pr}[V_{1QFA} \text{ accepts } w] \geq 2/3\}
 \]
@@ -47,7 +47,7 @@ L(M) = \{w \in \Sigma^* \mid \text{Pr}[V_{1QFA} \text{ accepts } w] \geq 2/3\}
 
 \paragraph{Limitations:}
 \begin{itemize}
-    \item Cannot recognize non-regular languages
+    \item Cannot recognise non-regular languages
     \item Requires perfect quantum channel between verifier-prover
 \end{itemize}
 
@@ -76,7 +76,7 @@ M = (V_{2QFA}, P, \Sigma, \delta_V, \delta_P, k, \Gamma)
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{non-context-free languages} including:
+Recognises \textbf{non-context-free languages} including:
 \[
 L = \{a^nb^nc^n \mid n \geq 0\} \quad \text{and} \quad L_{pal} = \{ww^R \mid w \in \Sigma^*\}
 \]
@@ -118,17 +118,17 @@ M = (V_{2QCFA}, \{P_i\}_{i=1}^k, \Sigma, \delta_{cl}, \delta_{qu}, \{\delta_{P_i
 
 \paragraph{Operation:}
 \begin{enumerate}
-    \item \textbf{Classical Coordination:} Verifier uses $S$ to synchronize:
+    \item \textbf{Classical Coordination:} Verifier uses $S$ to synchronise:
     \begin{itemize}
         \item Head movements on multiple tapes
         \item Timing of quantum operations
     \end{itemize}
     \item \textbf{Entangled Queries:} Verifier sends $k$-partite entangled states to provers
-    \item \textbf{Consistency Check:} Verifier verifies provers' responses using stabilizer measurements
+    \item \textbf{Consistency Check:} Verifier verifies provers' responses using stabiliser measurements
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{recursively enumerable languages} including:
+Recognises \textbf{recursively enumerable languages} including:
 \[
 L_{SAT} = \{\phi \mid \phi \text{ is a satisfiable Boolean formula}\}
 \]
@@ -138,7 +138,7 @@ with completeness 1 and soundness $\epsilon < 1/2^k$ \cite{kobayashi2003quantum}
 \paragraph{Advantages:}
 \begin{itemize}
     \item Unconditional security against provers via no-cloning theorem
-    \item Recognizes undecidable languages in the limit $k \rightarrow \infty$
+    \item Recognises undecidable languages in the limit $k \rightarrow \infty$
 \end{itemize}
 
 \paragraph{Limitations:}

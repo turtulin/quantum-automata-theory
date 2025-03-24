@@ -1,4 +1,4 @@
-\section{\glsentrylong{1qfa}}
+\section{One-Way Quantum Automata Models}
 \label{sec:one-way-qfas}
 
 One-way \glspl{qfa} process the input tape in a single left-to-right pass. In this section, we review the standard models of one-way \gls{qfa}—including both the measure-once and measure-many variants—as well as a notable alternative model, the \gls{lqfa}. For each model, we detail a uniform definition that specifies the symbols and their meanings, the operational mechanism, language acceptance criteria, advantages, and limitations. A schematic summary at the end of each subsection highlights the key features.
@@ -293,7 +293,7 @@ Recognises \textbf{context-free languages} (e.g., \( L = \{ww^R \mid w \in \Sigm
 \label{subsec:classical-comparison}
 Quantum models exhibit both advantages and limitations compared to their classical counterparts:
 \begin{itemize}
-    \item \textbf{State efficiency}: \gls{mo-1qfa} require fewer states for periodic languages \cite{kondacs1997power}, but cannot recognize all regular languages.
+    \item \textbf{State efficiency}: \gls{mo-1qfa} require fewer states for periodic languages \cite{kondacs1997power}, but cannot recognise all regular languages.
     \item \textbf{Error bounds}: \gls{mm-1qfa} achieve bounded error for specific languages \cite{ambainis1998}, unlike deterministic finite automata.
     \item \textbf{Closure properties}: Classical automata are closed under all Boolean operations \cite{rabin1959}, while most \gls{qfa} variants are not.
 \end{itemize}

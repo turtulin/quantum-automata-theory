@@ -1,7 +1,7 @@
-\section{Specialized Quantum Finite Automata}
-\label{sec:specialized-qfa}
+\section{Specialised Quantum Automata Models}
+\label{sec:specialised-qfa}
 
-This section examines quantum automata models designed for specific computational paradigms and specialized language recognition tasks.
+This section examines quantum automata models designed for specific computational paradigms and specialised language recognition tasks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{\glsentrylong{qqa}}
@@ -28,7 +28,7 @@ M = (Q, \Sigma, \Gamma, \delta, q_0, F, \rho_{init})
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{real-time context-sensitive languages} including:
+Recognises \textbf{real-time context-sensitive languages} including:
 \[
 L = \{a^nb^nc^n | n \geq 0\} \quad \text{with bounded error } \epsilon < 1/3
 \]
@@ -71,7 +71,7 @@ M = (Q, \Sigma, \Gamma, \delta, q_0, \bot, F)
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{non-context-free languages} including:
+Recognises \textbf{non-context-free languages} including:
 \[
 L = \{a^nb^{2^n} | n \geq 0\} \quad \text{with probability } \geq 3/4. 
 \]
@@ -159,7 +159,7 @@ M = (Q, \Sigma, \Gamma, \delta, q_0, q_{acc}, q_{rej})
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{all BQP languages} \cite{shor1994algorithms} with:
+Recognises \textbf{all BQP languages} \cite{shor1994algorithms} with:
 \[
 w \in L \Rightarrow \text{Pr}[M \text{ accepts } w] \geq 2/3
 \]
@@ -206,7 +206,7 @@ An enhanced QFA with superoperators is defined as:
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{stochastic languages} with:
+Recognises \textbf{stochastic languages} with:
 \[
 L = \{w | \text{tr}(E_a \rho_w) > \lambda\}
 \]
@@ -240,8 +240,8 @@ for threshold $\lambda \in [0,1]$ \cite{hirvensalo2012quantum}
           (qpa) edge (qtm)
           (qqa) edge (eqfa);
 \end{tikzpicture}
-\caption{Hierarchy of specialized quantum automata. Arrows indicate increasing computational power.}
-\label{fig:specialized-hierarchy}
+\caption{Hierarchy of specialised quantum automata. Arrows indicate increasing computational power.}
+\label{fig:specialised-hierarchy}
 \end{figure}
 
 \textbf{Key Comparisons:}

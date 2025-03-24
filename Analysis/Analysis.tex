@@ -2,11 +2,11 @@
 % Comparative Analysis of Quantum Finite Automata Models
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Comparative Analysis of Quantum Finite Automata Models}
+\chapter{Comparative Analysis}
 \label{chap:comparative-analysis}
 This chapter provides a comprehensive comparison of \gls{qfa} models, structured into nine categories. Key evaluation criteria include state complexity, error handling, and implementation feasibility. 
-The models are organized to reflect the structure of the chapter~\ref{chap:literature-review}, with each category representing a distinct class of QFA models.
-For each category, we summarize the operational mechanisms, present visual comparisons, and underline the most relevant models and their trade-offs. We then compare these groups across each other and conclude with an overall evaluation highlighting the most and least promising approaches.
+The models are organised to reflect the structure of the chapter~\ref{chap:literature-review}, with each category representing a distinct class of QFA models.
+For each category, we summarise the operational mechanisms, present visual comparisons, and underline the most relevant models and their trade-offs. We then compare these groups across each other and conclude with an overall evaluation highlighting the most and least promising approaches.
 
 \section{Models Comparison}
 This section provides a detailed comparative analysis across the models presented in chapter~\ref{chap:literature-review}. We group the models into nine categories based on their operational mechanisms and complexity. For each category, we summarise the main characteristics, highlighting the main differences and trade-offs. We then compare the models across categories to identify the most promising approaches for practical quantum computing applications.
@@ -18,11 +18,11 @@ This section provides a detailed comparative analysis across the models presente
 \subsubsection{Summary}
 One-way QFAs process input left-to-right with varying measurement strategies:
 \begin{itemize}
-    \item \textbf{\gls{mo-1qfa}}: Implements unitary evolution with a single final measurement. Recognizes reversible regular languages with zero error. State complexity is typically $O(\log n)$, but the model is non-closed under union.
+    \item \textbf{\gls{mo-1qfa}}: Implements unitary evolution with a single final measurement. Recognises reversible regular languages with zero error. State complexity is typically $O(\log n)$, but the model is non-closed under union.
     \item \textbf{\gls{mm-1qfa}}: Uses intermediate measurements, enabling bounded-error recognition of all regular languages. It has an exponential state advantage over PFAs but suffers from measurement overhead.
     \item \textbf{\gls{lqfa}}: Uses immediate post-symbol measurements to balance quantum coherence and decision making, particularly for parity languages.
     \item \textbf{\gls{1qfac}/\gls{cl-1qfa}}: Hybrid models that combine classical state control with quantum updates, achieving efficient DFA simulation with constant quantum memory. However, equivalence checking is undecidable \cite{hirvensalo2008}.
-    \item \textbf{\gls{a-qfa}/\gls{mlqfa}}: Enhanced models that use ancillary \glspl{qubit} (\gls{a-qfa}) or multi-letter block processing (\gls{mlqfa}) to recognize \glsentrylongpl{csl}. \glspl{mlqfa}, however, suffer from exponential state growth in the block size $k$ \cite{ravikumar2003}.
+    \item \textbf{\gls{a-qfa}/\gls{mlqfa}}: Enhanced models that use ancillary \glspl{qubit} (\gls{a-qfa}) or multi-letter block processing (\gls{mlqfa}) to recognise \glsentrylongpl{csl}. \glspl{mlqfa}, however, suffer from exponential state growth in the block size $k$ \cite{ravikumar2003}.
 \end{itemize}
 
 \subsubsection{Comparison}
@@ -74,7 +74,7 @@ The \gls{1.5qfa} extends the one-way paradigm by permitting a limited lookback t
     \item Restricted by the fixed window size $k$, which limits handling of unbounded context.
 \end{itemize}
 
-%TODO: not clear which language classes are recognized
+%TODO: not clear which language classes are recognised
 \subsubsection{Schematic Diagram}
 \begin{figure}[ht]
 \centering
@@ -93,7 +93,7 @@ The \gls{1.5qfa} extends the one-way paradigm by permitting a limited lookback t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Summary}
-Two-way QFAs enable full bidirectional tape access, which allows them to recognize more complex (non-regular) languages:
+Two-way QFAs enable full bidirectional tape access, which allows them to recognise more complex (non-regular) languages:
 \begin{itemize}
     \item \textbf{2QFA}: A pure quantum two-way model capable of recognizing languages such as $\{a^nb^n\}$.
     \item \textbf{2QCFA/kTQCFA}: Hybrid variants incorporating classical control, often achieving recognition (e.g., palindromes or $k$-tape dependencies) with reduced quantum memory.
@@ -133,7 +133,7 @@ kTQCFA & $O(k)$ & $k$-tape dependencies \\ \hline
 Hybrid models integrate classical logic with quantum processing:
 \begin{itemize}
     \item \textbf{SQA}: Combines classical steering with quantum evolution.
-    \item \textbf{QCPA}: Utilizes parity-based switching between classical and quantum modes.
+    \item \textbf{QCPA}: Utilises parity-based switching between classical and quantum modes.
     \item \textbf{BCQFA}: Employs blind counters to process balanced languages.
 \end{itemize}
 
@@ -181,14 +181,14 @@ OTQFA & Lindbladian operators & PSPACE-level \\ \hline
 While generalised models are crucial for addressing realistic noise, their increased complexity limits near-term practical deployment relative to simpler hybrid models.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Specialized Models}
+\subsection*{Specialised Models}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Summary}
-Specialized QFAs incorporate additional memory structures to extend their computational power:
+Specialised QFAs incorporate additional memory structures to extend their computational power:
 \begin{itemize}
-    \item \textbf{QQA/QPA}: Utilize quantum queues or stacks to recognize context-sensitive or EXPTIME languages.
-    \item \textbf{PSQFA}: Leverage postselection to amplify correct outcomes under idealized conditions.
+    \item \textbf{QQA/QPA}: Utilise quantum queues or stacks to recognise context-sensitive or EXPTIME languages.
+    \item \textbf{PSQFA}: Leverage postselection to amplify correct outcomes under idealised conditions.
 \end{itemize}
 
 \subsubsection{Comparison}
@@ -204,7 +204,7 @@ Specialized QFAs incorporate additional memory structures to extend their comput
 \end{figure}
 
 \subsubsection{Comparative Insights}
-Although specialized models can recognize language classes beyond regular and context-free, their increased state complexity and error management issues make them less attractive for practical implementations.
+Although specialised models can recognise language classes beyond regular and context-free, their increased state complexity and error management issues make them less attractive for practical implementations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Promise Problem Solvers}
@@ -241,7 +241,7 @@ Promise problem solvers deliver high reliability under specific input conditions
 Interactive models extend QFA capabilities via communication protocols between a prover and a verifier:
 \begin{itemize}
     \item \textbf{QIP(1QFA)}: Single-prover interactive systems for regular languages, operating with $O(\log n)$ qubits \cite{yakaryilmaz2013verification}.
-    \item \textbf{QMIP(2QCFA)}: Multi-prover systems utilizing entanglement to recognize even recursively enumerable languages, albeit with high resource demands.
+    \item \textbf{QMIP(2QCFA)}: Multi-prover systems utilizing entanglement to recognise even recursively enumerable languages, albeit with high resource demands.
 \end{itemize}
 
 \subsubsection{Comparison}
@@ -301,7 +301,7 @@ MPSQFA      & Tensor network simulation & Theoretical exploration & High \\ \hli
 Abstract models are essential for advancing a unified theoretical foundation of quantum automata. Their high complexity and abstract nature, however, limit their immediate practical application.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Overall Comparative Discussion and Final Evaluation}
+\section{Overall Discussion and Final Evaluation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This chapter has presented a detailed comparative analysis of QFA models across nine categories. Key findings include:
 \begin{itemize}
@@ -309,12 +309,12 @@ This chapter has presented a detailed comparative analysis of QFA models across 
     \item \textbf{1.5-Way and Two-Way Models} enhance recognition capabilities at the expense of increased complexity.
     \item \textbf{Hybrid Models} (e.g., 1QFAC/CL-1QFA) offer the best balance for practical applications.
     \item \textbf{Generalised Models} effectively handle realistic noise, though with higher complexity (e.g., Gruska's noise models \cite{gruska2005}).
-    \item \textbf{Specialized Models} extend language recognition capabilities but are hampered by high state complexity and error management challenges.
+    \item \textbf{Specialised Models} extend language recognition capabilities but are hampered by high state complexity and error management challenges.
     \item \textbf{Promise Problem Solvers} provide high reliability under strict input conditions, yet their applicability is narrow.
     \item \textbf{Interactive Models} push computational boundaries but require substantial resources.
     \item \textbf{Abstract and Algebraic Models} are crucial for theoretical unification, yet are currently less practical.
 \end{itemize}
-Overall, hybrid and generalised models emerge as the most promising for near-term quantum computing applications, while promise problem solvers, specialized, interactive, and abstract models continue to provide valuable insights for advancing the theoretical foundations of quantum automata.
+Overall, hybrid and generalised models emerge as the most promising for near-term quantum computing applications, while promise problem solvers, specialised, interactive, and abstract models continue to provide valuable insights for advancing the theoretical foundations of quantum automata.
 
 \subsubsection{Key Models and Promising Directions}
 \begin{itemize}
@@ -328,6 +328,6 @@ In summary, while theoretical models such as interactive and abstract QFAs push 
 \begin{itemize}
     \item Developing robust error correction and state minimization techniques for hybrid architectures.
     \item Implementing hardware prototypes for 1.5-way and two-way models.
-    \item Advancing algebraic frameworks to unify generalized and abstract models.
+    \item Advancing algebraic frameworks to unify generalised and abstract models.
 \end{itemize}
 

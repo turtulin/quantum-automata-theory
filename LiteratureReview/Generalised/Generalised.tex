@@ -1,4 +1,4 @@
-\section{Generalised Quantum Finite Automata}
+\section{Generalised Quantum Automata Models}
 \label{sec:gqfa}
 
 This section examines quantum automata models employing non-unitary evolution through quantum channels and open system dynamics.
@@ -34,7 +34,7 @@ A \gls{gqfa} with superoperators is defined as:
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{stochastic languages} with:
+Recognises \textbf{stochastic languages} with:
 \[
 L = \{w \in \Sigma^* \mid \text{Tr}(M_a \rho_w) > \lambda\}
 \]
@@ -57,7 +57,7 @@ for threshold $\lambda \in [0,1]$ \cite{hirvensalo2012quantum}.
 \label{subsec:mo-1gqfa}
 
 \begin{definition}[\gls{mo-1gqfa}]
-A measure-once generalized QFA restricts measurement to final step:
+A measure-once generalised QFA restricts measurement to final step:
 \[
 \mathcal{M} = (Q, \Sigma, \{\mathcal{E}_\sigma\}, \rho_0, M_a)
 \]
@@ -74,7 +74,7 @@ with single POVM operator $M_a$.
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{regular languages with unbounded error}:
+Recognises \textbf{regular languages with unbounded error}:
 \[
 L = \{w \mid \lim_{n\to\infty} \text{Pr}[M \text{ accepts } w] > 0\}
 \]
@@ -97,7 +97,7 @@ including non-reversible languages \cite{hirvensalo2012quantum}.
 \label{subsec:mm-1gqfa}
 
 \begin{definition}[\gls{mm-1gqfa}]
-A measure-many generalized QFA is defined as:
+A measure-many generalised QFA is defined as:
 \[
 \mathcal{M} = (Q, \Sigma, \{\mathcal{E}_\sigma\}, \rho_0, \{M_i\}, Q_{acc})
 \]
@@ -123,7 +123,7 @@ for $\epsilon < 1/2$ through adaptive measurements \cite{hirvensalo2012quantum}.
 \paragraph{Advantages:}
 \begin{itemize}
     \item Error reduction via repeated probing
-    \item Recognizes non-regular languages through destructive interference
+    \item Recognises non-regular languages through destructive interference
 \end{itemize}
 
 \paragraph{Limitations:}
@@ -161,7 +161,7 @@ An open-time evolution QFA is defined via Lindbladians:
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{non-regular languages} under dissipative dynamics \cite{hirvensalo2012quantum}:
+Recognises \textbf{non-regular languages} under dissipative dynamics \cite{hirvensalo2012quantum}:
 \[
 L = \{a^nb^n | n \geq 0\} \quad \text{with } \epsilon < 0.25 
 \]
@@ -194,7 +194,7 @@ L = \{a^nb^n | n \geq 0\} \quad \text{with } \epsilon < 0.25
           (mm) edge (ot)
           (gqfa) edge (ot);
 \end{tikzpicture}
-\caption{Hierarchy of generalized QFAs. Arrows indicate increasing expressiveness through added capabilities.}
+\caption{Hierarchy of generalised QFAs. Arrows indicate increasing expressiveness through added capabilities.}
 \label{fig:gqfa-hierarchy}
 \end{figure}
 

@@ -1,4 +1,4 @@
-\section{Hybrid Classical-Quantum Finite Automata}
+\section{Hybrid Classical-Quantum Automata Models}
 \label{sec:hybrid-qfa}
 
 This section explores automata models that synergistically combine classical and quantum components to enhance computational capabilities while maintaining practical implementability.
@@ -36,7 +36,7 @@ M = (Q_c, Q_q, \Sigma, \delta_c, \{\mathcal{U}_\sigma\}, q_{c0}, \ket{\psi_0}, F
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{some context-sensitive patterns} with:
+Recognises \textbf{some context-sensitive patterns} with:
 \[ L = \{a^nb^nc^n | n \geq 0\} \quad \text{with error } \epsilon < 1/3 \]\cite{zheng2012two, gruska2005}.
 
 \paragraph{Advantages:}
@@ -81,7 +81,7 @@ M = (Q, \Sigma, \delta_{cl}, \delta_{qu}, q_0, \mathcal{P}, F)
 \end{enumerate}
 
 \paragraph{Language Acceptance:}
-Recognizes \textbf{parity-closed languages} including:
+Recognises \textbf{parity-closed languages} including:
 \[
 L = \{w \in \{a,b\}^* | |w|_a \equiv |w|_b \mod 2\} 
 \]
@@ -158,7 +158,7 @@ L = \{a^nb^n | n \geq 0\} \quad \text{with 1-sided error } \epsilon < 0.5
 \draw[->] (bcqfa) edge node[above, align=center] {+ State Control\\ + Tape Access} (qcpa)
           (qcpa) edge node[above, align=center] {+ Classical Logic\\ + Hybrid Transitions} (sqa);
 \end{tikzpicture}
-\caption{Hierarchy of hybrid quantum-classical automata. \gls{sqa} recognizes select context-sensitive languages \cite{zheng2012two}, while \gls{bcqfa} specializes in balanced patterns \cite{ambainis1998}.}
+\caption{Hierarchy of hybrid quantum-classical automata. \gls{sqa} recognises select context-sensitive languages \cite{zheng2012two}, while \gls{bcqfa} specialises in balanced patterns \cite{ambainis1998}.}
 \label{fig:hybrid-hierarchy}
 \end{figure}
 
