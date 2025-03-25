@@ -33,18 +33,15 @@ The \gls{dfa} in Figure~\ref{fig:cfa-example} is defined by:
     \centering
     \begin{tikzpicture}[->,>=stealth,shorten >=1pt,auto,node distance=3cm,
                         semithick, every state/.style={minimum size=0.8cm}]
-        % States
         \node[state, initial, accepting] (q0) {$q_0$};
         \node[state] (q1) [right=of q0] {$q_1$};
-        
-        % Transitions
         \path 
             (q0) edge [loop above] node {0} (q0)
                  edge [bend left=20] node {1} (q1)
             (q1) edge [loop above] node {0} (q1)
                  edge [bend left=20] node {1} (q0);
     \end{tikzpicture}
-    \caption{\gls{dfa} recognizing strings with an even number of 1s. The double circle indicates the accept state $q_0$.}
+    \caption{\gls{dfa} recognizing strings of 0s and 1s with an even number of 1s.}
     \label{fig:cfa-example}
 \end{figure}
 
@@ -52,13 +49,15 @@ The \gls{dfa} in Figure~\ref{fig:cfa-example} is defined by:
 Graphical representations provide an intuitive understanding of automata behavior \cite{kozen1997automata, sudkamp2006languages}. 
 Key conventions include:
 \begin{itemize}
-    \item \textbf{States}: Circles labeled with state names (e.g., $q_0$).
+    %TODO: check if labeled is british english
+    \item \textbf{States}: Circles labeled with state names (e.g., $q_1$ in Figure~\ref{fig:cfa-example}).
     \item \textbf{Initial State}: Marked by an unlabeled incoming arrow.
     \item \textbf{Accept States}: Double circles (e.g., $q_0$ in Figure~\ref{fig:cfa-example}).
     \item \textbf{Transitions}: Arrows labeled with input symbols.
 \end{itemize}
 \end{observation}
 
+%TODO: remove reference
 \begin{table}[htbp]
     \centering
     \begin{adjustbox}{max width=\textwidth}

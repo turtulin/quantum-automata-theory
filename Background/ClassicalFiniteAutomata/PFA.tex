@@ -1,7 +1,7 @@
 \subsection{\glsentrylong{pfa}}
 \label{subsec:pfa}
 
-\begin{definition}[\gls{pfa}]
+\begin{definition}[\glsentrylong{pfa}]
     A \gls{pfa} is a quintuple 
     \[
     M = (Q, \Sigma, \delta, \pi, F)
@@ -10,10 +10,10 @@
     \begin{itemize}
         \item \( Q \) is a finite set of states,
         \item \( \Sigma \) is a finite input alphabet,
-        \item \( \delta: Q \times \Sigma \times Q \rightarrow [0,1] \) is a probabilistic transition function such that 
+        \item \( \delta: Q \times \Sigma \times Q \rightarrow [0,1] \) is a probabilistic transition function \cite{rabin1963probabilistic} such that 
         \[
         \sum_{q' \in Q} \delta(q, \sigma, q') = 1 \quad \text{for all } q \in Q \text{ and } \sigma \in \Sigma
-        \]\cite{rabin1963probabilistic},
+        ,\]
         \item \( \pi \in \mathbb{R}^{|Q|} \) is an initial state distribution vector with 
         \[
         \sum_{q \in Q} \pi_q = 1,
@@ -34,6 +34,23 @@ L_{\text{maj}} = \{ w \in \{a,b\}^* \mid |w|_a > |w|_b \},
 where the acceptance probability is at least \( \frac{2}{3} \).
 \end{example}
 
+%TODO: Explain the computation of the acceptance probability
+\begin{figure}[ht]
+    \centering  
+    \begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
+        \node[state, initial, initial text={$\pi=1$}] (q0) {$q_0$};
+        \node[state, accepting] (q1) [right=of q0] {$q_1$};
+        
+        \path[->]
+        (q0) edge [loop above] node {a(0.6), b(0.4)} (q0)
+        (q0) edge [bend left] node {a(0.4), b(0.6)} (q1)
+        (q1) edge [loop above] node {a(0.3), b(0.7)} (q1)
+        (q1) edge [bend left] node {a(0.7), b(0.3)} (q0);
+    \end{tikzpicture}
+    \caption{PFA for majority language with probabilistic transitions}
+    \label{fig:pfa-example}
+\end{figure}
+
 \begin{theorem}[Rabin's Theorem for \glspl{pfa}]
     \label{thm:rabin}
     A \gls{pfa} with an isolated cut-point recognises exactly the class of regular languages \cite{rabin1963probabilistic}.
@@ -50,19 +67,3 @@ For a \gls{pfa} with a strict cut-point (\(\lambda = 1\)), the recognised langua
 \begin{observation}
     The closure properties of \glspl{pfa} differ from those of classical finite automata. In particular, complementation is not directly achievable unless an isolated cut-point is used \cite{droste2009handbook}.
 \end{observation}
-
-\begin{figure}[h]
-    \centering  
-    \begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
-        \node[state, initial, initial text={$\pi=1$}] (q0) {$q_0$};
-        \node[state, accepting] (q1) [right=of q0] {$q_1$};
-        
-        \path[->]
-        (q0) edge [loop above] node {a(0.6), b(0.4)} (q0)
-        (q0) edge [bend left] node {a(0.4), b(0.6)} (q1)
-        (q1) edge [loop above] node {a(0.3), b(0.7)} (q1)
-        (q1) edge [bend left] node {a(0.7), b(0.3)} (q0);
-    \end{tikzpicture}
-    \caption{PFA for majority language with probabilistic transitions}
-    \label{fig:pfa-example}
-\end{figure}

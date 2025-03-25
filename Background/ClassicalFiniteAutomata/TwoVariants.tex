@@ -1,11 +1,7 @@
 \subsection{Two-Way Finite Automata Variants}
 \label{subsec:two-way-variants}
 
-Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages (both one‐way and two‐way automata recognise exactly the regular languages), two-way models can be exponentially more succinct than one-way models \cite{sakoda1978nfas, kozen1997automata} and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Two-Way Deterministic Finite Automata (2DFA)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Two-way finite automata extend the classical one‐way model by allowing the read head to move in both directions over the input. Although this extra power does not increase the class of recognizable languages, two-way models can be exponentially more succinct than one-way models \cite{sakoda1978nfas, kozen1997automata} and naturally lend themselves to algorithms in several contexts (e.g., in complexity analysis and even quantum models).
 
 \subsubsection{\glsentrylong{2dfa}}
 \label{subsubsec:2dfa}
@@ -22,8 +18,8 @@ where:
   \item \(\triangleright\) and \(\dashv\) are special symbols called the left and right endmarkers, respectively (with \(\triangleright,\dashv \notin \Sigma\)),
   \item \(\delta: Q \times (\Sigma \cup \{\triangleright, \dashv\}) \to Q \times \{\triangleright,\dashv\}\) is the transition function,
   \item \(s\in Q\) is the start state,
-  \item \(t\in Q\) is the (unique) accept state, and
-  \item \(r\in Q\) (with \(r\neq t\)) is the (unique) reject state.
+  \item \(t\in Q\) is the unique accept state,
+  \item \(r\in Q\) (with \(r\neq t\)) is the unique reject state.
 \end{itemize}
 In addition, the transition function is assumed to satisfy:
 \begin{itemize}
@@ -37,7 +33,7 @@ In addition, the transition function is assumed to satisfy:
 The two-way motion allows the automaton to perform multiple passes over the input, which can result in an exponential reduction in the number of states compared to one-way automata, though at the expense of increased operational complexity.
 \end{remark}
 
-\begin{example}[First and Last Symbol Equality]
+\begin{example}
     Consider the language 
     \[
     L = \{ w\in \{0,1\}^* \mid \text{the first symbol of } w \text{ equals the last symbol} \}.
@@ -52,7 +48,7 @@ The two-way motion allows the automaton to perform multiple passes over the inpu
 \end{example}
 
 \begin{observation}
-    Although every \gls{2dfa} can be simulated by a one-way \gls{dfa}, such a simulation may require an exponential increase in the number of states \cite{shepherdson1959reduction}.
+    Although every \gls{2dfa} can be simulated by a \gls{1dfa}, such a simulation may require an exponential increase in the number of states \cite{shepherdson1959reduction}.
 \end{observation}
 
 \paragraph{Operational Mechanics}
@@ -61,6 +57,7 @@ The two-way motion enables the automaton to make multiple passes over the input,
 \paragraph{State Complexity and Conversion Algorithms}
 For some families of regular languages, \glspl{2dfa} can be exponentially more succinct than their one-way counterparts. Conversion algorithms—such as those proposed by Shepherdson and Kozen—use crossing sequences to simulate two-way behavior in a one-way \gls{dfa}, typically at the cost of exponential state blow-up.
 
+%TODO: enhance the following example
 \begin{figure}[ht]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
@@ -78,13 +75,9 @@ For some families of regular languages, \glspl{2dfa} can be exponentially more s
             (q2) edge node[below] {\(\triangleright: a = \text{last?}\)} (t)
             (q2) edge node[above] {\(\triangleright: a \neq \text{last}\)} (r);
     \end{tikzpicture}
-    \caption{2DFA for \(L = \{w \mid w_1 = w_{|w|}\}\). States encode the first symbol \(a \in \{0,1\}\). Transitions use \(\triangleright/\dashv\) to denote head movement directions and endmarkers.}
+    \caption{\gls{2dfa} for \(L = \{w \mid w_1 = w_{|w|}\}\). States encode the first symbol \(a \in \{0,1\}\). Transitions use \(\triangleright/\dashv\) to denote head movement directions and endmarkers.}
     \label{fig:2dfa-example}
 \end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Two-Way Nondeterministic Finite Automata (2NFA)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{\glsentrylong{2nfa}}
 \label{subsubsec:2nfa}
@@ -111,7 +104,7 @@ The transition function obeys similar boundary conditions as in the \gls{2dfa} c
 The nondeterminism in a \gls{2nfa} allows it to “guess” important positions within the input and verify them via bidirectional traversal, which can lead to significant state savings compared to deterministic models.
 \end{remark}
 
-\begin{example}[Symmetry Check (Toy Version)]
+\begin{example}
 Consider the language 
 \[
 L_{sym} = \{ w \in \{0,1\}^* \mid \text{the first two symbols equal the last two symbols} \}.
@@ -126,10 +119,7 @@ A high-level description of a \gls{2nfa} for \(L_{sym}\) is:
 Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mechanism.
 \end{example}
 
-\begin{observation}
-\glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognise remains the same (i.e., the regular languages).
-\end{observation}
-
+%TODO: enhance the following example
 \begin{figure}[ht]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=2.2cm, on grid, auto]
@@ -152,9 +142,9 @@ Figure~\ref{fig:2nfa-example} schematically illustrates this guess-and-check mec
     \label{fig:2nfa-example}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Two-Way Probabilistic Finite Automata (2PFA)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{observation}
+\glspl{2nfa} can be exponentially more succinct than one-way \glspl{dfa}, even though the class of languages they recognise remains the same (i.e., the regular languages).
+\end{observation}
 
 \subsubsection{\glsentrylong{2pfa}}
 \label{subsubsec:2pfa}
@@ -183,7 +173,8 @@ where:
 A \gls{2pfa} extends the probabilistic finite automaton by allowing bidirectional head movement. Its transitions are governed by probability distributions, and acceptance is determined by whether the cumulative probability of reaching the accept state exceeds a predetermined cut-point.
 \end{remark}
 
-\begin{example}[Majority Language]
+%TODO: link to the previous example, cardinality symbol now is different
+\begin{example}
 Consider the language 
 \[
 L_{maj} = \{ w \in \{a,b\}^* \mid \#a(w) > \#b(w) \}.
@@ -191,20 +182,7 @@ L_{maj} = \{ w \in \{a,b\}^* \mid \#a(w) > \#b(w) \}.
 A \gls{2pfa} for \(L_{maj}\) operates by making probabilistic passes over the input, updating state probabilities, and eventually halting in the accept state \(t\) if the acceptance probability is high enough. Figure~\ref{fig:2pfa-example} provides a schematic illustration of such a machine.
 \end{example}
 
-\begin{theorem}[Dwork-Stockmeyer Theorem]
-    \label{thm:2pfa-rabin}
-    A \gls{2pfa} with an isolated cut-point recognises exactly the class of regular languages \cite{dwork1990time}.
-\end{theorem}
-
-\begin{proposition}
-If a \gls{2pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognise languages beyond the regular class.
-\end{proposition}
-
-\begin{corollary}
-For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognised language is equivalent to that of a \gls{dfa}.
-\end{corollary}
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering  
     \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
         \node[state,initial] (q0) {\(q_0\)};
@@ -225,22 +203,39 @@ For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognised langu
     \label{fig:2pfa-example}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Comparative Analysis of Two-Way Models
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{theorem}[Dwork-Stockmeyer Theorem]
+    \label{thm:2pfa-rabin}
+    A \gls{2pfa} with an isolated cut-point recognises exactly the class of regular languages \cite{dwork1990time}.
+\end{theorem}
+
+\begin{proposition}
+If a \gls{2pfa} employs a non-isolated cut-point (e.g., \(\lambda = 0\)), it may recognise languages beyond the regular class.
+\end{proposition}
+
+%TODO: add these explainations to the 1PFA too.
+\begin{corollary}
+For a \gls{2pfa} with a strict cut-point (\(\lambda = 1\)), the recognised language is equivalent to that of a \gls{dfa}.
+\end{corollary}
 
 \subsubsection{Comparative Analysis of Two-Way Models}
 \label{subsubsec:two-way-comparison}
 
-\begin{tabular}{|l|c|c|c|c|l|}
-    \hline
-    \textbf{Model} & \textbf{Language Class} & \textbf{Time} & \textbf{Space} & \textbf{States} & \textbf{Key Reference} \\ 
-    \hline
-    \gls{2dfa}  & REG & \(O(n^2)\) & \(O(1)\) & \(2^{\Theta(n)}\) & \cite{shepherdson1959reduction} \\
-    \gls{2nfa}  & REG & \(O(n)\) & \(O(1)\) & \(O(1)\) & \cite{sakoda1978nfas} \\
-    \gls{2pfa}  & REG (isolated cut) & \(O(n^3)\) & \(O(\log n)\) & \(O(1)\) & \cite{dwork1990time} \\
-    \hline
-\end{tabular}
+%TODO: check the correctness of the following table and specify 2PFA. Moreover, add comparison summary also for 1 way models.
+
+\begin{table}[ht]
+    \label{tab:two-way-comparison}
+    \centering
+    \begin{tabular}{|l|c|c|c|c|l|}
+        \hline
+        \textbf{Model} & \textbf{Language Class} & \textbf{Time} & \textbf{Space} & \textbf{States} & \textbf{Key Reference} \\ 
+        \hline
+        \gls{2dfa}  & REG & \(O(n^2)\) & \(O(1)\) & \(2^{\Theta(n)}\) & \cite{shepherdson1959reduction} \\
+        \gls{2nfa}  & REG & \(O(n)\) & \(O(1)\) & \(O(1)\) & \cite{sakoda1978nfas} \\
+        \gls{2pfa}  & REG (isolated cut) & \(O(n^3)\) & \(O(\log n)\) & \(O(1)\) & \cite{dwork1990time} \\
+        \hline
+    \end{tabular}
+    \caption{Comparative analysis of two-way automata models}
+\end{table}
 
 \begin{remark}
 The comparative analysis illustrates that while all two-way automata recognise only regular languages, the two-way models often achieve significant advantages in state complexity and, in some cases, time complexity, compared to their one-way counterparts.
