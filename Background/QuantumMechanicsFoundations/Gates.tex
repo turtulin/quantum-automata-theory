@@ -1,4 +1,3 @@
-
 \subsection{Quantum Gates and Circuits}
 \label{subsec:gates}
 
@@ -18,7 +17,7 @@ Key single-qubit gates include:
     \[
     H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix},
     \]
-    creating superpositions as seen in the previous section.
+    creating superpositions as seen in Example~\ref{ex:hadamard}.
     \item \textbf{Phase Shift:}
     \[
     R_\phi = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\phi} \end{pmatrix}.
@@ -26,6 +25,7 @@ Key single-qubit gates include:
 \end{itemize}
 \end{notation}
 
+%NOTE: define better addition modulo 2
 \begin{definition}[Two-Qubit Gate]
 A two-qubit gate, such as the \gls{cnot} gate, acts on a pair of qubits. The \gls{cnot} gate flips the second (target) qubit if the first (control) qubit is \(|1\rangle\); formally,
 \[
@@ -34,24 +34,25 @@ A two-qubit gate, such as the \gls{cnot} gate, acts on a pair of qubits. The \gl
 where \(\oplus\) denotes addition modulo 2.
 \end{definition}
 
+\begin{figure}[h]
+  \centering
+  \begin{quantikz}
+      \lstick{\(|a\rangle\)} & \ctrl{1} & \qw \\
+      \lstick{\(|b\rangle\)} & \targ{} & \qw
+  \end{quantikz}
+  \caption{\gls{cnot} gate operation: \(|a,b\rangle \to |a, a \oplus b\rangle\).}
+  \label{fig:cnot-gate}
+\end{figure}
+
 \begin{remark}
     A universal set of quantum gates, for example \(\{H, T, \gls{cnot}\}\), can approximate any unitary operation to arbitrary precision \cite{nielsen2010quantum}, thereby forming the foundation of the quantum circuit model.
 \end{remark}
-
-\begin{figure}[h]
-    \centering
-    \begin{quantikz}
-        \lstick{\(|a\rangle\)} & \ctrl{1} & \qw \\
-        \lstick{\(|b\rangle\)} & \targ{} & \qw
-    \end{quantikz}
-    \caption{\gls{cnot} gate operation: \(|a,b\rangle \to |a, a \oplus b\rangle\).}
-    \label{fig:cnot-gate}
-  \end{figure}
 
 \begin{example}[Deutsch-Jozsa Quantum Circuit]
 Figure~\ref{fig:deutsch_circuit} shows a quantum circuit used in the Deutsch-Jozsa algorithm. The circuit demonstrates the application of Hadamard gates before and after the oracle \(U_f\), highlighting the interplay of superposition and entanglement in quantum computation.
 \end{example}
 
+%TODO: correct the circuit
 \begin{figure}[h]
 \centering
 \begin{quantikz}
