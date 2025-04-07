@@ -1,0 +1,89 @@
+\subsection{\glsentrylong{1.5qfa}}
+\label{sec:1.5qfa}
+The \gls{1.5qfa} model bridges the gap between \gls{1qfa} and \gls{2qfa} by permitting limited lookback while maintaining linear time complexity. This section formalises its enhanced computational capabilities through restricted bidirectional processing.
+
+\begin{definition}[\glsentrylong{1.5qfa}]
+A \gls{1.5qfa} with window size $k$ is defined as:
+\[
+M = (Q, \Sigma, \delta, q_0, F, \circlearrowleft, k)
+\]
+\textbf{where:}
+%TODO: some elements are missing
+\begin{itemize}
+    \item $\circlearrowleft$: Circular input tape convention
+    \item $k$: Maximum lookback window size
+    \item $\delta: Q \times \Sigma^{k+1} \rightarrow \mathbb{C}^Q$: Transition amplitudes satisfying
+    \[
+    \sum_{q'\in Q} |\delta(q,\tau|q')|^2 = 1 \quad \forall q \in Q, \tau \in \Sigma^{k+1}
+    \]
+    where $\tau = \sigma_{i-k}...\sigma_i$ contains current and $k$ previous symbols
+\end{itemize}
+\end{definition}
+
+\paragraph{Operation:}
+\begin{enumerate}
+    \item \textbf{Circular Tape Convention:} Input $w = \$w_1...w_n\$$ with endmarkers
+    \item \textbf{Sliding Window Processing:} At position $i$, read window $\tau_i = w_{i-k}...w_i$
+    \item \textbf{Quantum Transition:} Apply unitary transformation:
+    \[
+    \ket{\psi_{i+1}} = U_{\tau_i} \ket{\psi_i} \quad \text{where } (U_{\tau_i})_{q,q'} = \delta(q,\tau_i|q')
+    \]
+    \item \textbf{Head Movement:} Move right if $i < n$, else halt
+\end{enumerate}
+
+\paragraph{Language Acceptance:}
+%TODO: add more details
+Recognises \textbf{non-context-free languages} with bounded error $\epsilon < 1/3$:
+\[
+L_1 = \{a^mb^nc^{b^n} \mid m,n \geq 1\} \quad \text{and} \quad L_2 = \{ww^Rw \mid w \in \{a,b\}^*\} 
+\]
+using quantum interference over symbol windows \cite{ambainis1998}, outperforming classical lookback models \cite{moore1971}.
+
+\paragraph{Advantages:}
+%TODO: transform bullet points into sentences
+\begin{itemize}
+    \item Linear time complexity $O(n)$ for pattern matching
+    \item Exponential state advantage over 2DFA for nested languages
+    \item Practical implementation using fixed-size quantum buffers
+\end{itemize}
+
+\paragraph{Limitations:}
+%TODO: transform bullet points into sentences
+\begin{itemize}
+    \item Window size $k$ limits nesting depth recognition
+    \item Requires $O(k\log|\Sigma|)$ qubits for window storage
+    \item Fails on languages requiring unbounded lookback (e.g., $a^nb^nc^n$)
+\end{itemize}
+
+\subsubsection*{Comparative Analysis and Hierarchy}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=2.5cm]
+\node (1way) [draw, align=center] {1QFA\\ Regular Langs};
+\node (OnePointFiveWay) [draw, right=of 1way, align=center] {1.5QFA\\ Non-CFLs};
+\node (2way) [draw, right=of OnePointFiveWay, align=center] {2QFA\\ RE Langs};
+
+\draw[->] (1way) edge node[above, align=center] {+ Window Lookback\\ + Interference} (OnePointFiveWay)
+          (OnePointFiveWay) edge node[above, align=center] {+ Full Bidirectionality\\ + Tape Mod} (2way);
+\end{tikzpicture}
+\caption{Expressiveness hierarchy of quantum automata models. 1.5QFA bridges one-way and two-way capabilities while maintaining linear runtime.}
+\label{fig:1.5qfa-hierarchy}
+\end{figure}
+
+%TODO: fix sus info
+\textbf{Key Comparisons:}
+\begin{itemize}
+    \item \textbf{Language Classes:}
+    \begin{itemize}
+        \item \gls{qfa}: Regular, reversible
+        \item \gls{1.5qfa}: Context-free, some context-sensitive
+        \item \gls{2qfa}: Recursively enumerable
+    \end{itemize}
+    \item \textbf{Space Complexity:}
+    \begin{itemize}
+        \item \gls{qfa}: $O(1)$ qubits
+        \item \gls{1.5qfa}: $O(k)$ qubits
+        \item \gls{2qfa}: $O(n)$ qubits
+    \end{itemize}
+    \item \textbf{Implementation:} \gls{1.5qfa} requires quantum shift registers vs \gls{2qfa}'s full tape head control
+\end{itemize}

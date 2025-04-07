@@ -1,0 +1,92 @@
+\subsection{\glsentrylong{moqfa}}
+\label{sec:moqfa}
+This section introduces the \glsentryfull{moqfa}, a quantum model in which the system evolves through unitary operations over the entire input and a single measurement is performed at the end. In the bounded error setting, the class of languages accepted by MO-QFAs coincides with the group languages (those accepted by group finite automata).
+
+\subsubsection{Definition}
+An MO-QFA is defined as a 5-tuple 
+\[
+M = (Q, \Sigma, \delta, q_0, F),
+\]
+where:
+\begin{itemize}
+  \item $Q$ is a finite set of states.
+  \item $\Sigma$ is a finite input alphabet; an end-marker (e.g., $\$$) is appended to indicate the end of the input.
+  \item $\delta: Q \times \Sigma \times Q \to \mathbb{C}$ is a transition function such that for all $q_1,q_2 \in Q$ and for every $\sigma \in \Sigma$, the unitary condition
+  \[
+  \sum_{q' \in Q} \delta(q_1, \sigma, q')\,\delta(q_2, \sigma, q')^* =
+  \begin{cases}
+    1, & \text{if } q_1 = q_2,\\[1mm]
+    0, & \text{if } q_1 \neq q_2,
+  \end{cases}
+  \]
+  holds.
+  \item $q_0\in Q$ is the initial state.
+  \item $F\subseteq Q$ is the set of accepting states.
+\end{itemize}
+The computation proceeds by applying the unitary transformations associated with the symbols of the input string, and only after reading the entire input is a projective measurement performed to decide acceptance.
+
+\subsubsection{Accepted Strings}
+For an input string $x\in\Sigma^*$, let
+\[
+|\Psi_x\rangle = U(x)|q_0\rangle,
+\]
+where $U(x)$ is the product of unitary matrices corresponding to the symbols of $x$. Denote by $P$ the projection onto the subspace spanned by the accepting states $F$. Then the acceptance probability is given by
+\[
+p_M(x) = \|P\,|\Psi_x\rangle\|^2.
+\]
+A string is accepted if $p_M(x)$ exceeds a designated cut-point (or, in the bounded error model, is separated from the cut-point by some margin $\epsilon>0$).
+
+\subsubsection{Language Acceptance}
+An MO-QFA is said to accept a language $L\subseteq\Sigma^*$ with cut-point $\lambda$ if
+\[
+x\in L \Longrightarrow p_M(x) > \lambda \quad \text{and} \quad x\notin L \Longrightarrow p_M(x) \le \lambda.
+\]
+In the bounded error scenario, there exists an $\epsilon>0$ such that for all $x\in L$, 
+\[
+p_M(x) \ge \lambda + \epsilon,
+\]
+and for all $x\notin L$,
+\[
+p_M(x) \le \lambda - \epsilon.
+\]
+It has been shown that, with bounded error, the languages recognized by MO-QFAs (often denoted by the class RMO) are exactly the group languages.
+
+\subsubsection{Properties}
+MO-QFAs exhibit several interesting properties:
+\begin{itemize}
+  \item \textbf{Closure Properties:} The class of languages accepted by MO-QFAs with bounded error is closed under inverse homomorphisms, word quotients, and Boolean operations (such as union and intersection), although it is not closed under arbitrary homomorphisms.
+  \item \textbf{Decidability:} Equivalence of two MO-QFAs (i.e., whether they yield the same acceptance probabilities on all inputs) can be decided by transforming them into bilinear representations and applying known algorithms.
+  \item \textbf{Simulation by Classical Models:} Every MO-QFA that accepts a language with bounded error can be simulated by a probabilistic finite automaton (PFA), establishing a close relationship between these quantum models and classical probabilistic automata.
+\end{itemize}
+
+\subsubsection{Description}
+The key features of MO-QFAs include:
+\begin{itemize}
+  \item \textbf{Simplicity:} Only a single measurement is performed at the end of the computation, which simplifies the analysis compared to models that measure at every step.
+  \item \textbf{Unitary Evolution:} All state transitions are described by unitary operators, ensuring reversible evolution until the final measurement.
+  \item \textbf{Limited Acceptance Power (Bounded Error):} When restricted to bounded error, MO-QFAs accept only a proper subset of the regular languages (namely, the group languages). However, without the bounded error constraint, they can recognize some nonregular languages.
+  \item \textbf{Efficient Simulation:} Due to their restricted structure, MO-QFAs are often easier to simulate and analyze than their measure-many counterparts.
+\end{itemize}
+
+\subsubsection{Comparison with Other Models}
+MO-QFAs are best understood in contrast with other quantum finite automata models:
+\begin{itemize}
+  \item \textbf{Measure-Many QFAs (MM-QFAs):} In MM-QFAs, a measurement is performed after each transition. This additional flexibility allows MM-QFAs to accept a broader class of languages (albeit still a proper subset of the regular languages in the bounded error setting), but at the cost of a more complex behavior and analysis.
+  \item \textbf{Classical Finite Automata:} While classical deterministic and probabilistic finite automata have been well studied, MO-QFAs utilize quantum superposition and interference. In the bounded error case, the languages accepted by MO-QFAs are exactly those accepted by group finite automata, showing an equivalence in power under certain restrictions.
+\end{itemize}
+
+\subsubsection{Examples}
+A classic example of an MO-QFA is one that accepts the language 
+\[
+L = \{ x \in \{a,b\}^* \mid |x|_a = |x|_b \},
+\]
+i.e., the set of strings containing an equal number of \(a\)'s and \(b\)'s. One can construct a 2-state MO-QFA:
+\[
+M = (\{q_0, q_1\}, \{a,b\}, \delta, q_0, \{q_1\}),
+\]
+with transition operators defined by:
+\[
+U_a = \begin{pmatrix} \cos\alpha & \sin\alpha \\ -\sin\alpha & \cos\alpha \end{pmatrix}, \quad
+U_b = U_a^{-1},
+\]
+where \(\alpha\) is an irrational multiple of \(\pi\). The irrational rotation ensures that the cumulative effect of reading symbols \(a\) and \(b\) yields a final state in \(q_1\) if and only if the numbers of \(a\)'s and \(b\)'s are equal. This construction illustrates both the elegant use of quantum interference and the limitations imposed by the single-measurement design.
