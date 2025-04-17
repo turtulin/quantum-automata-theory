@@ -1,0 +1,148 @@
+\subsection{Generalised Quantum Finite Automata}
+\label{sec:generalised-qfa}
+\glspl{1gqfa} extend the standard \glspl{qfa} by replacing the usual unitary‐based state transitions with the most general physically admissible maps—namely, trace‐preserving quantum operations. This modification permits non‐unitary evolution, allowing the automata to simulate probabilistic and classical automata while still operating with finite memory. Nevertheless, it has been shown that both the measure‐once and measure‐many versions of \gls{1gqfa} recognize exactly the regular languages (with bounded error) \cite{LI201273}.
+
+\subsubsection{\glsentrylong{mo-1gqfa}}
+\paragraph{Introduction.}  
+A \gls{mo-1gqfa} generalizes the traditional \gls{mo-1qfa} by allowing each input symbol to trigger a trace‐preserving quantum operation (instead of a unitary transformation) on the system. In this model, no measurement is performed during the reading of the input; a single projective measurement is executed only at the end to decide acceptance or rejection \cite{LI201273}.
+
+\paragraph{Formal Definition.}  
+An \gls{mo-1gqfa} is defined as the quintuple
+\[
+M = \{ \mathcal{H},\Sigma,\rho_0,\{\mathcal{E}_\sigma\}_{\sigma\in\Sigma},P_{acc}\},
+\]
+where
+\begin{itemize}
+  \item $\mathcal{H}$ is a finite-dimensional Hilbert space,
+  \item $\Sigma$ is a finite input alphabet,
+  \item $\rho_0\in D(\mathcal{H})$ is the initial density operator,
+  \item For each $\sigma\in\Sigma$, the state transition is given by the trace‐preserving quantum operation 
+  \[
+  \mathcal{E}_\sigma(\rho)=\sum_{k} \mathcal{E}_{\sigma,k}\,\rho\,\mathcal{E}_{\sigma,k}^\dagger,\quad \text{with } \sum_{k} \mathcal{E}_{\sigma,k}^\dagger \mathcal{E}_{\sigma,k}=I,
+  \]
+  \item $P_{acc}$ is a projector on the accepting subspace of $\mathcal{H}$ (with the complementary projector $P_{rej}=I-P_{acc}$).
+\end{itemize}
+On an input string $x=\sigma_1\sigma_2\cdots\sigma_n\in\Sigma^*$ the automaton evolves as
+\[
+\rho_x = \mathcal{E}_{\sigma_n}\circ \mathcal{E}_{\sigma_{n-1}}\circ\cdots\circ \mathcal{E}_{\sigma_1}(\rho_0),
+\]
+and a final measurement in the basis $\{P_{acc},P_{rej}\}$ is performed. The acceptance probability is defined by
+\[
+f_M(x)=\mathrm{Tr}\bigl(P_{acc}\,\rho_x\bigr).
+\]
+
+\paragraph{Strings Accepted.}  
+A string $x\in\Sigma^*$ is accepted by $M$ if the acceptance probability meets the specified criterion. Common acceptance criteria include:
+\begin{enumerate}
+  \item \textbf{Bounded Error:} There exist a threshold $\lambda\in(0,1]$ and an error margin $\epsilon>0$ such that
+  \[
+  \begin{aligned}
+  f_M(x) &\ge \lambda+\epsilon &&\text{if } x\in L,\\[1mm]
+  f_M(x) &\le \lambda-\epsilon &&\text{if } x\notin L.
+  \end{aligned}
+  \]
+  \item \textbf{Cutpoint Acceptance:} $x$ is accepted if $f_M(x)>\lambda$, where $\lambda$ is an isolated cutpoint.
+  \item \textbf{Exact Acceptance:} In certain constructions (e.g., when simulating a deterministic finite automaton) one has $f_M(x)=1$ for accepted strings and $f_M(x)=0$ for rejected strings.
+\end{enumerate}
+
+\paragraph{Set of Languages Accepted.}  
+It has been proved that under the bounded error criterion, \gls{mo-1gqfa} recognize precisely the class of regular languages. That is, for every regular language there exists an \gls{mo-1gqfa} recognizing it, and every language recognized by an \gls{mo-1gqfa} is regular \cite{LI201273}.
+
+\paragraph{Closure Properties.}  
+The class of languages recognized by \gls{mo-1gqfa} is closed under several standard operations:
+\begin{itemize}
+  \item \textbf{Union and Intersection:} By suitable constructions (e.g., via direct sums and tensor products), if $L_1$ and $L_2$ are recognized by \gls{mo-1gqfa} then so are $L_1\cup L_2$ and $L_1\cap L_2$.
+  \item \textbf{Complementation:} Replacing $P_{acc}$ with its complement $I-P_{acc}$ yields an automaton for the complement language.
+  \item \textbf{Inverse Homomorphism and Concatenation with Regular Languages:} These operations preserve the regularity of the language.
+\end{itemize}
+
+\paragraph{Summary of Advantages and Limitations.}  
+The \gls{mo-1gqfa} model is advantageous due to its structural simplicity—requiring only a final measurement—and its ability to simulate classical probabilistic automata exactly via general trace‐preserving operations. However, despite the broadened operational framework, its computational power remains confined to recognizing regular languages (with bounded error). Furthermore, the state minimization problem for \gls{mo-1gqfa} is known to be EXPSPACE‐hard \cite{MATEUS201236}.
+
+\paragraph{Example.}  
+An example is provided by the simulation of a deterministic finite automaton (DFA) for the language
+\[
+L=a^*b^*.
+\]
+Here, one chooses 
+\[
+\mathcal{H}=\mathrm{span}\{|q_1\rangle,|q_2\rangle,\dots,|q_n\rangle\},
+\]
+sets the initial state as $\rho_0=\sum_{i}\pi_i\,|q_i\rangle\langle q_i|$ (with $\{\pi_i\}$ given by the DFA’s initial distribution), and defines each operation $\mathcal{E}_\sigma$ so that for each basis state $|q_i\rangle$,
+\[
+\mathcal{E}_\sigma\bigl(|q_i\rangle\langle q_i|\bigr)=\sum_{j}A(\sigma)_{ij}\,|q_j\rangle\langle q_j|,
+\]
+where $A(\sigma)$ is the stochastic matrix corresponding to the DFA's transition function. The final measurement is performed using 
+\[
+P_{acc}=\sum_{q_i\in F}|q_i\rangle\langle q_i|,
+\]
+where $F$ is the set of accepting states. This construction ensures that the acceptance probability $f_M(x)$ replicates the behavior of the DFA \cite{LI201273}.
+
+\paragraph{Additional Topics.}  
+Further research on \gls{mo-1gqfa} includes the equivalence problem, where necessary and sufficient conditions are derived based on the linear span of the reachable density operators. In addition, advanced state minimization techniques have been developed, reducing the minimization problem to solving systems of polynomial inequalities with an EXPSPACE upper bound \cite{10.1007/978-3-540-88282-4_34}.
+
+\subsubsection{\glsentrylong{mm-1gqfa}}
+\paragraph{Introduction.}  
+\gls{mm-1gqfa} extend the \gls{mo-1gqfa} model by performing a measurement after processing each input symbol. In this model, after each trace‐preserving quantum operation corresponding to a symbol, a projective measurement is executed that partitions the state space into three mutually orthogonal subspaces—namely, the accepting subspace, the rejecting subspace, and the non‐halting subspace. If the outcome lies in the accepting or rejecting subspace, the computation halts immediately; otherwise, it continues with the next symbol \cite{LI201273}.
+
+\paragraph{Formal Definition.}  
+An \gls{mm-1gqfa} is defined as the 6-tuple
+\[
+M = \{ \mathcal{H},\Sigma,\rho_0,\{\mathcal{E}_\sigma\}_{\sigma\in\Sigma\cup\{\cent,\$\}},\mathcal{H}_{acc},\mathcal{H}_{rej}\},
+\]
+where
+\begin{itemize}
+  \item $\mathcal{H}$ is a finite-dimensional Hilbert space that decomposes as
+  \[
+  \mathcal{H}=\mathcal{H}_{acc}\oplus \mathcal{H}_{rej}\oplus \mathcal{H}_{non},
+  \]
+  with $\mathcal{H}_{acc}$ and $\mathcal{H}_{rej}$ denoting the accepting and rejecting subspaces, and $\mathcal{H}_{non}$ the non-halting subspace;
+  \item $\Sigma$ is a finite input alphabet, and the symbols $\cent$ and $\$$ serve as the left and right end-markers, respectively;
+  \item $\rho_0\in D(\mathcal{H})$ is the initial state with $\mathrm{supp}(\rho_0)\subseteq \mathcal{H}_{non}$;
+  \item For each $\sigma\in\Sigma\cup\{\cent,\$\}$, the state transition is given by the trace‐preserving quantum operation 
+  \[
+  \mathcal{E}_\sigma(\rho)=\sum_{k} \mathcal{E}_{\sigma,k}\,\rho\,\mathcal{E}_{\sigma,k}^\dagger,\quad \text{with } \sum_{k} \mathcal{E}_{\sigma,k}^\dagger \mathcal{E}_{\sigma,k}=I;
+  \]
+  \item After each $\mathcal{E}_\sigma$, a projective measurement is performed with respect to the orthogonal projectors $\{P_{non},P_{acc},P_{rej}\}$ onto $\mathcal{H}_{non}$, $\mathcal{H}_{acc}$, and $\mathcal{H}_{rej}$, respectively.
+\end{itemize}
+For an input string $x\in\Sigma^*$ (presented as $\cent\,x\,\$\rangle$), the automaton processes each symbol sequentially. If, at any step, the measurement projects onto $\mathcal{H}_{acc}$ (or $\mathcal{H}_{rej}$), the computation halts with acceptance (or rejection). Otherwise, if the outcome is in $\mathcal{H}_{non}$, the automaton continues processing the next symbol.
+
+\paragraph{Strings Accepted.}  
+The acceptance of an input string $x$ is defined by the cumulative probability that the automaton halts in an accepting configuration. The common acceptance criteria include:
+\begin{enumerate}
+  \item \textbf{Bounded Error:} There exist $\lambda\in(0,1]$ and $\epsilon>0$ such that
+  \[
+  \begin{aligned}
+  \text{if } x\in L,&\quad \text{cumulative acceptance probability} \ge \lambda+\epsilon,\\[1mm]
+  \text{if } x\notin L,&\quad \text{cumulative acceptance probability} \le \lambda-\epsilon.
+  \end{aligned}
+  \]
+  \item \textbf{Cutpoint/Exact Acceptance:} As in the \gls{mo-1gqfa} model, acceptance may also be defined via an isolated cutpoint or by requiring exact acceptance.
+\end{enumerate}
+
+\paragraph{Set of Languages Accepted.}  
+It has been established that \gls{mm-1gqfa}, despite the intermediate measurements after each symbol, recognize exactly the class of regular languages (with bounded error). Thus, the frequency of measurements does not extend the language recognition power beyond that of \gls{mo-1gqfa} \cite{LI201273}.
+
+\paragraph{Closure Properties.}  
+\gls{mm-1gqfa} are closed under standard operations. In particular, if $L_1$ and $L_2$ are recognized by \gls{mm-1gqfa} then:
+\begin{itemize}
+  \item They are closed under \emph{union} and \emph{intersection} (by appropriate constructions using direct sums or tensor products),
+  \item They are closed under \emph{complementation} (by swapping the roles of $\mathcal{H}_{acc}$ and $\mathcal{H}_{rej}$),
+  \item And they are closed under other operations such as inverse homomorphism.
+\end{itemize}
+
+\paragraph{Summary of Advantages and Limitations.}  
+The \gls{mm-1gqfa} model offers the flexibility of making intermediate measurements, which may simplify the design of some automata. However, like \gls{mo-1gqfa}, its computational power remains limited to regular languages under the bounded error regime. Furthermore, the state minimization problem for \gls{mm-1gqfa} is EXPSPACE‐hard \cite{MATEUS201236}.
+
+\paragraph{Example.}  
+For example, consider an \gls{mm-1gqfa} designed to recognize 
+\[
+L=\{w\in\{a,b\}^* \mid \text{the last symbol of }w\text{ is }a\}.
+\]
+In this automaton, after each input symbol the machine performs a measurement. If a measurement outcome projects onto $\mathcal{H}_{acc}$ (indicating that the current configuration is accepting) and no previous measurement forced a rejection, the automaton eventually halts with acceptance. This construction guarantees that the cumulative acceptance probability meets the bounded error condition exactly when the input ends with an $a$ \cite{LI201273}.
+
+\paragraph{Additional Topics.}  
+Recent research on \gls{1gqfa} has addressed the equivalence problem, providing necessary and sufficient conditions based on the linear span of the reachable density operators. Moreover, advanced state minimization techniques have been developed, reducing the minimization problem to solving systems of polynomial inequalities with an EXPSPACE upper bound \cite{10.1007/978-3-540-88282-4_34}. Future directions include exploring further generalizations and their potential applications in modeling noisy quantum systems.
+
+
+%TODO: missing comparisons

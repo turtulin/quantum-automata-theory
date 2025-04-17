@@ -1,872 +1,759 @@
-@article{aaronson2005complexity,
-  title   = {Complexity classification with verifiers},
-  author  = {Aaronson, Scott},
+=====================================
+%MO-1QFA and MM-1QFA
+=====================================
+@article{moore2000quantum,
+  title = {Quantum automata and quantum grammars},
+  journal = {Theoretical Computer Science},
+  volume = {237},
+  number = {1},
+  pages = {275-306},
+  year = {2000},
+  issn = {0304-3975},
+  doi = {https://doi.org/10.1016/S0304-3975(98)00191-1},
+  url = {https://www.sciencedirect.com/science/article/pii/S0304397598001911},
+  author = {Cristopher Moore and James P. Crutchfield},
+  keywords = {Quantum computation, Grammars, Automata, Complexity classes},
+  abstract = {To study quantum computation, it might be helpful to generalize structures from language and automata theory to the quantum case. To that end, we propose quantum versions of finite-state and push-down automata, and regular and context-free grammars. We find analogs of several classical theorems, including pumping lemmas, closure properties, rational and algebraic generating functions, and Greibach normal form. We also show that there are quantum context-free languages that are not context-free, so QCFL≠CFL.}
+}
+
+@INPROCEEDINGS{ambainis1998one,
+  author={Ambainis, A. and Freivalds, R.},
+  booktitle={Proceedings 39th Annual Symposium on Foundations of Computer Science (Cat. No.98CB36280)}, 
+  title={1-way quantum finite automata: strengths, weaknesses and generalizations}, 
+  year={1998},
+  volume={},
+  number={},
+  pages={332-341},
+  keywords={Automata;Quantum computing;Quantum mechanics;Tellurium;Computer science;Power system modeling;Mathematics;Postal services;Councils},
+  doi={10.1109/SFCS.1998.743469}
+}
+
+@article{brodsky2002characterizations,
+  author = {Brodsky, Alex and Pippenger, Nicholas},
+  title = {Characterizations of 1-Way Quantum Finite Automata},
+  journal = {SIAM Journal on Computing},
+  volume = {31},
+  number = {5},
+  pages = {1456-1478},
+  year = {2002},
+  doi = {10.1137/S0097539799353443},
+  URL = {https://doi.org/10.1137/S0097539799353443},
+  eprint = {https://doi.org/10.1137/S0097539799353443},
+  abstract = {The 2-way quantum finite automaton introduced by Kondacs and Watrous [Proceedings of the 38th Annual Symposium on Foundations of Computer Science, 1997, IEEE Computer Society, pp. 66--75] can accept nonregular languages with bounded error in polynomial time. If we restrict the head of the automaton to moving classically and to moving only in one direction, the acceptance power of this 1-way quantum finite automaton is reduced to a proper subset of the regular languages.In this paper we study two different models of 1-way quantum finite automata. The first model, termed measure-once quantum finite automata, was introduced by Moore and Crutchfield [Theoret. Comput. Sci., 237 (2000), pp. 275--306], and the second model, termed measure-many quantum finite automata, was introduced by Kondacs and Watrous [Proceedings of the38th Annual Symposium on Foundations of Computer Science, 1997, IEEE Computer Society, pp. 66--75].We characterize the measure-once model when it is restricted to accepting with bounded error and show that, without that restriction, it can solve the word problem over the free group. We also show that it can be simulated by a probabilistic finite automaton and describe an algorithm that determines if two measure-once automata are equivalent.We prove several closure properties of the classes of languages accepted by measure-many automata, including inverse homomorphisms, and provide a new necessary condition for a language to be accepted by the measure-many model with bounded error. Finally, we show that piecewise testable sets can be accepted with bounded error by a measure-many quantum finite automaton, introducing new construction techniques for quantum automata in the process. }
+}
+
+@InProceedings{ambainis1999probabilities,
+  author="Ambainis, Andris
+  and Bonner, Richard
+  and Freivalds, R{\={u}}si{\c{n}}{\v{s}}
+  and {\c{K}}ikusts, Arnolds",
+  editor="Asano, Takano
+  and Imai, Hideki
+  and Lee, D. T.
+  and Nakano, Shin-ichi
+  and Tokuyama, Takeshi",
+  title="Probabilities to Accept Languages by Quantum Finite Automata",
+  booktitle="Computing and Combinatorics",
+  year="1999",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="174--183",
+  abstract="We construct a hierarchy of regular languages such that the current language in the hierarchy can be accepted by 1-way quantum finite automata with a probability smaller than the corresponding probability for the preceding language in the hierarchy. These probabilities converge to 1/2.",
+  isbn="978-3-540-48686-2"
+}
+
+@InProceedings{10.1007/11605157_1,
+  author="Freivalds, R{\={u}}si{\c{n}}{\v{s}}",
+  editor="Farr{\'e}, Jacques
+  and Litovsky, Igor
+  and Schmitz, Sylvain",
+  title="Languages Recognizable by Quantum Finite Automata",
+  booktitle="Implementation and Application of Automata",
+  year="2006",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="1--14",
+  abstract="There are several nonequivalent definitions of quantum finite automata. Nearly all of them recognize only regular languages but not all regular languages. On the other hand, for all these definitions there is a result showing that there is a language l such that the size of the quantum automaton recognizing L is essentially smaller than the size of the minimal deterministic automaton recognizing L.",
+  isbn="978-3-540-33097-4"
+}
+
+@article{Xi2008,
+  author={Zhengjun Xi and Xin Wang and Yongming Li},
+  title={Some algebraic properties of measure-once two-way quantum finite automata},
+  journal={Quantum Information Processing},
+  volume={7},
+  number={5},
+  pages={211--225},
+  year={2008},
+  month={October},
+  issn={1573-1332},
+  abstract={Quantum finite automata (QFA) can be divided into four kinds depend upon the head-directions and the measure times. They are measure-once one way QFA (MO-1QFA) introduced by Moore and Crutchfield (Theor Comput Sci 237: 275–306, 2000); measure-many one way QFA (MM-1QFA) and measure-many two-way QFA (MM-2QFA) introduced by Kondacs and Watrous (Proceedings of the 38th IEEE annual symposium on 433 foundations of computer science, 66–75, 1997); and measure-once two-way QFA (MO-2QFA) which were not given until now. The purpose of this work is mainly to discuss one kind of QFA, which is called MO-2QFA for brief. First of all, the definition of MO-2QFA is given and the conditions for preserving unitary properties are shown. Then, we analysis the basic algebraic properties of the class of languages which can be recognized by MO-2QFA, such as the union, intersection, complement and reversal operations. As well, we consider the catenation operation on the class of quantum languages recognized by MO-2QFA is closed in the generalized conditions.},
+  doi={10.1007/s11128-008-0083-8},
+  url={https://doi.org/10.1007/s11128-008-0083-8},
+}
+
+@InProceedings{10.1007/3-540-44693-1_7,
+  author="Ambainis1, Andris
+  and K{\c{K}}ikusts, Arnolds
+  and Valdats, M{\={a}}ris",
+  editor="Ferreira, Afonso
+  and Reichel, Horst",
+  title="On the Class of Languages Recognizable by 1-Way Quantum Finite Automata",
+  booktitle="STACS 2001",
+  year="2001",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="75--86",
+  abstract="It is an open problem to characterize the class of languages recognized by quantum finite automata (QFA). We examine some neces- sary and some sufficient conditions for a (regular) language to be recog- nizable by a QFA. For a subclass of regular languages we get a condition which is necessary and sufficient.",
+  isbn="978-3-540-44693-4"
+}
+
+@InProceedings{10.1007/3-540-45007-6_1,
+  author="Bertoni, Alberto
+  and Mereghetti, Carlo
+  and Palano, Beatrice",
+  editor="{\'E}sik, Zolt{\'a}n
+  and F{\"u}l{\"o}p, Zolt{\'a}n",
+  title="Quantum Computing: 1-Way Quantum Automata",
+  booktitle="Developments in Language Theory",
+  year="2003",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="1--20",
+  abstract="In this paper we analyze several models of 1-way quantum finite automata, in the light of formal power series theory. In this general context, we recall two well known constructions, by proving:1.Languages generated with isolated cut-point by a class of bounded rational formal series are regular.2.If a class of formal series is closed under f-complement, Hadamard product and convex linear combination, then the class of languages generated with isolated cut-point is closed under boolean operations.",
+  isbn="978-3-540-45007-8"
+}
+
+@INPROCEEDINGS{646094,
+  author={Kondacs, A. and Watrous, J.},
+  booktitle={Proceedings 38th Annual Symposium on Foundations of Computer Science}, 
+  title={On the power of quantum finite state automata}, 
+  year={1997},
+  volume={},
+  number={},
+  pages={66-75},
+  keywords={Automata;Quantum computing;Polynomials;Computer science;Physics computing;Turing machines;Circuits;Computational modeling;Error probability;Automatic control},
+  doi={10.1109/SFCS.1997.646094}
+}
+
+@misc{lussi2024implementingquantumfiniteautomaton,
+  title={Implementing a Quantum Finite Automaton in IBMQ using Custom Control Pulses}, 
+  author={Eduardo Willwock Lussi and Lucas Cavalcante de Sousa and Jerusa Marchi and Rafael de Santiago and Eduardo Inacio Duzzioni},
+  year={2024},
+  eprint={2412.06977},
+  archivePrefix={arXiv},
+  primaryClass={quant-ph},
+  url={https://arxiv.org/abs/2412.06977},
+  abstract={Quantum finite automata can be used for pattern recognition. Present implementations on actual quantum devices face decoherence issues, which compromise the quality of long strings computation. In this work, we focus on the Measure Once 1-way Quantum Finite Automata (MO1QFA) model for addressing the MOD^p problem, investigating how quantum errors may affect the quality of the computation in this model when implemented in IBM-Q superconducting environment. To improve the performance of the implementation, we use pulse-level programming for calibrating a fast single-qubit gate designed specifically for the automaton implementation. The demonstrations conducted on the Jakarta quantum computer show that using custom pulses significantly reduces errors during extended word computations. While realizing improvements in error variations and predictability -- with a fourfold reduction in circuit latency -- the proposed solution demonstrates a substantial increase in the supported computation length of the automaton. When considering thresholds of 10% and 20% in absolute errors of acceptance probabilities, the solution has the potential to increase the maximum word length by 12 and 7+ times, respectively, compared to the default Qiskit gate.}
+}
+
+@InProceedings{10.1007/978-3-031-35257-7_16,
+  author="Chu, Wenjing
+  and Chen, Shuo
+  and Bonsangue, Marcello
+  and Shi, Zenglin",
+  editor="David, Cristina
+  and Sun, Meng",
+  title="Approximately Learning Quantum Automata",
+  booktitle="Theoretical Aspects of Software Engineering",
+  year="2023",
+  publisher="Springer Nature Switzerland",
+  address="Cham",
+  pages="268--285",
+  abstract="In this paper, we provide two methods for learning measure-once one-way quantum finite automata using a combination of active learning and non-linear optimization. First, we learn the number of states of a measure-once one-way quantum automaton using a heuristic binary tree representing the different variations of a Hankel matrix. Then we use two optimization methods to learn the unitary matrices representing the transitions of the automaton. When comparing the original automaton with the one learned, we provide a new way to compute the distance on the base of the language of the combined quantum automata. Finally, we show, using experiments on a set of randomly generated quantum automata, which method performs better.",
+  isbn="978-3-031-35257-7"
+}
+
+@article{MATEUS201236,
+  title = {On the complexity of minimizing probabilistic and quantum automata},
+  journal = {Information and Computation},
+  volume = {218},
+  pages = {36-53},
+  year = {2012},
+  issn = {0890-5401},
+  doi = {https://doi.org/10.1016/j.ic.2012.07.002},
+  url = {https://www.sciencedirect.com/science/article/pii/S0890540112001149},
+  author = {Paulo Mateus and Daowen Qiu and Lvzhou Li},
+  keywords = {Probabilistic automata, Quantum automata, Decidability, Minimization},
+  abstract = {Several types of automata, such as probabilistic and quantum automata, require to work with real and complex numbers. For such automata the acceptance of an input is quantified with a probability. There are plenty of results in the literature addressing the complexity of checking the equivalence of these automata, that is, checking whether two automata accept all inputs with the same probability. On the other hand, the critical problem of finding the minimal automata equivalent to a given one has been left open [C. Moore, J.P. Crutchfield, Quantum automata and quantum grammars, Theoret. Comput. Sci. 237 (2000) 275–306, see p. 304, Problem 5]. In this work, we reduce the minimization problem of probabilistic and quantum automata to finding a solution of a system of algebraic polynomial (in)equations. An EXPSPACE upper bound on the complexity of the minimization problem is derived by applying Renegarʼs algorithm. More specifically, we show that the state minimization of probabilistic automata, measure-once quantum automata, measure-many quantum automata, measure-once generalized quantum automata, and measure-many generalized quantum automata is decidable and in EXPSPACE. Finally, we also solve an open problem concerning minimal covering of stochastic sequential machines [A. Paz, Introduction to Probabilistic Automata, Academic Press, New York, 1971, p. 43].}
+}
+
+@article{QIU2004479,
+  title = {Characterizations of quantum automata},
+  journal = {Theoretical Computer Science},
+  volume = {312},
+  number = {2},
+  pages = {479-489},
+  year = {2004},
+  issn = {0304-3975},
+  doi = {https://doi.org/10.1016/j.tcs.2003.08.007},
+  url = {https://www.sciencedirect.com/science/article/pii/S0304397503004493},
+  author = {Daowen Qiu and Mingsheng Ying},
+  keywords = {Quantum computation, Hilbert spaces, Automata, Grammars},
+  abstract = {We define q quantum finite automata (qQFAs) and q quantum regular grammars (qQRGs), and verify that they are exactly equivalent to those measure-once quantum finite automata (MO-QFAs) in the literature. In particular, we define q quantum pushdown automata (qQPDAs) and QPDAs that are at least as powerful as those defined by Moore and Crutchfield, and especially we focus on demonstrating the equivalence between qQPDAs and QPDAs. Also, we discuss some of the properties of languages accepted by qQPDAs; for example, every cut-point language accepted by qQPDA is independent of the cut-point.}
+}
+
+@InProceedings{10.1007/978-3-031-16336-4_18,
+  author="Piazza, Carla
+  and Romanello, Riccardo",
+  editor="{\'A}brah{\'a}m, Erika
+  and Paolieri, Marco",
+  title="Mirrors and Memory in Quantum Automata",
+  booktitle="Quantitative Evaluation of Systems",
+  year="2022",
+  publisher="Springer International Publishing",
+  address="Cham",
+  pages="359--380",
+  abstract="In this paper we start from the simplest form of Quantum Finite Automata (QFAs), namely Measure-Once QFAs with cut-point. First we elaborate on a variant of their semantics that can be obtained through a shift from the Schr{\"o}dinger to the Heisenberg picture of Quantum Mechanics. In the Schr{\"o}dinger picture states evolve in time while observables remain constant, while in the Heisenberg one states are constant and observables evolve. Interestingly, in the case of a QFA such shift reverts time-evolution. However, the equivalence of the two pictures over the class of QFAs holds thanks to the closure of the class with respect to language mirroring. Since the expressive power of such class of automata remains limited to infinite languages, we then consider their extension with bounded (multi-letter QFAs) and unbounded memory. Unfortunately, while bounded memory enhances the expressive power, the unbounded memory approach does not behave as one would expect.",
+  isbn="978-3-031-16336-4"
+}
+
+@InProceedings{10.1007/3-540-44669-9_10,
+  author="B{\={e}}rzi{\c{n}}a, Aija
+  and Bonner, Richard",
+  editor="Freivalds, R{\={u}}si{\c{n}}{\v{s}}",
+  title="Ambainis-Freivalds' Algorithm for Measure-Once Automata",
+  booktitle="Fundamentals of Computation Theory",
+  year="2001",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="83--93",
+  abstract="An algorithm given by Ambainis and Freivalds [1] constructs a quantum finite automaton (QFA) with O(logp) states recognizing the language Lp= ai|i is divisible by p with probability 1 − $\epsilon$, for any $\epsilon$ > 0 and arbitrary prime p. In [4] we gave examples showing that the algorithm is applicable also to quantum automata of very limited size. However, the Ambainis-Freivalds algoritm is tailored to constructing a measure-many QFA (defined by Kondacs and Watrous [2]), which cannot be implemented on existing quantum computers. In this paper we modify the algorithm to construct a measure-once QFA of Moore and Crutchfield [3] and give examples of parameters for this automaton. We show for the language Lpthat a measure-once QFA can be twice as space efficient as measure-many QFA's.",
+  isbn="978-3-540-44669-9"
+}
+
+@Article{app11188768,
+  AUTHOR = {Candeloro, Alessandro and Mereghetti, Carlo and Palano, Beatrice and Cialdi, Simone and Paris, Matteo G. A. and Olivares, Stefano},
+  TITLE = {An Enhanced Photonic Quantum Finite Automaton},
+  JOURNAL = {Applied Sciences},
+  VOLUME = {11},
+  YEAR = {2021},
+  NUMBER = {18},
+  ARTICLE-NUMBER = {8768},
+  URL = {https://www.mdpi.com/2076-3417/11/18/8768},
+  ISSN = {2076-3417},
+  ABSTRACT = {In a recent paper we have described an optical implementation of a measure-once one-way quantum finite automaton recognizing a well-known family of unary periodic languages, accepting words not in the language with a given error probability. To process input words, the automaton exploits the degree of polarization of single photons and, to reduce the acceptance error probability, a technique of confidence amplification using the photon counts is implemented. In this paper, we show that the performance of this automaton may be further improved by using strategies that suitably consider both the orthogonal output polarizations of the photon. In our analysis, we also take into account how detector dark counts may affect the performance of the automaton.},
+  DOI = {10.3390/app11188768}
+}
+
+@article{LIN2012807,
+  title = {Another approach to the equivalence of measure-many one-way quantum finite automata and its application},
   journal = {Journal of Computer and System Sciences},
-  volume  = {71},
-  pages   = {291--316},
-  year    = {2005}
+  volume = {78},
+  number = {3},
+  pages = {807-821},
+  year = {2012},
+  note = {In Commemoration of Amir Pnueli},
+  issn = {0022-0000},
+  doi = {https://doi.org/10.1016/j.jcss.2012.01.004},
+  url = {https://www.sciencedirect.com/science/article/pii/S002200001200030X},
+  author = {Tianrong Lin},
+  keywords = {Quantum finite automata, Measure-many one-way quantum finite automata, Enhanced one-way quantum finite automata, Equivalence},
+  abstract = {In this paper, we present a much simpler, direct and elegant approach to the equivalence problem of measure many one-way quantum finite automata (MM-1QFAs). The approach is essentially generalized from the work of Carlyle [J.W. Carlyle, Reduced forms for stochastic sequential machines, J. Math. Anal. Appl. 7 (1963) 167–175]. Namely, we reduce the equivalence problem of MM-1QFAs to that of two (initial) vectors. As an application of the approach, we utilize it to address the equivalence problem of enhanced one-way quantum finite automata (E-1QFAs) introduced by Nayak [A. Nayak, Optimal lower bounds for quantum automata and random access codes, in: Proceedings of the 40th IEEE Symposium on Foundations of Computer Science (FOCS), 1999, pp. 369–376]. We prove that two E-1QFAs A1 and A2 over Σ are equivalence if and only if they are n12+n22−1-equivalent where n1 and n2 are the numbers of states in A1 and A2, respectively. As an important consequence, we obtain that it is decidable whether or not L(A1)=L(A2) where L(A)⊆Σ⁎ denotes the set recognizable by MM-1QFA A (or by E-1QFA A) with cutpoint (or with non-strict cutpoint). This also extends a theorem of Eilenberg.}
 }
 
-@book{aho2006compilers,
-  title     = {Compilers: Principles, Techniques, and Tools},
-  author    = {Aho, Alfred V and Lam, Monica S and Sethi, Ravi and Ullman, Jeffrey D},
-  year      = {2006},
-  publisher = {Pearson Education}
+@InProceedings{10.1007/3-540-44612-5_9,
+  author="Ablayev, Farid
+  and Gainutdinova, Aida",
+  editor="Nielsen, Mogens
+  and Rovan, Branislav",
+  title="On the Lower Bounds for One-Way Quantum Automata",
+  booktitle="Mathematical Foundations of Computer Science 2000",
+  year="2000",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="132--140",
+  abstract="In the paper we consider measured-once (MO-QFA) oneway quantum finite automaton. We prove that for MO-QFA Q that (1/2+$\epsilon$)-accepts ($\epsilon$ ∈ (0,1/2)) regular language L it holds that dim(Q) = $\Omega$ (log dim (A)/log log dim (A)). In the case $\epsilon$ ∈ (3/8, 1/2) we have more precise lower bound dim(Q) = $\Omega$ (log dim (A)) where A is a minimal deterministic finite automaton accepting L, dim(Q), and dim(A) are complexity (number of states) of automata Q and A respectively, (1/2 - $\epsilon$) is the error of Q.",
+  isbn="978-3-540-44612-5"
 }
 
-@article{ambainis1998,
-  title   = {Probabilistic reversible automata and quantum automata},
-  author  = {Ambainis, Andris and Freivalds, R{\=u}si{\c{n}}{\v{s}}},
-  journal = {ICALP 1998},
-  pages   = {472--483},
-  year    = {1998}
+=====================================
+% Generalised Quantum Finite Automata
+=====================================
+@InProceedings{10.1007/11505877_7,
+  author="Ablayev, Farid
+  and Gainutdinova, Aida",
+  editor="De Felice, Clelia
+  and Restivo, Antonio",
+  title="Complexity of Quantum Uniform and Nonuniform Automata",
+  booktitle="Developments in Language Theory",
+  year="2005",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="78--87",
+  abstract="We present two different types of complexity lower bounds for quantum uniform automata (finite automata) and nonuniform automata (OBDDs). We call them ``metric'' and ``entropic'' lower bounds in according to proof technique used. We present explicit Boolean functions that show that these lower bounds are tight enough.",
+  isbn="978-3-540-31682-4"
 }
 
-@article{ambainis1998one,
-  title     = {One-way quantum finite automata: Strengths, weaknesses, and generalizations},
-  author    = {Ambainis, Andris and Freivalds, Rūsiņš},
-  journal   = {Proceedings of the 39th Annual Symposium on Foundations of Computer Science (FOCS)},
-  pages     = {332--341},
-  year      = {1998},
-  publisher = {IEEE}
+@InProceedings{10.1007/978-3-540-88282-4_34,
+  author="Mercer, Mark",
+  editor="Mart{\'i}n-Vide, Carlos
+  and Otto, Friedrich
+  and Fernau, Henning",
+  title="Lower Bounds for Generalized Quantum Finite Automata",
+  booktitle="Language and Automata Theory and Applications",
+  year="2008",
+  publisher="Springer Berlin Heidelberg",
+  address="Berlin, Heidelberg",
+  pages="373--384",
+  abstract="We obtain several lower bounds on the language recognition power of Nayak's generalized quantum finite automata (GQFA) [12]. Techniques for proving lower bounds on Kondacs and Watrous' one-way quantum finite automata (KWQFA) were introduced by Ambainis and Freivalds [2], and were expanded in a series of papers. We show that many of these techniques can be adapted to prove lower bounds for GQFAs. Our results imply that the class of languages recognized by GQFAs is not closed under union. Furthermore, we show that there are languages which can be recognized by GQFAs with probability p{\thinspace}>{\thinspace}1/2, but not with p{\thinspace}>{\thinspace}2/3.",
+  isbn="978-3-540-88282-4"
 }
 
-@article{ambainis2002,
-  author  = {Andris Ambainis and Ashwin Nayak and Amnon Ta-Shma and Umesh Vazirani},
-  title   = {Dense Quantum Coding and Quantum Automata},
-  journal = {Journal of the ACM},
-  volume  = {49},
-  number  = {4},
-  pages   = {496--511},
-  year    = {2002},
-  doi     = {10.1145/564376.564379}
-}
-
-@article{ambainis2002quantum,
-  title     = {Quantum finite automata with control language},
-  author    = {Ambainis, Andris and Freivalds, Rūsiņš},
-  journal   = {Theoretical Computer Science},
-  volume    = {287},
-  number    = {1},
-  pages     = {299--311},
-  year      = {2002},
-  publisher = {Elsevier}
-}
-
-@article{ambainis2009superiority,
-  title     = {Superiority of quantum finite automata over classical finite automata},
-  author    = {Ambainis, Andris and Yakaryılmaz, Abuzer},
-  journal   = {SIAM Journal on Computing},
-  volume    = {39},
-  number    = {7},
-  pages     = {2819--2830},
-  year      = {2009},
-  publisher = {SIAM}
-}
-
-@inproceedings{AmbainisFreivalds1998,
-  author    = {Andris Ambainis and Rūsinš Freivalds},
-  title     = {One-way quantum finite automata: Strengths, weaknesses, and generalizations},
-  booktitle = {Proceedings of the 39th Annual Symposium on Foundations of Computer Science (FOCS)},
-  year      = {1998},
-  pages     = {332--341}
-}
-
-@inproceedings{AmbainisYakaryilmaz2009,
-  author    = {Andris Ambainis and Abuzer Yakaryılmaz},
-  title     = {Superiority of quantum finite automata over classical finite automata},
-  booktitle = {SIAM Journal on Computing},
-  year      = {2009},
-  volume    = {39},
-  number    = {7},
-  pages     = {2819--2830}
-}
-
-@article{belovs2007multi,
-  title     = {Multi-letter quantum finite automata: decidability and complexity},
-  author    = {Belovs, Aleksandrs and Rosmanis, Ansis and Smotrovs, Juris},
-  journal   = {International Conference on Unconventional Computation},
-  pages     = {48--59},
-  year      = {2007},
-  publisher = {Springer}
-}
-
-@article{bennett1984quantum,
-  title   = {Quantum cryptography: Public key distribution and coin tossing},
-  author  = {Bennett, Charles H. and Brassard, Gilles},
+@article{LI201273,
+  title = {Characterizations of one-way general quantum finite automata},
   journal = {Theoretical Computer Science},
-  volume  = {560},
-  pages   = {7--11},
-  year    = {2014}
+  volume = {419},
+  pages = {73-91},
+  year = {2012},
+  issn = {0304-3975},
+  doi = {https://doi.org/10.1016/j.tcs.2011.10.021},
+  url = {https://www.sciencedirect.com/science/article/pii/S0304397511008917},
+  author = {Lvzhou Li and Daowen Qiu and Xiangfu Zou and Lvjun Li and Lihua Wu and Paulo Mateus},
+  keywords = {Formal languages, Quantum finite automata, Regular languages, Equivalence},
+  abstract = {Generally, unitary transformations limit the computational power of quantum finite automata (QFA). In this paper, we study a generalized model named one-way general quantum finite automata (1gQFA), in which each symbol in the input alphabet induces a trace-preserving quantum operation, instead of a unitary transformation. Two different kinds of 1gQFA will be studied: measure-once one-way general quantum finite automata (MO-1gQFA) where a measurement deciding to accept or reject is performed at the end of a computation, and measure-many one-way general quantum finite automata (MM-1gQFA) where a similar measurement is performed after each trace-preserving quantum operation on reading each input symbol. We characterize the measure-once model from three aspects: the closure property, the language recognition power, and the equivalence problem. We prove that MO-1gQFA recognize, with bounded error, precisely the set of all regular languages. Our results imply that some models of quantum finite automata proposed in the literature, which were expected to be more powerful, still cannot recognize non-regular languages. We prove that MM-1gQFA also recognize only regular languages with bounded error. Thus, MM-1gQFA and MO-1gQFA have the same language recognition power, in sharp contrast with traditional MO-1QFA and MM-1QFA, the former being strictly less powerful than the latter. Finally, we present a necessary and sufficient condition for two MM-1gQFA to be equivalent.}
 }
 
-@article{bennett1993teleporting,
-  title     = {Teleporting an unknown quantum state via dual classical and Einstein-Podolsky-Rosen channels},
-  author    = {Bennett, Charles H and Brassard, Gilles and Crépeau, Claude and Jozsa, Richard and Peres, Asher and Wootters, William K},
-  journal   = {Physical Review Letters},
-  volume    = {70},
-  number    = {13},
-  pages     = {1895--1899},
-  year      = {1993},
-  publisher = {APS}
+% Interactive Proofs
+@article{ZHENG2015197,
+  title = {Power of the interactive proof systems with verifiers modeled by semi-quantum two-way finite automata},
+  journal = {Information and Computation},
+  volume = {241},
+  pages = {197-214},
+  year = {2015},
+  issn = {0890-5401},
+  doi = {https://doi.org/10.1016/j.ic.2015.02.003},
+  url = {https://www.sciencedirect.com/science/article/pii/S0890540115000140},
+  author = {Shenggen Zheng and Daowen Qiu and Jozef Gruska},
+  keywords = {Quantum computing, Quantum finite automata, Quantum Arthur–Merlin proof systems, Two-way finite automata with quantum and classical states},
+  abstract = {Interactive proof systems (IP) are very powerful – languages they can accept form exactly PSPACE. They represent also one of the very fundamental concepts of theoretical computing and a model of computation by interactions. One of the key players in IP is verifier. In the original model of IP whose power is that of PSPACE, the only restriction on verifiers is that they work in randomized polynomial time. Because of such key importance of IP, it is of large interest to find out how powerful will IP be when verifiers are more restricted. So far this was explored for the case that verifiers are two-way probabilistic finite automata (Dwork and Stockmeyer, 1990) and one-way quantum finite automata as well as two-way quantum finite automata (Nishimura and Yamakami, 2009). IP in which verifiers use public randomization is called Arthur–Merlin proof systems (AM). AM with verifiers modeled by Turing Machines augmented with a fixed-size quantum register (qAM) were studied also by Yakaryilmaz (2012). He proved, for example, that an NP-complete language Lknapsack, representing the 0–1 knapsack problem, can be recognized by a qAM whose verifier is a two-way finite automaton working on quantum mixed states using superoperators. In this paper we explore the power of AM for the case that verifiers are two-way finite automata with quantum and classical states (2QCFA) – introduced by Ambainis and Watrous in 2002 – and the communications are classical. It is of interest to consider AM with such “semi-quantum” verifiers because they use only limited quantum resources. Our main result is that such Quantum Arthur–Merlin proof systems (QAM(2QCFA)) with polynomial expected running time are more powerful than the models in which the verifiers are two-way probabilistic finite automata (AM(2PFA)) with polynomial expected running time. Moreover, we prove that there is a language which can be recognized by an exponential expected running time QAM(2QCFA), but cannot be recognized by any AM(2PFA), and that the NP-complete language Lknapsack can also be recognized by a QAM(2QCFA) working only on quantum pure states using unitary operators.}
 }
 
-@article{bertoni1994closure,
-  title   = {On the closure of languages under convex-expressions},
-  author  = {Bertoni, Alberto and others},
-  journal = {Theoretical Computer Science},
-  volume  = {123},
-  number  = {1},
-  pages   = {1--17},
-  year    = {1994}
-}
-
-@article{bertoni2001quantum,
-  title     = {Quantum computing: 1-way quantum automata},
-  author    = {Bertoni, Alberto and Mereghetti, Carlo and Palano, Beatrice},
-  journal   = {Developments in Language Theory},
-  pages     = {1--20},
-  year      = {2001},
-  publisher = {Springer}
-}
-
-@article{bertoni2001regular,
-  title     = {Regular languages accepted by quantum automata},
-  author    = {Bertoni, Alberto and Carpentieri, Marco},
-  journal   = {Information and Computation},
-  volume    = {165},
-  number    = {2},
-  pages     = {174--182},
-  year      = {2001},
-  publisher = {Elsevier}
-}
-
-@article{bertoni2003quantum,
-  title     = {Quantum computing: 1-way quantum automata},
-  author    = {Bertoni, Alberto and Mereghetti, Carlo and Palano, Beatrice},
-  journal   = {International Conference on Developments in Language Theory},
-  pages     = {1--20},
-  year      = {2003},
-  publisher = {Springer}
-}
-
-@article{bianchi2014size,
-  title     = {Size lower bounds for quantum automata},
-  author    = {Bianchi, Maria Paola and Mereghetti, Carlo and Palano, Beatrice},
-  journal   = {Theoretical Computer Science},
-  volume    = {551},
-  pages     = {102--115},
-  year      = {2014},
-  publisher = {Elsevier}
-}
-
-@article{blondel2003equivalence,
-  title   = {The equivalence problem for quantum automata},
-  author  = {Blondel, Vincent D. and Jeandel, Emmanuel and Koiran, Pascal},
-  journal = {International Journal of Foundations of Computer Science},
-  volume  = {14},
-  pages   = {685--696},
-  year    = {2003}
-}
-
-@article{breuer2002theory,
-  title     = {The theory of open quantum systems},
-  author    = {Breuer, Heinz-Peter and Petruccione, Francesco},
-  year      = {2002},
-  publisher = {Oxford University Press}
-}
-
-@article{brodsky2001,
-  title   = {Exact quantum automata},
-  author  = {Brodsky, Alex and Pippenger, Nicholas},
-  journal = {Quantum Information \& Computation},
-  volume  = {1},
-  pages   = {3--25},
-  year    = {2001}
-}
-
-@book{cady1986ascii,
-  title     = {The ASCII Standard: A Comprehensive Guide to the American Standard Code for Information Interchange},
-  author    = {Cady, John F},
-  year      = {1986},
-  publisher = {Prentice Hall}
-}
-
-@article{chomsky1956three,
-  title   = {Three models for the description of language},
-  author  = {Chomsky, Noam},
-  journal = {IRE Transactions on information theory},
-  volume  = {2},
-  number  = {3},
-  pages   = {113--124},
-  year    = {1956}
-}
-
-@misc{ConverBlog2020,
-  author = {Conver Blog},
-  title  = {DFA and NFA Formal Definitions},
-  year   = {2020},
-  note   = {\url{https://conver.blog/dfa-nfa-formal-definitions}}
-}
-
-@article{droste2009handbook,
-  title   = {Handbook of Weighted Automata},
-  author  = {Droste, Manfred and Kuich, Werner and Vogler, Heiko},
-  journal = {Springer},
-  year    = {2009}
-}
-  
-@article{dwork1990time,
-  title     = {A Time Complexity Gap for Two-Way Probabilistic Finite Automata},
-  author    = {Dwork, Cynthia and Stockmeyer, Larry},
-  journal   = {SIAM Journal on Computing},
-  volume    = {19},
-  number    = {6},
-  pages     = {1011--1023},
-  year      = {1990},
-  publisher = {SIAM}
-}
-
-@misc{FormalLangMedium2023,
-  author = {Medium},
-  title  = {Explain Formal Language in the Theory of Computation},
-  year   = {2023},
-  note   = {\url{https://medium.com/formal-language-basics}}
-}
-
-@misc{FormalLangSyntax2024,
-  author = {ScienceDirect Topics},
-  title  = {Formal Language Computer Science: Syntax \& Semantics},
-  year   = {2024},
-  note   = {\url{https://www.sciencedirect.com/topics/computer-science/formal-language}}
-}
-
-@article{fowler2012surface,
-  title   = {Surface codes: Towards practical large-scale quantum computation},
-  author  = {Fowler, Austin G. and Mariantoni, Matteo and Martinis, John M. and Cleland, Andrew N.},
-  journal = {Physical Review A},
-  volume  = {86},
-  number  = {3},
-  year    = {2012}
-}
-
-@article{freivalds1981,
-  title     = {Probabilistic two-way machines},
-  author    = {Freivalds, Rūsiņš},
-  journal   = {International Symposium on Mathematical Foundations of Computer Science},
-  pages     = {33--45},
-  year      = {1981},
-  publisher = {Springer}
-}
-
-@misc{GeeksforGeeksDFA2024,
-  author = {GeeksforGeeks},
-  title  = {Introduction of Finite Automata},
-  year   = {2024},
-  note   = {\url{https://www.geeksforgeeks.org/introduction-of-finite-automata/}}
-}
-
-@article{greenberger1990bell,
-  title     = {Bell's theorem without inequalities},
-  author    = {Greenberger, Daniel M. and Horne, Michael A. and Zeilinger, Anton},
-  journal   = {American Journal of Physics},
-  volume    = {58},
-  number    = {12},
-  pages     = {1131--1143},
-  year      = {1990},
-  publisher = {AAPT}
-}
-
-@article{grover1996fast,
-  title   = {A fast quantum mechanical algorithm for database search},
-  author  = {Grover, Lov K},
-  journal = {Proceedings of the 28th Annual ACM Symposium on Theory of Computing (STOC)},
-  pages   = {212--219},
-  year    = {1996}
-}
-
-@book{gruska2005,
-  title     = {Quantum Computing},
-  author    = {Gruska, Jozef},
-  publisher = {McGraw-Hill},
-  year      = {2005}
-}
-
-@article{gruska2012quantum,
-  title   = {Quantum Finite Automata: A Modern Overview},
-  author  = {Gruska, Jozef and Qiu, Daowen},
-  journal = {Theoretical Computer Science},
-  volume  = {499},
-  pages   = {1--35},
-  year    = {2013}
-}
-
-@article{gudder1978quantum,
-  title   = {Quantum automata and logics},
-  author  = {Gudder, Stanley P.},
-  journal = {International Journal of Theoretical Physics},
-  volume  = {17},
-  pages   = {517--529},
-  year    = {1978}
-}
-
-@article{hirvensalo2008,
-  title   = {On the power of quantum finite automata},
-  author  = {Hirvensalo, Mika},
-  journal = {Fundamentals of Computation Theory},
-  pages   = {305--316},
-  year    = {2008}
-}
-
-@book{hirvensalo2012quantum,
-  title     = {Quantum Computing},
-  author    = {Hirvensalo, Mika},
-  year      = {2012},
-  publisher = {Springer}
-}
-
-@book{HirvensaloQC2012,
-  author    = {Mika Hirvensalo},
-  title     = {Quantum Computing},
-  publisher = {Springer},
-  year      = {2012}
-}
-
-@book{hopcroft2006introduction,
-  title     = {Introduction to Automata Theory, Languages, and Computation},
-  author    = {Hopcroft, John E. and Motwani, Rajeev and Ullman, Jeffrey D.},
-  year      = {2006},
-  publisher = {Pearson Education India},
-  edition   = {3rd},
-  note      = {ISBN: 978-8131720479}
-}
-
-@article{hromkovic2000probabilistic,
-  title   = {Probabilistic and nondeterministic unary automata},
-  author  = {Hromkovi{\v{c}}, Juraj and others},
-  journal = {Mathematical Foundations of Computer Science},
-  pages   = {445--454},
-  year    = {2000}
-}
-
-@misc{KashmirMCA2021,
-  author = {University of Kashmir},
-  title  = {MCA Syllabus: Finite Automata},
-  year   = {2021},
-  note   = {\url{https://kashmiruniversity.net/mca-syllabus}}
-}
-
-@book{kernighan1984unix,
-  title     = {The Unix programming environment},
-  author    = {Kernighan, Brian W and Pike, Rob},
-  year      = {1984},
-  publisher = {Prentice-Hall}
-}
-
-@article{kleene1956representation,
-  title   = {Representation of events in nerve nets and finite automata},
-  author  = {Kleene, Stephen Cole},
-  journal = {Automata studies},
-  volume  = {34},
-  pages   = {3--41},
-  year    = {1956}
-}
-
-@article{kobayashi2003quantum,
-  title   = {Quantum multi-prover interactive proof systems with limited prior entanglement},
-  author  = {Kobayashi, Hirotada and Matsumoto, Keiji},
+@article{NISHIMURA2009255,
+  title = {An application of quantum finite automata to interactive proof systems},
   journal = {Journal of Computer and System Sciences},
-  volume  = {66},
-  pages   = {429--450},
-  year    = {2003}
+  volume = {75},
+  number = {4},
+  pages = {255-269},
+  year = {2009},
+  issn = {0022-0000},
+  doi = {https://doi.org/10.1016/j.jcss.2008.12.001},
+  url = {https://www.sciencedirect.com/science/article/pii/S0022000008001165},
+  author = {Harumichi Nishimura and Tomoyuki Yamakami},
+  keywords = {Quantum finite automaton, Quantum interactive proof system, Quantum measurement, Quantum circuit},
+  abstract = {Quantum finite automata have been studied intensively since their introduction in late 1990s as a natural model of a quantum computer working with finite-dimensional quantum memory space. This paper seeks their direct application to interactive proof systems in which a mighty quantum prover communicates with a quantum-automaton verifier through a common communication cell. Our quantum interactive proof systems are juxtaposed to Dwork–Stockmeyer's classical interactive proof systems whose verifiers are two-way probabilistic finite automata. We demonstrate strengths and weaknesses of our systems by studying how various restrictions on the behaviors of quantum-automaton verifiers affect the power of quantum interactive proof systems.}
 }
 
-@inproceedings{kondacs1997power,
-  title     = {On the power of quantum finite state automata},
-  author    = {Kondacs, Attila and Watrous, John},
-  booktitle = {Proceedings of the 38th Annual Symposium on Foundations of Computer Science (FOCS)},
-  pages     = {66--75},
-  year      = {1997},
-  publisher = {IEEE}
-}
-
-@inproceedings{KondacsWatrous1997,
-  author    = {Attila Kondacs and John Watrous},
-  title     = {On the power of quantum finite state automata},
-  booktitle = {Proceedings of the 38th Annual Symposium on Foundations of Computer Science (FOCS)},
-  year      = {1997},
-  pages     = {66--75},
-  publisher = {IEEE}
-}
-
-@book{kozen1997automata,
-  title     = {Automata and Computability},
-  author    = {Kozen, Dexter C.},
-  year      = {1997},
-  publisher = {Springer}
-}
-
-@misc{LaTeXTUGBOAT2010,
-  author = {TeX Users Group},
-  title  = {TUGBOAT Volume 31, Number 1},
-  year   = {2010},
-  note   = {\url{https://www.tug.org/TUGboat/}}
-}
-
-@article{li2012characterizations,
-  title     = {Characterizations of one-way general quantum finite automata},
-  author    = {Li, Lvzhou and Qiu, Daowen and Zou, Xiangfu and Li, Lvjun and Wu, Lihua and Mateus, Paulo},
-  journal   = {Theoretical Computer Science},
-  volume    = {419},
-  pages     = {73--91},
-  year      = {2012},
-  publisher = {Elsevier}
-}
-
-@article{LiZhengQiu2012,
-  author  = {Lvzhou Li and Shenggen Zheng and Daowen Qiu},
-  title   = {One-way quantum finite automata with classical states},
-  journal = {Quantum Information Processing},
-  year    = {2012},
-  volume  = {11},
-  number  = {6},
-  pages   = {1501--1521}
-}
-
-@article{manin1980computable,
-  title     = {Computable and uncomputable},
-  author    = {Manin, Yuri I.},
-  publisher = {Sovetskoye Radio},
-  year      = {1980}
-}
-
-@article{moore1971,
-  title   = {Gedanken-experiments on sequential machines},
-  author  = {Moore, Edward F.},
-  journal = {Automata Studies},
-  pages   = {129--153},
-  year    = {1956}
-}
-
-@inproceedings{moore2000quantum,
-  title     = {Quantum automata and quantum grammars},
-  author    = {Moore, Cristopher and Crutchfield, James P},
-  booktitle = {Theoretical Computer Science},
-  volume    = {237},
-  number    = {1-2},
-  pages     = {275--306},
-  year      = {2000},
-  publisher = {Elsevier}
-}
-
-@article{myhill1957finite,
-  title   = {Finite automata and the representation of events},
-  author  = {Myhill, John},
-  journal = {WADD Technical Report},
-  year    = {1957}
-}
-
-@inproceedings{nakanishi2004,
-  author    = {Masaki Nakanishi},
-  title     = {On the Power of One-Sided Error Quantum Pushdown Automata with Classical Stack Operations},
-  booktitle = {Proceedings of the 10th Annual International Computing and Combinatorics Conference (COCOON 2004)},
-  series    = {Lecture Notes in Computer Science},
-  volume    = {3106},
-  pages     = {179--187},
-  year      = {2004},
-  publisher = {Springer},
-  doi       = {10.1007/978-3-540-27798-9_21}
-}
-
-@article{nayak1999optimal,
-  title     = {Optimal lower bounds for quantum automata and random access codes},
-  author    = {Nayak, Ashwin},
-  journal   = {Foundations of Computer Science, 1999. 40th Annual Symposium on},
-  pages     = {369--376},
-  year      = {1999},
-  publisher = {IEEE}
-}
-
-@article{nerode1958linear,
-  title   = {Linear automaton transformations},
-  author  = {Nerode, Anil},
-  journal = {Proceedings of the American Mathematical Society},
-  volume  = {9},
-  number  = {4},
-  pages   = {541--544},
-  year    = {1958}
-}
-
-@book{nielsen2010quantum,
-  title     = {Quantum Computation and Quantum Information},
-  author    = {Nielsen, Michael A. and Chuang, Isaac L.},
-  year      = {2010},
-  publisher = {Cambridge University Press}
-}
-
-@article{nishimura2009application,
-  title     = {An application of quantum finite automata to interactive proof systems},
-  author    = {Nishimura, Harumichi and Yamakami, Tomoyuki},
-  journal   = {Journal of Computer and System Sciences},
-  volume    = {75},
-  number    = {4},
-  pages     = {255--269},
-  year      = {2009},
-  publisher = {Elsevier}
-}
-
-@misc{NJITDFA2021,
-  author = {New Jersey Institute of Technology},
-  title  = {Deterministic Finite Automata},
-  year   = {2021},
-  note   = {PDF resource: \url{https://njit.edu/deterministic-finite-automata}}
-}
-
-@misc{NJITNFA2020,
-  author = {New Jersey Institute of Technology},
-  title  = {Nondeterministic Finite Automata},
-  year   = {2020},
-  note   = {PDF resource: \url{https://njit.edu/nondeterministic-finite-automata}}
-}
-
-@book{papadimitriou1994computational,
-  title     = {Computational Complexity},
-  author    = {Papadimitriou, Christos H},
-  year      = {1994},
-  publisher = {Addison-Wesley}
-}
-
-@article{paschen2000quantum,
-  title   = {Quantum finite automata using ancilla qubits},
-  author  = {Paschen, Kathrin},
-  journal = {Technical Report, Karlsruhe University},
-  year    = {2000}
-}
-
-@book{paz1971introduction,
-  title     = {Introduction to probabilistic automata},
-  author    = {Paz, Azaria},
-  year      = {1971},
-  publisher = {Academic Press}
-}
-
-@inproceedings{pin1997syntactic,
-  title     = {Syntactic and Reversible Automata},
-  author    = {Pin, Jean-Éric},
-  booktitle = {Proceedings of the International Conference on Algebraic Informatics},
-  year      = {1997},
-  publisher = {Springer}
-}
-
-@article{qiu2009,
-  title   = {One-way quantum finite automata with classical states},
-  author  = {Qiu, Daowen and Yu, Xiangfu},
-  journal = {Journal of Computer and System Sciences},
-  volume  = {75},
-  pages   = {359--373},
-  year    = {2009}
-}
-
-@article{rabin1959,
-  title   = {Finite automata and their decision problems},
-  author  = {Rabin, Michael O. and Scott, Dana},
-  journal = {IBM Journal of Research and Development},
-  volume  = {3},
-  pages   = {114--125},
-  year    = {1959}
-}
-
-@article{rabin1963probabilistic,
-  title     = {Probabilistic automata},
-  author    = {Rabin, Michael O},
-  journal   = {Information and Control},
-  volume    = {6},
-  number    = {3},
-  pages     = {230--245},
-  year      = {1963},
-  publisher = {Elsevier}
-}
-
-@article{ravikumar2003,
-  title   = {On multi-letter quantum finite automata},
-  author  = {Ravikumar, Bala},
-  journal = {Proceedings of DCFS 2003},
-  pages   = {34--46},
-  year    = {2003}
-}
-
-@book{rozenberg1997handbook,
-  title     = {Handbook of Formal Languages},
-  author    = {Rozenberg, Grzegorz and Salomaa, Arto},
-  year      = {1997},
-  publisher = {Springer}
-}
-
-@article{sakoda1978nfas,
-  title     = {The Complexity of Nondeterministic Finite Automata},
-  author    = {Sakoda, William J. and Sipser, Michael},
-  journal   = {Information and Control},
-  volume    = {38},
-  pages     = {125--153},
-  year      = {1978},
-  publisher = {Elsevier}
-}
-
-@article{salomaa1969probabilistic,
-  title   = {Probabilistic and weighted grammars},
-  author  = {Salomaa, Arto},
-  journal = {Information and Control},
-  volume  = {15},
-  number  = {1},
-  pages   = {52--63},
-  year    = {1969}
-}
-
-@article{salomaa1973formal,
-  title   = {Formal Languages},
-  author  = {Salomaa, Arto},
-  journal = {Academic Press},
-  year    = {1973}
-}
-
-@article{scegulnaja2010postselection,
-  title     = {Postselection finite quantum automata},
-  author    = {Scegulnaja-Dubrovska, Oksana and L{\=a}ce, Lelde and Freivalds, R{\=u}{\c{s}}in{\v{s}}},
-  journal   = {International Conference on Unconventional Computation},
-  pages     = {115--126},
-  year      = {2010},
-  publisher = {Springer}
-}
-
-@misc{ScienceDirectDFA2024,
-  author = {ScienceDirect Topics},
-  title  = {Deterministic Finite Automaton - an overview},
-  year   = {2024},
-  note   = {\url{https://www.sciencedirect.com/topics/computer-science/deterministic-finite-automaton}}
-}
-
-@article{shepherdson1959reduction,
-  title     = {The Reduction of Two-Way Automata to One-Way Automata},
-  author    = {Shepherdson, John C.},
-  journal   = {IBM Journal of Research and Development},
-  volume    = {3},
-  number    = {2},
-  pages     = {198--200},
-  year      = {1959},
-  publisher = {IBM}
-}
-
-@article{shor1994algorithms,
-  title     = {Algorithms for quantum computation: discrete logarithms and factoring},
-  author    = {Shor, Peter W.},
-  journal   = {Proceedings 35th Annual Symposium on Foundations of Computer Science},
-  pages     = {124--134},
-  year      = {1994},
-  publisher = {IEEE}
-}
-
-@article{shor1995scheme,
-  title     = {Scheme for reducing decoherence in quantum computer memory},
-  author    = {Shor, Peter W},
-  journal   = {Physical Review A},
-  volume    = {52},
-  number    = {4},
-  pages     = {R2493--R2496},
-  year      = {1995},
-  publisher = {APS}
-}
-
-@article{shor1999polynomial,
-  title     = {Polynomial-time algorithms for prime factorization and discrete logarithms on a quantum computer},
-  author    = {Shor, Peter W},
-  journal   = {SIAM Review},
-  volume    = {41},
-  number    = {2},
-  pages     = {303--332},
-  year      = {1999},
-  publisher = {SIAM}
-}
-
-@article{sipser1980halting,
-  title     = {Lower bounds on the size of sweeping automata},
-  author    = {Sipser, Michael},
-  journal   = {Journal of Computer and System Sciences},
-  volume    = {21},
-  number    = {2},
-  pages     = {195--202},
-  year      = {1980},
-  publisher = {Elsevier}
-}
-
-@book{sipser2012introduction,
-  title     = {Introduction to the Theory of Computation},
-  author    = {Sipser, Michael},
-  year      = {2012},
-  publisher = {Cengage Learning}
-}
-
-@book{sipser2013introduction,
-  title     = {Introduction to the Theory of Computation},
-  author    = {Sipser, Michael},
-  year      = {2013},
-  publisher = {Cengage Learning}
-}
-
-@misc{StringOpsFynd2024,
-  author = {Fynd Academy},
-  title  = {String Operations in Data Structures \& Algorithms},
-  year   = {2024},
-  note   = {\url{https://fyndacademy.com/string-operations}}
-}
-
-@book{sudkamp2006languages,
-  title     = {Languages and Machines: An Introduction to the Theory of Computer Science},
-  author    = {Sudkamp, Thomas A.},
-  year      = {2006},
-  publisher = {Addison-Wesley}
-}
-
-@misc{SymbolsList2020,
-  author = {Formal Languages and Automata Theory},
-  title  = {List of Important Symbols},
-  year   = {2020},
-  note   = {\url{https://formallanguagesymposium.org/symbols}}
-}
-
-@article{turing1936computable,
-  title   = {On computable numbers, with an application to the Entscheidungsproblem},
-  author  = {Turing, Alan Mathison},
-  journal = {Proceedings of the London Mathematical Society},
-  volume  = {2},
-  number  = {1},
-  pages   = {230--265},
-  year    = {1936}
-}
-
-@article{tzelepis2021undecidable,
-  title   = {Undecidable problems for probabilistic automata of fixed dimension},
-  author  = {Tzelepis, Christos and others},
-  journal = {Theory of Computing Systems},
-  volume  = {65},
-  number  = {3},
-  pages   = {573--593},
-  year    = {2021}
-}
-
-@book{ullman1974introduction,
-  title     = {An Introduction to Automata Theory, Languages, and Computation},
-  author    = {Ullman, Jeffrey D and Hopcroft, John E},
-  year      = {1974},
-  publisher = {Addison-Wesley}
-}
-
-@article{vidal2003efficient,
-  title   = {Efficient classical simulation of slightly entangled quantum computations},
-  author  = {Vidal, Guifré},
-  journal = {Physical Review Letters},
-  volume  = {91},
-  pages   = {147902},
-  year    = {2003}
-}
-
-@article{wootters1982single,
-  title     = {A single quantum cannot be cloned},
-  author    = {Wootters, William K. and Zurek, Wojciech H.},
-  journal   = {Nature},
-  volume    = {299},
-  number    = {5886},
-  pages     = {802--803},
-  year      = {1982},
-  publisher = {Nature Publishing Group}
-}
-
-@article{yakaryilmaz2010succinctness,
-  title   = {Succinctness of two-way probabilistic and quantum finite automata},
-  author  = {Yakaryılmaz, Abuzer and Say, A. C. Cem},
-  journal = {Discrete Mathematics and Theoretical Computer Science},
-  volume  = {12},
-  number  = {2},
-  pages   = {19--40},
-  year    = {2010}
-}
-
-@article{yakaryilmaz2011,
-  title   = {Efficient recognition by quantum finite automata},
-  author  = {Yakaryılmaz, Abuzer and Say, A. C. Cem},
+@article{nishimura2015interactive,
+  title = {Interactive proofs with quantum finite automata},
   journal = {Theoretical Computer Science},
-  volume  = {410},
-  pages   = {1932--1941},
-  year    = {2011}
+  volume = {568},
+  pages = {1-18},
+  year = {2015},
+  issn = {0304-3975},
+  doi = {https://doi.org/10.1016/j.tcs.2014.11.030},
+  url = {https://www.sciencedirect.com/science/article/pii/S0304397514009487},
+  author = {Harumichi Nishimura and Tomoyuki Yamakami},
+  keywords = {Finite automaton, Interactive proof system, Quantum computing, Classical prover, Quantum prover, Interaction},
+  abstract = {Following an early work of Dwork and Stockmeyer on interactive proof systems whose verifiers are two-way probabilistic finite automata, the authors initiated in 2004 a study on the computational power of quantum interactive proof systems whose verifiers are particularly limited to quantum finite automata. As a follow-up to the authors' early journal publication [J. Comput. System Sci., vol. 75, pp. 255–269, 2009], we further investigate the quantum nature of interactions between provers and verifiers by studying how various restrictions on quantum interactive proof systems affect the language recognition power of the proof systems. In particular, we examine three intriguing restrictions that (i) provers always behave in a classical fashion, (ii) verifiers always reveal to provers the information on their next moves, and (iii) the number of interactions between provers and verifiers is bounded.}
 }
 
-@article{yakaryilmaz2013verification,
-  title   = {Verification of quantum automata via non-adaptive strategies},
-  author  = {Yakaryılmaz, Abuzer},
-  journal = {Theoretical Computer Science},
-  volume  = {486},
-  pages   = {1--8},
-  year    = {2013}
-}
 
-@article{yakaryilmaz2014quantum,
-  title   = {Quantum Pumping Lemmas for Regular and Context-Free Languages},
-  author  = {Yakaryılmaz, Abuzer},
+=====================================
+% Hybrid Quantum Finite Automata
+=====================================
+@article{Li2015hybrid,
+  title = {On hybrid models of quantum finite automata},
   journal = {Journal of Computer and System Sciences},
-  volume  = {80},
-  number  = {8},
-  pages   = {1563--1576},
-  year    = {2014}
-}
-
-@article{YakaryilmazSay2010,
-  author  = {Abuzer Yakaryılmaz and A. C. Cem Say},
-  title   = {Succinctness of two-way probabilistic and quantum finite automata},
-  journal = {Discrete Mathematics and Theoretical Computer Science},
-  year    = {2010},
-  volume  = {12},
-  number  = {2},
-  pages   = {19--40}
-}
-
-@article{yamakami2014constant,
-  title     = {Constant-space quantum interactive proofs against multiple provers},
-  author    = {Yamakami, Tomoyuki},
-  journal   = {Information Processing Letters},
-  volume    = {114},
-  number    = {11},
-  pages     = {611--619},
-  year      = {2014},
-  publisher = {Elsevier}
+  volume = {81},
+  number = {7},
+  pages = {1144-1158},
+  year = {2015},
+  issn = {0022-0000},
+  doi = {https://doi.org/10.1016/j.jcss.2015.01.001},
+  url = {https://www.sciencedirect.com/science/article/pii/S0022000015000094},
+  author = {Lvzhou Li and Yuan Feng},
+  keywords = {Quantum computing, Automata theory, Quantum finite automata, Hybrid model of QFA},
+  abstract = {In the literature, there exist several interesting hybrid models of quantum finite automata (QFA) which have both quantum and classical states. This paper describes these models in a uniform way: a hybrid QFA can be seen as a two-component communication system consisting of a quantum component and a classical one, and the existing hybrid QFA differ from each other mainly in the specific communication pattern: classical-quantum, or quantum-classical, or two-way. We clarify the relationship between these hybrid QFA and some other models; in particular, it is shown that hybrid QFA can be simulated exactly by QFA with general quantum operations. As corollaries, some results in the literature concerning the language recognition power and the equivalence problem of hybrid QFA follow directly from these relationships clarified in this paper.}
 }
 
 @article{zheng2012one,
-  title     = {One-way quantum finite automata with classical states},
-  author    = {Zheng, Shenggen and Li, Lvzhou and Qiu, Daowen},
-  journal   = {Quantum Information Processing},
-  volume    = {11},
-  number    = {6},
-  pages     = {1501--1521},
-  year      = {2012},
-  publisher = {Springer}
+  title={One-Way Finite Automata with Quantum and Classical States.},
+  author={Zheng, Shenggen and Qiu, Daowen and Li, Lvzhou and Gruska, Jozef},
+  journal={Languages alive},
+  volume={7300},
+  pages={273--290},
+  year={2012},
+  publisher={Springer}
 }
 
-@article{zheng2012two,
-  title     = {Two-tape finite automata with quantum and classical states},
-  author    = {Zheng, Shenggen and Qiu, Daowen and Li, Lvzhou and Gruska, Jozef},
-  journal   = {International Journal of Foundations of Computer Science},
-  volume    = {23},
-  number    = {04},
-  pages     = {887--906},
-  year      = {2012},
-  publisher = {World Scientific}
+@article{qiu2009one,
+  title={One-way quantum finite automata together with classical states},
+  author={Qiu, DW and Mateus, Paulo and Sernadas, A},
+  journal={arXiv preprint arXiv:0909.1428},
+  pages={3006--3017},
+  year={2009},
+  publisher={Citeseer}
 }
 
-@article{zheng2015power,
-  title     = {Power of the interactive proof systems with verifiers modeled by semi-quantum two-way finite automata},
-  author    = {Zheng, Shenggen and Qiu, Daowen and Gruska, Jozef},
-  journal   = {Information and Computation},
-  volume    = {241},
-  pages     = {197--214},
-  year      = {2015},
-  publisher = {Elsevier}
+@misc{xiao2021state,
+  title={State complexity of one-way quantum finite automata together with classical states}, 
+  author={Ligang Xiao and Daowen Qiu},
+  year={2021},
+  eprint={2112.03746},
+  archivePrefix={arXiv},
+  primaryClass={quant-ph},
+  url={https://arxiv.org/abs/2112.03746}
+}
+
+@InProceedings{bianchi2014power,
+author="Bianchi, Maria Paola
+and Mereghetti, Carlo
+and Palano, Beatrice",
+editor="Holzer, Markus
+and Kutrib, Martin",
+title="On the Power of One-Way Automata with Quantum and Classical States",
+booktitle="Implementation and Application of Automata",
+year="2014",
+publisher="Springer International Publishing",
+address="Cham",
+pages="84--97",
+abstract="We consider the model of one-way automata with quantum and classical states (qcfas) introduced in [23]. We show, by a direct approach, that qcfas with isolated cut-point accept regular languages only, thus characterizing their computational power. Moreover, we give a size lower bound for qcfas accepting regular languages, and we explicitly build qcfas accepting the word quotients and inverse homomorphic images of languages accepted by given qcfas with isolated cut-point, maintaining the same cut-point, isolation, and polynomially increasing the size.",
+isbn="978-3-319-08846-4"
+}
+
+@article{qiu2009equivalence,
+  title={One-way quantum finite automata together with classical states: Equivalence and Minimization},
+  author={Qiu, DW and Mateus, Paulo and Sernadas, Amilcar},
+  journal={arXiv preprint arXiv:0909.1428},
+  year={2009}
+}
+
+@article{zheng2011two,
+  title={Two-tape finite automata with quantum and classical states},
+  author={Zheng, Shenggen and Li, Lvzhou and Qiu, Daowen},
+  journal={International Journal of Theoretical Physics},
+  volume={50},
+  number={4},
+  pages={1262--1281},
+  year={2011},
+  publisher={Springer}
+}
+
+@inproceedings{remscrim2020power,
+  doi = {10.4230/LIPICS.ICALP.2020.139},
+  url = {https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ICALP.2020.139},
+  author = {Remscrim, Zachary},
+  keywords = {finite automata, quantum, word problem of a group, Theory of computation → Formal languages and automata theory, Theory of computation → Quantum computation theory},
+  language = {en},
+  title = {The Power of a Single Qubit: Two-Way Quantum Finite Automata and the Word Problem},
+  publisher = {Schloss Dagstuhl – Leibniz-Zentrum für Informatik},
+  year = {2020},
+  copyright = {Creative Commons Attribution 3.0 Unported license}
+}
+
+@article{ambainis2002two,
+  title={Two-way finite automata with quantum and classical states},
+  author={Ambainis, Andris and Watrous, John},
+  journal={Theoretical Computer Science},
+  volume={287},
+  number={1},
+  pages={299--311},
+  year={2002},
+  publisher={Elsevier}
+}
+
+@article{zheng2013state,
+  title={State succinctness of two-way finite automata with quantum and classical states},
+  author={Zheng, Shenggen and Qiu, Daowen and Gruska, Jozef and Li, Lvzhou and Mateus, Paulo},
+  journal={Theoretical Computer Science},
+  volume={499},
+  pages={98--112},
+  year={2013},
+  publisher={Elsevier}
+}
+
+@article{rao2007quantum,
+  title={Quantum finite automata and weighted automata},
+  author={Rao, MV and Vinay, V},
+  journal={arXiv preprint quant-ph/0701144},
+  year={2007}
+}
+
+@inproceedings{qiu2008some,
+  title={Some observations on two-way finite automata with quantum and classical states},
+  author={Qiu, Daowen},
+  booktitle={International Conference on Intelligent Computing},
+  pages={1--8},
+  year={2008},
+  organization={Springer}
+}
+
+@incollection{zheng2012state,
+  title={State succinctness of two-way finite automata with quantum and classical states},
+  author={Zheng, Shenggen and Qiu, Daowen and Li, Lvzhou},
+  booktitle={Quantitative Logic And Soft Computing},
+  pages={378--385},
+  year={2012},
+  publisher={World Scientific}
+}
+
+@article{grilo2013finite,
+  title={On finite automata with quantum and classical states},
+  author={Grilo, Alex Bredariol and Moura, Arnaldo Vieira},
+  journal={Сибирские электронные математические известия},
+  volume={10},
+  number={0},
+  pages={676--688},
+  year={2013},
+  publisher={Институт математики им. СЛ Соболева Сибирского отделения Российской академии~…}
+}
+
+@article{remscrim2020lower,
+  title={Lower bounds on the running time of two-way quantum finite automata and sublogarithmic-space quantum turing machines},
+  author={Remscrim, Zachary},
+  journal={arXiv preprint arXiv:2003.09877},
+  year={2020}
+}
+
+@article{mereghetti2006quantum,
+  title={Quantum finite automata with control language},
+  author={Mereghetti, Carlo and Palano, Beatrice},
+  journal={RAIRO-Theoretical Informatics and Applications},
+  volume={40},
+  number={2},
+  pages={315--332},
+  year={2006},
+  publisher={EDP Sciences}
+}
+
+@article{li2008determining,
+  title={Determining the equivalence for one-way quantum finite automata},
+  author={Li, Lvzhou and Qiu, Daowen},
+  journal={Theoretical Computer Science},
+  volume={403},
+  number={1},
+  pages={42--51},
+  year={2008},
+  publisher={Elsevier}
+}
+
+@article{mereghetti2024unary,
+  title={Unary quantum finite state automata with control language},
+  author={Mereghetti, Carlo and Palano, Beatrice and Raucci, Priscilla},
+  journal={Applied Sciences},
+  volume={14},
+  number={4},
+  pages={1490},
+  year={2024},
+  publisher={MDPI}
+}
+
+@article{bianchi2014size,
+  title={Size lower bounds for quantum automata},
+  author={Bianchi, Maria Paola and Mereghetti, Carlo and Palano, Beatrice},
+  journal={Theoretical Computer Science},
+  volume={551},
+  pages={102--115},
+  year={2014},
+  publisher={Elsevier}
+}
+
+%TODO: rendere omogenee le citazioni con google scholar
+
+=====================================
+% Latvian Quantum Finite Automata
+=====================================
+@article{mereghetti2024latvian,
+  title={Latvian quantum finite state automata for unary languages},
+  author={Mereghetti, Carlo and Palano, Beatrice and Raucci, Priscilla},
+  journal={International Journal of Foundations of Computer Science},
+  pages={1--37},
+  year={2024},
+  publisher={World Scientific}
+}
+
+=====================================
+% 2-Way Quantum Finite Automata
+=====================================
+@article{qiu2008state,
+  title={State complexity of operations on two-way quantum finite automata},
+  author={Qiu, Daowen},
+  journal={arXiv preprint arXiv:0807.0476},
+  year={2008}
+}
+
+@inproceedings{pani2011empowering,
+  title={Empowering measures for quantum finite automata (QFA)},
+  author={Pani, Soumya Debabrata and Behera, Chandan Kumar},
+  booktitle={2011 3rd International Conference on Computer Research and Development},
+  volume={2},
+  pages={406--411},
+  year={2011},
+  organization={IEEE}
+}
+
+@inproceedings{kondacs1997power,
+  title={On the power of quantum finite state automata},
+  author={Kondacs, Attila and Watrous, John},
+  booktitle={Proceedings 38th annual symposium on foundations of computer science},
+  pages={66--75},
+  year={1997},
+  organization={IEEE}
+}
+
+@article{xi2008some,
+  title={Some algebraic properties of measure-once two-way quantum finite automata},
+  author={Xi, Zhengjun and Wang, Xin and Li, Yongming},
+  journal={Quantum Information Processing},
+  volume={7},
+  pages={211--225},
+  year={2008},
+  publisher={Springer}
+}
+
+=====================================
+% Counter Quantum Finite Automata
+=====================================
+@inproceedings{kravtsev1999quantum,
+  title={Quantum finite one-counter automata},
+  author={Kravtsev, Maksim},
+  booktitle={International Conference on Current Trends in Theory and Practice of Computer Science},
+  pages={431--440},
+  year={1999},
+  organization={Springer}
+}
+
+@inproceedings{bonner2001quantum,
+  title={Quantum versus probabilistic one-way finite automata with counter},
+  author={Bonner, Richard and Freivalds, R{\=u}si{\c{n}}{\v{s}} and Kravtsev, Maksim},
+  booktitle={International Conference on Current Trends in Theory and Practice of Computer Science},
+  pages={181--190},
+  year={2001},
+  organization={Springer}
+}
+
+@article{cem2012quantum,
+  title={Quantum counter automata},
+  author={Cem Say, AC and Yakaryilmaz, Abuzer},
+  journal={International Journal of Foundations of Computer Science},
+  volume={23},
+  number={05},
+  pages={1099--1116},
+  year={2012},
+  publisher={World Scientific}
+}
+
+=====================================
+% Multi Letter Quantum Finite Automata
+=====================================
+@article{qiu2009hierarchy,
+  title={Hierarchy and equivalence of multi-letter quantum finite automata},
+  author={Qiu, Daowen and Yu, Sheng},
+  journal={Theoretical Computer Science},
+  volume={410},
+  number={30-32},
+  pages={3006--3017},
+  year={2009},
+  publisher={Elsevier}
+}
+
+@article{qiu2011multi,
+  title={Multi-letter quantum finite automata: decidability of the equivalence and minimization of states},
+  author={Qiu, Daowen and Li, Lvzhou and Zou, Xiangfu and Mateus, Paulo and Gruska, Jozef},
+  journal={Acta informatica},
+  volume={48},
+  number={5},
+  pages={271},
+  year={2011},
+  publisher={Springer}
+}
+
+@article{qiu2008decidability,
+  title={Decidability of the equivalence of multi-letter quantum finite automata},
+  author={Qiu, Daowen and Zou, Xiangfu and Li, Lvzhou and Mateus, Paulo},
+  journal={arXiv preprint arXiv:0812.1061},
+  year={2008}
+}
+
+@inproceedings{piazza2022mirrors,
+  title={Mirrors and memory in quantum automata},
+  author={Piazza, Carla and Romanello, Riccardo},
+  booktitle={International Conference on Quantitative Evaluation of Systems},
+  pages={359--380},
+  year={2022},
+  organization={Springer}
+}
+
+@inproceedings{belovs2007multi,
+  title={Multi-letter reversible and quantum finite automata},
+  author={Belovs, Aleksandrs and Rosmanis, Ansis and Smotrovs, Juris},
+  booktitle={Developments in Language Theory: 11th International Conference, DLT 2007, Turku, Finland, July 3-6, 2007. Proceedings 11},
+  pages={60--71},
+  year={2007},
+  organization={Springer}
+}
+
+@article{lin2012equivalence,
+  title={On equivalence and emptiness problems of multi-letter (measure many) quantum finite automata},
+  author={Lin, T},
+  journal={arXiv preprint arXiv:1203.0113},
+  year={2012},
+  publisher={Citeseer}
+}
+
+=====================================
+% One Way Quantum Finite Automata
+=====================================
+@article{comin2013extended,
+  title={(Extended Version) Algebraic Characterization of the Class of Languages recognized by Measure Only Quantum Automata},
+  author={Comin, Carlo},
+  journal={arXiv preprint arXiv:1301.3931},
+  year={2013}
+}
+
+@article{bertoni2010trace,
+  title={Trace monoids with idempotent generators and measure-only quantum automata},
+  author={Bertoni, Alberto and Mereghetti, Carlo and Palano, Beatrice},
+  journal={Natural Computing},
+  volume={9},
+  number={2},
+  pages={383--395},
+  year={2010},
+  publisher={Springer}
+}
+
+@article{ganguly20162,
+  title={2-tape 1-way quantum finite state automata},
+  author={Ganguly, Debayan and Ray, Kumar Sankar},
+  journal={arXiv preprint arXiv:1607.00811},
+  year={2016}
+}
+
+@inproceedings{ciamarra2001quantum,
+  title={Quantum reversibility and a new model of quantum automaton},
+  author={Ciamarra, Massimo Pica},
+  booktitle={International Symposium on Fundamentals of Computation Theory},
+  pages={376--379},
+  year={2001},
+  organization={Springer}
+}
+
+@misc{yakaryilmaz2010languages,
+      title={Languages recognized by nondeterministic quantum finite automata}, 
+      author={Abuzer Yakaryilmaz and A. C. Cem Say},
+      year={2010},
+      eprint={0902.2081},
+      archivePrefix={arXiv},
+      primaryClass={cs.CC}
+}
+
+@article{yamakami2014one,
+  title = {One-way reversible and quantum finite automata with advice},
+  journal = {Information and Computation},
+  volume = {239},
+  pages = {122-148},
+  year = {2014},
+  issn = {0890-5401},
+  author = {Tomoyuki Yamakami},
 }

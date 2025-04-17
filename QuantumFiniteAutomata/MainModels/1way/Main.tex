@@ -1,0 +1,144 @@
+\subsection{1-way Quantum Finite Automata}
+\label{sec:1-way-qfa}
+
+One-way quantum finite automata (\gls{1qfa}) are the quantum analog of classical one-way finite automata where the input tape is read from left to right without revisiting symbols. They provide a model for finite quantum computation that is more restricted than two-way quantum finite automata but often simpler to implement and analyze.
+
+Among the most studied variants of \gls{1qfa} are the measure-once 1QFA (\gls{mo-1qfa}) and the measure-many 1QFA (\gls{mm-1qfa}), which are addressed in detail in Section~\ref{sec:detailed-models}. These automata differ primarily in the timing of their measurements: \gls{mo-1qfa} perform a single measurement at the end of the computation, while \gls{mm-1qfa} perform measurements after reading each input symbol.
+
+Beyond these foundational models, several other types of one-way quantum finite automata have been proposed, each offering unique computational perspectives or enhancements. We present a comprehensive overview of such models, each in its own subsubsection.
+
+\subsubsection{Measure-Only 1QFA (MON-1QFA)}
+\paragraph{Introduction}
+The \gls{mon-1qfa} is a special model in which only measurement operations are used for computation, with no intermediate unitary evolutions. This model simplifies quantum computation by relying solely on projective measurements.
+
+\paragraph{Formal Definition}
+A \gls{mon-1qfa} is defined as a tuple \( A = (Q, \Sigma, \rho_0, \{P_{\sigma}\}_{\sigma \in \Sigma}, Q_{acc}) \) where:
+\begin{itemize}
+    \item \( Q \) is a finite set of states,
+    \item \( \Sigma \) is a finite input alphabet,
+    \item \( \rho_0 \) is the initial quantum state (density matrix),
+    \item \( P_{\sigma} \) is the measurement operator for each input symbol \( \sigma \),
+    \item \( Q_{acc} \subseteq Q \) is the set of accepting states.
+\end{itemize}
+
+\paragraph{Strings Accepted}
+Acceptance is determined by applying the appropriate projective measurement after each symbol and measuring the final state. Acceptance can be defined with a bounded-error threshold.
+
+\paragraph{Sets of Languages Accepted}
+The class of languages accepted by \gls{mon-1qfa} is strictly less powerful than the class of regular languages. It corresponds to a particular class of regular languages known as literally idempotent piecewise testable languages \cite{bertoni2010trace}.
+
+\paragraph{Closure Properties}
+The languages recognized by \gls{mon-1qfa} are not closed under union or complementation \cite{bertoni2010trace}.
+
+\paragraph{Advantages and Limitations}
+They offer a hardware-friendly model due to the absence of unitaries, but are strictly less powerful than \gls{mo-1qfa} and \gls{mm-1qfa}.
+
+\paragraph{Comparison}
+Compared to \gls{mo-1qfa} and \gls{mm-1qfa}, \gls{mon-1qfa} are less powerful due to the absence of unitary evolution.
+
+\paragraph{Example}
+An example is the language of all strings over \{a, b\} with an even number of a's. It can be recognized by a suitable choice of projective measurements.
+
+\paragraph{Additional Topics}
+Measure-only models relate to trace monoids with idempotent generators and have been used in language algebraic characterizations \cite{comin2013extended, bertoni2010trace}.
+
+\subsubsection{One-Way Quantum Finite Automata with Two Observables (1QFA(2))}
+\paragraph{Introduction}
+The \gls{1qfa2} model introduces a second observable to the \gls{mo-1qfa} framework, enhancing the capacity to distinguish input strings. It can be seen as an intermediate enhancement over classical \gls{mo-1qfa}.
+
+\paragraph{Formal Definition}
+A \gls{1qfa2} is defined similarly to a standard \gls{mo-1qfa}, but it includes two projective measurements applied in alternation during computation:
+\[
+A = (Q, \Sigma, \rho_0, \{U_{\sigma}\}, \{P_1, P_2\}, Q_{acc})
+\]
+where the two measurements \( P_1 \) and \( P_2 \) alternate throughout the computation.
+
+\paragraph{Strings Accepted}
+A string is accepted based on the final outcome after alternating between the two measurements. Acceptance is typically defined with bounded error.
+
+\paragraph{Sets of Languages Accepted}
+The class of languages recognized is still a proper subset of regular languages, although strictly more than \gls{mo-1qfa}.
+
+\paragraph{Closure Properties}
+These automata do not have known closure under union or intersection.
+
+\paragraph{Advantages and Limitations}
+The addition of a second observable enables more refined discrimination of inputs, albeit still with limited computational power.
+
+\paragraph{Comparison}
+The model is more expressive than \gls{mo-1qfa} but remains less powerful than general \gls{mm-1qfa}.
+
+\paragraph{Additional Topics}
+This line of work aligns with the broader research aim of incrementally extending the expressive power of \gls{1qfa} models, as seen in the approach of \cite{ciamarra2001quantum}.
+
+\subsubsection{Two-Tape One-Way Quantum Finite Automata with Two Heads (2tQFA(2))}
+\paragraph{Introduction}
+The \gls{2t1qfa2} model incorporates two tapes and two heads, enabling cross-comparison between symbols of the input and reference tape, enhancing the recognition of complex patterns.
+
+\paragraph{Formal Definition}
+Formally, a \gls{2t1qfa2} is a 7-tuple \( A = (Q, \Sigma, \delta, q_0, Q_{acc}, Q_{rej}, \mathbb{T}) \), where \( \mathbb{T} \) denotes the tape set. The quantum evolution occurs in tandem over both tapes with corresponding heads.
+
+\paragraph{Strings Accepted}
+Acceptance is determined through measurement at halting, typically with bounded error.
+
+\paragraph{Sets of Languages Accepted}
+\gls{2t1qfa2} can recognize some nonregular languages, exceeding the capabilities of classical one-way automata and standard \gls{1qfa} models \cite{ganguly20162}.
+
+\paragraph{Closure Properties}
+Closure properties remain largely unexplored, with no known results under union or complement.
+
+\paragraph{Advantages and Limitations}
+The addition of a second tape expands the computational power substantially, though it also introduces practical complexity.
+
+\paragraph{Comparison}
+Outperforms classical and most one-way quantum models in expressive power.
+
+\paragraph{Additional Topics}
+This model exemplifies a practical direction in extending \gls{1qfa} expressivity by architectural enhancement.
+
+\subsubsection{Nondeterministic Quantum Finite Automata (NQFA)}
+\paragraph{Introduction}
+\gls{nqfa} introduce nondeterminism in the quantum setting. Unlike probabilistic nondeterminism, here the nondeterminism arises from quantum measurement outcomes and amplitude branches.
+
+\paragraph{Formal Definition}
+An \gls{nqfa} is a 5-tuple \( A = (Q, \Sigma, \psi_0, \{U_\sigma\}, Q_{acc}) \), and uses a cutpoint acceptance mode, where a string \( x \) is accepted if \( \mathbb{P}(x) > \lambda \) for some threshold \( \lambda \).
+
+\paragraph{Strings Accepted}
+\gls{nqfa} recognize strings based on acceptance with nonzero amplitude, allowing acceptance of nonregular languages with bounded error \cite{yakaryilmaz2010languages}.
+
+\paragraph{Sets of Languages Accepted}
+This model strictly recognizes more than regular languages, offering power comparable to or exceeding classical nondeterministic finite automata.
+
+\paragraph{Closure Properties}
+\gls{nqfa} are not closed under complement or union.
+
+\paragraph{Advantages and Limitations}
+The model is powerful yet lacks constructive methods for deterministic acceptance, making some verification tasks harder.
+
+\paragraph{Comparison}
+More expressive than \gls{mo-1qfa}, \gls{mm-1qfa}, and even probabilistic finite automata in some cases.
+
+\subsubsection{Reversible Quantum Finite Automata (RevQFA)}
+\paragraph{Introduction}
+\gls{revqfa} enforce reversibility in state transitions, in line with quantum mechanics principles, where computation steps are invertible.
+
+\paragraph{Formal Definition}
+Defined similarly to \gls{mo-1qfa}, but all transitions are reversible, and state evolution is enforced to be unitary across all paths. Measurement occurs only at the end.
+
+\paragraph{Strings Accepted}
+A string is accepted based on the final state post unitary evolution.
+
+\paragraph{Sets of Languages Accepted}
+Recognizes all regular languages \cite{yamakami2014one}, differing from many other \gls{1qfa} models.
+
+\paragraph{Closure Properties}
+Closed under Boolean operations due to equivalence with classical deterministic automata.
+
+\paragraph{Advantages and Limitations}
+They enjoy a strong correspondence to classical reversible automata with quantum efficiency benefits, though do not surpass regular languages.
+
+\paragraph{Comparison}
+Unlike most \gls{1qfa}, \gls{revqfa} can simulate any DFA, thus closing the gap between quantum and classical finite automata in expressiveness.
+
+\paragraph{Additional Topics}
+The interest in \gls{revqfa} stems from the desire to harness quantum reversibility for computation, a core direction explored by \cite{ciamarra2001quantum}.

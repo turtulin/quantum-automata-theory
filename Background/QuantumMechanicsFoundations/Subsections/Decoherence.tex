@@ -1,30 +1,3 @@
 \subsection{Decoherence and Open Systems}
-\label{subsec:decoherence}
+\label{subsec:decoherence-and-open-systems}
 
-\begin{definition}[Decoherence]
-\emph{Decoherence} is the process by which a quantum system loses its coherent properties due to interaction with its environment. This results in the decay of the off-diagonal elements in the system's density matrix, leading the system to behave more classically.
-\end{definition}
-
-\begin{remark}
-Decoherence is a major obstacle in quantum computing because it degrades the quantum correlations needed for quantum parallelism and entanglement.
-\end{remark}
-
-\begin{definition}[Lindblad Master Equation]
-The evolution of an open quantum system can be described by the \textbf{Lindblad master equation}:
-\[
-\frac{d\rho}{dt} = -\frac{i}{\hbar}\,[H, \rho] + \sum_k \left( L_k \rho L_k^\dagger - \frac{1}{2}\{L_k^\dagger L_k, \rho\} \right),
-\]
-where \(\rho\) is the density matrix, \(H\) is the Hamiltonian, and \(L_k\) are the Lindblad (noise) operators \cite{breuer2002theory}.
-\end{definition}
-
-\begin{example}[Noise Models]
-    Typical noise models include:
-    \begin{itemize}
-        \item \textbf{Amplitude damping}: Models energy loss (e.g., spontaneous emission) \cite{nielsen2010quantum}.
-        \item \textbf{Phase damping}: Represents the loss of phase coherence without energy dissipation \cite{nielsen2010quantum}.
-    \end{itemize}
-\end{example}
-
-\begin{observation}
-    To combat decoherence, quantum error correction codes (such as the Shor code \cite{shor1995scheme} and surface codes \cite{fowler2012surface}) and decoherence-free subspaces are employed.
-\end{observation}
