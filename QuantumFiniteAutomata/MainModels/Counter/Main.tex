@@ -13,7 +13,7 @@ A \gls{qf1ca} is a one-way \gls{qfa} that uses a classical counter, capable of i
 \paragraph{Formal Definition} 
 Formally, a \gls{qf1ca} consists of a finite set of states $Q$, an input alphabet $\Sigma$, a classical counter with values in $\mathbb{Z}$, and a transition function $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \rightarrow \mathbb{C}$ where $\{0,1\}$ indicates whether the counter is zero or not. The system operates unitarily, with counter updates contingent on the current state and symbol read.
 
-\paragraph{Strings Accepted} 
+\paragraph{Strings Acceptance} 
 \gls{qf1ca} can accept strings using bounded-error probabilistic acceptance. They can recognize non-regular languages such as $L_1 = \{ w \in \Sigma^* : \text{equal number of 0's and 1's in } x \}$ when augmented with additional structure in the input \cite{bonner2001quantum}.
 
 \paragraph{Sets of Languages Accepted} 
@@ -44,7 +44,7 @@ Current research investigates the influence of quantum control on counter update
 \paragraph{Formal Definition}
 A \gls{2qf1ca} is defined by a tuple $(Q, \Sigma, \delta, q_0, Q_a, Q_r)$, where $\delta$ maps configurations including direction: $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \times \{-1,0,1\} \rightarrow \mathbb{C}$. The last component indicates the head movement (-1 for left, 0 for stay, 1 for right), and the counter updates accordingly.
 
-\paragraph{Strings Accepted}
+\paragraph{Strings Acceptance}
 \gls{2qf1ca} can recognize more complex languages such as $L_2$ from \cite{bonner2001quantum}, composed of multiple $L_1$ segments demarcated by control symbols. These languages are not recognizable by 1QF1CA or classical probabilistic variants.
 
 \paragraph{Sets of Languages Accepted}
@@ -73,7 +73,7 @@ The \gls{1qfkca} model generalizes the \gls{qf1ca} by including $k$ classical co
 \paragraph{Formal Definition}
 Formally, a \gls{1qfkca} is given by a transition function $\delta: Q \times \Sigma \times \{0,1\}^k \times Q \times \{-1,0,1\}^k \rightarrow \mathbb{C}$ with the counter vector defining current zero/non-zero statuses and updates.
 
-\paragraph{Strings Accepted}
+\paragraph{Strings Acceptance}
 Languages involving multiple numeric relationships, such as $L = \{ a^n b^n c^n \mid n \geq 1 \}$, can be recognized in bounded error by appropriately configured \gls{1qfkca}.
 
 \paragraph{Sets of Languages Accepted}
@@ -102,7 +102,7 @@ Potential topics include quantum counter compression, fault tolerance in counter
 \paragraph{Formal Definition}
 Defined similarly to \gls{qf1ca} but with a strict constraint on the transition direction (right only). The transition function thus omits head direction: $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \rightarrow \mathbb{C}$.
 
-\paragraph{Strings Accepted}
+\paragraph{Strings Acceptance}
 Though more limited, \gls{rtq1ca} can still recognize several non-regular languages with carefully crafted transition amplitudes and counter updates.
 
 \paragraph{Sets of Languages Accepted}

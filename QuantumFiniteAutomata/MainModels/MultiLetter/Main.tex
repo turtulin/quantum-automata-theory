@@ -1,9 +1,9 @@
-\subsection{Multi-letter Quantum Finite Automata}
+\subsection{Multi-letter Models}
 \label{sec:multi-letter-qfa}
 
 Multiletter Quantum Finite Automata (\gls{ml-qfa}) are a generalization of traditional quantum finite automata, where transitions depend on multiple letters read from the input, rather than a single letter. This allows them to capture more complex patterns in the input string.
 
-\subsubsection{Multiletter Quantum Finite Automata (ML-QFA)}
+\subsubsection{\glsentryfull{ml-qfa}}
 
 \paragraph{Introduction}
 Multiletter QFA were introduced to extend the capability of classical and quantum models by applying unitary operations based on the last $k$ letters read rather than just one. This enables them to recognize languages outside the reach of traditional measure-once or measure-many 1QFA models \cite{belovs2007multi}.
@@ -19,7 +19,7 @@ A $k$-letter \gls{ml-qfa} is a 5-tuple $A = (Q, Q_{acc}, \ket{\psi_0}, \Sigma, \
 \end{itemize}
 The transition applies the unitary associated with the last $k$ letters read. For input $\omega = x_1 x_2 \dots x_n$, the computation evolves through unitary applications as specified in Eq. (1) and acceptance is determined using a projection operator $P_{acc}$ \cite{qiu2009hierarchy}.
 
-\paragraph{Strings Accepted}
+\paragraph{Strings Acceptance}
 Acceptance is defined by exact probability, cutpoint (strict or non-strict), or bounded-error depending on how $P_A(\omega) = \| P_{acc} U_\omega \ket{\psi_0} \|^2$ compares to a threshold $\lambda$.
 
 \paragraph{Sets of Languages Accepted}
@@ -43,7 +43,7 @@ Research is ongoing in determining exact hierarchies, equivalence testing, and a
 \subsubsection{Multiletter Measure-Many Quantum Finite Automata (ML-MMQFA)}
 
 \paragraph{Introduction}
-Multiletter Measure-Many Quantum Finite Automata (\gls{ml-mmqfa}) combine the power of measure-many acceptance strategies with multiletter transitions, extending both classical MM-1QFA and ML-QFA. In this model, a measurement is performed after each quantum evolution step, but the evolution itself depends on the last $k$ letters read. This hybrid structure allows ML-MMQFA to accept more complex languages than ML-QFA or MM-1QFA alone \cite{lin2012equivalence}.
+\gls{ml-mmqfa} combine the power of measure-many acceptance strategies with multiletter transitions, extending both classical MM-1QFA and ML-QFA. In this model, a measurement is performed after each quantum evolution step, but the evolution itself depends on the last $k$ letters read. This hybrid structure allows ML-MMQFA to accept more complex languages than ML-QFA or MM-1QFA alone \cite{lin2012equivalence}.
 
 \paragraph{Formal Definition}
 A $k$-letter \gls{ml-mmqfa} is a 7-tuple $A = (Q, Q_{acc}, Q_{rej}, \ket{\psi_0}, \Sigma, \mu', \mathcal{O})$, where:
@@ -58,7 +58,7 @@ A $k$-letter \gls{ml-mmqfa} is a 7-tuple $A = (Q, Q_{acc}, Q_{rej}, \ket{\psi_0}
 \end{itemize}
 Computation starts with the end-marked input £$x_1x_2 \dots x_n\$$, and proceeds by interleaving unitary evolutions with projective measurements.
 
-\paragraph{Strings Accepted}
+\paragraph{Strings Acceptance}
 For a word $\omega = x_1 x_2 \dots x_n$, the acceptance probability is:
 \[
 P_A(\omega) = \sum_{i=0}^{n+1} \left\| P_{acc} U_{x_i} \left( \prod_{j=i-1}^{0} P_{non} U_{x_j} \right) \ket{\psi_0} \right\|^2
@@ -85,17 +85,17 @@ Further work focuses on state complexity, succinctness, and simulation algorithm
 
 
 
-\subsubsection{Multiletter Reversible Quantum Finite Automata (ML-revQFA)}
+\subsubsection{\glsentryfull{ml-revqfa}}
 %TODO: https://link.springer.com/chapter/10.1007/978-3-540-73208-2_9 review
 \paragraph{Introduction}
-Multiletter Reversible Quantum Finite Automata (\gls{ml-revqfa}) extend the multiletter framework by imposing reversibility constraints on the quantum evolution. These automata are designed so that each computation step is invertible, maintaining the core principle of reversibility from quantum mechanics and enhancing coherence preservation \cite{belovs2007multi}.
+\gls{ml-revqfa} extend the multiletter framework by imposing reversibility constraints on the quantum evolution. These automata are designed so that each computation step is invertible, maintaining the core principle of reversibility from quantum mechanics and enhancing coherence preservation \cite{belovs2007multi}.
 
 \paragraph{Formal Definition}
 A $k$-letter \gls{ml-revqfa} is a special case of $k$-letter \gls{ml-qfa} where each unitary transformation $\mu'(\omega)$ satisfies the additional constraint that $\mu'(\omega)^{-1} = \mu'(\omega)^\dagger$ for all $\omega \in (\Sigma \cup \{\Lambda\})^k$, and the set of such transformations forms a group under composition.
 
 The automaton is defined as a 5-tuple $A = (Q, Q_{acc}, \ket{\psi_0}, \Sigma, \mu')$, with $\mu'$ restricted to reversible unitary matrices.
 
-\paragraph{Strings Accepted}
+\paragraph{Strings Acceptance}
 Acceptance is defined as in ML-QFA using a projector $P_{acc}$. For an input string $\omega$, the acceptance probability is:
 \[
 P_A(\omega) = \| P_{acc} U_{\omega} \ket{\psi_0} \|^2

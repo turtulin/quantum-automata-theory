@@ -50,9 +50,9 @@ acting on the prover’s private Hilbert space $\mathit{\mathcal{H}}_P$. In some
 and the transition function $\delta$ is designed so that, after each move, the pair $(q',\gamma',d)$ is revealed to the prover.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Strings Accepted
+% Strings Acceptance
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Strings Accepted.}
+\paragraph{Strings Acceptance.}
 An interactive proof system $(P,V)$ accepts an input string $x\in\Sigma^*$ if, after a prescribed sequence of interaction rounds, the verifier eventually performs a halting measurement that yields an accepting configuration with high probability. Formally, the system recognizes a language $L\subseteq\Sigma^*$ if the following conditions hold:
 \begin{itemize}
   \item \textbf{Completeness:} For every $x\in L$, there exists a prover strategy $P$ such that the verifier accepts $x$ with probability at least $1-\epsilon$, where $\epsilon<1/2$.

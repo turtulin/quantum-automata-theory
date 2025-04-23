@@ -1,15 +1,9 @@
 \subsection{\glsentrylong{mo-1qfa}}
 \label{sec:moqfa}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Introduction
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Introduction}
-Measure-once quantum finite automata (\gls{mo-1qfa}s) represent one of the simplest models of quantum computation in the realm of automata theory. Introduced by Moore and Crutchfield in 2000~\cite{moore2000quantum}, \gls{mo-1qfa}s evolve solely through unitary transformations corresponding to the input symbols and perform a single measurement at the end of the computation. This model has been further characterized by Brodsky and Pippenger~\cite{brodsky2002characterizations}, and it is known for its conceptual simplicity as well as for its limitations. Notably, when restricted to bounded error, \gls{mo-1qfa}s recognize exactly the class of group languages—a proper subset of the regular languages. In contrast, the measure-many variant (\gls{mm-1qfa})~\cite{646094} employs intermediate measurements and exhibits different acceptance capabilities.
+\glspl{mo-1qfa} represent one of the simplest models of quantum computation in the realm of automata theory. Introduced by Moore and Crutchfield in 2000~\cite{moore2000quantum}, \gls{mo-1qfa}s evolve solely through unitary transformations corresponding to the input symbols and perform a single measurement at the end of the computation. This model has been further characterized by Brodsky and Pippenger~\cite{brodsky2002characterizations}, and it is known for its conceptual simplicity as well as for its limitations. Notably, when restricted to bounded error, \gls{mo-1qfa}s recognize exactly the class of group languages—a proper subset of the regular languages. In contrast, the measure-many variant (\glsentryshort{mm-1qfa})~\cite{646094} employs intermediate measurements and exhibits different acceptance capabilities.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Formal Definition
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Formal Definition}
 An \gls{mo-1qfa} is formally defined as a 5-tuple 
 \[
@@ -41,10 +35,7 @@ p_M(x)=\|P\,|\Psi_x\rangle\|^2.
 \]
 Alternative characterizations, including formulations using the Heisenberg picture, have been discussed in~\cite{QIU2004479,10.1007/978-3-031-16336-4_18}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Strings Accepted
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Strings Accepted}
+\subsubsection{Strings Acceptance}
 A string $x$ is accepted by an \gls{mo-1qfa} if the acceptance probability $p_M(x)$ exceeds a predetermined cut-point $\lambda$. In a bounded error setting, there exists a margin $\epsilon > 0$ such that:
 \[
 \forall x\in L:\quad p_M(x) \ge \lambda + \epsilon,
@@ -54,33 +45,21 @@ A string $x$ is accepted by an \gls{mo-1qfa} if the acceptance probability $p_M(
 \]
 Under the unbounded error regime, \gls{mo-1qfa}s can accept some nonregular languages (for instance, solving the word problem over the free group)~\cite{brodsky2002characterizations}. The precise acceptance behavior thus depends on whether a cut-point or a bounded error framework is adopted.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set of Languages Accepted
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Set of Languages Accepted}
 When \gls{mo-1qfa}s are restricted to bounded error acceptance, they recognize exactly the class of \emph{group languages}—languages whose syntactic semigroups form groups~\cite{brodsky2002characterizations}. This class forms a strict subset of the regular languages, emphasizing the inherent limitation of the \gls{mo-1qfa} model. In contrast, by relaxing the error bounds, one may design \gls{mo-1qfa}s that accept a broader range of languages, albeit often at the cost of increased computational complexity.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Closure Properties
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Closure Properties}
 The class of languages accepted by \gls{mo-1qfa}s under bounded error exhibits robust closure properties. Specifically, this class is closed under:
 \begin{itemize}
-    \item \textbf{Inverse Homomorphisms}~\cite{brodsky2002characterizations},
-    \item \textbf{Word Quotients}~\cite{brodsky2002characterizations},
-    \item \textbf{Boolean Operations} (union, intersection, and complement)~\cite{10.1007/11605157_1,10.1007/3-540-45007-6_1}.
+    \item Inverse Homomorphisms~\cite{brodsky2002characterizations},
+    \item Word Quotients~\cite{brodsky2002characterizations},
+    \item Boolean Operations (union, intersection, and complement)~\cite{10.1007/11605157_1,10.1007/3-540-45007-6_1}.
 \end{itemize}
 Additional algebraic properties, including aspects related to the pumping lemma and the structure of the accepting probabilities, have been further elaborated in works such as Ambainis et al.~\cite{ambainis1999probabilities} and Xi et al.~\cite{Xi2008}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Summary of Advantages and Limitations
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Summary of Advantages and Limitations}
-\gls{mo-1qfa}s are praised for their simplicity. Since the quantum state evolves unitarily until a single measurement is made, the model avoids the complications associated with intermediate state collapses. This simplicity has practical implications; for example, recent experimental work has shown that custom control pulses can significantly reduce error rates in IBM-Q implementations~\cite{lussi2024implementingquantumfiniteautomaton}, and photonic implementations have further demonstrated the feasibility of \gls{mo-1qfa}s in optical setups~\cite{app11188768}. On the downside, the acceptance power of \gls{mo-1qfa}s is limited—when operating under bounded error, they recognize only the group languages, which form a strict subset of the regular languages. In contrast, measure-many QFAs (\gls{mm-1qfa}s) offer greater acceptance power but at the cost of increased model complexity~\cite{646094,10.1007/3-540-44669-9_10}.
+\gls{mo-1qfa}s are praised for their simplicity. Since the quantum state evolves unitarily until a single measurement is made, the model avoids the complications associated with intermediate state collapses. This simplicity has practical implications; for example, recent experimental work has shown that custom control pulses can significantly reduce error rates in IBM-Q implementations~\cite{lussi2024implementingquantumfiniteautomaton}, and photonic implementations have further demonstrated the feasibility of \gls{mo-1qfa}s in optical setups~\cite{app11188768}. On the downside, the acceptance power of \gls{mo-1qfa}s is limited—when operating under bounded error, they recognize only the group languages, which form a strict subset of the regular languages. In contrast, \glspl{mm-1qfa} offer greater acceptance power but at the cost of increased model complexity~\cite{646094,10.1007/3-540-44669-9_10}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Example
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Example}
 Consider a simple \gls{mo-1qfa} defined over the unary alphabet $\Sigma=\{a\}$ with state set $Q=\{q_0,q_1\}$, initial state $q_0$, and accepting state set $F=\{q_1\}$. Let the unitary operator corresponding to the symbol $a$ be defined by the rotation matrix:
 \[
@@ -99,9 +78,6 @@ p_M(a^n)=\|P\,|\Psi_{a^n}\rangle\|^2,
 \]
 where the projection operator $P$ is given by $P=|q_1\rangle\langle q_1|$. By appropriately choosing $\theta$, the automaton can be tuned so that $p_M(a^n)$ exceeds the cut-point $\lambda$ (for example, $\lambda=\frac{1}{2}$) if and only if $a^n$ belongs to the target language. This example illustrates the essential mechanism of \gls{mo-1qfa}s, as described in~\cite{moore2000quantum,brodsky2002characterizations}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Additional Topics (Optional)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Additional Topics}
 \paragraph{Learning and Optimization:} Recent work by Chu et al.~\cite{10.1007/978-3-031-35257-7_16} has introduced methods that combine active learning with non-linear optimization to approximately learn the parameters of \gls{mo-1qfa}s. These techniques provide insights into how one can recover the unitary transformations and state structure from observed data.
 

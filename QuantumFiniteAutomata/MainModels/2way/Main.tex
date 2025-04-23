@@ -17,7 +17,7 @@ Quantum finite automata (QFA) can be classified based on the measurement policy 
 \end{itemize}
 The unitary evolution is enforced through conditions of orthogonality and separability as outlined in \cite{xi2008some}.
 
-\paragraph{Strings Accepted.} Acceptance is defined via a single projective measurement after the entire input string, delimited by endmarkers, is processed. A string is accepted with a probability computed from the projection onto the accepting subspace. The model supports acceptance with bounded error, cutpoint, and exact acceptance depending on configuration \cite{xi2008some}.
+\paragraph{Strings Acceptance.} Acceptance is defined via a single projective measurement after the entire input string, delimited by endmarkers, is processed. A string is accepted with a probability computed from the projection onto the accepting subspace. The model supports acceptance with bounded error, cutpoint, and exact acceptance depending on configuration \cite{xi2008some}.
 
 \paragraph{Set of Languages Recognised.} The class of languages recognized by \gls{mo-2qfa} strictly contains the languages recognized by \gls{mo-1qfa}, and it includes some nonregular languages. In fact, \gls{mo-2qfa} can recognize proper supersets of group languages and supports complex operations such as intersection and reversal \cite{xi2008some}.
 
@@ -43,7 +43,7 @@ The unitary evolution is enforced through conditions of orthogonality and separa
 \end{itemize}
 Well-formedness constraints are necessary to ensure unitarity and validity of transition amplitudes \cite{kondacs1997power}.
 
-\paragraph{Strings Accepted.} A string is accepted if, during any computational step, the machine transitions into an accepting state. This supports acceptance with bounded error, cutpoint, and exact modes depending on the configuration of the measurement \cite{kondacs1997power}.
+\paragraph{Strings Acceptance.} A string is accepted if, during any computational step, the machine transitions into an accepting state. This supports acceptance with bounded error, cutpoint, and exact modes depending on the configuration of the measurement \cite{kondacs1997power}.
 
 \paragraph{Set of Languages Recognised.} The \gls{mm-2qfa} can recognize nonregular languages such as $L_{eq} = \{ a^n b^n \mid n \geq 0 \}$ with bounded error in linear time. This is a significant enhancement over any classical 2PFA or 1QFA model \cite{kondacs1997power}.
 

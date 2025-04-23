@@ -31,7 +31,7 @@ and a final measurement in the basis $\{P_{acc},P_{rej}\}$ is performed. The acc
 f_M(x)=\mathrm{Tr}\bigl(P_{acc}\,\rho_x\bigr).
 \]
 
-\paragraph{Strings Accepted.}  
+\paragraph{Strings Acceptance.}  
 A string $x\in\Sigma^*$ is accepted by $M$ if the acceptance probability meets the specified criterion. Common acceptance criteria include:
 \begin{enumerate}
   \item \textbf{Bounded Error:} There exist a threshold $\lambda\in(0,1]$ and an error margin $\epsilon>0$ such that
@@ -107,7 +107,7 @@ where
 \end{itemize}
 For an input string $x\in\Sigma^*$ (presented as $\cent\,x\,\$\rangle$), the automaton processes each symbol sequentially. If, at any step, the measurement projects onto $\mathcal{H}_{acc}$ (or $\mathcal{H}_{rej}$), the computation halts with acceptance (or rejection). Otherwise, if the outcome is in $\mathcal{H}_{non}$, the automaton continues processing the next symbol.
 
-\paragraph{Strings Accepted.}  
+\paragraph{Strings Acceptance.}  
 The acceptance of an input string $x$ is defined by the cumulative probability that the automaton halts in an accepting configuration. The common acceptance criteria include:
 \begin{enumerate}
   \item \textbf{Bounded Error:} There exist $\lambda\in(0,1]$ and $\epsilon>0$ such that

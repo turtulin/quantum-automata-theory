@@ -1,17 +1,11 @@
 \subsection{\glsentrylong{mm-1qfa}}
 \label{sec:mmqfa}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Introduction
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Introduction}
-Measure-many quantum finite automata (\gls{mm-1qfa}s) are a variant of quantum finite automata in which a measurement is performed after reading each input symbol. Introduced by Kondacs and Watrous in 1997~\cite{646094}, \gls{mm-1qfa}s allow the automaton to collapse its quantum state at intermediate steps, thereby potentially influencing the computation dynamically. Although this mechanism can enhance the detection of accepting or rejecting conditions during the run, under the bounded error regime \gls{mm-1qfa}s are known to recognize only a proper subset of the regular languages~\cite{brodsky2002characterizations}. Recent work, such as by Lin~\cite{LIN2012807}, has provided elegant methods for addressing the equivalence problem of \gls{mm-1qfa}s, further enriching our understanding of their computational properties.
+\glspl{mm-1qfa} are a variant of quantum finite automata in which a measurement is performed after reading each input symbol. Introduced by Kondacs and Watrous in 1997~\cite{646094}, \gls{mm-1qfa}s allow the automaton to collapse its quantum state at intermediate steps, thereby potentially influencing the computation dynamically. Although this mechanism can enhance the detection of accepting or rejecting conditions during the run, under the bounded error regime \gls{mm-1qfa}s are known to recognize only a proper subset of the regular languages~\cite{brodsky2002characterizations}. Recent work, such as by Lin~\cite{LIN2012807}, has provided elegant methods for addressing the equivalence problem of \gls{mm-1qfa}s, further enriching our understanding of their computational properties.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Formal Definition
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Formal Definition}
-An \gls{mm-1qfa} is defined as a 6-tuple
+A \glsentryfull{mm-1qfa} is defined as a 6-tuple
 \[
 M = (Q,\Sigma,\delta,q_0,Q_{acc},Q_{rej}),
 \]
@@ -36,10 +30,7 @@ E_{non} = \text{span}\{|q\rangle : q \in Q \setminus (Q_{acc}\cup Q_{rej})\}.
 \]
 If the measurement outcome lies in $E_{acc}$ or $E_{rej}$, the computation halts immediately with acceptance or rejection, respectively. This definition, adapted from Kondacs and Watrous~\cite{646094} and refined in Lin~\cite{LIN2012807}, forms the basis of the \gls{mm-1qfa} model.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Strings Accepted
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Strings Accepted}
+\subsubsection{Strings Acceptance}
 For an input string $x=x_1x_2\cdots x_n$, the \gls{mm-1qfa} processes each symbol sequentially. At each step $i$, the unitary operator $U_{x_i}$ is applied, followed by a measurement:
 \begin{itemize}
     \item If the measurement result falls in $E_{acc}$, the automaton immediately accepts $x$.
@@ -56,27 +47,18 @@ p_M(x) \le \lambda - \epsilon,
 \]
 where $\lambda$ is a predetermined cut-point (commonly set to $\frac{1}{2}$)~\cite{646094,brodsky2002characterizations}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set of Languages Accepted
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Set of Languages Accepted}
 Under the bounded error constraint, \gls{mm-1qfa}s recognize a proper subset of the regular languages. In particular, the languages accepted by \gls{mm-1qfa}s must satisfy specific algebraic properties that restrict their expressive power. Although \gls{mm-1qfa}s can, in some cases, recognize nonregular languages when allowed unbounded error, the bounded error condition confines them to a class that is comparable to that of group languages~\cite{brodsky2002characterizations,646094}. This limitation underscores the trade-off between the increased measurement frequency and the resultant reduction in language recognition capability.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Closure Properties
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Closure Properties}
 The language class recognized by \gls{mm-1qfa}s with bounded error is known to enjoy several closure properties:
 \begin{itemize}
-    \item It is closed under \textbf{complement} and \textbf{inverse homomorphisms}~\cite{brodsky2002characterizations}.
-    \item It is closed under \textbf{word quotients}~\cite{brodsky2002characterizations}.
-    \item However, the class is not closed under arbitrary \textbf{homomorphisms}~\cite{646094,10.1007/3-540-45007-6_1}.
+    \item It is closed under complement and inverse homomorphisms~\cite{brodsky2002characterizations}.
+    \item It is closed under word quotients~\cite{brodsky2002characterizations}.
+    \item However, the class is not closed under arbitrary homomorphisms~\cite{646094,10.1007/3-540-45007-6_1}.
 \end{itemize}
 Recent work by Lin~\cite{LIN2012807} further refines our understanding of these closure properties by addressing the equivalence problem for \gls{mm-1qfa}s, thereby linking the structural properties of the recognized languages to the underlying automata.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Summary of Advantages and Limitations
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Summary of Advantages and Limitations}
 \gls{mm-1qfa}s offer notable advantages:
 \begin{itemize}
@@ -91,9 +73,6 @@ Nevertheless, there are significant limitations:
 \end{itemize}
 Moreover, when compared to \gls{mo-1qfa}s, \gls{mm-1qfa}s may offer greater recognition power in some unbounded error scenarios but at the cost of increased computational and implementation complexity~\cite{646094,10.1007/3-540-44669-9_10}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Example
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Example}
 Consider an \gls{mm-1qfa} defined over the alphabet $\Sigma=\{a\}$ with the state set $Q=\{q_0,q_1,q_2\}$, where $q_0$ is the initial state, $Q_{acc}=\{q_2\}$, and $Q_{rej}=\{q_1\}$. Let the unitary operator for the symbol $a$ be given by:
 \[
@@ -115,13 +94,10 @@ The \gls{mm-1qfa} processes an input string such as $aa$ as follows:
 \end{enumerate}
 This example demonstrates the stepwise measurement process that characterizes \gls{mm-1qfa}s~\cite{646094,LIN2012807}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Additional Topics (Optional)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Additional Topics}
 \paragraph{Equivalence and Decision Problems:} Lin~\cite{LIN2012807} presents a simplified approach for deciding the equivalence of two \gls{mm-1qfa}s by reducing the problem to comparing initial vectors, thereby streamlining the decision process.
 
-\paragraph{State Complexity and Lower Bounds:} Lower bound results for one-way quantum automata, such as those by Ablayev and Gainutdinova~\cite{10.1007/3-540-44612-5_9}, provide insights into the inherent state complexity challenges that also impact \gls{mm-1qfa}s.
+\paragraph{State Complexity and Lower Bounds:} Lower bound results for \gls{1qfa}, such as those by Ablayev and Gainutdinova~\cite{10.1007/3-540-44612-5_9}, provide insights into the inherent state complexity challenges that also impact \gls{mm-1qfa}s.
 
 \paragraph{Experimental Considerations:} While experimental implementations have predominantly focused on \gls{mo-1qfa}s due to their relative simplicity, future work may explore the adaptation of techniques (e.g., custom pulse shaping as demonstrated in~\cite{lussi2024implementingquantumfiniteautomaton}) to the more complex \gls{mm-1qfa} framework.
 
