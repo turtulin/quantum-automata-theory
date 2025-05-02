@@ -24,9 +24,9 @@ where:
 \end{itemize}
 After each symbol is read, the automaton's current state is measured with respect to the decomposition
 \[
-E_{acc} = \text{span}\{|q\rangle : q \in Q_{acc}\},\quad
-E_{rej} = \text{span}\{|q\rangle : q \in Q_{rej}\},\quad
-E_{non} = \text{span}\{|q\rangle : q \in Q \setminus (Q_{acc}\cup Q_{rej})\}.
+E_{acc} = \text{span}\{\ket{q} : q \in Q_{acc}\},\quad
+E_{rej} = \text{span}\{\ket{q} : q \in Q_{rej}\},\quad
+E_{non} = \text{span}\{\ket{q} : q \in Q \setminus (Q_{acc}\cup Q_{rej})\}.
 \]
 If the measurement outcome lies in $E_{acc}$ or $E_{rej}$, the computation halts immediately with acceptance or rejection, respectively. This definition, adapted from Kondacs and Watrous~\cite{kondacs1997power} and refined in Lin~\cite{lin2012another}, forms the basis of the \gls{mm-1qfa} model.
 
@@ -84,7 +84,7 @@ U_a = \begin{pmatrix}
 \]
 The \gls{mm-1qfa} processes an input string such as $aa$ as follows:
 \begin{enumerate}
-    \item Starting in state $|q_0\rangle$, the operator $U_a$ is applied and a measurement is performed. The measurement may collapse the state into:
+    \item Starting in state $\ket{q}$, the operator $U_a$ is applied and a measurement is performed. The measurement may collapse the state into:
     \begin{itemize}
         \item $E_{acc}$ (state $q_2$) – leading to immediate acceptance,
         \item $E_{rej}$ (state $q_1$) – leading to immediate rejection, or

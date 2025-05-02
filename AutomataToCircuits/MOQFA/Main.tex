@@ -30,11 +30,9 @@ The initial state $q_0 \in Q$ determines the starting configuration of the autom
 
 The set $F \subseteq Q$ contains the accepting states. In the measure-once model, measurement is performed only once, at the end of the computation. The measurement corresponds to projecting the quantum state onto the subspace spanned by the final states:
 \[
-P=\sum_{q\in F} |q\rangle\langle q|.
+P=\sum_{q\in F} \ket{q}\bra{q},
 \]
 This projection can be implemented using a controlled measurement operation that accepts the computation if the measured state belongs to $F$. The outcome is a classical bit indicating whether the final state is in $F$ or not. The non-final states are effectively "erased" by this projection, which allows the automaton to produce a binary (accept/reject) outcome.
-
-\medskip
 
 \begin{table}[h]
     \centering
@@ -79,6 +77,31 @@ By systematically applying this mapping, a measure-once quantum automaton can be
     \end{algorithmic}
 \end{algorithm}
 
+\noindent
+The algorithm above outlines a high-level procedure for translating a measure-once quantum finite automaton (MO-QFA) into a quantum circuit. It assumes access to the automaton tuple $\mathcal{A} = (Q, \Sigma, \delta, q_0, F)$ and the length $L$ of the input string. The circuit is built to process any input of that length by inserting symbolic placeholders corresponding to the unitaries selected by the input symbols.
+
+The process begins by determining the number of qubits needed to encode the automaton's state space. Since each state $q \in Q$ is mapped to a computational basis state, the smallest number $n$ of qubits required satisfies $2^n \geq |Q|$. The system is initialized in the state $\ket{0}^{\otimes n}$ and prepared into the designated initial state $\ket{q_0}$ by applying $X$ gates to selected qubits—this is sufficient because $\ket{q_0}$ is always a known basis state.
+
+The core of the circuit consists of $L$ unitary operations $U_{\sigma_i}$, one for each input symbol position. Since the actual input string is not known at circuit construction time, these unitaries are inserted as symbolic placeholders, to be concretely specified later depending on the input.
+
+The final step projects the quantum state onto the subspace spanned by the accepting states $F$ using the projector $P_F = \sum_{q \in F} \ket{q}\bra{q}$. A measurement follows to determine acceptance or rejection.
+
+\subsubsection*{Input Processing Strategies}
+
+Two main strategies are available for processing an input string of known length.
+
+\paragraph{1. Classical Control (Template-Based Circuit)}
+This is the most practical and widely adopted approach. The quantum circuit is compiled as a \emph{template} with $L$ symbolic positions for the unitaries $U_{\sigma_i}$. When a specific classical input string $\sigma = \sigma_1 \sigma_2 \ldots \sigma_L$ is provided, each placeholder is replaced with the unitary matrix $U_{\sigma_i}$ corresponding to that symbol. These unitaries are derived from the automaton's transition function $\delta$ and are implemented as fixed gate sequences. This approach matches the standard hybrid model of quantum computation, where classical preprocessing determines the gates applied to the quantum state.
+
+\paragraph{2. Quantum Control (Fully Quantum Input Encoding)}
+An alternative is to encode the input string directly into a quantum register. Each symbol $\sigma_i$ is represented as a quantum state in a control register, and a controlled-unitary applies $U_{\sigma}$ to the main system conditioned on the value in the control register:
+\[
+\sum_{\sigma \in \Sigma} \ket{\sigma}\bra{\sigma} \otimes U_\sigma
+\]
+This method allows the circuit to operate coherently over superpositions of input strings. However, it alters the semantics of a classical-input automaton and introduces significant complexity. For measure-once automata, which are defined over classical inputs, this strategy is generally unnecessary and less practical.
+
+\noindent
+In most cases, especially for simulation or real-world use, the classical control approach is preferred for its simplicity, transparency, and direct correspondence to the automaton model.
 
 \subsection{Examples of Translation}
 \subsubsection{Simple Measure Once Quantum Automaton}

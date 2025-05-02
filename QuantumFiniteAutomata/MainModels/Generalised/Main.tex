@@ -65,15 +65,15 @@ L=a^*b^*.
 \]
 Here, one chooses 
 \[
-\mathcal{H}=\mathrm{span}\{|q_1\rangle,|q_2\rangle,\dots,|q_n\rangle\},
+\mathcal{H}=\mathrm{span}\{\ket{q_n},\ket{q_n},\dots,\ket{q_n}\},
 \]
-sets the initial state as $\rho_0=\sum_{i}\pi_i\,|q_i\rangle\langle q_i|$ (with $\{\pi_i\}$ given by the DFA’s initial distribution), and defines each operation $\mathcal{E}_\sigma$ so that for each basis state $|q_i\rangle$,
+sets the initial state as $\rho_0=\sum_{i}\pi_i\,\ket{q_n}\bra{q_i}$ (with $\{\pi_i\}$ given by the DFA’s initial distribution), and defines each operation $\mathcal{E}_\sigma$ so that for each basis state $\ket{q_n}$,
 \[
-\mathcal{E}_\sigma\bigl(|q_i\rangle\langle q_i|\bigr)=\sum_{j}A(\sigma)_{ij}\,|q_j\rangle\langle q_j|,
+\mathcal{E}_\sigma\bigl(\ket{q_n}\bra{q_i}\bigr)=\sum_{j}A(\sigma)_{ij}\,\ket{q_n}\bra{q_j},
 \]
 where $A(\sigma)$ is the stochastic matrix corresponding to the DFA's transition function. The final measurement is performed using 
 \[
-P_{acc}=\sum_{q_i\in F}|q_i\rangle\langle q_i|,
+P_{acc}=\sum_{q_i\in F}\ket{q_n}\bra{q_i},
 \]
 where $F$ is the set of accepting states. This construction ensures that the acceptance probability $f_M(x)$ replicates the behavior of the DFA \cite{li2012characterizations}.
 
@@ -104,7 +104,7 @@ where
   \]
   \item After each $\mathcal{E}_\sigma$, a projective measurement is performed with respect to the orthogonal projectors $\{P_{non},P_{acc},P_{rej}\}$ onto $\mathcal{H}_{non}$, $\mathcal{H}_{acc}$, and $\mathcal{H}_{rej}$, respectively.
 \end{itemize}
-For an input string $x\in\Sigma^*$ (presented as $\cent\,x\,\$\rangle$), the automaton processes each symbol sequentially. If, at any step, the measurement projects onto $\mathcal{H}_{acc}$ (or $\mathcal{H}_{rej}$), the computation halts with acceptance (or rejection). Otherwise, if the outcome is in $\mathcal{H}_{non}$, the automaton continues processing the next symbol.
+For an input string $x\in\Sigma^*$ (presented as $\cent\,x\,\$$), the automaton processes each symbol sequentially. If, at any step, the measurement projects onto $\mathcal{H}_{acc}$ (or $\mathcal{H}_{rej}$), the computation halts with acceptance (or rejection). Otherwise, if the outcome is in $\mathcal{H}_{non}$, the automaton continues processing the next symbol.
 
 \paragraph{Strings Acceptance.}  
 The acceptance of an input string $x$ is defined by the cumulative probability that the automaton halts in an accepting configuration. The common acceptance criteria include:

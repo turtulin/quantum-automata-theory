@@ -23,15 +23,15 @@ where:
 \end{itemize}
 For an input string $x=x_1x_2\cdots x_n$, the computation proceeds by applying the corresponding unitary matrices sequentially:
 \[
-|\Psi_x\rangle = U_{x_n}U_{x_{n-1}}\cdots U_{x_1}|q_0\rangle.
+\ket{\Psi_x} = U_{x_n}U_{x_{n-1}}\cdots U_{x_1}\ket{q_0}.
 \]
 After reading the entire input, a measurement is performed using the projection operator
 \[
-P=\sum_{q\in F} |q\rangle\langle q|,
+P=\sum_{q\in F} \ket{q}\bra{q},
 \]
 so that the acceptance probability is defined as
 \[
-p_M(x)=\|P\,|\Psi_x\rangle\|^2.
+p_M(x)=\|P\,\ket{\Psi_x}\|^2.
 \]
 Alternative characterizations, including formulations using the Heisenberg picture, have been discussed in~\cite{qiu2004characterizations,piazza2022mirrors}.
 
@@ -70,13 +70,13 @@ U_a = \begin{pmatrix}
 \]
 for a fixed angle $\theta$. For an input string $a^n$, the state evolves as:
 \[
-|\Psi_{a^n}\rangle = U_a^n |q_0\rangle.
+\ket{\Psi_{a^n}} = U_a^n \ket{q_0}.
 \]
 The acceptance probability is computed as:
 \[
-p_M(a^n)=\|P\,|\Psi_{a^n}\rangle\|^2,
+p_M(a^n)=\|P\,\ket{\Psi_{a^n}}\|^2,
 \]
-where the projection operator $P$ is given by $P=|q_1\rangle\langle q_1|$. By appropriately choosing $\theta$, the automaton can be tuned so that $p_M(a^n)$ exceeds the cut-point $\lambda$ (for example, $\lambda=\frac{1}{2}$) if and only if $a^n$ belongs to the target language. This example illustrates the essential mechanism of \glspl{mo-1qfa}, as described in~\cite{moore2000quantum,brodsky2002characterizations}.
+where the projection operator $P$ is given by $P=\ket{q_1}\bra{q_1}$. By appropriately choosing $\theta$, the automaton can be tuned so that $p_M(a^n)$ exceeds the cut-point $\lambda$ (for example, $\lambda=\frac{1}{2}$) if and only if $a^n$ belongs to the target language. This example illustrates the essential mechanism of \glspl{mo-1qfa}, as described in~\cite{moore2000quantum,brodsky2002characterizations}.
 
 \subsubsection{Additional Topics}
 \paragraph{Learning and Optimization:} Recent work by Chu et al.~\cite{chu2023approximately} has introduced methods that combine active learning with non-linear optimization to approximately learn the parameters of \glspl{mo-1qfa}. These techniques provide insights into how one can recover the unitary transformations and state structure from observed data.
