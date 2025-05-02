@@ -11,7 +11,8 @@ A measure-once quantum automaton is defined by the tuple $\mathcal{A} = (Q, \Sig
 
 \subsubsection{Quantum States $Q$ and Number of Qubits}
 
-The set $Q$ represents the finite set of quantum states the automaton can be in. In the circuit model, each element of $Q$ corresponds to a basis state in the Hilbert space $\mathcal{H}$. The number of qubits $n$ required is determined by the smallest integer such that $2^n \geq |Q|$. Each state in $Q$ can then be represented as a computational basis state $\ket{i}$ for $i = 0, \dots, |Q|-1$.
+The set $Q$ represents the finite set of quantum states the automaton can be in. In the circuit model, each element of $Q$ corresponds to a basis state in the Hilbert space $\mathcal{H}$. The number of qubits $n$ required is determined by the smallest integer such that $2^n \geq |Q|$; equivalently, $n = \lceil \log_2 |Q| \rceil$. Each state in $Q$ can then be represented as a computational basis state $\ket{i}$, for $i = 0, \dots, |Q|-1$.
+
 
 \subsubsection{Alphabet $\Sigma$}
 
@@ -59,6 +60,25 @@ This projection can be implemented using a controlled measurement operation that
 By systematically applying this mapping, a measure-once quantum automaton can be transformed into a fully specified quantum circuit ready for simulation or execution on a quantum device.
 
 \subsection{High-Level Algorithm for Translation}
+\begin{algorithm}[H]
+    \caption{Compile Measure-Once Quantum Finite Automaton to Quantum Circuit}
+    \label{alg:compile-mo-qfa}
+    \begin{algorithmic}[1]
+    \Require Automaton $\mathcal{A} = (Q, \Sigma, \delta, q_0, F)$, input length $L$
+    \Ensure Quantum circuit that simulates $\mathcal{A}$ on inputs of length $L$
+    \State Compute $n \gets \lceil \log_2 |Q| \rceil$
+    \State Initialize $n$-qubit register to $\ket{0}^{\otimes n}$
+    \State Initialize $n$-qubit register to $\ket{0}^{\otimes n}$
+    \State Apply $X$ gates to obtain the computational basis state $\ket{q_0}$
+    \For{$i = 1$ to $L$}
+        \State Insert placeholder gate $U_{\sigma_i}$
+    \EndFor
+    \State Construct projector $P_F = \sum_{q \in F} \ket{q}\bra{q}$
+    \State Append projection and measurement to determine acceptance
+    \State \Return Constructed circuit with symbolic placeholders $U_{\sigma_i}$
+    \end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Examples of Translation}
 \subsubsection{Simple Measure Once Quantum Automaton}
