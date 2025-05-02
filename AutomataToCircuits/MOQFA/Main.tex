@@ -1,8 +1,66 @@
 \section{\glsentrylong{mo-1qfa} to Circuit}
 \label{sec:moqfa-to-circuit}
 
-\subsection{Mapping values}
+The formalism of quantum automata, particularly the measure-once variant, offers a high-level, abstract framework for reasoning about quantum computation. Originating from theoretical computer science, automata provide a concise way to represent computation over input symbols and state transitions. On the other hand, quantum circuits serve as a concrete, physically realizable model employed by experimental physicists and engineers. Bridging these two representations allows for a compact encoding of quantum algorithms and protocols grounded in automaton theory while enabling implementation within a circuit-based quantum computer.
 
+The translation of a quantum automaton into a quantum circuit thus acts as a bridge between abstract computation and its physical realization. In the following, we provide a systematic mapping from the components of a measure-once quantum automaton to the components of a quantum circuit, a high-level algorithm for the translation, as well as some examples to illustrate the process.
 
-\subsection{Naive solution}
-\subsection{Optimized solution}
+\subsection{Mapping Automaton Components to Circuit Elements}
+
+A measure-once quantum automaton is defined by the tuple $\mathcal{A} = (Q, \Sigma, \delta, q_0, F)$, where each component can be translated into an equivalent circuit-based construct as follows:
+
+\subsubsection{Quantum States $Q$ and Number of Qubits}
+
+The set $Q$ represents the finite set of quantum states the automaton can be in. In the circuit model, each element of $Q$ corresponds to a basis state in the Hilbert space $\mathcal{H}$. The number of qubits $n$ required is determined by the smallest integer such that $2^n \geq |Q|$. Each state in $Q$ can then be represented as a computational basis state $\ket{i}$ for $i = 0, \dots, |Q|-1$.
+
+\subsubsection{Alphabet $\Sigma$}
+
+The alphabet $\Sigma$ defines the set of classical input symbols that the automaton reads. In the circuit model, each symbol $\sigma \in \Sigma$ selects a unitary transformation $U_\sigma$ to be applied to the quantum state. These transformations are implemented as sequences of quantum gates.
+
+\subsubsection{Transition Function $\delta$}
+
+The transition function $\delta: Q \times \Sigma \times Q \to \mathbb{C}$ specifies, for each symbol $\sigma$, a unitary matrix $U_\sigma$ that acts on the quantum state space. These unitaries encapsulate the transition behavior of the automaton and are compiled into quantum circuits using standard gate decompositions (e.g., into universal gate sets like Clifford+T or CNOT+RZ).
+
+\subsubsection{Initial State $q_0$}
+
+The initial state $q_0 \in Q$ determines the starting configuration of the automaton. In the circuit model, the system is initialized to the quantum state $\ket{q_0}$. This may require applying state preparation gates to the zero state $\ket{0}^{\otimes n}$ to obtain the desired initial configuration.
+
+\subsubsection{Final States $F$ and Measurement}
+
+The set $F \subseteq Q$ contains the accepting states. In the measure-once model, measurement is performed only once, at the end of the computation. The measurement corresponds to projecting the quantum state onto the subspace spanned by the final states:
+\[
+P=\sum_{q\in F} |q\rangle\langle q|.
+\]
+This projection can be implemented using a controlled measurement operation that accepts the computation if the measured state belongs to $F$. The outcome is a classical bit indicating whether the final state is in $F$ or not. The non-final states are effectively "erased" by this projection, which allows the automaton to produce a binary (accept/reject) outcome.
+
+\medskip
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|l|X|}
+    \hline
+    \textbf{Automaton Component} & \textbf{Circuit Equivalent} & \textbf{Description} \\
+    \hline
+    $Q$ & Basis states $\ket{i}$ & States in $Q$ map to computational basis states. Use $n$ qubits where $2^n \geq |Q|$. \\
+    \hline
+    $\Sigma$ & Classical input & Input symbol $\sigma$ selects unitary $U_\sigma$ to apply to the state. \\
+    \hline
+    $\delta$ & Unitary $U_\sigma$ & Transition function becomes unitary operators decomposed into gates. \\
+    \hline
+    $q_0$ & Initial state $\ket{q_0}$ & Initialized from $\ket{0}^{\otimes n}$ using state preparation. \\
+    \hline
+    $F$ & Final projection & Project onto $\text{span}\{\ket{q} : q \in F\}$ and measure outcome. \\
+    \hline
+    \end{tabularx}
+    \label{tab:automaton-to-circuit}
+    \caption{Mapping of Measure-Once Quantum Automaton Components to Quantum Circuit Elements}
+\end{table}
+
+By systematically applying this mapping, a measure-once quantum automaton can be transformed into a fully specified quantum circuit ready for simulation or execution on a quantum device.
+
+\subsection{High-Level Algorithm for Translation}
+
+\subsection{Examples of Translation}
+\subsubsection{Simple Measure Once Quantum Automaton}
+\subsubsection{Measure Once Quantum Automaton with Multiple States}
+\subsubsection{Measure Once Quantum Automaton with Cyclic Transitions}
