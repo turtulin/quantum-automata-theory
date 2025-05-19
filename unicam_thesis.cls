@@ -146,7 +146,7 @@
 \def\advisor#1{\gdef\@theadvisor{#1}}
 \def\coadvisor#1{\gdef\@thecoadvisor{#1}}
 \def\coadvisor1#1{\gdef\@thecoadvisor1{#1}}
-\def\coadvisor2#1{\gdef\@thecoadvisor2{#1}}
+%\def\coadvisor2#1{\gdef\@thecoadvisor2{#1}}
 \def\academicyear#1{\gdef\@theacademicyear{#1}}
 \def\matricola#1{\gdef\@thematricola{#1}}
 
@@ -189,13 +189,13 @@
   \vspace*{\stretch{7}}%
   {\rmfamily \LARGE \bfseries \@thetitle \par}%
   \vspace*{\stretch{7}}%
-  {Candidate \hfill Supervisor \par}%
-  {\bfseries \large \@theauthor \hfill \@theadvisor \par}%
+  {Candidate \hfill Advisors \par}%
+  {\bfseries \large \@theauthor \hfill \begin{minipage}[t]{0.4\linewidth}\raggedleft \@theadvisor \end{minipage} \par}
 \end{center}
 {\bfseries \small Student ID \@thematricola}%
 \begin{center}
-  {\hfill Co-supervisor \par}%
-  {\bfseries  \hfill \large  \@thecoadvisor2 \par}%
+  % {\hfill Co-supervisor \par}%
+  % {\bfseries  \hfill \large  \@thecoadvisor2 \par}%
   \vspace*{\stretch{7}}%
   \hrule%
   \vspace{0.15cm}%
