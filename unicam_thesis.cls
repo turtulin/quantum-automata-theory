@@ -190,7 +190,7 @@
   {\rmfamily \LARGE \bfseries \@thetitle \par}%
   \vspace*{\stretch{7}}%
   {Candidate \hfill Advisors \par}%
-  {\bfseries \large \@theauthor \hfill \begin{minipage}[t]{0.4\linewidth}\raggedleft \@theadvisor \end{minipage} \par}
+  {\bfseries \large \@theauthor \hfill \begin{minipage}[t]{0.5\linewidth}\raggedleft \@theadvisor \end{minipage} \par}
 \end{center}
 {\bfseries \small Student ID \@thematricola}%
 \begin{center}
