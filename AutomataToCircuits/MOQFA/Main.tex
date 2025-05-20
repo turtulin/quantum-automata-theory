@@ -1,109 +1,230 @@
-\section{\glsentrylong{mo-1qfa} to Circuit}
+\section{Measure-Once One-Way Quantum Finite Automaton to Circuit}
 \label{sec:moqfa-to-circuit}
 
-The formalism of quantum automata, particularly the measure-once variant, offers a high-level, abstract framework for reasoning about quantum computation. Originating from theoretical computer science, automata provide a concise way to represent computation over input symbols and state transitions. On the other hand, quantum circuits serve as a concrete, physically realizable model employed by experimental physicists and engineers. Bridging these two representations allows for a compact encoding of quantum algorithms and protocols grounded in automaton theory while enabling implementation within a circuit-based quantum computer.
-
-The translation of a quantum automaton into a quantum circuit thus acts as a bridge between abstract computation and its physical realization. In the following, we provide a systematic mapping from the components of a measure-once quantum automaton to the components of a quantum circuit, a high-level algorithm for the translation, as well as some examples to illustrate the process.
+The formalism of quantum finite automata, particularly the measure-once variant,
+offers a high-level abstract framework for modelling quantum computations over
+strings.
+Quantum circuits, in contrast, constitute a concrete, physically realisable model
+that can be executed on quantum hardware.
+Bridging the two allows one to encode automaton-based algorithms into circuits.
+In what follows we map every component of a
+Measure-Once One-Way Quantum Finite Automaton (MO-1QFA)
+to a circuit element, give a general compilation
+algorithm, and illustrate the procedure step-by-step with examples.
 
 \subsection{Mapping Automaton Components to Circuit Elements}
 
-A measure-once quantum automaton is defined by the tuple $\mathcal{A} = (Q, \Sigma, \delta, q_0, F)$, where each component can be translated into an equivalent circuit-based construct as follows:
-
-\subsubsection{Quantum States $Q$ and Number of Qubits}
-
-The set $Q$ represents the finite set of quantum states the automaton can be in. In the circuit model, each element of $Q$ corresponds to a basis state in the Hilbert space $\mathcal{H}$. The number of qubits $n$ required is determined by the smallest integer such that $2^n \geq |Q|$; equivalently, $n = \lceil \log_2 |Q| \rceil$. Each state in $Q$ can then be represented as a computational basis state $\ket{i}$, for $i = 0, \dots, |Q|-1$.
-
-
-\subsubsection{Alphabet $\Sigma$}
-
-The alphabet $\Sigma$ defines the set of classical input symbols that the automaton reads. In the circuit model, each symbol $\sigma \in \Sigma$ selects a unitary transformation $U_\sigma$ to be applied to the quantum state. These transformations are implemented as sequences of quantum gates.
-
-\subsubsection{Transition Function $\delta$}
-
-The transition function $\delta: Q \times \Sigma \times Q \to \mathbb{C}$ specifies, for each symbol $\sigma$, a unitary matrix $U_\sigma$ that acts on the quantum state space. These unitaries encapsulate the transition behavior of the automaton and are compiled into quantum circuits using standard gate decompositions (e.g., into universal gate sets like Clifford+T or CNOT+RZ).
-
-\subsubsection{Initial State $q_0$}
-
-The initial state $q_0 \in Q$ determines the starting configuration of the automaton. In the circuit model, the system is initialized to the quantum state $\ket{q_0}$. This may require applying state preparation gates to the zero state $\ket{0}^{\otimes n}$ to obtain the desired initial configuration.
-
-\subsubsection{Final States $F$ and Measurement}
-
-The set $F \subseteq Q$ contains the accepting states. In the measure-once model, measurement is performed only once, at the end of the computation. The measurement corresponds to projecting the quantum state onto the subspace spanned by the final states:
+A MO-1QFA is a tuple
 \[
-P=\sum_{q\in F} \ket{q}\bra{q},
+  A = (Q,\Sigma,\delta,q_0,F),
 \]
-This projection can be implemented using a controlled measurement operation that accepts the computation if the measured state belongs to $F$. The outcome is a classical bit indicating whether the final state is in $F$ or not. The non-final states are effectively "erased" by this projection, which allows the automaton to produce a binary (accept/reject) outcome.
+where $Q$ is a finite set of states, $\Sigma$ the input alphabet,
+$\delta$ the transition function (unitaries $\{U_\sigma\}_{\sigma\in\Sigma}$),
+$q_0\in Q$ the initial state and $F\subseteq Q$ the set of accepting states.
+Each component is realised in a circuit as follows.
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|l|l|X|}
-    \hline
-    \textbf{Automaton Component} & \textbf{Circuit Equivalent} & \textbf{Description} \\
-    \hline
-    $Q$ & Basis states $\ket{i}$ & States in $Q$ map to computational basis states. Use $n$ qubits where $2^n \geq |Q|$. \\
-    \hline
-    $\Sigma$ & Classical input & Input symbol $\sigma$ selects unitary $U_\sigma$ to apply to the state. \\
-    \hline
-    $\delta$ & Unitary $U_\sigma$ & Transition function becomes unitary operators decomposed into gates. \\
-    \hline
-    $q_0$ & Initial state $\ket{q_0}$ & Initialized from $\ket{0}^{\otimes n}$ using state preparation. \\
-    \hline
-    $F$ & Final projection & Project onto $\text{span}\{\ket{q} : q \in F\}$ and measure outcome. \\
-    \hline
-    \end{tabularx}
-    \label{tab:automaton-to-circuit}
-    \caption{Mapping of Measure-Once Quantum Automaton Components to Quantum Circuit Elements}
+\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
+\item \emph{Quantum states $Q$ and number of qubits}.  
+      Choose $n=\lceil\log_2|Q|\rceil$.
+      Every $q\in Q$ is encoded as a computational basis vector
+      $\ket{q}$ of an $n$-qubit register.
+
+\item \emph{Alphabet $\Sigma$}.  
+      Each symbol $\sigma$ is matched with a unitary $U_\sigma$ on the
+      state register.
+
+\item \emph{Transition function $\delta$}.  
+      For fixed $\sigma$, $\delta$ is the $|Q|\times|Q|$ matrix $U_\sigma$.
+      Each $U_\sigma$ is later decomposed into gates from a universal
+      set (e.g.\ Clifford+T or $\{\textsf{CNOT},R_z\}$).
+
+\item \emph{Initial state $q_0$}.  
+      The register starts in $\ket{0}^{\otimes n}$ and is prepared
+      to $\ket{q_0}$ (often by a few $X$ gates if $\ket{q_0}$ is a basis
+      vector).
+
+\item \emph{Final states $F$ and measurement}.  
+      After all symbols are processed a two-outcome
+      projective measurement
+      $\{P_{\text{acc}},I-P_{\text{acc}}\}$ with
+      \(
+        P_{\text{acc}}=\sum_{q\in F}\ket{q}\!\bra{q}
+      \)
+      distinguishes accepting from non-accepting sub-spaces,
+      outputting $1$ (accept) or $0$ (reject).
+\end{enumerate}
+
+\vspace{6pt}
+\begin{table}[ht]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.15\textwidth}%
+                        >{\raggedright\arraybackslash}p{0.20\textwidth}X}
+\toprule
+\textbf{Automaton part} & \textbf{Circuit realisation} & \textbf{Explanation}\\
+\midrule
+$Q$          & $n$-qubit basis        & Encode each $q\in Q$ as $\ket{q}$, with $n=\lceil\log_2|Q|\rceil$.\\
+$\Sigma$     & unitary $U_\sigma$     & Reading $\sigma$ applies $U_\sigma$.\\
+$\delta$     & set $\{U_\sigma\}$     & Transition matrices later decomposed into elementary gates.\\
+$q_0$        & state $\ket{q_0}$      & Prepare register from $\ket{0}^{\otimes n}$ to $\ket{q_0}$.\\
+$F$          & projector $P_{\text{acc}}$ & Measure $\{P_{\text{acc}},I-P_{\text{acc}}\}$ for accept/reject.\\
+\bottomrule
+\end{tabularx}
+\caption{Mapping MO-1QFA components to quantum-circuit constructs.}
+\label{tab:moqfa-mapping-new}
 \end{table}
 
-By systematically applying this mapping, a measure-once quantum automaton can be transformed into a fully specified quantum circuit ready for simulation or execution on a quantum device.
+\subsection{General Compilation Algorithm}
 
-\subsection{High-Level Algorithm for Translation}
 \begin{algorithm}[H]
-    \caption{Compile Measure-Once Quantum Finite Automaton to Quantum Circuit}
-    \label{alg:compile-mo-qfa}
-    \begin{algorithmic}[1]
-    \Require Automaton $\mathcal{A} = (Q, \Sigma, \delta, q_0, F)$, input length $L$
-    \Ensure Quantum circuit that simulates $\mathcal{A}$ on inputs of length $L$
-    \State Compute $n \gets \lceil \log_2 |Q| \rceil$
-    \State Initialize $n$-qubit register to $\ket{0}^{\otimes n}$
-    
-    \State Apply $X$ gates to obtain the computational basis state $\ket{q_0}$
-    \For{$i = 1$ to $L$}
-        \State Insert placeholder gate $U_{\sigma_i}$
-    \EndFor
-    \State Construct projector $P_F = \sum_{q \in F} \ket{q}\bra{q}$
-    \State Append projection and measurement to determine acceptance
-    \State \Return Constructed circuit with symbolic placeholders $U_{\sigma_i}$
-    \end{algorithmic}
+\caption{Generic compiler for an MO-1QFA}
+\label{alg:mo-compiler}
+\begin{algorithmic}[1]
+\Require Automaton $A=(Q,\Sigma,\delta,q_0,F)$,\; input length $L$
+\Ensure Circuit template that works for \emph{every} word $x\in\Sigma^L$
+\State $n\gets\lceil\log_2|Q|\rceil$
+\State Initialise $n$ qubits in $\ket{q_0}$
+\For{$i=1$ \textbf{to} $L$}
+   \State Insert placeholder gate $\boxed{U_{x_i}}$
+\EndFor
+\State Append two-outcome measurement $\{P_{\text{acc}},I-P_{\text{acc}}\}$
+\end{algorithmic}
 \end{algorithm}
 
-\noindent
-The algorithm above outlines a high-level procedure for translating a measure-once quantum finite automaton (MO-QFA) into a quantum circuit. It assumes access to the automaton tuple $\mathcal{A} = (Q, \Sigma, \delta, q_0, F)$ and the length $L$ of the input string. The circuit is built to process any input of that length by inserting symbolic placeholders corresponding to the unitaries selected by the input symbols.
+The output is a \emph{template}: placeholders $\boxed{U_{x_i}}$
+stand for “the unitary dictated by~$x_i$”.
+Given an \emph{actual} word
+$x=x_1\!\dots x_L$,  
+each $\boxed{U_{x_i}}$ is replaced by the concrete $U_{x_i}$
+and then (optionally) decomposed into native gates.
 
-The process begins by determining the number of qubits needed to encode the automaton's state space. Since each state $q \in Q$ is mapped to a computational basis state, the smallest number $n$ of qubits required satisfies $2^n \geq |Q|$. The system is initialized in the state $\ket{0}^{\otimes n}$ and prepared into the designated initial state $\ket{q_0}$ by applying $X$ gates to selected qubits—this is sufficient because $\ket{q_0}$ is always a known basis state.
+\subsection{Step-by-Step Examples}
 
-The core of the circuit consists of $L$ unitary operations $U_{\sigma_i}$, one for each input symbol position. Since the actual input string is not known at circuit construction time, these unitaries are inserted as symbolic placeholders, to be concretely specified later depending on the input.
+\paragraph{Example 1: single-letter alphabet.}
+Let
+$Q=\{q_0,q_1\},\,
+ \Sigma=\{a\},\,
+ q_0$ initial,\,
+ $F=\{q_1\}$,
+and choose $U_a=H$.
+For $L=1$ the compilation unfolds in three stages:
 
-The final step projects the quantum state onto the subspace spanned by the accepting states $F$ using the projector $P_F = \sum_{q \in F} \ket{q}\bra{q}$. A measurement follows to determine acceptance or rejection.
+\begin{figure}[htb]
+\centering
+\begin{subfigure}{0.28\textwidth}
+\centering
+\begin{quantikz}[row sep=0.2cm]
+\lstick{$\ket{q_0}$}& \gate[style={draw=blue!50,fill=blue!10}]{U_{x_1}}
+                    & \meter{} \\
+\end{quantikz}
+\caption{Template ($L=1$)}
+\end{subfigure}\hfill 
+%
+\begin{subfigure}{0.28\textwidth}
+\centering
+\begin{quantikz}[row sep=0.2cm]
+\lstick{$\ket{q_0}$}& \gate{U_a} & \meter{} \\
+\end{quantikz}
+\caption{Instantiate ($x=a$)}
+\end{subfigure}\hfill
+%
+\begin{subfigure}{0.28\textwidth}
+\centering
+\begin{quantikz}[row sep=0.2cm]
+\lstick{$\ket{q_0}$}& \gate{H} & \meter{} \\
+\end{quantikz}
+\caption{Gate-level (synthesised)}
+\end{subfigure}
+\caption{Compilation stages for Example 1.
+The last pane shows the fully synthesised circuit;
+here $U_a=H$ needs no further decomposition.}
+\label{fig:example1-stages}
+\end{figure}
 
-\subsubsection*{Input Processing Strategies}
+\paragraph{Example 2: two-symbol word of length $L=2$.}
+Take
+$Q=\{q_0,q_1,q_2\}$ ($n=2$ qubits),
+$\Sigma=\{a,b\}$,
+$U_a$ rotates $\ket{q_0}\!\leftrightarrow\!\ket{q_1}$,
+$U_b$ swaps $\ket{q_1},\ket{q_2}$,
+$F=\{q_2\}$.
+Suppose the incoming word is $x=ab$.
 
-Two main strategies are available for processing an input string of known length.
+\begin{figure}[htb]
+\centering
+\begin{subfigure}{0.30\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$} & \gate[2,nwires={2}]{U_{x_1}} & \gate[2,nwires={2}]{U_{x_2}} & \meter{} \\
+\lstick{$\ket{0}$} & & & \meter{} 
+\end{quantikz}
+\caption{Template ($L=2$ placeholders)}
+\end{subfigure}\hfill
+%
+\begin{subfigure}{0.30\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$}& \gate[2,nwires={2}]{U_a} & \gate[2,nwires={2}]{U_b} & \meter{} \\
+\lstick{$\ket{0}$} & & & \meter{}
+\end{quantikz}
+\caption{Instantiate ($x=ab$)}
+\end{subfigure}\hfill
+%
+\begin{subfigure}{0.30\textwidth}
+\centering
+\footnotesize
+\begin{quantikz}
+\lstick{$\ket{q_0}$}& \gate[2,nwires={2}]{\mathcal{R}_X(\theta)} & \swap{1} & \meter{}\\
+\lstick{$\ket{0}$} & & \targ{} & \meter{}
+\end{quantikz}
+\caption{After synthesis\newline (example gate set)}
+\end{subfigure}
+\caption{Example 2: the compiler first produces a two-slot template,
+then fills in $U_a,U_b$ once the word $ab$ is known, and finally
+expands each unitary into native gates (here a rotation $\mathcal{R}_X$
+and a SWAP).}
+\label{fig:example2-stages}
+\end{figure}
 
-\paragraph{1. Classical Control (Template-Based Circuit)}
-This is the most practical and widely adopted approach. The quantum circuit is compiled as a \emph{template} with $L$ symbolic positions for the unitaries $U_{\sigma_i}$. When a specific classical input string $\sigma = \sigma_1 \sigma_2 \ldots \sigma_L$ is provided, each placeholder is replaced with the unitary matrix $U_{\sigma_i}$ corresponding to that symbol. These unitaries are derived from the automaton's transition function $\delta$ and are implemented as fixed gate sequences. This approach matches the standard hybrid model of quantum computation, where classical preprocessing determines the gates applied to the quantum state.
+\paragraph{Example 3: cyclic automaton, $L=3$.}
+For $Q=\{q_0,q_1,q_2\}$ and $\Sigma=\{a\}$ with
+$U_a$ the 3-cycle $\ket{q_i}\mapsto\ket{q_{i+1\bmod 3}}$,
+$F=\{q_0\}$, a length-3 input $x=aaa$ leads to:
 
-\paragraph{2. Quantum Control (Fully Quantum Input Encoding)}
-An alternative is to encode the input string directly into a quantum register. Each symbol $\sigma_i$ is represented as a quantum state in a control register, and a controlled-unitary applies $U_{\sigma}$ to the main system conditioned on the value in the control register:
-\[
-\sum_{\sigma \in \Sigma} \ket{\sigma}\bra{\sigma} \otimes U_\sigma
-\]
-This method allows the circuit to operate coherently over superpositions of input strings. However, it alters the semantics of a classical-input automaton and introduces significant complexity. For measure-once automata, which are defined over classical inputs, this strategy is generally unnecessary and less practical.
+\begin{figure}[htb]
+\centering
+\begin{subfigure}{0.30\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$}& \gate{U_{x_1}} & \gate{U_{x_2}} & \gate{U_{x_3}} & \meter{}\\
+\end{quantikz}
+\caption{Template ($L=3$)}
+\end{subfigure}\hfill
+%
+\begin{subfigure}{0.30\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$}& \gate{U_a} & \gate{U_a} & \gate{U_a} & \meter{}\\
+\end{quantikz}
+\caption{Instantiate ($x=aaa$)}
+\end{subfigure}\hfill
+%
+\begin{subfigure}{0.30\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$}& \gate{U_a^3=\mathbb{I}} & \qw & \qw & \meter{}\\
+\end{quantikz}
+\caption{Optimised (note $U_a^3=\mathbb{I}$)}
+\end{subfigure}
+\caption{Example 3: after recognising that $U_a^3=\mathbb{I}$ the
+compiler may cancel all three gates, yielding an identity.}
+\label{fig:example3-stages}
+\end{figure}
 
-\noindent
-In most cases, especially for simulation or real-world use, the classical control approach is preferred for its simplicity, transparency, and direct correspondence to the automaton model.
-
-\subsection{Examples of Translation}
-\subsubsection{Simple Measure Once Quantum Automaton}
-\subsubsection{Measure Once Quantum Automaton with Multiple States}
-\subsubsection{Measure Once Quantum Automaton with Cyclic Transitions}
+\medskip
+In every case the final gate-level circuit is obtained by standard
+synthesis algorithms (see Section~\ref{sec:quantum-gates-and-circuits}
+for matrix-to-circuit compilation techniques),
+guaranteeing that the circuit
+accepts exactly the language recognised by the original MO-1QFA.
+% ---------------------------------------------------------------------

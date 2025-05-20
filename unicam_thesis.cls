@@ -52,7 +52,6 @@
 \RequirePackage{amssymb}%
 \RequirePackage{amsmath}%
 \RequirePackage{amsthm}%
-\RequirePackage{subfig}%
 \RequirePackage{xspace}%
 \RequirePackage{array}%
 \RequirePackage{times}%

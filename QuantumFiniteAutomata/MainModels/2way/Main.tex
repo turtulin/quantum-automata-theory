@@ -1,11 +1,11 @@
 \subsection{Two-way Quantum Finite Automata}
 \label{sec:2-way-qfa}
 
-Quantum finite automata (QFA) can be classified based on the measurement policy and head movement direction. In this subsection, we focus exclusively on two-way QFA (2QFA) models that operate under pure quantum evolution: namely, the \gls{mo-2qfa} and \gls{mm-2qfa}. These automata extend the capabilities of their one-way counterparts by allowing bidirectional movement of the tape head, while differing in how often measurements are performed during computation.
+\glspl{qfa} can be classified based on the measurement policy and head movement direction. In this subsection, we focus exclusively on \glspl{2qfa} models that operate under pure quantum evolution: namely, the \gls{mo-2qfa} and \gls{mm-2qfa}. These automata extend the capabilities of their one-way counterparts by allowing bidirectional movement of the tape head, while differing in how often measurements are performed during computation.
 
 \subsubsection{Measure-Once Two-Way Quantum Finite Automata (MO-2QFA)}
 
-The \gls{mo-2qfa} was formally introduced by Xi et al. \cite{xi2008some} as the natural two-way extension of the measure-once one-way QFA (\gls{mo-1qfa}). It performs unitary transformations while scanning the input in both directions but conducts a projective measurement only once—at the end of the input.
+The \gls{mo-2qfa} was formally introduced by Xi et al. \cite{xi2008some} as the natural two-way extension of the (\gls{mo-1qfa}). It performs unitary transformations while scanning the input in both directions but conducts a projective measurement only once—at the end of the input.
 
 \paragraph{Formal Definition.} An \gls{mo-2qfa} is defined as a 5-tuple $M = (Q, \Sigma, \delta, q_0, Q_a)$ where:
 \begin{itemize}
@@ -55,5 +55,5 @@ Well-formedness constraints are necessary to ensure unitarity and validity of tr
 
 \paragraph{Example.} Kondacs and Watrous \cite{kondacs1997power} present a \gls{mm-2qfa} that recognizes $L_{eq}$ in linear time with bounded error—a feat requiring exponential time for classical two-way probabilistic automata.
 
-\paragraph{Additional Topics.} Extensions to hybrid models such as 2QCFA and interactive proof systems (QIP) with 2QFA verifiers have been proposed to harness the strengths of \gls{mm-2qfa} while addressing its limitations \cite{pani2011empowering, qiu2008state}.
+\paragraph{Additional Topics.} Extensions to hybrid models such as \glspl{2qcfa} and \glsentryfull{qip} with \gls{2qfa} verifiers have been proposed to harness the strengths of \gls{mm-2qfa} while addressing its limitations \cite{pani2011empowering, qiu2008state}.
 
