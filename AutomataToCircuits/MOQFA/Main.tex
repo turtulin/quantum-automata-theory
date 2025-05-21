@@ -1,58 +1,31 @@
 \section{Measure-Once One-Way Quantum Finite Automaton to Circuit}
 \label{sec:moqfa-to-circuit}
 
-The formalism of quantum finite automata, particularly the measure-once variant,
-offers a high-level abstract framework for modelling quantum computations over
-strings.
-Quantum circuits, in contrast, constitute a concrete, physically realisable model
-that can be executed on quantum hardware.
-Bridging the two allows one to encode automaton-based algorithms into circuits.
-In what follows we map every component of a
-Measure-Once One-Way Quantum Finite Automaton (MO-1QFA)
-to a circuit element, give a general compilation
-algorithm, and illustrate the procedure step-by-step with examples.
+This section presents the compilation of the \gls{mo-1qfa} model into an executable quantum circuit, elucidating the precise correspondence between automaton-level abstractions and gate-level constructs. The internal state set $Q$ is represented using $\lceil\log_{2}|Q|\rceil$ qubits, encoding each classical state $q \in Q$ into a computational basis vector of the quantum register. Each symbol $\sigma \in \Sigma$ is associated with a unitary matrix $U_\sigma$, which governs the evolution of the state vector upon reading $\sigma$; these operators are later decomposed into sequences of elementary gates drawn from a universal set (e.g., Clifford+$T$ or $\{\mathrm{CNOT}, R_z, H\}$). The initial state preparation maps the all-zero register to the automaton’s start state via minimal gate operations. Finally, the accepting condition is enforced via a projective measurement onto a subspace defined by the set of accepting states $F$, implemented as a single multi-controlled rotation followed by a standard measurement. This mapping supports systematic synthesis of circuits from automaton descriptions while preserving the semantics of quantum language recognition.
 
 \subsection{Mapping Automaton Components to Circuit Elements}
-
-A MO-1QFA is a tuple
+A \gls{mo-1qfa} is defined as a tuple
 \[
   A = (Q,\Sigma,\delta,q_0,F),
 \]
-where $Q$ is a finite set of states, $\Sigma$ the input alphabet,
-$\delta$ the transition function (unitaries $\{U_\sigma\}_{\sigma\in\Sigma}$),
-$q_0\in Q$ the initial state and $F\subseteq Q$ the set of accepting states.
-Each component is realised in a circuit as follows.
+as introduced in Section~\ref{sec:moqfa}. The goal is to construct, for any such automaton, a quantum circuit that faithfully reproduces its evolution and acceptance behaviour. This is achieved by mapping each formal component to a corresponding physical construct within the circuit model, preserving the semantics of quantum language recognition.
 
-\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
-\item \emph{Quantum states $Q$ and number of qubits}.  
-      Choose $n=\lceil\log_2|Q|\rceil$.
-      Every $q\in Q$ is encoded as a computational basis vector
-      $\ket{q}$ of an $n$-qubit register.
+\subsubsection*{State Register and Qubit Allocation}
+The set of internal states $Q$ is encoded over an $n$-qubit register, where $n = \lceil\log_2 |Q|\rceil$. Each state $q \in Q$ corresponds to a computational basis vector $\ket{q} \in (\mathbb{C}^2)^{\otimes n}$ under a fixed encoding. This representation ensures compatibility with standard gate decompositions and measurement procedures, and facilitates reversible indexing of automaton transitions.
 
-\item \emph{Alphabet $\Sigma$}.  
-      Each symbol $\sigma$ is matched with a unitary $U_\sigma$ on the
-      state register.
+\subsubsection*{Symbol-Dependent Unitary Evolution}
+Each symbol $\sigma \in \Sigma$ induces a unitary transformation $U_\sigma$ defined by the transition function $\delta$. These matrices are assumed to be unitary by definition of the model, and are compiled into native gate sequences using a fault-tolerant universal basis, such as Clifford+$T$ or $\{\textsf{CNOT}, R_z, H\}$. This decomposition is performed either ahead of time or via parameterised template instantiation, depending on the compilation strategy adopted.
 
-\item \emph{Transition function $\delta$}.  
-      For fixed $\sigma$, $\delta$ is the $|Q|\times|Q|$ matrix $U_\sigma$.
-      Each $U_\sigma$ is later decomposed into gates from a universal
-      set (e.g.\ Clifford+T or $\{\textsf{CNOT},R_z\}$).
+\subsubsection*{Initialisation Procedure}
+The computation starts in the automaton's designated initial state $q_0$, represented as $\ket{q_0}$ on the $n$-qubit register. Physical initialisation begins with the zero state $\ket{0}^{\otimes n}$, which is then mapped to $\ket{q_0}$ using a preparation circuit. When $q_0$ is a basis vector in the encoding, this step reduces to applying a sequence of Pauli-$X$ gates.
 
-\item \emph{Initial state $q_0$}.  
-      The register starts in $\ket{0}^{\otimes n}$ and is prepared
-      to $\ket{q_0}$ (often by a few $X$ gates if $\ket{q_0}$ is a basis
-      vector).
+\subsubsection*{Measurement and Acceptance}
+Upon completion of the input traversal, the quantum state is measured against the accepting subspace defined by the set $F \subseteq Q$. The corresponding projector is
+\[
+P_{\text{acc}} = \sum_{q \in F} \ket{q}\bra{q},
+\]
+and the final two-outcome measurement $\{P_{\text{acc}}, I - P_{\text{acc}}\}$ determines acceptance (output $1$) or rejection (output $0$). In circuit terms, this is realised via a controlled operation targeting an ancilla qubit, followed by a standard measurement. Efficient implementations leverage multi-controlled rotations and ancilla reuse to minimise overhead.
 
-\item \emph{Final states $F$ and measurement}.  
-      After all symbols are processed a two-outcome
-      projective measurement
-      $\{P_{\text{acc}},I-P_{\text{acc}}\}$ with
-      \(
-        P_{\text{acc}}=\sum_{q\in F}\ket{q}\!\bra{q}
-      \)
-      distinguishes accepting from non-accepting sub-spaces,
-      outputting $1$ (accept) or $0$ (reject).
-\end{enumerate}
 
 \vspace{6pt}
 \begin{table}[ht]
@@ -90,141 +63,291 @@ $F$          & projector $P_{\text{acc}}$ & Measure $\{P_{\text{acc}},I-P_{\text
 \State Append two-outcome measurement $\{P_{\text{acc}},I-P_{\text{acc}}\}$
 \end{algorithmic}
 \end{algorithm}
+Algorithm~\ref{alg:mo-compiler} produces a parametric circuit \emph{template} that implements the behaviour of a given \gls{mo-1qfa} on all input words of fixed length $L$. This circuit is independent of the specific input string; it defines a skeleton whose symbolic gates $\boxed{U_{x_i}}$ are placeholders to be instantiated once the input $x = x_1x_2\dots x_L$ is known. Each such placeholder corresponds to the unitary $U_{x_i}$ dictated by the automaton’s transition function $\delta$ for the symbol $x_i \in \Sigma$.
 
-The output is a \emph{template}: placeholders $\boxed{U_{x_i}}$
-stand for “the unitary dictated by~$x_i$”.
-Given an \emph{actual} word
-$x=x_1\!\dots x_L$,  
-each $\boxed{U_{x_i}}$ is replaced by the concrete $U_{x_i}$
-and then (optionally) decomposed into native gates.
+The template begins by allocating $n = \lceil\log_2 |Q|\rceil$ qubits and initialising them in the quantum state $\ket{q_0}$, which encodes the automaton's starting state. For each input position $i = 1,\dots,L$, a gate $\boxed{U_{x_i}}$ is inserted, specifying that the circuit evolution at that step depends on the symbol $x_i$ observed in the input. These gates are not hardcoded into the template but are inserted symbolically to enable delayed binding or runtime instantiation.
 
-\subsection{Step-by-Step Examples}
-
-\paragraph{Example 1: single-letter alphabet.}
-Let
-$Q=\{q_0,q_1\},\,
- \Sigma=\{a\},\,
- q_0$ initial,\,
- $F=\{q_1\}$,
-and choose $U_a=H$.
-For $L=1$ the compilation unfolds in three stages:
-
-\begin{figure}[htb]
-\centering
-\begin{subfigure}{0.28\textwidth}
-\centering
-\begin{quantikz}[row sep=0.2cm]
-\lstick{$\ket{q_0}$}& \gate[style={draw=blue!50,fill=blue!10}]{U_{x_1}}
-                    & \meter{} \\
-\end{quantikz}
-\caption{Template ($L=1$)}
-\end{subfigure}\hfill 
-%
-\begin{subfigure}{0.28\textwidth}
-\centering
-\begin{quantikz}[row sep=0.2cm]
-\lstick{$\ket{q_0}$}& \gate{U_a} & \meter{} \\
-\end{quantikz}
-\caption{Instantiate ($x=a$)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.28\textwidth}
-\centering
-\begin{quantikz}[row sep=0.2cm]
-\lstick{$\ket{q_0}$}& \gate{H} & \meter{} \\
-\end{quantikz}
-\caption{Gate-level (synthesised)}
-\end{subfigure}
-\caption{Compilation stages for Example 1.
-The last pane shows the fully synthesised circuit;
-here $U_a=H$ needs no further decomposition.}
-\label{fig:example1-stages}
-\end{figure}
-
-\paragraph{Example 2: two-symbol word of length $L=2$.}
-Take
-$Q=\{q_0,q_1,q_2\}$ ($n=2$ qubits),
-$\Sigma=\{a,b\}$,
-$U_a$ rotates $\ket{q_0}\!\leftrightarrow\!\ket{q_1}$,
-$U_b$ swaps $\ket{q_1},\ket{q_2}$,
-$F=\{q_2\}$.
-Suppose the incoming word is $x=ab$.
-
-\begin{figure}[htb]
-\centering
-\begin{subfigure}{0.30\textwidth}
-\centering
-\begin{quantikz}
-\lstick{$\ket{q_0}$} & \gate[2,nwires={2}]{U_{x_1}} & \gate[2,nwires={2}]{U_{x_2}} & \meter{} \\
-\lstick{$\ket{0}$} & & & \meter{} 
-\end{quantikz}
-\caption{Template ($L=2$ placeholders)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.30\textwidth}
-\centering
-\begin{quantikz}
-\lstick{$\ket{q_0}$}& \gate[2,nwires={2}]{U_a} & \gate[2,nwires={2}]{U_b} & \meter{} \\
-\lstick{$\ket{0}$} & & & \meter{}
-\end{quantikz}
-\caption{Instantiate ($x=ab$)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.30\textwidth}
-\centering
-\footnotesize
-\begin{quantikz}
-\lstick{$\ket{q_0}$}& \gate[2,nwires={2}]{\mathcal{R}_X(\theta)} & \swap{1} & \meter{}\\
-\lstick{$\ket{0}$} & & \targ{} & \meter{}
-\end{quantikz}
-\caption{After synthesis\newline (example gate set)}
-\end{subfigure}
-\caption{Example 2: the compiler first produces a two-slot template,
-then fills in $U_a,U_b$ once the word $ab$ is known, and finally
-expands each unitary into native gates (here a rotation $\mathcal{R}_X$
-and a SWAP).}
-\label{fig:example2-stages}
-\end{figure}
-
-\paragraph{Example 3: cyclic automaton, $L=3$.}
-For $Q=\{q_0,q_1,q_2\}$ and $\Sigma=\{a\}$ with
-$U_a$ the 3-cycle $\ket{q_i}\mapsto\ket{q_{i+1\bmod 3}}$,
-$F=\{q_0\}$, a length-3 input $x=aaa$ leads to:
-
-\begin{figure}[htb]
-\centering
-\begin{subfigure}{0.30\textwidth}
-\centering
-\begin{quantikz}
-\lstick{$\ket{q_0}$}& \gate{U_{x_1}} & \gate{U_{x_2}} & \gate{U_{x_3}} & \meter{}\\
-\end{quantikz}
-\caption{Template ($L=3$)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.30\textwidth}
-\centering
-\begin{quantikz}
-\lstick{$\ket{q_0}$}& \gate{U_a} & \gate{U_a} & \gate{U_a} & \meter{}\\
-\end{quantikz}
-\caption{Instantiate ($x=aaa$)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.30\textwidth}
-\centering
-\begin{quantikz}
-\lstick{$\ket{q_0}$}& \gate{U_a^3=\mathbb{I}} & \qw & \qw & \meter{}\\
-\end{quantikz}
-\caption{Optimised (note $U_a^3=\mathbb{I}$)}
-\end{subfigure}
-\caption{Example 3: after recognising that $U_a^3=\mathbb{I}$ the
-compiler may cancel all three gates, yielding an identity.}
-\label{fig:example3-stages}
-\end{figure}
+Once the full word has been processed, a final two-outcome projective measurement $\{P_{\text{acc}}, I - P_{\text{acc}}\}$ is appended. This measurement tests whether the final state of the register lies within the accepting subspace defined by the set $F \subseteq Q$, and determines the binary output of the computation.
 
 \medskip
-In every case the final gate-level circuit is obtained by standard
-synthesis algorithms (see Section~\ref{sec:quantum-gates-and-circuits}
-for matrix-to-circuit compilation techniques),
-guaranteeing that the circuit
-accepts exactly the language recognised by the original MO-1QFA.
-% ---------------------------------------------------------------------
+
+When a concrete input string $x \in \Sigma^L$ is supplied, each placeholder gate $\boxed{U_{x_i}}$ is replaced by the corresponding unitary operator $U_{x_i}$. These unitaries may be precompiled into native gate sequences (offline strategy) or realised at runtime via parameterised templates (just-in-time strategy), depending on the synthesis backend. The resulting instantiated circuit processes the input word by evolving the initial state $\ket{q_0}$ through the sequence $U_{x_L} \cdots U_{x_1}$ and performing a final measurement. Acceptance occurs with probability $\|P_{\text{acc}} U_{x_L} \cdots U_{x_1} \ket{q_0}\|^2$, matching the semantics of the original automaton.
+
+%TODO: add description for the computation of the circuit (adding reference of the section regarding the substitution of the unitaries) and specify small algorithm for explaining how the computation proceeds, what happens after algorithm 1? How do I effectively use the template? 
+
+%TODO: change this in environment example
+\subsection{Step-by-Step Examples}
+To concretise the abstract compilation scheme described above, we now present explicit examples illustrating the end-to-end translation of \gls{mo-1qfa} instances into executable quantum circuits. Each example begins with a formal automaton specification and proceeds through template generation, gate instantiation for a specific input word, and—when appropriate—optimised decomposition into native gates. These case studies demonstrate the generality of the approach and clarify how structural automaton features influence circuit depth, gate choice, and measurement configuration.
+\paragraph{Single-Letter Alphabet.}
+\label{ex:moqfa-single-letter}
+Consider the \gls{mo-1qfa} defined by
+\[
+Q = \{q_0, q_1\}, \quad \Sigma = \{a\}, \quad q_0 \text{ initial}, \quad F = \{q_1\},
+\]
+and let the transition unitary associated with the only input symbol be the Hadamard gate
+\[
+U_a = H = \frac{1}{\sqrt{2}}
+\begin{pmatrix}
+1 & 1 \\
+1 & -1
+\end{pmatrix}.
+\]
+We compile this automaton for words of length $L = 1$ using Algorithm~\ref{alg:mo-compiler}. The process proceeds as follows:
+
+\begin{enumerate}
+\item \textbf{Qubit allocation.} Since $|Q| = 2$, we require $n = \lceil \log_2 2 \rceil = 1$ qubit. The state set is encoded as $\ket{q_0} = \ket{0}$ and $\ket{q_1} = \ket{1}$, so the circuit will consist of a single wire.
+
+\item \textbf{Initialisation.} The register is initialised in state $\ket{0} = \ket{q_0}$, which matches the default zero state on most quantum backends.
+
+\item \textbf{Unitary evolution (template).} The compiler inserts one symbolic placeholder $\boxed{U_{x_1}}$ representing the unitary corresponding to the input symbol at position 1. The result is the circuit shown in subfigure~\ref{fig:ex1a}.
+
+\item \textbf{Instantiation.} For the specific input $x = a$, we substitute $U_{x_1} = H$, yielding the circuit in subfigure~\ref{fig:ex1b}.
+
+\item \textbf{Measurement.} The accepting projector is $P_{\text{acc}} = \ket{1}\bra{1}$. A measurement in the computational basis is applied at the output. The final synthesised circuit—requiring no decomposition since $H$ is native—is shown in subfigure~\ref{fig:ex1c}. The output state is
+\[
+H\ket{0} = \tfrac{1}{\sqrt{2}}(\ket{0} + \ket{1}),
+\]
+so the acceptance probability is
+\[
+p_M(a) = \|P_{\text{acc}} H \ket{0}\|^2 = \left|\tfrac{1}{\sqrt{2}}\right|^2 = \tfrac{1}{2}.
+\]
+\end{enumerate}
+
+\vspace{1em}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate{U_{x_1}} & \meter{} \\
+\end{quantikz}
+\caption{Template circuit}
+\label{fig:ex1a}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate{U_a} & \meter{} \\
+\end{quantikz}
+\caption{After instantiation}
+\label{fig:ex1b}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate{H} & \meter{} \\
+\end{quantikz}
+\caption{Gate-level circuit}
+\label{fig:ex1c}
+\end{subfigure}
+\caption{Compilation stages for Example~\ref{ex:moqfa-single-letter}. A single qubit evolves under $U_a = H$ and is measured in the computational basis. Acceptance occurs with probability $1/2$.}
+\label{fig:example1-horizontal}
+\end{figure}
+
+%TODO: change the name of the example
+\paragraph{Two-Symbol Word of Length $L = 2$.} 
+\label{ex:moqfa-two-symbols}
+Consider a \gls{mo-1qfa} defined by:
+\[
+Q = \{q_0, q_1, q_2\}, \quad \Sigma = \{a, b\}, \quad q_0 \text{ initial}, \quad F = \{q_2\},
+\]
+with transitions specified as follows:
+\begin{itemize}
+  \item $U_a$ performs a rotation between $\ket{q_0}$ and $\ket{q_1}$,
+  \item $U_b$ swaps $\ket{q_1}$ and $\ket{q_2}$.
+\end{itemize}
+We compile the automaton on the input word $x = ab$, of length $L = 2$.
+
+\begin{enumerate}
+  \item \textbf{Qubit allocation.} Since $|Q| = 3$, we require
+  \[
+  n = \lceil \log_2 3 \rceil = 2 \text{ qubits}.
+  \]
+  The states $q_0$, $q_1$, and $q_2$ are encoded as $\ket{00}$, $\ket{01}$, and $\ket{10}$ respectively.
+
+  \item \textbf{Initialisation.} The register is prepared in state $\ket{q_0} = \ket{00}$. This is typically the default zero state and requires no preparation gates.
+
+  \item \textbf{Unitary evolution (template).} For a word of length $L = 2$, the compiler inserts two placeholders $\boxed{U_{x_1}}$ and $\boxed{U_{x_2}}$, representing the unitaries to be applied at each step. The resulting template is shown in subfigure~\ref{fig:ex2a}.
+
+  \item \textbf{Instantiation.} For the specific input $x = ab$, we substitute $U_{x_1} = U_a$ and $U_{x_2} = U_b$, yielding the circuit in subfigure~\ref{fig:ex2b}.
+
+  \item \textbf{Measurement.} The accepting subspace corresponds to $F = \{q_2\}$, i.e., the basis state $\ket{10}$. The measurement is performed in the computational basis, and the projector is
+  \[
+  P_{\text{acc}} = \ket{10}\bra{10}.
+  \]
+  The final synthesised circuit, shown in subfigure~\ref{fig:ex2c}, assumes a possible decomposition where $U_a$ is implemented as a rotation $\mathcal{R}_X(\theta)$ acting on the subspace $\mathrm{span}\{\ket{00}, \ket{01}\}$, and $U_b$ is realised by a SWAP gate between $\ket{01}$ and $\ket{10}$.
+
+  The acceptance probability depends on the choice of rotation angle $\theta$. For instance, if $\theta = \pi/2$, the sequence $U_b U_a \ket{00}$ results in state $\ket{10}$ with probability 1, yielding
+  \[
+  p_M(ab) = \|P_{\text{acc}} U_b U_a \ket{00}\|^2 = 1.
+  \]
+\end{enumerate}
+
+\vspace{1em}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate[2,nwires={2}]{U_{x_1}} & \gate[2,nwires={2}]{U_{x_2}} & \meter{} \\
+\lstick{$\ket{0}$} & & & \meter{}
+\end{quantikz}
+\caption{Template circuit}
+\label{fig:ex2a}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate[2,nwires={2}]{U_a} & \gate[2,nwires={2}]{U_b} & \meter{} \\
+\lstick{$\ket{0}$} & & & \meter{}
+\end{quantikz}
+\caption{After instantiation}
+\label{fig:ex2b}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate[2,nwires={2}]{\mathcal{R}_X(\theta)} & \swap{1} & \meter{} \\
+\lstick{$\ket{0}$} & & \targ{} & \meter{}
+\end{quantikz}
+\caption{Gate-level circuit}
+\label{fig:ex2c}
+\end{subfigure}
+\caption{Compilation stages for Example~\ref{ex:moqfa-two-symbols}. The automaton is compiled to a two-qubit circuit processing a two-symbol input. Depending on the angle $\theta$, the acceptance probability can range from 0 to 1.}
+\label{fig:example2-horizontal}
+\end{figure}
+\paragraph{Example 3: Cyclic Automaton, $L = 3$.} \label{ex:moqfa-cycle}
+Consider a \gls{mo-1qfa} with
+\[
+Q = \{q_0, q_1, q_2\}, \quad \Sigma = \{a\}, \quad q_0 \text{ initial}, \quad F = \{q_0\}.
+\]
+Let the unitary $U_a$ implement a 3-cycle over the basis states:
+\[
+U_a \ket{q_i} = \ket{q_{i+1 \bmod 3}}, \quad \text{for } i \in \{0,1,2\}.
+\]
+We compile the automaton on the input word $x = aaa$, of length $L = 3$.
+
+\begin{enumerate}
+  \item \textbf{Qubit allocation.} The state space has cardinality $|Q| = 3$, so we require
+  \[
+  n = \lceil \log_2 3 \rceil = 2 \text{ qubits}.
+  \]
+  The states $q_0$, $q_1$, and $q_2$ can be encoded as basis vectors $\ket{00}$, $\ket{01}$, and $\ket{10}$ respectively.
+
+  \item \textbf{Initialisation.} The register is initialised in state $\ket{q_0} = \ket{00}$.
+
+  \item \textbf{Unitary evolution (template).} The compiler inserts three placeholders, one for each input symbol. These gates are labelled $\boxed{U_{x_1}}, \boxed{U_{x_2}}, \boxed{U_{x_3}}$ and will later be replaced with actual unitaries. The resulting circuit structure is shown in subfigure~\ref{fig:ex3a}.
+
+  \item \textbf{Instantiation.} For the input $x = aaa$, all placeholders are replaced by $U_a$, as every symbol is $a$. The resulting sequence $U_a U_a U_a$ is shown in subfigure~\ref{fig:ex3b}.
+
+  \item \textbf{Cycle recognition and optimisation.} Since $U_a$ implements a perfect 3-cycle, we have
+  \[
+  U_a^3 = \mathbb{I}.
+  \]
+  The composition of three applications of $U_a$ returns the system to its original state. Recognising this cyclic structure, the compiler simplifies the circuit by removing all three gates, as shown in subfigure~\ref{fig:ex3c}. The net result is that the final state equals the initial state, i.e.,
+  \[
+  \ket{\Psi_{aaa}} = \ket{q_0},
+  \]
+  which lies in the accepting subspace defined by $F = \{q_0\}$. Thus, the input $aaa$ is accepted with probability
+  \[
+  p_M(aaa) = \|P_{\text{acc}} \ket{q_0}\|^2 = 1.
+  \]
+\end{enumerate}
+
+In the context of quantum circuit compilation, automata that exhibit cyclic behaviour—such as $k$-cycles over the state set—allow for a key optimisation: repeated applications of a unitary operator implementing the cycle can often be collapsed. Specifically, if a unitary $U$ satisfies $U^k = \mathbb{I}$, then any sequence of $k$ consecutive applications yields the identity transformation. In such cases, the compiler can detect the cyclic structure statically and eliminate the redundant operations from the circuit. This not only reduces the gate count but also preserves the automaton’s transition semantics exactly. Such cycle-aware optimisation plays a crucial role in minimising depth and improving interpretability of automaton-derived circuits.
+
+When the number of repetitions is not a multiple of the cycle length, or when intermediate cyclic states influence acceptance, the compiler cannot eliminate the corresponding gates. In such cases, the unitary operator implementing the cycle must be applied explicitly at each relevant input position. These cycle operations are realised as permutations over the encoded state space, typically constructed from SWAP gates or controlled Pauli operations. Although they may introduce repetition, this explicit representation ensures that the circuit precisely mirrors the automaton’s behaviour, including partial traversals of cyclic transitions.
+
+
+\vspace{1em}
+\begin{figure}[H]
+\centering
+% First row: template and instantiation
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$} & \gate{\scriptstyle U_{x_1}} 
+                      & \gate{\scriptstyle U_{x_2}} 
+                      & \gate{\scriptstyle U_{x_3}} & \meter{}
+\end{quantikz}
+\caption{Template circuit}
+\label{fig:ex3a}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$} & \gate{\scriptstyle U_a} 
+                      & \gate{\scriptstyle U_a} 
+                      & \gate{\scriptstyle U_a} & \meter{}
+\end{quantikz}
+\caption{After instantiation}
+\label{fig:ex3b}
+\end{subfigure}
+
+\vspace{1em}
+
+% Second row: optimised
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$} & \qw & \qw & \qw & \meter{}
+\end{quantikz}
+\caption{Optimised circuit ($U_a^3 = \mathbb{I}$)}
+\label{fig:ex3c}
+\end{subfigure}
+
+\caption{Compilation stages for Example~\ref{ex:moqfa-cycle}. The input string $aaa$ induces a 3-cycle that returns the state to its origin. The compiler detects this structure and eliminates redundant gates.}
+\label{fig:example3-horizontal}
+\end{figure}
+
+\paragraph{Partial Cycle Without Optimisation.} \label{ex:moqfa-partial-cycle}
+We now consider a variation of Example~\ref{ex:moqfa-cycle} in which the cycle is only partially traversed. Let the automaton be defined as
+\[
+Q = \{q_0, q_1, q_2\}, \quad \Sigma = \{a\}, \quad q_0 \text{ initial}, \quad F = \{q_1\},
+\]
+and let $U_a$ be the same 3-cycle unitary:
+\[
+U_a \ket{q_i} = \ket{q_{(i+1) \bmod 3}}, \quad \text{for } i \in \{0,1,2\}.
+\]
+The input word is now $x = aa$, i.e., only two applications of $U_a$.
+
+\begin{enumerate}
+  \item \textbf{Qubit allocation.} As before, we require
+  \[
+  n = \lceil \log_2 3 \rceil = 2 \text{ qubits},
+  \]
+  with states encoded as $\ket{00}$, $\ket{01}$, and $\ket{10}$.
+
+  \item \textbf{Initialisation.} The register is prepared in $\ket{00}$, representing $q_0$.
+
+  \item \textbf{Unitary evolution.} The compiler inserts two unitaries: $U_{x_1} = U_{x_2} = U_a$, as shown in subfigure~\ref{fig:ex4a}. Since the number of applications is less than the cycle length, the system does not return to the initial state. Therefore, the cycle identity $U_a^3 = \mathbb{I}$ does not apply here, and no optimisation is possible. The complete sequence must be preserved.
+
+  \item \textbf{Measurement.} After applying $U_a$ twice, the final state is
+  \[
+  \ket{\Psi_{aa}} = U_a^2 \ket{q_0} = \ket{q_2}.
+  \]
+  The acceptance condition is $F = \{q_1\}$, corresponding to $\ket{01}$. Since the final state $\ket{10}$ is orthogonal to the accepting subspace, the acceptance probability is
+  \[
+  p_M(aa) = \|P_{\text{acc}} \ket{\Psi_{aa}}\|^2 = 0.
+  \]
+\end{enumerate}
+
+\vspace{1em}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0}$} & \gate{\scriptstyle U_a} & \gate{\scriptstyle U_a} & \meter{}
+\end{quantikz}
+\caption{Circuit for $x = aa$ (no optimisation)}
+\label{fig:ex4a}
+\end{subfigure}
+\caption{Example~\ref{ex:moqfa-partial-cycle}: when the number of cycle steps does not complete the full orbit, the compiler must retain all gates to preserve the automaton’s semantics. The input is rejected with probability $1$.}
+\label{fig:example4-partial-cycle}
+\end{figure}

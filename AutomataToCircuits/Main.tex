@@ -1,5 +1,24 @@
 \chapter{Automata to Circuits}
 \label{chap:automata-to-circuits}
+\noindent
+\glspl{qfa} furnish a concise, mathematically transparent model of finite-memory computation, yet practical algorithms must ultimately be recast as quantum circuits that manipulate qubits through finite sequences of gates and measurements.  The purpose of this chapter is to articulate, in a systematic manner, how a quantum automaton defined at the symbolic level is translated into a concrete circuit description suitable for compilation on \glspl{nisq} hardware.  By mapping each automaton primitive onto circuit counterparts we obtain designs that are executable on present devices, support quantitative resource accounting and admit gate-level formal verification.
+
+\medskip
+\noindent
+Section~\ref{sec:moqfa-to-circuit} outlines the compilation workflow for the \gls{mo-1qfa}, illustrating how its fundamental components can be encoded within a quantum circuit model.  The translation process preserves the computational semantics of the original automaton while making it compatible with standard circuit synthesis techniques.
+
+\medskip
+\noindent
+Section~\ref{sec:mmqfa-to-circuit} extends the methodology to the \gls{mm-1qfa}, whose intermediate measurements create early-halt branches and classical control flow.  Particular attention is devoted to expressing the three-outcome measurement paradigm with standard two-outcome projective tests, to limiting ancilla overhead when discarding rejected branches, and to maintaining language-recognition semantics in the presence of realistic noise.
+
+\medskip
+\noindent
+A template-first compilation philosophy is retained throughout: for an input word of length $L$ the compiler emits a parameterised skeleton in which each placeholder gate is later instantiated with the concrete operator $U_{\sigma_i}$ attached to the $i$-th symbol.  This separation between structural aspects fixed by the automaton and numerical parameters dictated by the input encourages component reuse across multiple words and eases the deployment of \glspl{qfa} as high-speed recognisers within larger quantum applications.  Two complementary instantiation strategies are considered in Section~\ref{sec:unitary-operators-instantiation}.  The first, an offline synthesis approach, compiles every operator $U_\sigma$ ahead of execution and stores the resulting gate sequences as reusable fragments.  The second adopts a parameter-loading paradigm in which a generic template containing analytic Euler-angle rotations is populated at runtime with classically computed angles that depend on the input word, thereby reducing memory overhead and enabling just-in-time adaptation to specific problem instances.
+
+\medskip
+\noindent
+Upon completing the chapter the reader will possess a reproducible method for converting any \gls{mo-1qfa} or \gls{mm-1qfa} into an architecture-independent gate-level description, together with practical criteria for choosing state encodings, measurement decompositions and synthesis back-ends.  These results pave the way for future research on two-way and hybrid models and represent a decisive step toward a unified tool-chain for automata-driven quantum software engineering.
 
 \input{AutomataToCircuits/MOQFA/Main.tex}
 \input{AutomataToCircuits/MMQFA/Main.tex}
+\input{AutomataToCircuits/Substitution/Main.tex}

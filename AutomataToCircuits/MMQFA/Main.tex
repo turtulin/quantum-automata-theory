@@ -1,145 +1,275 @@
-% ============================================================
 \section{Measure-Many One-Way Quantum Finite Automaton to Circuit}
 \label{sec:mmqfa-to-circuit}
 
-The construction of a quantum circuit from a \emph{measure-many}
-QFA (MM-1QFA) parallels the measure-once case but differs
-crucially in that a projective measurement is performed
-\emph{after every input symbol}, rather than only once at the end.
-This allows the automaton to halt---accepting or rejecting---as
-soon as a decisive outcome is observed, possibly before the whole
-word has been read.
 
-\subsection{Structural Similarity with Measure-Once QFA}
+The circuit-level translation of a \gls{mm-1qfa} follows many of the same principles used for the measure-once case, with a crucial difference: instead of deferring measurement until the end of the computation, a projective measurement is performed after each input symbol is processed. This repeated measurement model introduces non-unitary branches into the computation, enabling the automaton to halt early—either accepting or rejecting—based on intermediate outcomes. As a result, the circuit must incorporate mid-computation measurements, conditional halting logic, and branching structure, reflecting the \gls{mm-1qfa}'s hybrid quantum-classical behaviour.
 
-An MM-1QFA is a tuple
+This section describes how to compile a \gls{mm-1qfa} into a quantum circuit that correctly reproduces its acceptance semantics, with attention to managing measurement timing, decomposing the three-outcome measurement structure, and ensuring termination guarantees for all input strings.
+
+\subsection{Mapping Automaton Components to Circuit Elements}
+\label{sec:mmqfa-mapping}
+
+The \gls{mm-1qfa} model is defined by the tuple
 \[
-  A=(Q,\Sigma,\delta,q_0,F),
+M = (Q, \Sigma, \delta, q_0, Q_{\text{acc}}, Q_{\text{rej}}),
 \]
-with the same meanings for $Q,\Sigma,\delta,q_0$ and $F$ as before.
-The first compilation steps are identical to
-Section~\ref{sec:moqfa-to-circuit}:
+as introduced in Section~\ref{sec:mmqfa}. Compared to the \gls{mo-1qfa} case, the key structural difference lies in the measurement strategy: whereas a \gls{mo-1qfa} performs a single final measurement, a \gls{mm-1qfa} applies a projective measurement after every symbol.
 
-\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
-\item \textbf{Number of qubits.}
-      Choose $n=\lceil\log_2|Q|\rceil$ so that each
-      $q\in Q$ is a basis vector $\ket{q}$ of an $n$-qubit register.
-\item \textbf{Initial state.}
-      Prepare the register in $\ket{q_0}$ from $\ket{0}^{\otimes n}$.
-\item \textbf{Symbol unitaries.}
-      Reading $\sigma\in\Sigma$ applies $U_\sigma$ to the register.
-\end{enumerate}
+The first compilation steps closely follow those in Section~\ref{sec:moqfa-to-circuit}, and only diverge when handling measurements:
 
-\noindent
-The divergence comes next: a three-outcome measurement is inserted
-after \emph{each} $U_\sigma$.
+\subsubsection*{State Register and Qubit Allocation}
+The internal state set $Q$ is represented using $n = \lceil \log_2 |Q| \rceil$ qubits, encoding each classical state $q \in Q$ as a computational basis state $\ket{q}$. This is identical to the measure-once case.
 
-\subsection{Circuit Construction}
+\subsubsection*{Initialisation}
+The quantum register is initialised in the basis state corresponding to the initial state $q_0 \in Q$. If $q_0$ is a computational basis vector under the chosen encoding, this requires only a few $X$ gates to flip the default all-zero state to $\ket{q_0}$.
 
-Let $R\subseteq Q$ be the (optional) set of \emph{rejecting}
-states---if none are designated, set $R=Q\setminus F$.
-After every symbol the register is measured with
+\subsubsection*{Symbol-Dependent Unitary Evolution}
+Each input symbol $\sigma \in \Sigma$ is associated with a unitary matrix $U_\sigma$ acting on the $n$-qubit register. The operator $U_\sigma$ is applied before measurement at each step. These matrices are later compiled into native gates as in the \gls{mo-1qfa} case.
+
+\subsubsection*{Repeated Measurement}
+After each unitary $U_\sigma$ is applied, a projective measurement is performed to decide whether the computation halts. The measurement is defined by three mutually orthogonal subspaces corresponding to:
+\begin{itemize}
+  \item the accepting states $Q_{\text{acc}}$,
+  \item the rejecting states $Q_{\text{rej}}$, and
+  \item the continuing (non-halting) states $Q_{\text{non}} = Q \setminus (Q_{\text{acc}} \cup Q_{\text{rej}})$.
+\end{itemize}
+The corresponding projectors are:
 \[
-  P_{\text{acc}}=\sum_{q\in F}\ket{q}\!\bra{q},
-  \quad
-  P_{\text{rej}}=\sum_{q\in R}\ket{q}\!\bra{q},
-  \quad
-  P_{\text{cont}}=I-P_{\text{acc}}-P_{\text{rej}}.
+P_{\text{acc}} = \sum_{q \in Q_{\text{acc}}} \ket{q}\bra{q}, \quad
+P_{\text{rej}} = \sum_{q \in Q_{\text{rej}}} \ket{q}\bra{q}, \quad
+P_{\text{non}} = I - P_{\text{acc}} - P_{\text{rej}}.
 \]
-Outcome \textsc{accept} (resp.\ \textsc{reject})
-halts the computation and outputs $1$ (resp.\ $0$);
-outcome \textsc{continue} applies the next $U_\sigma$.
-Algorithm \ref{alg:mmqfa} formalises this behaviour.
+The outcome determines whether the computation halts (accepts or rejects) or continues to the next symbol. This makes the circuit fundamentally hybrid: unitary evolution is interrupted by measurements and conditional control logic, which must be tracked classically.
+
+\subsubsection*{Classical Control Flow}
+Unlike the \gls{mo-1qfa} case, which requires only a final measurement, the \gls{mm-1qfa} circuit must include measurement operations at each time step, as well as classical post-processing to determine whether further computation is needed. In practical implementations, this control flow may be realised via classical conditionals or early termination logic, depending on the hardware platform and circuit model (e.g., mid-circuit measurements with feedback).
+
+\vspace{6pt}
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.18\textwidth}%
+                        >{\raggedright\arraybackslash}p{0.25\textwidth}X}
+\toprule
+\textbf{Automaton part} & \textbf{Circuit realisation} & \textbf{Explanation} \\
+\midrule
+$Q$ & $n$-qubit basis states & Encode each $q \in Q$ as $\ket{q}$ with $n = \lceil \log_2 |Q| \rceil$. \\
+
+$\Sigma$ & unitaries $U_\sigma$ & Each input symbol $\sigma$ applies $U_\sigma$ to the state register. \\
+
+$\delta$ & set $\{U_\sigma\}$ & Transition operators, later decomposed into native gates. \\
+
+$q_0$ & initial state $\ket{q_0}$ & Prepared from $\ket{0}^{\otimes n}$ using $X$ gates if necessary. \\
+
+$Q_{\text{acc}}$, $Q_{\text{rej}}$ & repeated three-outcome measurements & After each $U_\sigma$, apply a measurement $\{P_{\text{acc}}, P_{\text{rej}}, P_{\text{non}}\}$. Outcome determines halting or continuation. \\
+
+Control flow & classical feedback & Conditional termination after each step based on measurement results. \\
+\bottomrule
+\end{tabularx}
+\caption{Mapping MM-1QFA components to quantum-circuit constructs.}
+\label{tab:mmqfa-mapping}
+\end{table}
+
+
+\subsection{General Compilation Algorithm}
+\label{sec:mmqfa-algorithm}
+
+The compilation of a \gls{mm-1qfa} into a circuit must account for the possibility of halting at any step due to intermediate measurements. After each unitary transformation, the system is measured in a three-outcome basis that determines whether the computation continues, accepts, or rejects.
+
+Let $F = Q_{\text{acc}}$ be the set of accepting states, and $R = Q_{\text{rej}}$ the set of rejecting states. The measurement performed after each symbol is defined by the projectors:
+\[
+P_{\text{acc}} = \sum_{q \in F} \ket{q}\bra{q}, \quad
+P_{\text{rej}} = \sum_{q \in R} \ket{q}\bra{q}, \quad
+P_{\text{cont}} = I - P_{\text{acc}} - P_{\text{rej}}.
+\]
+At each step, the register is evolved by a symbol-dependent unitary, followed immediately by this three-outcome measurement. The circuit must terminate if either an accepting or rejecting state is observed. If no such decision is made, the computation continues with the next symbol. If the input is fully consumed and no halting state is reached, the automaton rejects by default.
+
+\medskip
+
+Algorithm~\ref{alg:mmqfa} formalises this procedure.
 
 \begin{algorithm}[H]
-\caption{MM-1QFA circuit execution on a word $x=x_1\!\dots x_L$}
+\caption{Execution of an MM-1QFA circuit on input $x = x_1x_2\dots x_L$}
 \label{alg:mmqfa}
 \begin{algorithmic}[1]
-\Require $A=(Q,\Sigma,\delta,q_0,F)$, (optional) $R$, input $x$
-\State Initialise register in $\ket{q_0}$
-\For{$i=1$ \textbf{to} $L$}
-   \State Apply $U_{x_i}$
-   \State Measure in $\{P_{\text{acc}},P_{\text{rej}},P_{\text{cont}}\}$
-   \If{\textbf{accept}} \Return output $1$ \EndIf
-   \If{\textbf{reject}} \Return output $0$ \EndIf
+\Require Automaton $A = (Q, \Sigma, \delta, q_0, F, R)$, input word $x$
+\Ensure Binary output (accept = $1$, reject = $0$)
+\State Initialise $n = \lceil \log_2 |Q| \rceil$ qubits in $\ket{q_0}$
+\For{$i = 1$ \textbf{to} $L$}
+   \State Apply unitary $U_{x_i}$
+   \State Perform measurement with projectors $\{P_{\text{acc}}, P_{\text{rej}}, P_{\text{cont}}\}$
+   \If{measurement outcome is \textsc{accept}}
+      \State \Return $1$
+   \ElsIf{measurement outcome is \textsc{reject}}
+      \State \Return $0$
+   \EndIf
 \EndFor
-\State \Return output $0$ \Comment{default reject if no halt earlier}
+\State \Return $0$ \Comment{Reject by default if no halting state is reached}
 \end{algorithmic}
 \end{algorithm}
 
+\medskip
+
+\noindent
+This execution model induces a circuit structure composed of interleaved layers of unitaries and mid-circuit measurements. At each step, the classical outcome of the measurement determines whether the remaining portion of the circuit will be executed. In practice, this results in a hybrid architecture, where quantum operations are conditionally applied based on classical feedback. The control logic required to manage early halting can be realised in different ways depending on the execution environment. On hardware platforms that support mid-circuit measurements and classical feedback, the circuit can be implemented using dynamic control flow, where measurements directly influence subsequent operations. Alternatively, on static circuit models, early termination may be approximated through circuit unfolding techniques, using post-selection or classical simulation to filter out halted branches.
+
+Regardless of the implementation strategy, the compiled circuit must preserve the semantic behaviour of the \gls{mm-1qfa}. In particular, the acceptance probability must match the cumulative amplitude of all computation paths that terminate in an accepting state, and the circuit must guarantee halting—either by measurement or by reaching the end of the input—within exactly $L$ steps.
+
 \subsection{Step-by-Step Examples}
 
-%------------------------------------------------------------------
-\paragraph{Example 1: early acceptance on $x=ab$.}
+To illustrate how a \gls{mm-1qfa} is compiled into a circuit, we now present explicit examples that walk through each phase of the translation. These examples highlight the distinguishing features of the measure-many model, including intermediate measurements, early halting, and hybrid classical-quantum control. Each circuit begins with the symbolic template generated by the compiler, proceeds through instantiation for a specific input word, and concludes with either a full execution or early termination based on measurement outcomes. The goal is to clarify how the abstract operational semantics of the automaton are faithfully realised in the corresponding gate-level circuit.
 
-\begin{figure}[htb]
+\paragraph{Example 1: Early Acceptance on $x = ab$} \label{ex:mmqfa-early-accept}
+Consider a \gls{mm-1qfa} defined over the state space
+\[
+Q = \{q_0, q_1, q_2\}, \quad \Sigma = \{a, b\}, \quad q_0 \text{ initial}, \quad Q_{\text{acc}} = \{q_2\}, \quad Q_{\text{rej}} = \emptyset.
+\]
+Let the transition unitaries be defined as follows:
+\begin{itemize}
+  \item $U_a$ maps $\ket{q_0} \mapsto \ket{q_1}$,
+  \item $U_b$ maps $\ket{q_1} \mapsto \ket{q_2}$.
+\end{itemize}
+The goal is to process the input string $x = ab$ of length $L = 2$ and observe early acceptance behaviour.
+
+\begin{enumerate}
+  \item \textbf{Qubit allocation.} The automaton has three basis states, so
+  \[
+  n = \lceil \log_2 3 \rceil = 2 \text{ qubits}.
+  \]
+  We assume an encoding where $q_0$, $q_1$, and $q_2$ correspond to $\ket{00}$, $\ket{01}$, and $\ket{10}$, respectively.
+
+  \item \textbf{Initialisation.} The register is prepared in $\ket{q_0} = \ket{00}$.
+
+  \item \textbf{Unitary evolution and template generation.} Since $x = ab$ has length 2, the compiler generates a circuit with two slots for $U_{x_1}$ and $U_{x_2}$, each followed by a three-outcome measurement. The symbolic circuit template is shown in subfigure~\ref{fig:mm1a}.
+
+  \item \textbf{Instantiation.} We substitute $U_a$ and $U_b$ into the template to obtain the concrete circuit for $x = ab$, shown in subfigure~\ref{fig:mm1b}.
+
+  \item \textbf{Gate synthesis.} Suppose $U_a$ and $U_b$ are implemented using Pauli-$X$ gates acting on the encoded state transitions (e.g., $\ket{00} \mapsto \ket{01}$ and $\ket{01} \mapsto \ket{10}$). The resulting circuit uses two $X$ gates interleaved with measurements, as shown in subfigure~\ref{fig:mm1c}.
+
+  \item \textbf{Measurement semantics.} After applying $U_a$, the system moves from $\ket{q_0}$ to $\ket{q_1}$. Since $q_1 \notin Q_{\text{acc}} \cup Q_{\text{rej}}$, the first measurement yields \textsc{continue}. After applying $U_b$, the system transitions to $\ket{q_2} \in Q_{\text{acc}}$, so the second measurement yields \textsc{accept} and the computation halts. Thus,
+  \[
+  p_M(ab) = 1.
+  \]
+\end{enumerate}
+
+\vspace{1em}
+\begin{figure}[H]
 \centering
-\begin{subfigure}{0.30\textwidth}
+% First row: symbolic template and instantiation
+\begin{subfigure}{0.45\textwidth}
 \centering
-\begin{quantikz}[row sep=0.15cm]
-\lstick{$\ket{q_0}$} & \gate[style={draw=blue!50,fill=blue!10}]{U_{x_1}}
-                     & \meter{} \qw
-                     & \gate[style={draw=blue!50,fill=blue!10}]{U_{x_2}}
-                     & \meter{} \cw \\
+\begin{quantikz}
+\lstick{$\ket{q_0} = \ket{00}$} & \gate{\scriptstyle U_{x_1}} & \meter{} \qwbundle[alternate]{} 
+                                & \gate{\scriptstyle U_{x_2}} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{Template ($L=2$)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.30\textwidth}
-\centering
-\begin{quantikz}[row sep=0.15cm]
-\lstick{$\ket{q_0}$} & \gate{U_a} & \meter{} \qw
-                     & \gate{U_b} & \meter{} \cw
-\end{quantikz}
-\caption{Instantiate ($x=ab$)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.30\textwidth}
-\centering
-\footnotesize
-\begin{quantikz}[row sep=0.15cm]
-\lstick{$\ket{q_0}$} & \gate{X} & \meter{}
-                     & \gate{X} & \meter{} \cw
-\end{quantikz}
-\caption{Gate level (example synthesis)}
+\caption{Symbolic circuit template}
+\label{fig:mm1a}
 \end{subfigure}
-\caption{Compilation stages for Example 1 (early accept). 
-If the first measurement yields \textsc{continue}, the second
-measurement halts with \textsc{accept}.}
-\label{fig:mmqfa-early-accept}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0} = \ket{00}$} & \gate{\scriptstyle U_a} & \meter{} \qwbundle[alternate]{}
+                                & \gate{\scriptstyle U_b} & \meter{} \qwbundle[alternate]{}
+\end{quantikz}
+\caption{After instantiation for $x = ab$}
+\label{fig:mm1b}
+\end{subfigure}
+
+\vspace{1em}
+
+% Second row: compiled/synthesised gate-level circuit
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0} = \ket{00}$} & \gate{X} & \meter{} \qwbundle[alternate]{}
+                                & \gate{X} & \meter{} \qwbundle[alternate]{}
+\end{quantikz}
+\caption{Gate-level synthesis ($X$ gates implement $U_a$ and $U_b$)}
+\label{fig:mm1c}
+\end{subfigure}
+
+\caption{Compilation stages for Example~\ref{ex:mmqfa-early-accept}. Input $ab$ causes an early accept: after $U_b$, the system reaches $\ket{q_2}$, a final state.}
+\label{fig:mm1-horizontal}
 \end{figure}
 
-%------------------------------------------------------------------
-\paragraph{Example 2: early rejection on $x=b$.}
 
-\begin{figure}[htb]
+
+\paragraph{Early Rejection on $x = b$} \label{ex:mmqfa-early-reject}
+Consider a \gls{mm-1qfa} defined over the state space
+\[
+Q = \{q_0, q_1\}, \quad \Sigma = \{b\}, \quad q_0 \text{ initial}, \quad Q_{\text{acc}} = \emptyset, \quad Q_{\text{rej}} = \{q_1\}.
+\]
+Let the transition function be defined such that:
+\begin{itemize}
+  \item $U_b$ maps $\ket{q_0} \mapsto \ket{q_1}$.
+\end{itemize}
+We examine the behaviour of the automaton on the input string $x = b$ of length $L = 1$.
+
+\begin{enumerate}
+  \item \textbf{Qubit allocation.} The automaton has two basis states, so the number of required qubits is
+  \[
+  n = \lceil \log_2 2 \rceil = 1.
+  \]
+  The classical states are encoded as $\ket{q_0} = \ket{0}$ and $\ket{q_1} = \ket{1}$.
+
+  \item \textbf{Initialisation.} The register is initialised in the state $\ket{q_0} = \ket{0}$, which requires no gate-level preparation.
+
+  \item \textbf{Unitary evolution and template generation.} The input $x = b$ consists of a single symbol, so the compiler generates a template with one symbolic unitary gate followed by a measurement. This is shown in subfigure~\ref{fig:mm2a}.
+
+  \item \textbf{Instantiation.} The placeholder $U_{x_1}$ is replaced by the unitary $U_b$, as shown in subfigure~\ref{fig:mm2b}.
+
+  \item \textbf{Gate synthesis.} Assuming $U_b$ maps $\ket{0} \mapsto \ket{1}$, it can be implemented directly as a Pauli-$X$ gate:
+  \[
+  U_b = X = 
+  \begin{pmatrix}
+  0 & 1 \\
+  1 & 0
+  \end{pmatrix}.
+  \]
+
+  \item \textbf{Measurement semantics.} The measurement is performed immediately after $U_b$. Since $U_b \ket{q_0} = \ket{q_1}$ and $q_1 \in Q_{\text{rej}}$, the outcome is \textsc{reject} with probability 1. The computation halts after a single step, and the automaton returns output $0$:
+  \[
+  p_M(b) = \|P_{\text{rej}} \ket{q_1}\|^2 = 1.
+  \]
+\end{enumerate}
+\vspace{1em}
+\begin{figure}[H]
 \centering
-\begin{subfigure}{0.42\textwidth}
+% First row: symbolic template and instantiation
+\begin{subfigure}{0.45\textwidth}
 \centering
-\begin{quantikz}[row sep=0.15cm]
-\lstick{$\ket{q_0}$} & \gate[style={draw=blue!50,fill=blue!10}]{U_{x_1}} & \meter{} \cw
+\begin{quantikz}
+\lstick{$\ket{q_0} = \ket{0}$} & \gate{\scriptstyle U_{x_1}} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{Template ($L=1$)}
-\end{subfigure}\hfill
-%
-\begin{subfigure}{0.42\textwidth}
-\centering
-\begin{quantikz}[row sep=0.15cm]
-\lstick{$\ket{q_0}$} & \gate{U_b} & \meter{} \cw
-\end{quantikz}
-\caption{Instantiate \& synthesis ($x=b$)}
+\caption{Symbolic circuit template}
+\label{fig:mm2a}
 \end{subfigure}
-\caption{Example 2: the first measurement finds the register in a
-rejecting state and halts immediately with output $0$.}
-\label{fig:mmqfa-early-reject}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0} = \ket{0}$} & \gate{\scriptstyle U_b} & \meter{} \qwbundle[alternate]{}
+\end{quantikz}
+\caption{After instantiation for $x = b$}
+\label{fig:mm2b}
+\end{subfigure}
+
+\vspace{1em}
+
+% Second row: compiled/synthesised gate-level circuit
+\begin{subfigure}{0.45\textwidth}
+\centering
+\begin{quantikz}
+\lstick{$\ket{q_0} = \ket{0}$} & \gate{X} & \meter{} \qwbundle[alternate]{}
+\end{quantikz}
+\caption{Gate-level synthesis ($X$ implements $U_b$)}
+\label{fig:mm2c}
+\end{subfigure}
+
+\caption{Compilation stages for Example~\ref{ex:mmqfa-early-reject}. The input $b$ triggers an immediate transition to $\ket{q_1}$, a rejecting state. The automaton halts after one step and returns \textsc{reject}.}
+\label{fig:mm2-horizontal}
 \end{figure}
 
-\bigskip
-The early-halting capability reduces runtime on many inputs but
-requires mid-circuit measurements and classical control, hence the
-MM-1QFA circuit is typically larger and more intricate than its
-measure-once counterpart. Nevertheless, the translation preserves
-language recognition exactly: a string accepted (rejected) by the
-automaton causes the circuit to output~$1$ ($0$) with the same
-probability.
-% ============================================================
+
+
