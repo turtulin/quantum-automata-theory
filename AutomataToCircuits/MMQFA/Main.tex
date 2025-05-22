@@ -70,56 +70,79 @@ Control flow & classical feedback & Conditional termination after each step base
 \label{tab:mmqfa-mapping}
 \end{table}
 
-
 \subsection{General Compilation Algorithm}
 \label{sec:mmqfa-algorithm}
 
-The compilation of a \gls{mm-1qfa} into a circuit must account for the possibility of halting at any step due to intermediate measurements. After each unitary transformation, the system is measured in a three-outcome basis that determines whether the computation continues, accepts, or rejects.
+The compilation of a \gls{mm-1qfa} into a quantum circuit proceeds in two structured steps:
+\begin{enumerate}
+    \item \textbf{Template Generation:} A symbolic circuit is created to reflect the automaton’s structure for input words of fixed length, using placeholders for both unitaries and measurements.
+    \item \textbf{Instantiation and Execution:} For a specific word, the placeholders are replaced with the actual gates implementing the automaton's transitions, and the computation proceeds with intermediate measurements after each symbol.
+\end{enumerate}
 
-Let $F = Q_{\text{acc}}$ be the set of accepting states, and $R = Q_{\text{rej}}$ the set of rejecting states. The measurement performed after each symbol is defined by the projectors:
+Let $F = Q_{\text{acc}}$ and $R = Q_{\text{rej}}$ denote, respectively, the sets of accepting and rejecting states. The three-outcome measurement applied after each step is defined by the orthogonal projectors:
 \[
-P_{\text{acc}} = \sum_{q \in F} \ket{q}\bra{q}, \quad
-P_{\text{rej}} = \sum_{q \in R} \ket{q}\bra{q}, \quad
+P_{\text{acc}} = \sum_{q \in F} \ket{q}\bra{q}, \qquad
+P_{\text{rej}} = \sum_{q \in R} \ket{q}\bra{q}, \qquad
 P_{\text{cont}} = I - P_{\text{acc}} - P_{\text{rej}}.
 \]
-At each step, the register is evolved by a symbol-dependent unitary, followed immediately by this three-outcome measurement. The circuit must terminate if either an accepting or rejecting state is observed. If no such decision is made, the computation continues with the next symbol. If the input is fully consumed and no halting state is reached, the automaton rejects by default.
-
-\medskip
-
-Algorithm~\ref{alg:mmqfa} formalises this procedure.
 
 \begin{algorithm}[H]
-\caption{Execution of an MM-1QFA circuit on input $x = x_1x_2\dots x_L$}
-\label{alg:mmqfa}
+\caption{Template Generation for a \gls{mm-1qfa} Circuit}
+\label{alg:mmqfa-template}
 \begin{algorithmic}[1]
-\Require Automaton $A = (Q, \Sigma, \delta, q_0, F, R)$, input word $x$
-\Ensure Binary output (accept = $1$, reject = $0$)
-\State Initialise $n = \lceil \log_2 |Q| \rceil$ qubits in $\ket{q_0}$
+\Require Automaton $A = (Q, \Sigma, \delta, q_0, F, R)$,\; input length $L$
+\Ensure Parametric circuit template with symbolic placeholders
+\State $n \gets \lceil \log_2 |Q| \rceil$
+\State Initialise $n$ qubits in state $\ket{q_0}$
 \For{$i = 1$ \textbf{to} $L$}
-   \State Apply unitary $U_{x_i}$
-   \State Perform measurement with projectors $\{P_{\text{acc}}, P_{\text{rej}}, P_{\text{cont}}\}$
-   \If{measurement outcome is \textsc{accept}}
-      \State \Return $1$
-   \ElsIf{measurement outcome is \textsc{reject}}
-      \State \Return $0$
-   \EndIf
+   \State Insert symbolic gate $\boxed{U_{x_i}}$
+   \State Insert symbolic measurement $\{P_{\text{acc}}, P_{\text{rej}}, P_{\text{cont}}\}$
 \EndFor
-\State \Return $0$ \Comment{Reject by default if no halting state is reached}
 \end{algorithmic}
 \end{algorithm}
 
+This circuit skeleton remains independent of any particular input string and can be reused for all words of the same length.
+
 \medskip
 
-\noindent
-This execution model induces a circuit structure composed of interleaved layers of unitaries and mid-circuit measurements. At each step, the classical outcome of the measurement determines whether the remaining portion of the circuit will be executed. In practice, this results in a hybrid architecture, where quantum operations are conditionally applied based on classical feedback. The control logic required to manage early halting can be realised in different ways depending on the execution environment. On hardware platforms that support mid-circuit measurements and classical feedback, the circuit can be implemented using dynamic control flow, where measurements directly influence subsequent operations. Alternatively, on static circuit models, early termination may be approximated through circuit unfolding techniques, using post-selection or classical simulation to filter out halted branches.
+To make the template executable, the symbolic gates are instantiated as concrete decompositions according to the input word $x = x_1x_2\dots x_L \in \Sigma^L$. At each step, the automaton either halts or continues depending on the result of the three-outcome measurement.
 
-Regardless of the implementation strategy, the compiled circuit must preserve the semantic behaviour of the \gls{mm-1qfa}. In particular, the acceptance probability must match the cumulative amplitude of all computation paths that terminate in an accepting state, and the circuit must guarantee halting—either by measurement or by reaching the end of the input—within exactly $L$ steps.
+\begin{algorithm}[H]
+  \caption{Instantiation and Execution of a Compiled \gls{mm-1qfa} Circuit}
+  \label{alg:mmqfa-instantiation}
+  \begin{algorithmic}[1]
+  \Require Input $x = x_1x_2\dots x_L$, circuit template, gate library or decomposition scheme for each $U_\sigma$
+  \Ensure Acceptance probability $p_M(x)$
+  \State $p \gets 0$ \Comment{Cumulative acceptance probability}
+  \State Initialise quantum state $\ket{\psi_0} = \ket{q_0}$
+  \For{$i = 1$ \textbf{to} $L$}
+     \State Replace $\boxed{U_{x_i}}$ with gate decomposition for $U_{x_i}$
+     \State Apply $U_{x_i}$ to current state $\ket{\psi_{i-1}}$
+     \State Compute outcome probabilities:
+     \[
+        p_{\text{acc}}^{(i)} = \|P_{\text{acc}} \ket{\psi_i}\|^2, \quad
+        p_{\text{rej}}^{(i)} = \|P_{\text{rej}} \ket{\psi_i}\|^2, \quad
+        p_{\text{cont}}^{(i)} = \|P_{\text{cont}} \ket{\psi_i}\|^2
+     \]
+     \State $p \gets p + p_{\text{acc}}^{(i)}$
+     \State Collapse $\ket{\psi_i}$ to $\frac{P_{\text{cont}} \ket{\psi_i}}{\|P_{\text{cont}} \ket{\psi_i}\|}$ if $p_{\text{cont}}^{(i)} > 0$
+     \If{$p_{\text{cont}}^{(i)} = 0$}
+        \State \textbf{break} \Comment{Computation halts in accepting or rejecting subspace}
+     \EndIf
+  \EndFor
+  \State \Return $p_M(x) = p$
+  \end{algorithmic}
+  \end{algorithm}
+  
+
+This two-step strategy preserves the semantics of the original \gls{mm-1qfa}, interleaving unitary evolution and projective measurements. On platforms supporting mid-circuit measurements and classical branching, this logic can be directly implemented. On static circuit backends, equivalent semantics may be approximated using classically post-processed measurement results or circuit unfolding.
+\medskip
 
 \subsection{Step-by-Step Examples}
 
 To illustrate how a \gls{mm-1qfa} is compiled into a circuit, we now present explicit examples that walk through each phase of the translation. These examples highlight the distinguishing features of the measure-many model, including intermediate measurements, early halting, and hybrid classical-quantum control. Each circuit begins with the symbolic template generated by the compiler, proceeds through instantiation for a specific input word, and concludes with either a full execution or early termination based on measurement outcomes. The goal is to clarify how the abstract operational semantics of the automaton are faithfully realised in the corresponding gate-level circuit.
 
-\paragraph{Example 1: Early Acceptance on $x = ab$} \label{ex:mmqfa-early-accept}
+\paragraph{Early Acceptance on $x = ab$} \label{ex:mmqfa-early-accept}
 Consider a \gls{mm-1qfa} defined over the state space
 \[
 Q = \{q_0, q_1, q_2\}, \quad \Sigma = \{a, b\}, \quad q_0 \text{ initial}, \quad Q_{\text{acc}} = \{q_2\}, \quad Q_{\text{rej}} = \emptyset.
@@ -151,48 +174,47 @@ The goal is to process the input string $x = ab$ of length $L = 2$ and observe e
   p_M(ab) = 1.
   \]
 \end{enumerate}
-
 \vspace{1em}
 \begin{figure}[H]
 \centering
-% First row: symbolic template and instantiation
-\begin{subfigure}{0.45\textwidth}
+
+% First row: symbolic template
+\begin{subfigure}{0.9\textwidth}
 \centering
 \begin{quantikz}
 \lstick{$\ket{q_0} = \ket{00}$} & \gate{\scriptstyle U_{x_1}} & \meter{} \qwbundle[alternate]{} 
                                 & \gate{\scriptstyle U_{x_2}} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{Symbolic circuit template}
+\caption{Step 1: Symbolic circuit template}
 \label{fig:mm1a}
 \end{subfigure}
-\hfill
+
+\vspace{1em}
+
+% Second row: instantiation and synthesis
 \begin{subfigure}{0.45\textwidth}
 \centering
 \begin{quantikz}
 \lstick{$\ket{q_0} = \ket{00}$} & \gate{\scriptstyle U_a} & \meter{} \qwbundle[alternate]{}
                                 & \gate{\scriptstyle U_b} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{After instantiation for $x = ab$}
+\caption{Step 2: Instantiation for $x = ab$}
 \label{fig:mm1b}
 \end{subfigure}
-
-\vspace{1em}
-
-% Second row: compiled/synthesised gate-level circuit
+\hfill
 \begin{subfigure}{0.45\textwidth}
 \centering
 \begin{quantikz}
 \lstick{$\ket{q_0} = \ket{00}$} & \gate{X} & \meter{} \qwbundle[alternate]{}
                                 & \gate{X} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{Gate-level synthesis ($X$ gates implement $U_a$ and $U_b$)}
+\caption{Step 2: Gate-level synthesis}
 \label{fig:mm1c}
 \end{subfigure}
 
 \caption{Compilation stages for Example~\ref{ex:mmqfa-early-accept}. Input $ab$ causes an early accept: after $U_b$, the system reaches $\ket{q_2}$, a final state.}
 \label{fig:mm1-horizontal}
 \end{figure}
-
 
 
 \paragraph{Early Rejection on $x = b$} \label{ex:mmqfa-early-reject}
@@ -233,37 +255,39 @@ We examine the behaviour of the automaton on the input string $x = b$ of length 
   p_M(b) = \|P_{\text{rej}} \ket{q_1}\|^2 = 1.
   \]
 \end{enumerate}
+
 \vspace{1em}
 \begin{figure}[H]
 \centering
-% First row: symbolic template and instantiation
-\begin{subfigure}{0.45\textwidth}
+
+% First row: symbolic template
+\begin{subfigure}{0.9\textwidth}
 \centering
 \begin{quantikz}
 \lstick{$\ket{q_0} = \ket{0}$} & \gate{\scriptstyle U_{x_1}} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{Symbolic circuit template}
+\caption{Step 1: Symbolic circuit template}
 \label{fig:mm2a}
 \end{subfigure}
-\hfill
+
+\vspace{1em}
+
+% Second row: instantiation and synthesis
 \begin{subfigure}{0.45\textwidth}
 \centering
 \begin{quantikz}
 \lstick{$\ket{q_0} = \ket{0}$} & \gate{\scriptstyle U_b} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{After instantiation for $x = b$}
+\caption{Step 2: After instantiation for $x = b$}
 \label{fig:mm2b}
 \end{subfigure}
-
-\vspace{1em}
-
-% Second row: compiled/synthesised gate-level circuit
+\hfill
 \begin{subfigure}{0.45\textwidth}
 \centering
 \begin{quantikz}
 \lstick{$\ket{q_0} = \ket{0}$} & \gate{X} & \meter{} \qwbundle[alternate]{}
 \end{quantikz}
-\caption{Gate-level synthesis ($X$ implements $U_b$)}
+\caption{Step 2: Gate-level synthesis}
 \label{fig:mm2c}
 \end{subfigure}
 

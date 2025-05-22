@@ -1,2 +1,36 @@
 \section{Unitary Operators Instantiation}
 \label{sec:unitary-operators-instantiation}
+
+Once the circuit skeleton is constructed for a given \gls{mo-1qfa} or \gls{mm-1qfa}, the remaining compilation step consists in instantiating the placeholder unitaries $U_{\sigma}$ with actual gate-level operators. This section presents the main strategies available to achieve such instantiation, highlighting the trade-offs between offline preprocessing and dynamic runtime synthesis.
+
+\subsection{Offline Synthesis}
+
+The \emph{offline synthesis} strategy precomputes a gate decomposition for each unitary matrix $U_{\sigma}$ associated with the alphabet $\Sigma$. This approach is particularly suitable when the automaton is fixed and used to process multiple inputs of the same language class. The steps are:
+
+\begin{itemize}
+    \item For every $\sigma \in \Sigma$, extract the unitary matrix $U_{\sigma}$ defined by the automaton's transition function $\delta$.
+    \item Decompose $U_{\sigma}$ into a circuit of elementary gates from a fixed universal set (e.g., Clifford+T or $\{\mathrm{CNOT}, R_z, H\}$).
+    \item Store each gate sequence as a reusable fragment in a gate library.
+\end{itemize}
+
+This method guarantees high performance at runtime, as no decomposition is needed during execution. However, it requires more memory to store all precompiled gate sequences, and it lacks adaptability in contexts where $U_{\sigma}$ changes dynamically or is defined procedurally.
+
+\subsection{Template-Based Parameter Loading}
+
+An alternative method is \emph{template-based parameter loading}, where the circuit skeleton includes parametrized gates (e.g., Euler-angle rotations) and the actual rotation angles are injected at runtime based on the specific $U_{\sigma}$ required. This is achieved by:
+
+\begin{itemize}
+    \item Designing each $U_{\sigma}$ as a composition of generic rotation gates (e.g., $R_z(\theta_1) R_y(\theta_2) R_z(\theta_3)$).
+    \item Computing the angles $\theta_1, \theta_2, \theta_3$ classically using a synthesis algorithm (e.g., ZYZ decomposition) from the matrix representation of $U_{\sigma}$.
+    \item Populating the parametrized gates of the circuit with the computed angles just before execution.
+\end{itemize}
+
+This strategy supports adaptive and memory-efficient compilation, especially useful when the automaton model is generated on-the-fly or when circuits are embedded in larger configurable pipelines. The downside is the runtime overhead incurred by angle computation and dynamic loading.
+
+\subsection{Hybrid and Optimized Approaches}
+
+In practice, a hybrid scheme combining both methods is often adopted. Common unitary matrices with known decompositions can be stored offline, while less frequent or dynamically generated ones are handled through runtime parameter loading. Furthermore, if the automaton contains symmetries (e.g., cyclic state transitions), structural optimizations can reduce the number of distinct unitaries needed, enabling further compression of the circuit template.
+
+\subsection{Summary}
+
+Unitary instantiation closes the automaton-to-circuit translation by assigning concrete quantum operations to each input-driven evolution. Offline synthesis prioritizes speed and repeatability; template-based methods emphasize flexibility and memory economy. The choice depends on the application domain—static recognizers may favor offline strategies, while programmable quantum systems benefit from dynamic parameter loading.
