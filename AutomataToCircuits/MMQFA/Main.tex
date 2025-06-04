@@ -106,7 +106,6 @@ This circuit skeleton remains independent of any particular input string and can
 \medskip
 
 To make the template executable, the symbolic gates are instantiated as concrete decompositions according to the input word $x = x_1x_2\dots x_L \in \Sigma^L$. At each step, the automaton either halts or continues depending on the result of the three-outcome measurement.
-
 \begin{algorithm}[H]
   \caption{Instantiation and Execution of a Compiled \gls{mm-1qfa} Circuit}
   \label{alg:mmqfa-instantiation}
@@ -114,25 +113,29 @@ To make the template executable, the symbolic gates are instantiated as concrete
   \Require Input $x = x_1x_2\dots x_L$, circuit template, gate library or decomposition scheme for each $U_\sigma$
   \Ensure Acceptance probability $p_M(x)$
   \State $p \gets 0$ \Comment{Cumulative acceptance probability}
+  \State $w \gets 1$ \Comment{Cumulative continuation weight}
   \State Initialise quantum state $\ket{\psi_0} = \ket{q_0}$
   \For{$i = 1$ \textbf{to} $L$}
      \State Replace $\boxed{U_{x_i}}$ with gate decomposition for $U_{x_i}$
-     \State Apply $U_{x_i}$ to current state $\ket{\psi_{i-1}}$
+     \State Apply $U_{x_i}$ to current state $\ket{\psi_{i-1}}$ to obtain $\ket{\psi_i}$
      \State Compute outcome probabilities:
      \[
         p_{\text{acc}}^{(i)} = \|P_{\text{acc}} \ket{\psi_i}\|^2, \quad
         p_{\text{rej}}^{(i)} = \|P_{\text{rej}} \ket{\psi_i}\|^2, \quad
         p_{\text{cont}}^{(i)} = \|P_{\text{cont}} \ket{\psi_i}\|^2
      \]
-     \State $p \gets p + p_{\text{acc}}^{(i)}$
-     \State Collapse $\ket{\psi_i}$ to $\frac{P_{\text{cont}} \ket{\psi_i}}{\|P_{\text{cont}} \ket{\psi_i}\|}$ if $p_{\text{cont}}^{(i)} > 0$
+     \State $p \gets p + w \cdot p_{\text{acc}}^{(i)}$
      \If{$p_{\text{cont}}^{(i)} = 0$}
         \State \textbf{break} \Comment{Computation halts in accepting or rejecting subspace}
+     \Else
+        \State Collapse $\ket{\psi_i}$ to $\frac{P_{\text{cont}} \ket{\psi_i}}{\|P_{\text{cont}} \ket{\psi_i}\|}$
+        \State $w \gets w \cdot p_{\text{cont}}^{(i)}$
      \EndIf
   \EndFor
   \State \Return $p_M(x) = p$
   \end{algorithmic}
-  \end{algorithm}
+\end{algorithm}
+
   
 
 This two-step strategy preserves the semantics of the original \gls{mm-1qfa}, interleaving unitary evolution and projective measurements. On platforms supporting mid-circuit measurements and classical branching, this logic can be directly implemented. On static circuit backends, equivalent semantics may be approximated using classically post-processed measurement results or circuit unfolding.

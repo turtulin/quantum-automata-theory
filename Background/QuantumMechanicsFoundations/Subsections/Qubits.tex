@@ -1,3 +1,38 @@
 \subsection{Qubits and Quantum States}
 \label{subsec:qubits-and-quantum-states}
 
+\paragraph{Bloch Sphere Representation.}
+    Any pure state of a \gls{qubit} can be written in the form
+    \[
+    |\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle,
+    \]
+    with \(\theta \in [0,\pi]\) and \(\phi \in [0,2\pi)\). Figure~\ref{fig:bloch_sphere} illustrates the \textbf{Bloch sphere} representation of a qubit.
+
+    \begin{figure}[ht]
+        \centering
+        \begin{tikzpicture}[scale=1.5]
+          \shade[ball color=blue!20, opacity=0.3] (0,0) circle (2cm);
+          \draw[thick] (0,0) circle (2cm);
+          \draw[dashed] (0,0) ellipse (2cm and 0.55cm);
+          \draw[->, thick] (0,0) -- (2.5,0) node[right] {$y$};
+          \draw[->, thick] (0,0) -- (0,2.5) node[above] {$z$};
+          \draw[->, thick] (0,0) -- (-0.8,-0.8) node[right] {$x$};
+          \fill (0,2) circle (0.05);
+          \fill (0,-2) circle (0.05);
+          \node[above, xshift=-0.4cm] at (0,2) {\(|0\rangle\)};
+          \node[below, xshift=0.4cm] at (0,-2) {\(|1\rangle\)};
+          \draw[red, ultra thick] (0,0) -- (0.5,1.4) node[right] {\(\;|\psi\rangle\)};
+          \fill[red] (0.5,1.4) circle (0.05);
+          \draw[dashed, red!40] (0.5,1.4) -- (0.5,-0.3);
+          \draw[dashed, red!40] (0,0) -- (0.5,-0.3);
+          \coordinate (O) at (0,0);
+          \coordinate (N) at (0,2);
+          \coordinate (B) at (0.5,1.4);
+          \coordinate (T) at (0.5,-0.3);
+          \coordinate (X) at (-0.8,-0.8);
+          \pic [shift={(0,0.5)}, draw, "$\theta$", angle eccentricity=1.3, angle radius=1.2cm] {angle = B--O--N};
+          \pic [draw, "$\phi$", angle eccentricity=1.5, angle radius=0.4cm] {angle = X--O--T};
+        \end{tikzpicture}
+        \caption{The Bloch sphere representation of a qubit.}
+        \label{fig:bloch_sphere}
+      \end{figure}

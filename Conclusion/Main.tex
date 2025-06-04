@@ -1,2 +1,10 @@
 \chapter{Conclusion}
 \label{chap:conclusion}
+ 
+This thesis has explored the theoretical foundations and practical compilation strategies for \glspl{qfa}, with a particular focus on bridging formal language recognition models and quantum circuit representations. Beginning with a comprehensive taxonomy of \gls{qfa} variants—including the \gls{mo-1qfa} and \gls{mm-1qfa}—we established a unified terminology that systematizes over three decades of fragmented literature.
+
+On the practical side, we presented a structured compilation framework that translates high-level \gls{qfa} definitions into low-level, architecture-independent quantum circuits. By formalizing both template-based circuit generation and parameter instantiation strategies, the proposed workflow enables the execution of \glspl{qfa} on current \gls{nisq} hardware. Notably, the modularity of this approach supports reuse across inputs and facilitates both offline synthesis and runtime parameter loading.
+
+The compilation of \glspl{mo-1qfa} and \glspl{mm-1qfa} into executable gate-level designs not only contributes to the theoretical understanding of automaton-to-circuit translation but also opens pathways for integrating finite-memory quantum recognizers into larger quantum software stacks. This work thus marks a step towards a unified toolchain for automata-driven quantum programming, offering both conceptual clarity and practical utility.
+
+Future work may extend these techniques to two-way and hybrid models, investigate automated minimization procedures, and explore the expressive trade-offs in quantum-classical hybrid automata. The convergence of automata theory and quantum circuit design, as outlined in this thesis, reinforces the role of \glspl{qfa} as a foundational component of quantum computing.
