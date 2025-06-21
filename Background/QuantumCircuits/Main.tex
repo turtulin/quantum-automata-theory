@@ -93,7 +93,7 @@ Moving to three-qubit gates, the most notable is the \textbf{Toffoli} or \textbf
 
 Another three-qubit gate is the \textbf{Fredkin} or \textbf{CSWAP} gate, which swaps two targets conditioned on a control qubit.\cite{FredkinGate1982} It, too, is universal for reversible logic and can be built from Toffolis.\cite{Barenco1995elementary}
 
-The gates above, together with single-qubit rotations, form universal sets.\cite{NielsenChuang2010} For example, ${H,T,\mathrm{CNOT}}$ is universal, as is ${\mathrm{Toffoli},H}$ theoretically.\cite{Barenco1995elementary} High-level gates are routinely decomposed into CNOT + $R_z/R_x$ primitives native to platforms such as IBM’s $U_3$ + CNOT basis.\cite{Cross2017ibm} We will later discuss compiling arbitrary unitaries into such sets.\cite{Fedoriaka2019}
+The gates above, together with single-qubit rotations, form universal sets.\cite{NielsenChuang2010} For example, ${H,T,\mathrm{CNOT}}$ is universal, as is ${\mathrm{Toffoli},H}$ theoretically.\cite{Barenco1995elementary} High-level gates are routinely decomposed into CNOT + $R_z/R_x$ primitives native to platforms such as IBM’s $U_3$ + CNOT basis.\cite{Cross2017ibm} We will later discuss compiling arbitrary unitaries into such sets.\cite{fedoriaka2025decomposition}
 
 \subsection{Types of Quantum Circuits}
 
@@ -155,18 +155,7 @@ For example, consider a simple three-qubit linear cluster state.\cite{Raussendor
 
 In the current NISQ era, many practical algorithms use a \textbf{hybrid quantum-classical} approach, wherein quantum circuits are interleaved with classical processing.\cite{Preskill2018nisq} Variational circuits described above are a prime example: the quantum processor prepares a state and performs measurements, and a classical computer processes those results to adjust parameters for the next round.\cite{Cerezo2021variational} Another example is quantum error correction with feedback, where measurement outcomes (syndrome bits) are fed to classical logic that decides further quantum operations in real-time.\cite{Kelly2015error}
 
-Hybrid circuits leverage the strengths of both paradigms: quantum circuits for state preparation and interference on exponentially large state spaces, and classical computations for flexible control and optimization.\cite{Preskill2018nisq} The general scheme of a variational hybrid algorithm is illustrated below:
-
-\begin{center}
-\begin{tikzpicture}
-\node[draw, rounded corners, fill=blue!5, minimum width=4cm, minimum height=1cm] (Q)
-      {\begin{minipage}{3.5cm}\centering Quantum Circuit\\(parameters $\boldsymbol{\theta}$)\end{minipage}};
-\node[draw, rounded corners, fill=green!5, minimum width=3.8cm, minimum height=1cm, right=2.5cm of Q] (C)
-      {\begin{minipage}{3.3cm}\centering Classical Optimizer\end{minipage}};
-\draw[->, thick] (Q.east) -- node[above, font=\small]{Measured result (cost)} (C.west);
-\draw[->, thick] (C.west)  to[out=180,in=360] node[below, font=\small]{Updated $\boldsymbol{\theta}$} (Q.east);
-\end{tikzpicture}
-\end{center}
+Hybrid circuits leverage the strengths of both paradigms: quantum circuits for state preparation and interference on exponentially large state spaces, and classical computations for flexible control and optimization.\cite{Preskill2018nisq} 
 
 \noindent In this flow, the quantum circuit is executed and measured to evaluate a cost function, and a classical optimizer computes new parameters for the next quantum run.\cite{Cerezo2021variational} Hybrid circuits thus are not a single static circuit but a sequence of partial circuits and classical computations.\cite{Preskill2018nisq} Nonetheless, one can represent a single iteration in an expanded quantum circuit diagram by explicitly including measurement operations mid-circuit and classically-controlled gates.\cite{Kelly2015error}
 
@@ -202,13 +191,13 @@ Grover’s algorithm searches an unstructured list of $N=2^n$ items for a marked
 A Grover iteration on $n$ qubits is:
 
 \begin{quantikz}
-    \lstick{$|0\rangle^{\otimes n}$}
-        & \gate{H^{\otimes n}}
-        & \gate{U_f}
-        & \gate{D}
-        & \meter{} \qwbundle{n}
-  \end{quantikz}
-  
+  \lstick{$|0\rangle^{\otimes n}$}
+      & \gate{H^{\otimes n}}
+      & \gate{U_f}
+      & \gate{D}
+      & \meter{} \qwbundle{n}
+\end{quantikz}
+
 
 For $n=2$, marking $|11\rangle$ as the solution, an explicit circuit is:
 
