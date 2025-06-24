@@ -1,7 +1,7 @@
 \section{Measure-Once One-Way Quantum Finite Automaton to Circuit}
 \label{sec:moqfa-to-circuit}
 
-This section presents the compilation of the \gls{mo-1qfa} model into an executable quantum circuit, elucidating the precise correspondence between automaton-level abstractions and gate-level constructs. The internal state set $Q$ is represented using $\lceil\log_{2}|Q|\rceil$ qubits, encoding each classical state $q \in Q$ into a computational basis vector of the quantum register. Each symbol $\sigma \in \Sigma$ is associated with a unitary matrix $U_\sigma$, which governs the evolution of the state vector upon reading $\sigma$; these operators are later decomposed into sequences of elementary gates drawn from a universal set (e.g., Clifford+$T$ or $\{\mathrm{CNOT}, R_z, H\}$). The initial state preparation maps the all-zero register to the automaton’s start state via minimal gate operations. Finally, the accepting condition is enforced via a projective measurement onto a subspace defined by the set of accepting states $F$, implemented as a single multi-controlled rotation followed by a standard measurement. This mapping supports systematic synthesis of circuits from automaton descriptions while preserving the semantics of quantum language recognition.
+This section presents the compilation of the \gls{mo-1qfa} model into an executable quantum circuit, elucidating the precise correspondence between automaton-level abstractions and gate-level constructs. The internal state set $Q$ is represented using $\lceil\log_{2}|Q|\rceil$ qubits, encoding each classical state $q \in Q$ into a computational basis vector of the quantum register. Each symbol $\sigma \in \Sigma$ is associated with a unitary matrix $U_\sigma$, which governs the evolution of the state vector upon reading $\sigma$; these operators are later decomposed into sequences of elementary gates drawn from a universal set (e.g., Clifford+$T$ or $\{\mathrm{CNOT}, R_z, H\}$). The initial state preparation maps the all-zero register to the automaton's start state via minimal gate operations. Finally, the accepting condition is enforced via a projective measurement onto a subspace defined by the set of accepting states $F$, implemented as a single multi-controlled rotation followed by a standard measurement. This mapping supports systematic synthesis of circuits from automaton descriptions while preserving the semantics of quantum language recognition.
 
 \subsection{Mapping Automaton Components to Circuit Elements}
 A \gls{mo-1qfa} is defined as a tuple
@@ -75,7 +75,7 @@ Algorithm~\ref{alg:mo-compiler} creates a circuit that is independent of the act
 
 \medskip
 
-To execute the template on a specific word $x = x_1 x_2 \dots x_L \in \Sigma^L$, the placeholders $\boxed{U_{x_i}}$ must be instantiated as concrete gates derived from the automaton’s transition matrices.
+To execute the template on a specific word $x = x_1 x_2 \dots x_L \in \Sigma^L$, the placeholders $\boxed{U_{x_i}}$ must be instantiated as concrete gates derived from the automaton's transition matrices.
 
 \begin{algorithm}[H]
 \caption{Instantiation and Execution of a Compiled \gls{mo-1qfa} Circuit}
@@ -290,9 +290,9 @@ We compile the automaton on the input word $x = aaa$, of length $L = 3$.
   \]
 \end{enumerate}
 
-In the context of quantum circuit compilation, automata that exhibit cyclic behaviour—such as $k$-cycles over the state set—allow for a key optimisation: repeated applications of a unitary operator implementing the cycle can often be collapsed. Specifically, if a unitary $U$ satisfies $U^k = \mathbb{I}$, then any sequence of $k$ consecutive applications yields the identity transformation. In such cases, the compiler can detect the cyclic structure statically and eliminate the redundant operations from the circuit. This not only reduces the gate count but also preserves the automaton’s transition semantics exactly. Such cycle-aware optimisation plays a crucial role in minimising depth and improving interpretability of automaton-derived circuits.
+In the context of quantum circuit compilation, automata that exhibit cyclic behaviour—such as $k$-cycles over the state set—allow for a key optimisation: repeated applications of a unitary operator implementing the cycle can often be collapsed. Specifically, if a unitary $U$ satisfies $U^k = \mathbb{I}$, then any sequence of $k$ consecutive applications yields the identity transformation. In such cases, the compiler can detect the cyclic structure statically and eliminate the redundant operations from the circuit. This not only reduces the gate count but also preserves the automaton's transition semantics exactly. Such cycle-aware optimisation plays a crucial role in minimising depth and improving interpretability of automaton-derived circuits.
 
-When the number of repetitions is not a multiple of the cycle length, or when intermediate cyclic states influence acceptance, the compiler cannot eliminate the corresponding gates. In such cases, the unitary operator implementing the cycle must be applied explicitly at each relevant input position. These cycle operations are realised as permutations over the encoded state space, typically constructed from SWAP gates or controlled Pauli operations. Although they may introduce repetition, this explicit representation ensures that the circuit precisely mirrors the automaton’s behaviour, including partial traversals of cyclic transitions.
+When the number of repetitions is not a multiple of the cycle length, or when intermediate cyclic states influence acceptance, the compiler cannot eliminate the corresponding gates. In such cases, the unitary operator implementing the cycle must be applied explicitly at each relevant input position. These cycle operations are realised as permutations over the encoded state space, typically constructed from SWAP gates or controlled Pauli operations. Although they may introduce repetition, this explicit representation ensures that the circuit precisely mirrors the automaton's behaviour, including partial traversals of cyclic transitions.
 
 \vspace{1em}
 \begin{figure}[H]
@@ -380,6 +380,6 @@ The input word is now $x = aa$, i.e., only two applications of $U_a$.
 \caption{Circuit for $x = aa$ (no optimisation)}
 \label{fig:ex4a}
 \end{subfigure}
-\caption{Example~\ref{ex:moqfa-partial-cycle}: when the number of cycle steps does not complete the full orbit, the compiler must retain all gates to preserve the automaton’s semantics. The input is rejected with probability $1$.}
+\caption{Example~\ref{ex:moqfa-partial-cycle}: when the number of cycle steps does not complete the full orbit, the compiler must retain all gates to preserve the automaton's semantics. The input is rejected with probability $1$.}
 \label{fig:example4-partial-cycle}
 \end{figure}

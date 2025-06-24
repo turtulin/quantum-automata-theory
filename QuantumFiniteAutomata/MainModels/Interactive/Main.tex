@@ -4,11 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Interactive automata based on quantum interactive proof systems offer a striking demonstration of how even extremely resource‐limited verifiers—modeled by quantum finite automata (qfa’s)—can, through interaction with a powerful prover, recognize nontrivial languages. Two principal models have been developed in this area:
+Interactive automata based on quantum interactive proof systems offer a striking demonstration of how even extremely resource‐limited verifiers—modeled by quantum finite automata (qfa's)—can, through interaction with a powerful prover, recognize nontrivial languages. Two principal models have been developed in this area:
   
 \begin{itemize}
-  \item \textbf{Quantum Interactive Proof (\gls{qip}) systems}, in which the verifier’s internal moves remain hidden (private-coin), and
-  \item \textbf{Quantum Arthur–Merlin (\gls{qam}) systems}, where the verifier publicly announces his next move (public-coin).
+  \item \textbf{Quantum Interactive Proof (\gls{qip}) systems}, in which the verifier's internal moves remain hidden (private-coin), and
+  \item \textbf{Quantum Arthur-Merlin (\gls{qam}) systems}, where the verifier publicly announces his next move (public-coin).
 \end{itemize}
 
 In these models, the verifier is typically a two-way qfa, though one-way variants have also been considered. The seminal works by Nishimura and Yamakami \cite{nishimura2009application, nishimura2015interactive} and Zheng, Qiu, and Gruska \cite{zheng2015power} have established detailed protocols and complexity separations that reveal the potential of interactive proofs even when the verifier possesses only finite-dimensional quantum memory.
@@ -32,7 +32,7 @@ with the following components:
   \item $q_0\in Q$ is the initial state;
   \item $Q_{acc}$ and $Q_{rej}$ are the sets of halting (accepting and rejecting) states.
 \end{itemize}
-The verifier’s overall Hilbert space, denoted by $\mathit{\mathcal{H}}_V$, is spanned by basis states of the form
+The verifier's overall Hilbert space, denoted by $\mathit{\mathcal{H}}_V$, is spanned by basis states of the form
 \[
 \ket{q, k, \gamma},\quad q\in Q,\; k\in \mathbb{Z},\; \gamma\in\Gamma.
 \]
@@ -41,7 +41,7 @@ The verifier’s overall Hilbert space, denoted by $\mathit{\mathcal{H}}_V$, is 
 \[
 \{U_{x,P,i}\}_{i\ge1},
 \]
-acting on the prover’s private Hilbert space $\mathit{\mathcal{H}}_P$. In some variants (denoted by the restriction 〈c-prover〉), the prover’s unitaries are required to have only 0–1 entries, effectively making the prover deterministic.
+acting on the prover's private Hilbert space $\mathit{\mathcal{H}}_P$. In some variants (denoted by the restriction 〈c-prover〉), the prover's unitaries are required to have only 0-1 entries, effectively making the prover deterministic.
 
 \paragraph{\gls{qam} Systems.} In the \gls{qam} variant, the verifier is additionally required to announce his next move via the communication cell, rendering the system a public-coin protocol. Thus, while the basic structure of $(P,V)$ remains the same, a \gls{qam} system is denoted as
 \[
@@ -64,15 +64,15 @@ Variants of acceptance include definitions via an isolated cutpoint or exact acc
 % Set of Languages Accepted
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Set of Languages Accepted.}
-The language recognition power of these interactive systems depends on the verifier’s model and the nature of the interaction:
+The language recognition power of these interactive systems depends on the verifier's model and the nature of the interaction:
 \begin{itemize}
   \item When the verifier is a \textbf{1qfa} (one-way qfa), it has been shown that
   \[
   \text{\gls{qip}(1qfa)} = \text{REG},
   \]
-  meaning that even with interaction the system recognizes only the regular languages \cite{nishimura2009application}.
+  meaning that even with interaction the system recognizes only the \glspl{reg} \cite{nishimura2009application}.
   \item In contrast, when the verifier is a \textbf{2qfa} (two-way qfa), the interactive proof system can recognize languages that are not regular. For example, several protocols with 2qfa verifiers operating in expected polynomial time have been shown to outperform classical AM systems with 2pfa verifiers \cite{zheng2015power, nishimura2015interactive}.
-  \item In the public-coin (\gls{qam}) variant, where the verifier reveals its next move, the additional information sometimes further enhances the system’s power, and comparisons with classical Arthur–Merlin systems have been established.
+  \item In the public-coin (\gls{qam}) variant, where the verifier reveals its next move, the additional information sometimes further enhances the system's power, and comparisons with classical Arthur-Merlin systems have been established.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,7 +82,7 @@ The language recognition power of these interactive systems depends on the verif
 The language classes defined by \gls{qip} and \gls{qam} systems exhibit robust closure properties:
 \begin{itemize}
   \item They are closed under \emph{union} and \emph{intersection}, typically via parallel composition (using direct sums or tensor products).
-  \item They are closed under \emph{complementation} (by exchanging the roles of $Q_{acc}$ and $Q_{rej}$ in the verifier’s design).
+  \item They are closed under \emph{complementation} (by exchanging the roles of $Q_{acc}$ and $Q_{rej}$ in the verifier's design).
   \item They are also closed under other operations such as inverse homomorphism.
 \end{itemize}
 These properties are established through constructions that combine multiple protocols while preserving the bounded-error guarantees.
@@ -94,12 +94,12 @@ These properties are established through constructions that combine multiple pro
 Interactive proof systems with qfa verifiers offer several compelling advantages:
 \begin{itemize}
   \item \textbf{Finite Quantum Resources:} The verifier operates with a finite-dimensional quantum system, making the model realistic for devices with limited quantum memory.
-  \item \textbf{Enhanced Recognition via Interaction:} Even though a standalone qfa (especially a 1qfa) may recognize only regular languages, interaction with a powerful prover can significantly boost the verifier’s ability, particularly when using two-way qfa verifiers.
+  \item \textbf{Enhanced Recognition via Interaction:} Even though a standalone qfa (especially a 1qfa) may recognize only \glspl{reg}, interaction with a powerful prover can significantly boost the verifier's ability, particularly when using two-way qfa verifiers.
   \item \textbf{Flexibility through Protocol Variants:} By varying whether the system is a \gls{qip} (private-coin) or \gls{qam} (public-coin) system, and by imposing restrictions on the prover (quantum vs. classical), one can fine-tune the computational power and compare with classical interactive proof systems.
 \end{itemize}
 However, there are also limitations:
 \begin{itemize}
-  \item \textbf{Limited Power of One-Way Verifiers:} When restricted to one-way qfa verifiers, the system’s power is confined to the regular languages.
+  \item \textbf{Limited Power of One-Way Verifiers:} When restricted to one-way qfa verifiers, the system's power is confined to the \glspl{reg}.
   \item \textbf{Potentially High Interaction Complexity:} Protocols with two-way qfa verifiers can require a large (sometimes exponential) number of rounds or running time.
   \item \textbf{Technical Complexity:} The design and analysis of these interactive protocols are intricate, involving careful balancing of quantum and classical information.
 \end{itemize}
@@ -136,5 +136,5 @@ These issues continue to be central to the ongoing exploration of the interplay 
   
   \item \textbf{Interactive Proof Systems with Semi-Quantum Verifiers:} Another significant model is the one in which the verifier is not a full-fledged quantum finite automaton but a \emph{semi-quantum} two-way finite automaton (2QCFA). In such systems—as studied, for instance, by Zheng, Qiu, and Gruska—the verifier possesses both classical and quantum states, using limited quantum resources alongside classical processing. These systems (sometimes denoted QAM(2QCFA) in the public-coin setting) have been shown to recognize languages beyond those recognizable by two-way probabilistic finite automata.
   
-  \item \textbf{Variants Based on Prover Restrictions:} Some works also examine the effect of restricting the prover to \emph{classical} behavior (i.e., using only 0–1 unitary operators, sometimes denoted by the restriction 〈c-prover〉). This yields interactive models that can be compared with their fully quantum counterparts.
+  \item \textbf{Variants Based on Prover Restrictions:} Some works also examine the effect of restricting the prover to \emph{classical} behavior (i.e., using only 0-1 unitary operators, sometimes denoted by the restriction 〈c-prover〉). This yields interactive models that can be compared with their fully quantum counterparts.
 \end{itemize}

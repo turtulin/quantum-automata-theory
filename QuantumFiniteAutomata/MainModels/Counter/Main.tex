@@ -1,7 +1,7 @@
 \subsection{Quantum Finite Automata with Counters}
 \label{sec:qfa-with-counters}
 
-Quantum finite automata with counters extend the computational power of \gls{qfa} by incorporating classical or quantum counters into the system. These models provide hybrid computational capabilities where quantum state transitions are influenced by the counter value and vice versa, enabling the recognition of certain non-regular languages with bounded error which classical counterparts fail to recognize.
+Quantum finite automata with counters extend the computational power of \gls{qfa} by incorporating classical or quantum counters into the system. These models provide hybrid computational capabilities where quantum state transitions are influenced by the counter value and vice versa, enabling the recognition of certain non-\glspl{reg} with bounded error which classical counterparts fail to recognize.
 
 In the literature, various models of \gls{qfa} with counters have been proposed. This subsection explores the prominent models including \gls{qf1ca}, \gls{2qf1ca}, \gls{1qfkca}, and \gls{rtq1ca}, detailing their structure, properties, capabilities, and limitations based on foundational work such as \cite{bonner2001quantum, kravtsev1999quantum, pani2011empowering, cem2012quantum}.
 
@@ -13,7 +13,7 @@ A \gls{qf1ca} is a one-way \gls{qfa} that uses a classical counter, capable of i
 Formally, a \gls{qf1ca} consists of a finite set of states $Q$, an input alphabet $\Sigma$, a classical counter with values in $\mathbb{Z}$, and a transition function $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \rightarrow \mathbb{C}$ where $\{0,1\}$ indicates whether the counter is zero or not. The system operates unitarily, with counter updates contingent on the current state and symbol read.
 
 \paragraph{Strings Acceptance} 
-\gls{qf1ca} can accept strings using bounded-error probabilistic acceptance. They can recognize non-regular languages such as $L_1 = \{ w \in \Sigma^* : \text{equal number of 0's and 1's in } x \}$ when augmented with additional structure in the input \cite{bonner2001quantum}.
+\gls{qf1ca} can accept strings using bounded-error probabilistic acceptance. They can recognize non-\glspl{reg} such as $L_1 = \{ w \in \Sigma^* : \text{equal number of 0's and 1's in } x \}$ when augmented with additional structure in the input \cite{bonner2001quantum}.
 
 \paragraph{Sets of Languages Accepted} 
 The class of languages accepted by \gls{qf1ca} with bounded error properly includes the class of languages accepted by classical deterministic and probabilistic one-counter automata \cite{bonner2001quantum}.
@@ -100,7 +100,7 @@ Potential topics include quantum counter compression, fault tolerance in counter
 Defined similarly to \gls{qf1ca} but with a strict constraint on the transition direction (right only). The transition function thus omits head direction: $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \rightarrow \mathbb{C}$.
 
 \paragraph{Strings Acceptance}
-Though more limited, \gls{rtq1ca} can still recognize several non-regular languages with carefully crafted transition amplitudes and counter updates.
+Though more limited, \gls{rtq1ca} can still recognize several non-\glspl{reg} with carefully crafted transition amplitudes and counter updates.
 
 \paragraph{Sets of Languages Accepted}
 Their accepted languages lie strictly between those of \gls{mo-1qfa} and \gls{qf1ca} due to the real-time restriction.

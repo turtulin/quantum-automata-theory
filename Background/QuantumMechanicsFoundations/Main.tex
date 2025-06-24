@@ -1,115 +1,352 @@
-% \section{Quantum Mechanics Foundations}
-% \label{sec:quantum-foundations}
-
-% \input{Background/QuantumMechanicsFoundations/Subsections/Qubits.tex}
-% \input{Background/QuantumMechanicsFoundations/Subsections/Superposition.tex}
-% \input{Background/QuantumMechanicsFoundations/Subsections/Measurement.tex}
-% \input{Background/QuantumMechanicsFoundations/Subsections/Decoherence.tex} 
-% \input{Background/QuantumMechanicsFoundations/Subsections/AdditionalRemarks.tex}    
-
 \section{Quantum Mechanics Foundations}
 \label{sec:qm-foundations}
 
-Quantum mechanics offers a mathematically consistent framework that accurately predicts the behaviour of microscopic systems \cite{Dirac1930,NielsenChuang2010}.  
-The present subsection recalls the concepts that will be used throughout this thesis: quantum states and qubits, superposition and entanglement, the postulates of measurement, decoherence in open systems and the unitary dynamics of closed systems.  Relativistic extensions, treated by quantum field theory (\gls{qft}), lie outside the present scope \cite{Weinberg1995}.
+Quantum theory delivers a linear-algebraic description of microscopic
+systems that has withstood every experimental test to date
+\cite{Dirac1930,NielsenChuang2010}. The finite-dimensional fragment of
+this theory already suffices for reversible computing,
+cryptography and the automata models investigated later in the thesis.
+Accordingly the presentation below restricts attention to finite
+Hilbert spaces and the unitary maps that act upon them.
+
+The narrative proceeds from kinematic notions to dynamical ones.
+First come pure quantum states, qubits and Dirac's bra-ket notation,
+followed by the tensor product that builds composite systems and the
+Bloch-sphere picture that aids visualisation of single-qubit
+superposition. Entanglement is then introduced as the key non-classical
+resource, together with Schmidt rank as a quantitative measure.
+Measurement postulates appear next, encompassing both projective
+measurements and the more general \glspl{povm} that
+model noisy detectors. Density operators, partial trace and quantum
+channels provide the language for open-system dynamics, while Kraus
+decompositions formalise decoherence and error. Finally the Schrödinger
+equation is specialised to finite-dimensional unitary evolution,
+establishing the toolkit used in subsequent chapters on quantum finite
+automata.
+
+Relativistic extensions handled by quantum field theory, such as those described by the \gls{qft}, remain outside the present scope \cite{Weinberg1995}; every
+example and proof will rely only on the finite-dimensional machinery
+summarised here.
 
 \subsection{Qubits and Quantum States}
 
-An isolated physical system is represented by a unit vector $\ket{\psi}$ in a complex Hilbert space $\mathcal H$ \cite{Dirac1930}.  
-For a two‐level system—the quantum bit or qubit—the state space is $\mathcal H_2\cong\mathbb C^2$ and an orthonormal computational basis $\{\ket{0},\ket{1}\}$ can always be chosen \cite{NielsenChuang2010}.  
-A pure qubit state is therefore written  
-\begin{equation}
-  \ket{\psi}= \alpha\ket{0}+\beta\ket{1},\qquad 
-  \alpha,\beta\in\mathbb C,\;|\alpha|^{2}+|\beta|^{2}=1
-\end{equation}\cite{NielsenChuang2010}.
+Quantum information is encoded in the state of a two-level system, the
+\gls{qubit}. Although physical realisations differ, ranging from
+photonic polarisations and superconducting circuits to nuclear spins, the mathematical
+model is uniform: a unit vector in a two-dimensional complex Hilbert
+space \cite{Dirac1930,NielsenChuang2010}. Dirac's bra-ket notation
+offers a compact syntax for such vectors and fixes
+\(\{\ket{0},\ket{1}\}\) as the computational basis used
+throughout the thesis.
 
-Any pure state of a \gls{qubit} can be written in the form
+\begin{definition}[Pure qubit state]\label{def:pure-qubit}
+A pure state of a qubit is a unit vector
 \[
-|\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle,
+ \ket{\psi}= \alpha\ket{0}+\beta\ket{1},
+ \qquad
+ \alpha,\beta\in\mathbb C,\;
+ |\alpha|^{2}+|\beta|^{2}=1.
 \]
-with \(\theta \in [0,\pi]\) and \(\phi \in [0,2\pi)\). Figure~\ref{fig:bloch_sphere} illustrates the \textbf{Bloch sphere} representation of a qubit.
-
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}[scale=1.5]
-      \shade[ball color=blue!20, opacity=0.3] (0,0) circle (2cm);
-      \draw[thick] (0,0) circle (2cm);
-      \draw[dashed] (0,0) ellipse (2cm and 0.55cm);
-      \draw[->, thick] (0,0) -- (2.5,0) node[right] {$y$};
-      \draw[->, thick] (0,0) -- (0,2.5) node[above] {$z$};
-      \draw[->, thick] (0,0) -- (-0.8,-0.8) node[right] {$x$};
-      \fill (0,2) circle (0.05);
-      \fill (0,-2) circle (0.05);
-      \node[above, xshift=-0.4cm] at (0,2) {\(|0\rangle\)};
-      \node[below, xshift=0.4cm] at (0,-2) {\(|1\rangle\)};
-      \draw[red, ultra thick] (0,0) -- (0.5,1.4) node[right] {\(\;|\psi\rangle\)};
-      \fill[red] (0.5,1.4) circle (0.05);
-      \draw[dashed, red!40] (0.5,1.4) -- (0.5,-0.3);
-      \draw[dashed, red!40] (0,0) -- (0.5,-0.3);
-      \coordinate (O) at (0,0);
-      \coordinate (N) at (0,2);
-      \coordinate (B) at (0.5,1.4);
-      \coordinate (T) at (0.5,-0.3);
-      \coordinate (X) at (-0.8,-0.8);
-      \pic [shift={(0,0.5)}, draw, "$\theta$", angle eccentricity=1.3, angle radius=1.2cm] {angle = B--O--N};
-      \pic [draw, "$\phi$", angle eccentricity=1.5, angle radius=0.4cm] {angle = X--O--T};
-    \end{tikzpicture}
-    \caption{The Bloch sphere representation of a qubit.}
-    \label{fig:bloch_sphere}
-  \end{figure}
-
-The global phase $e^{\mathrm i\phi}\ket{\psi}$ leaves all physical predictions unchanged \cite{Sakurai1994}.  
-For a composite system the total state space is the tensor product of the subsystems, e.g.\ two qubits $A$ and $B$ live in $\mathcal H_{AB}=\mathcal H_{2,A}\otimes\mathcal H_{2,B}$ \cite{NielsenChuang2010}.  
-
-\subsection{Superposition and Entanglement}
-
-Because $\mathcal H$ is linear, any normalised linear combination of allowed states is again a valid state, a fact known as the principle of superposition \cite{Sakurai1994}.  
-In multi‐partite systems some states cannot be written as tensor products of subsystem states; such non‐separable states are entangled \cite{Einstein1935,Bell1964,Horodecki2009}.  
-A paradigmatic two‐qubit entangled state is
-\begin{equation}
-  \ket{\Psi^{-}}=\frac{1}{\sqrt2}\bigl(\ket{0}_A\ket{1}_B-\ket{1}_A\ket{0}_B\bigr) 
-\end{equation}\cite{Bell1964}.
-
-\begin{definition}[Entangled state {\cite{Horodecki2009}}]
-A pure state $\ket{\Psi}_{AB}$ is entangled if no vectors $\ket{\psi}_A\in\mathcal H_A$ and $\ket{\phi}_B\in\mathcal H_B$ exist such that $\ket{\Psi}_{AB}=\ket{\psi}_A\otimes\ket{\phi}_B$.
+Equivalently one may parameterise the state as
+\[
+ \ket{\psi}=\cos\frac{\theta}{2}\ket{0}
+       +e^{\mathrm i\phi}\sin\frac{\theta}{2}\ket{1},
+ \qquad
+ \theta\in[0,\pi],\;\phi\in[0,2\pi),
+\]
+where the pair \((\theta,\phi)\) locates \(\ket{\psi}\) on the Bloch
+sphere \cite{NielsenChuang2010}.
 \end{definition}
 
-Entanglement enables protocols such as quantum teleportation and superdense coding \cite{Bennett1993,NielsenChuang2010} and its non-local correlations have been confirmed experimentally \cite{Aspect1982}.  
+The Bloch sphere embeds all pure qubit states on the surface of a unit
+sphere in \(\mathbb R^{3}\); its poles represent the basis vectors while
+global phases \(e^{\mathrm i\gamma}\ket{\psi}\) collapse to the same
+point because overall phase has no observable consequence
+\cite{Sakurai1994}. Figure~\ref{fig:bloch_sphere} displays the geometry
+and the two angular coordinates that parameterise a state.
 
-\subsection{Measurement and Probabilistic Outcomes}
+\begin{figure}[ht]
+ \centering
+ \begin{tikzpicture}[scale=1.5]
+  \shade[ball color=blue!20, opacity=0.3] (0,0) circle (2cm);
+  \draw[thick] (0,0) circle (2cm);
+  \draw[dashed] (0,0) ellipse (2cm and 0.55cm);
+  \draw[->, thick] (0,0) -- (2.5,0) node[right] {$y$};
+  \draw[->, thick] (0,0) -- (0,2.5) node[above] {$z$};
+  \draw[->, thick] (0,0) -- (-0.8,-0.8) node[right] {$x$};
+  \fill (0,2) circle (0.05);
+  \fill (0,-2) circle (0.05);
+  \node[above, xshift=-0.4cm] at (0,2) {\(|0\rangle\)};
+  \node[below, xshift=0.4cm] at (0,-2) {\(|1\rangle\)};
+  \draw[red, ultra thick] (0,0) -- (0.5,1.4) node[right] {\(\;|\psi\rangle\)};
+  \fill[red] (0.5,1.4) circle (0.05);
+  \draw[dashed, red!40] (0.5,1.4) -- (0.5,-0.3);
+  \draw[dashed, red!40] (0,0) -- (0.5,-0.3);
+  \coordinate (O) at (0,0);
+  \coordinate (N) at (0,2);
+  \coordinate (B) at (0.5,1.4);
+  \coordinate (T) at (0.5,-0.3);
+  \coordinate (X) at (-0.8,-0.8);
+  \pic [shift={(0,0.5)}, draw, "$\theta$", angle eccentricity=1.3, angle radius=1.2cm] {angle = B--O--N};
+  \pic [draw, "$\phi$", angle eccentricity=1.5, angle radius=0.4cm] {angle = X--O--T};
+ \end{tikzpicture}
+ \caption{The Bloch sphere representation of a qubit.}
+ \label{fig:bloch_sphere}
+ \end{figure}
 
-Every observable is represented by a Hermitian operator $M$ acting on $\mathcal H$ \cite{vonNeumann1955}.  
-A projective (von Neumann) measurement of $M$ with eigenstates $\{\ket{m}\}$ returns outcome $m$ with probability 
-\begin{equation}
-  P(m)=|\braket{m}{\psi}|^{2}
-\end{equation} \cite{Born1926},
-after which the post‐measurement state collapses to $\ket{m}$ \cite{vonNeumann1955}.  
-Generalised measurements are described by a set of operators $\{M_k\}$ satisfying $\sum_k M_k^{\dagger}M_k=\mathbb I$; the probability of outcome $k$ is $\bra{\psi}M_k^{\dagger}M_k\ket{\psi}$ and the (unnormalised) post‐measurement state is $M_k\ket{\psi}$ \cite{NielsenChuang2010}.  
+ Composite systems are modelled by tensor products. Two qubits \(A\) and
+ \(B\) inhabit
+ \(\mathcal H_{AB}=\mathcal H_{2,A}\otimes\mathcal H_{2,B}\), enabling
+ entangled states such as the Bell pair
+ \(\ket{\Phi^{+}}=\tfrac{1}{\sqrt2}(\ket{00}+\ket{11})\). Mixed states,
+ described by density operators \(\rho\) with
+ \(\rho\ge0\) and \(\operatorname{tr}\rho=1\), appear later when noise
+ and measurement are introduced; for the purely kinematic discussion
+ here, pure vectors suffice.
+ 
+ The qubit therefore serves as the atomic carrier of quantum information,
+ combining a continuous state space with a discrete computational basis.
+ Subsequent subsections build on this representation, first to formalise
+ measurement and decoherence, then to construct \glspl{qfa}
+ whose internal registers are composed of a finite number of qubits.
 
-A fundamental consequence of linearity is the no‐cloning theorem: no physical process can map an arbitrary unknown state onto two identical copies \cite{Wootters1982,Dieks1982}.  
+ \subsection{Superposition and Entanglement}\label{subsec:superposition_entanglement}
 
-\subsection{Decoherence and Open Systems}
+ Quantum information is encoded in vectors of a finite-dimensional Hilbert space~$\mathcal H$.  
+ Linearity of~$\mathcal H$ implies that a linear combination of admissible vectors is again an admissible vector.  
+ 
+ \begin{definition}[Principle of superposition {\cite{Sakurai1994}}]
+   Let $\{\ket{\psi_i}\}_{i\in I}\subset\mathcal H$ be a family of normalised state vectors and let $\{\alpha_i\}_{i\in I}\subset\mathbb C$ satisfy $\sum_{i\in I}\lvert\alpha_i\rvert^2=1$.  
+   The vector $\ket{\Psi}=\sum_{i\in I}\alpha_i\ket{\psi_i}$ is a valid quantum state and is called a superposition of the~$\ket{\psi_i}$.
+ \end{definition}
+ 
+ Superposition yields interference phenomena that have no classical counterpart; amplitudes, not probabilities, add.  
+ In protocols such as the Deutsch-Jozsa algorithm and amplitude amplification the relative phases between components of~$\ket{\Psi}$ are adjusted in order to concentrate probability mass on measurement outcomes that reveal global properties of the input~\cite{NielsenChuang2010}.  
+ 
+ \begin{remark}
+   For a single qubit any pure state can be written as $\ket{\psi}=\cos\frac\theta2\ket{0}+e^{i\phi}\sin\frac\theta2\ket{1}$ with $\theta\in[0,\pi]$ and $\phi\in[0,2\pi)$.  
+   This parametrisation maps one-to-one to the Bloch sphere and offers geometric insight into unitary control operations.
+ \end{remark}
+ 
+ 
+ Composing systems is formalised by the tensor product.  
+ Let $\mathcal H_A$ and $\mathcal H_B$ be Hilbert spaces for subsystems~$A$ and~$B$.  
+ A joint pure state lives in $\mathcal H_{AB}=\mathcal H_A\otimes\mathcal H_B$.  
+ Some joint states are separable; others are not.
+ 
+ \begin{definition}[Entangled state {\cite{Horodecki2009}}]\label{def:entangled}
+   A pure state $\ket{\Psi}_{AB}\in\mathcal H_{AB}$ is entangled if there exist no states $\ket{\psi}_A\in\mathcal H_A$ and $\ket{\phi}_B\in\mathcal H_B$ such that $\ket{\Psi}_{AB}=\ket{\psi}_A\otimes\ket{\phi}_B$.
+ \end{definition}
+ 
+ \begin{example}[Bell pair {\cite{Bell1964}}]
+   The state
+   \[
+     \ket{\Psi^-}=\frac1{\sqrt2}\bigl(\ket{0}_A\ket{1}_B-\ket{1}_A\ket{0}_B\bigr)
+   \]
+   is entangled.  
+   Tracing out either subsystem produces the maximally mixed single-qubit density operator $\frac12I$, confirming that no local description captures the correlations present in~$\ket{\Psi^-}$.
+ \end{example}
+ 
+ \begin{proposition}[Schmidt criterion {\cite{NielsenChuang2010}}]
+   A bipartite pure state is separable if and only if its Schmidt rank equals~$1$.
+ \end{proposition}
+ 
+ \begin{proof}[Sketch]
+   Write $\ket{\Psi}_{AB}=\sum_i\lambda_i\ket{u_i}_A\otimes\ket{v_i}_B$ with orthonormal families $\{\ket{u_i}\}$, $\{\ket{v_i}\}$ and $\lambda_i>0$.  
+   If only one Schmidt coefficient is non-zero then $\ket{\Psi}_{AB}$ factorises; conversely, factorisation implies a single non-zero coefficient.  
+ \end{proof}
+ 
+ 
+ Entanglement is a resource underpinning quintessential quantum protocols.  
+ It enables perfect teleportation of an unknown qubit state and doubles the classical capacity of a single qubit through superdense coding~\cite{Bennett1993}.  
+ Experimentally, violations of Bell inequalities exclude local hidden-variable theories and confirm the non-classical character of entangled correlations~\cite{Aspect1982}.  
+ 
+ \begin{remark}
+   Entanglement extends beyond two parties.  
+   Greenberger-Horne-Zeilinger states and graph states furnish multipartite resources for measurement-based quantum computation.  
+   Resource theories quantify entanglement via monotones such as the von~Neumann entropy of the reduced state~\cite{Horodecki2009}.
+ \end{remark}
+ 
+ Entanglement appears implicitly in later chapters: composite state registers of \glspl{qfa} may evolve into non-separable configurations even when each register individually undergoes unitary dynamics.  
+ Understanding superposition and entanglement is therefore prerequisite for analysing interference patterns and acceptance probabilities in \glspl{qfa} models.
+ \subsection{Measurement and Probabilistic Outcomes}\label{subsec:measurement_probabilistic}
 
-Realistic systems interact with uncontrolled environments and are therefore open \cite{Breuer2002}.  
-The state of an open system is described by a density matrix $\rho$, a positive semidefinite operator with $\operatorname{Tr}\rho=1$ \cite{NielsenChuang2010}.  
-Tracing out environmental degrees of freedom generally converts a pure state into a mixed one and suppresses off-diagonal coherences, a process known as decoherence \cite{Zurek2003,Schlosshauer2005}.  
-In the Markovian limit the time evolution of $\rho$ obeys the Gorini–Kossakowski–Sudarshan–Lindblad master equation  
-\begin{equation}
-  \frac{\mathrm d\rho}{\mathrm dt}=-\frac{\mathrm i}{\hbar}[H,\rho]
-  +\sum_k\Bigl(L_k\rho L_k^{\dagger}-\tfrac12\{L_k^{\dagger}L_k,\rho\}\Bigr)
-\end{equation} \cite{Gorini1976,Lindblad1976}.
+Measurement translates the abstract formalism of quantum mechanics into experimentally accessible numbers.  
+The bridge is supplied by the measurement postulates, stated here for finite-dimensional systems~\cite{vonNeumann1955,NielsenChuang2010}.
 
-\subsection{Unitary Evolution and Quantum Dynamics}
+\begin{definition}[Observable {\cite{vonNeumann1955}}]\label{def:observable}
+	An observable is a Hermitian operator $M\in\mathcal L(\mathcal H)$ that admits the spectral decomposition
+	\[
+		M=\sum_{m}m\,\Pi_{m},
+	\]
+	with orthogonal projectors $\{\Pi_{m}\}$ satisfying $\Pi_{m}\Pi_{m'}=\delta_{m,m'}\Pi_{m}$ and $\sum_{m}\Pi_{m}=\mathbb I$.
+\end{definition}
 
-When external perturbations and measurements are absent, the evolution of a closed system is unitary \cite{NielsenChuang2010}.  
-The Schrödinger equation  
-\begin{equation}
-  \mathrm i\hbar\frac{\mathrm d}{\mathrm dt}\ket{\psi(t)} = H\ket{\psi(t)}
-\end{equation} \cite{Schrodinger1926}
-has the formal solution $\ket{\psi(t)}=U(t,t_0)\ket{\psi(t_0)}$ with
-\begin{equation}
-  U(t,t_0)=\mathcal T\exp\!\Bigl[-\frac{\mathrm i}{\hbar}\int_{t_0}^{t} H(t')\,\mathrm dt'\Bigr]
-\end{equation} \cite{Sakurai1994}.
-Unitarity preserves inner products and thus total probability \cite{NielsenChuang2010}.  
-For time-independent $H$ one simply has $U(t,t_0)=\exp[-\mathrm iH(t-t_0)/\hbar]$ \cite{Sakurai1994}.  
-Under unitary dynamics superposition and entanglement are maintained, while measurements or environmental couplings introduce non-unitary changes as discussed above \cite{NielsenChuang2010}.  
+\begin{definition}[Projective measurement {\cite{Born1926}}]\label{def:projective_measurement}
+	Let $M$ be an observable with eigenstates $\{\ket{m}\}$ and projectors $\Pi_{m}= \ket{m}\bra{m}$.  
+	For an input state $\ket{\psi}$ the probability of obtaining outcome $m$ is
+	\[
+		P(m)=\braket{\psi|\Pi_{m}|\psi}=|\braket{m}{\psi}|^{2},
+	\]
+	and the post-measurement state is
+	\[
+		\ket{\psi}\longmapsto\frac{\Pi_{m}\ket{\psi}}{\sqrt{P(m)}}=\ket{m}.
+	\]
+\end{definition}
+
+Projective measurements are often too restrictive: realistic detectors have finite resolution, and many protocols require non-orthogonal outcomes.  
+The most general measurement allowed by quantum theory is the \gls{povm}, introduced next.
+
+\begin{definition}[\gls{povm} {\cite{Kraus1983,NielsenChuang2010}}]\label{def:povm}
+	A set of positive semi-definite operators $\{E_{k}\}\subset\mathcal L(\mathcal H)$ is a \gls{povm} if $\sum_{k}E_{k}=\mathbb I$.  
+	For an input state $\ket{\psi}$ the probability of outcome $k$ is
+	\[
+		P(k)=\bra{\psi}E_{k}\ket{\psi}.
+	\]
+	There exist operators $\{M_{k}\}$, called Kraus operators, such that $E_{k}=M_{k}^{\dagger}M_{k}$ and $\sum_{k}M_{k}^{\dagger}M_{k}=\mathbb I$.
+\end{definition}
+
+\begin{proposition}[State-update rule {\cite{Kraus1983}}]\label{prop:kraus_update}
+	When outcome $k$ of a \gls{povm} is observed, the (unnormalised) post-measurement state is
+	$M_{k}\ket{\psi},$
+	and the normalised state equals $M_{k}\ket{\psi}/\sqrt{P(k)}$.
+\end{proposition}
+
+\begin{example}[Computational-basis measurement]\label{ex:computational_basis}
+	For a single qubit define $E_{0}=\ket{0}\bra{0}$ and $E_{1}=\ket{1}\bra{1}$.  
+	With $\ket{\psi}=\alpha\ket{0}+\beta\ket{1}$, $|\alpha|^{2}+|\beta|^{2}=1$, one finds
+	\[
+		P(0)=|\alpha|^{2},\qquad P(1)=|\beta|^{2},
+	\]
+	in agreement with the Born rule; the post-measurement state collapses to the eigenstate corresponding to the observed outcome.
+\end{example}
+
+
+Linearity of quantum dynamics has a profound implication for information processing.
+
+\begin{theorem}[No-cloning {\cite{Wootters1982,Dieks1982}}]\label{thm:nocloning}
+	There exists no unitary operator $U$ and no fixed blank state $\ket{b}$ such that
+	\[
+		U\bigl(\ket{\psi}\otimes\ket{b}\bigr)=\ket{\psi}\otimes\ket{\psi}
+	\]
+	holds for every pure state $\ket{\psi}\in\mathcal H$.
+\end{theorem}
+
+\begin{proof}[Sketch]
+	Assume such a unitary $U$ exists and consider two non-orthogonal states $\ket{\psi}$ and $\ket{\phi}$.  
+	Because unitaries preserve inner products,
+	\[
+		\braket{\psi|\phi}=\bigl(\braket{\psi|\phi}\bigr)^{2},
+	\]
+	which implies $\braket{\psi|\phi}\in\{0,1\}$.  
+	This contradicts the premise that $\ket{\psi}$ and $\ket{\phi}$ are non-orthogonal; thus no perfect cloner exists.
+\end{proof}
+
+The impossibility of perfect cloning secures quantum key distribution, forbids noiseless amplification of unknown signals, and motivates approximate or probabilistic cloning strategies analysed in later chapters~\cite{Scarani2005}.
+\subsection{Decoherence and Open Systems}\label{subsec:decoherence_open}
+
+Isolated dynamics represent an idealisation; every realistic device exchanges energy and information with uncontrolled external degrees of freedom~\cite{Breuer2002}.  
+A quantum description that ignores the environment replaces pure vectors by statistical operators.
+
+\begin{definition}[Density operator {\cite{NielsenChuang2010}}]\label{def:density}
+	A density operator on a Hilbert space~$\mathcal H$ is a positive semidefinite matrix $\rho\in\mathcal L(\mathcal H)$ that satisfies $\operatorname{Tr}\rho=1$.  
+	It encodes an ensemble $\{p_{i},\ket{\psi_{i}}\}$ through $\rho=\sum_{i}p_{i}\ket{\psi_{i}}\bra{\psi_{i}}$.
+\end{definition}
+
+Pure states correspond to projectors $\rho^{2}=\rho$; mixed states satisfy $\rho^{2}\neq\rho$.
+
+
+Let $\mathcal H_{S}\otimes\mathcal H_{E}$ denote the Hilbert space of a system~$S$ and its environment~$E$.  
+If $\ket{\Psi}_{SE}$ evolves unitarily under $U_{SE}$ the reduced state
+\[
+	\rho_{S}(t)=\operatorname{Tr}_{E}\bigl[\,U_{SE}(t)\,\rho_{SE}(0)\,U_{SE}^{\dagger}(t)\bigr]
+\]
+is generally mixed and its off-diagonal elements in a preferred basis decay, a phenomenon called decoherence~\cite{Zurek2003,Schlosshauer2005}.  
+
+\begin{definition}[Quantum channel]\label{def:channel}
+	A linear map $\mathcal E:\mathcal L(\mathcal H)\to\mathcal L(\mathcal H)$ is a quantum channel if it is completely positive and trace preserving.
+\end{definition}
+
+\begin{proposition}[Kraus representation {\cite{Kraus1983}}]\label{prop:kraus}
+	Every completely positive and trace preserving map admits operators $\{L_{k}\}$ on~$\mathcal H$ such that
+	\[
+		\mathcal E(\rho)=\sum_{k}L_{k}\rho L_{k}^{\dagger},
+		\qquad
+		\sum_{k}L_{k}^{\dagger}L_{k}=\mathbb I .
+	\]
+\end{proposition}
+
+\begin{example}[Amplitude-damping channel]\label{ex:amplitude_damp}
+	For a qubit let $L_{0}=\begin{psmallmatrix}1&0\\0&\sqrt{1-\gamma}\end{psmallmatrix}$ and
+	$L_{1}=\begin{psmallmatrix}0&\sqrt{\gamma}\\0&0\end{psmallmatrix}$ with $0\le\gamma\le1$.  
+	The map $\mathcal E_{\gamma}(\rho)=L_{0}\rho L_{0}^{\dagger}+L_{1}\rho L_{1}^{\dagger}$ models spontaneous emission at rate~$\gamma$.  
+	Diagonal elements remain unchanged whereas the coherence term $\rho_{01}$ decays as $\rho_{01}\mapsto\sqrt{1-\gamma}\,\rho_{01}$, illustrating decoherence.
+\end{example}
+
+
+When environmental correlations relax quickly (Markovian limit) the family $\{\rho(t)\}_{t\ge0}$ forms a quantum dynamical semigroup with generator in \gls{gksl} form~\cite{Gorini1976,Lindblad1976}:
+
+\begin{definition}[Lindblad master equation]\label{def:lindblad}
+	For a system Hamiltonian $H$ and Lindblad operators $\{L_{k}\}$ the Markovian evolution obeys
+	\[
+		\frac{\mathrm d\rho}{\mathrm dt}= -\frac{\mathrm i}{\hbar}[H,\rho]
+		+\sum_{k}\Bigl(L_{k}\rho L_{k}^{\dagger}-\tfrac12\{L_{k}^{\dagger}L_{k},\rho\}\Bigr).
+	\]
+\end{definition}
+
+The generator guarantees complete positivity of the channel $e^{t\mathcal L}$ for all $t\ge0$ and will serve in later chapters to model noise acting on the internal registers of \glspl{qfa}.
+
+\subsection{Unitary Evolution and Quantum Dynamics}\label{subsec:unitary_dynamics}
+
+In the absence of measurements and uncontrollable perturbations, a quantum system is considered closed.
+Its state vector evolves according to the postulate of unitary time development~\cite{NielsenChuang2010}.
+
+\begin{definition}[Unitary operator]\label{def:unitary}
+	A linear map $U:\mathcal H\longrightarrow\mathcal H$ is unitary if $U^{\dagger}U=UU^{\dagger}=\mathbb I$.  
+	Unitary operators form a group under composition and preserve inner products:
+	$\braket{\psi|\phi}= \braket{U\psi|U\phi}$ for all $\ket{\psi},\ket{\phi}\in\mathcal H$.
+\end{definition}
+
+
+Dynamics are generated by the system Hamiltonian~$H=H^{\dagger}$ through the time-dependent Schrödinger equation~\cite{Schrodinger1926}
+\[
+	\mathrm i\hbar\frac{\mathrm d}{\mathrm dt}\ket{\psi(t)} = H(t)\ket{\psi(t)} .
+\]
+
+\begin{proposition}[Propagator]\label{prop:propagator}
+	The formal solution is
+	\[
+		\ket{\psi(t)} = U(t,t_{0})\ket{\psi(t_{0})},
+		\qquad
+		U(t,t_{0}) = \mathcal T
+		\exp\Bigl[-\frac{\mathrm i}{\hbar}\int_{t_{0}}^{t}H(t')\,\mathrm dt'\Bigr],
+	\]
+	where $\mathcal T$ denotes the time-ordering operator~\cite{Sakurai1994}.  
+	The propagator satisfies $U(t,t)=\mathbb I$ and the composition law $U(t_{2},t_{0})=U(t_{2},t_{1})U(t_{1},t_{0})$.
+\end{proposition}
+
+\begin{remark}[Time independent Hamiltonian]
+	If $H$ is constant one has the closed expression
+	\[
+		U(t,t_{0}) = \exp\bigl[-\mathrm iH(t-t_{0})/\hbar\bigr] ,
+	\]
+	which implements a one-parameter unitary group generated by $H$~\cite{Sakurai1994}.
+\end{remark}
+
+\begin{example}[Qubit rotation about the $z$ axis]\label{ex:qubit_rotation}
+	For a single qubit let $H=\tfrac{\hbar\omega}{2}\sigma_{z}$.  
+	The evolution operator equals
+	\[
+		U(t,0)=\exp\bigl[-\mathrm i\omega t\,\sigma_{z}/2\bigr]
+		=\begin{psmallmatrix}
+			 e^{-\mathrm i\omega t/2} & 0 \\[2pt]
+			 0 & e^{\mathrm i\omega t/2}
+		  \end{psmallmatrix},
+	\]
+	which produces a phase rotation of the computational basis and leaves probabilities invariant.
+\end{example}
+
+
+Unitary dynamics conserve superposition amplitudes and entanglement resources.  
+Non unitary modifications originate from coupling to external degrees of freedom or from measurements, modelled in the preceding subsections.  
+A rigorous understanding of unitary time development is essential for analysing quantum algorithms, control protocols and the acceptance dynamics of quantum automata.

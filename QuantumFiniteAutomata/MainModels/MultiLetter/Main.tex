@@ -22,7 +22,7 @@ The transition applies the unitary associated with the last $k$ letters read. Fo
 Acceptance is defined by exact probability, cutpoint (strict or non-strict), or bounded-error depending on how $P_A(\omega) = \| P_{acc} U_\omega \ket{\psi_0} \|^2$ compares to a threshold $\lambda$.
 
 \paragraph{Sets of Languages Accepted}
-ML-QFA can recognize a proper superset of regular languages compared to MO-1QFA and MM-1QFA. Notably, they can recognize the language $(a + b)^*a$ which is not recognizable by MO-1QFA or MM-1QFA \cite{belovs2007multi}.
+ML-QFA can recognize a proper superset of \glspl{reg} compared to MO-1QFA and MM-1QFA. Notably, they can recognize the language $(a + b)^*a$ which is not recognizable by MO-1QFA or MM-1QFA \cite{belovs2007multi}.
 
 \paragraph{Closure Properties}
 The class of languages recognized by ML-QFA is not closed under union, intersection, or complement, especially under non-strict cutpoint semantics \cite{qiu2009hierarchy}.
@@ -102,13 +102,13 @@ P_A(\omega) = \| P_{acc} U_{\omega} \ket{\psi_0} \|^2
 with $U_{\omega}$ computed from the sequence of reversible unitaries associated with the $k$-letter substrings \cite{belovs2007multi}.
 
 \paragraph{Sets of Languages Accepted}
-ML-revQFA are strictly more limited than general ML-QFA due to their reversibility constraint. They can recognize a subset of regular languages and do not accept all regular languages with bounded error, particularly under exact acceptance criteria.
+ML-revQFA are strictly more limited than general ML-QFA due to their reversibility constraint. They can recognize a subset of \glspl{reg} and do not accept all \glspl{reg} with bounded error, particularly under exact acceptance criteria.
 
 \paragraph{Closure Properties}
 The class of languages recognized by ML-revQFA is not closed under union or complement. Reversibility limits the computational power of these models in comparison with more general multiletter QFA models \cite{belovs2007multi}.
 
 \paragraph{Advantages and Limitations}
-Reversible automata are appealing for quantum computing implementations due to better coherence and energy efficiency. However, their expressiveness is constrained. ML-revQFA cannot recognize some simple regular languages that non-reversible ML-QFA can handle \cite{belovs2007multi}.
+Reversible automata are appealing for quantum computing implementations due to better coherence and energy efficiency. However, their expressiveness is constrained. ML-revQFA cannot recognize some simple \glspl{reg} that non-reversible ML-QFA can handle \cite{belovs2007multi}.
 
 \paragraph{Comparison}
 ML-revQFA are less powerful than both ML-QFA and ML-MMQFA. They are closely related to reversible classical automata and group automata. Compared to non-reversible models, they generally require more states or cannot recognize the same languages under equivalent semantics \cite{belovs2007multi}.

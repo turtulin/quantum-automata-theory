@@ -7,7 +7,7 @@ In all these models, the goal is to leverage a small quantum memory together wit
 
 Several important hybrid QFA models have been introduced. Ambainis and Watrous \cite{ambainis2002two} first proposed the two-way quantum finite automaton with classical states (\gls{2qcfa}), which augments a two-way deterministic finite automaton with a constant-size quantum register. 
 
-More advanced hybrids include multi-tape extensions like the \gls{2tqcfa} and \gls{ktqcfa}, which increase computational power by leveraging multiple input tapes \cite{zheng2011two}. All one-way hybrid QFA models (\gls{1qcfa}, 1QFAC, \gls{cl-1qfa}) recognize exactly the regular languages \cite{li2015hybrid, zheng2012one}. However, they can be significantly more \textit{succinct} in terms of state complexity than classical models \cite{xiao2021state}.
+More advanced hybrids include multi-tape extensions like the \gls{2tqcfa} and \gls{ktqcfa}, which increase computational power by leveraging multiple input tapes \cite{zheng2011two}. All one-way hybrid QFA models (\gls{1qcfa}, 1QFAC, \gls{cl-1qfa}) recognize exactly the \glspl{reg} \cite{li2015hybrid, zheng2012one}. However, they can be significantly more \textit{succinct} in terms of state complexity than classical models \cite{xiao2021state}.
 
 \subsubsection{\glsentryfull{1qcfa}}
 
@@ -35,16 +35,16 @@ Computation begins in $(s_1, \ket{q_n})$, proceeds symbol-by-symbol. On input $x
 A \gls{1qcfa} accepts string $x$ with probability based on outcome paths $c_1c_2\cdots c_n$. If the classical state ends in $S_a$, it accepts. Languages are recognized with bounded error $\varepsilon < 1/2$ if acceptance probability is $\geq 1-\varepsilon$ for all $x \in L$ and $\leq \varepsilon$ for all $x \notin L$ \cite{li2015hybrid, zheng2012one}.
 
 \paragraph{Sets of Languages Recognized:}  
-\gls{1qcfa} recognize exactly the class of regular languages \cite{zheng2012one}. Any regular language can be recognized by some \gls{1qcfa} with certainty. Moreover, they can be exponentially more succinct than DFA for some regular languages \cite{xiao2021state}.
+\gls{1qcfa} recognize exactly the class of \glspl{reg} \cite{zheng2012one}. Any \gls{reg} can be recognized by some \gls{1qcfa} with certainty. Moreover, they can be exponentially more succinct than DFA for some \glspl{reg} \cite{xiao2021state}.
 
 \paragraph{Closure Properties:}  
-The class of languages recognized by \gls{1qcfa} is closed under union, intersection, and complement, as it coincides with the regular languages \cite{li2015hybrid}.
+The class of languages recognized by \gls{1qcfa} is closed under union, intersection, and complement, as it coincides with the \glspl{reg} \cite{li2015hybrid}.
 
 \paragraph{Advantages and Limitations:}  
 While \gls{1qcfa} do not exceed DFA in language power, they are often exponentially more state-efficient. For instance, certain periodic languages can be recognized with a single qubit: rotating the quantum state by $2\pi/p$ for each $a$ and measuring at the end to detect if the state returned to its initial position (full rotation) \cite{xiao2021state, bianchi2014size}.
 
 \paragraph{Comparison Between Models:}  
-\gls{1qcfa} generalize \gls{cl-1qfa} and 1QFAC. The main difference lies in bidirectional communication. In comparison to \gls{2qcfa}, \gls{1qcfa} are weaker, since they cannot move backward on the input or recognize non-regular languages \cite{li2015hybrid}.
+\gls{1qcfa} generalize \gls{cl-1qfa} and 1QFAC. The main difference lies in bidirectional communication. In comparison to \gls{2qcfa}, \gls{1qcfa} are weaker, since they cannot move backward on the input or recognize non-\glspl{reg} \cite{li2015hybrid}.
 
 \paragraph{Example:}  
 A \gls{1qcfa} can recognize the language $L = \{ a^n : n \equiv 0 \mod p \}$ using a single qubit: rotating the quantum state by $2\pi/p$ for each $a$ and measuring at the end to detect if the state returned to its initial position (full rotation) \cite{bianchi2014power}.
@@ -56,7 +56,7 @@ A \gls{1qcfa} can recognize the language $L = \{ a^n : n \equiv 0 \mod p \}$ usi
 \subsubsection{\glsentryfull{cl-1qfa}}
 
 \paragraph{Introduction:}  
-The \gls{cl-1qfa} (Quantum Finite Automata with Control Language) model, introduced by Bertoni, Mereghetti, and Palano \cite{mereghetti2006quantum}, consists of a quantum component responsible for unitary operations and measurements, and a classical DFA that processes the sequence of measurement outcomes. The role of the control language is to guide acceptance: a word is accepted if and only if the sequence of measurement outcomes belongs to a regular language defined by the control automaton.
+The \gls{cl-1qfa} (Quantum Finite Automata with Control Language) model, introduced by Bertoni, Mereghetti, and Palano \cite{mereghetti2006quantum}, consists of a quantum component responsible for unitary operations and measurements, and a classical DFA that processes the sequence of measurement outcomes. The role of the control language is to guide acceptance: a word is accepted if and only if the sequence of measurement outcomes belongs to a \gls{reg} defined by the control automaton.
 
 \paragraph{Formal Definition:}  
 A \gls{cl-1qfa} is a 6-tuple:
@@ -78,19 +78,19 @@ On input $x = x_1x_2\cdots x_n$, the automaton applies $U_{x_i}$ and measures af
 Acceptance depends entirely on whether the sequence of quantum measurement results belongs to the control language $L$. This model generally uses bounded-error acceptance. However, exact acceptance is possible for certain languages, depending on the control DFA and quantum measurements \cite{mereghetti2006quantum}.
 
 \paragraph{Sets of Languages Recognized:}  
-\gls{cl-1qfa} recognize exactly the class of regular languages \cite{li2015hybrid}. Though they do not surpass the regular class in power, their structure allows for different expressive strategies by decoupling quantum operations from classical verification.
+\gls{cl-1qfa} recognize exactly the class of \glspl{reg} \cite{li2015hybrid}. Though they do not surpass the regular class in power, their structure allows for different expressive strategies by decoupling quantum operations from classical verification.
 
 \paragraph{Closure Properties:}  
 The class of languages recognized is closed under union, intersection, and complement because the control language is regular and the measurement outcomes are deterministic modulo quantum probabilities \cite{li2015hybrid}.
 
 \paragraph{Advantages and Limitations:}  
-Advantages include clear separation between quantum processing and classical control, which simplifies modular design and analysis. The main limitation is that the model cannot recognize non-regular languages and does not allow dynamic feedback between quantum and classical components \cite{li2015hybrid}.
+Advantages include clear separation between quantum processing and classical control, which simplifies modular design and analysis. The main limitation is that the model cannot recognize non-\glspl{reg} and does not allow dynamic feedback between quantum and classical components \cite{li2015hybrid}.
 
 \paragraph{Comparison Between Models:}  
 \gls{cl-1qfa} can be simulated by \gls{1qcfa} \cite{li2015hybrid}, but not vice versa. Unlike \gls{1qcfa}, \gls{cl-1qfa} do not allow two-way communication: measurement outcomes do not affect the ongoing quantum state. This makes \gls{cl-1qfa} structurally simpler, but less expressive in practice.
 
 \paragraph{Example:}  
-To recognize $L = (ab)^*$, a \gls{cl-1qfa} can measure each input symbol’s quantum effect and produce a binary output: `0` for $a$, `1` for $b$. The control DFA can then accept only if the output string alternates properly and has even length \cite{mereghetti2006quantum}.
+To recognize $L = (ab)^*$, a \gls{cl-1qfa} can measure each input symbol's quantum effect and produce a binary output: `0` for $a$, `1` for $b$. The control DFA can then accept only if the output string alternates properly and has even length \cite{mereghetti2006quantum}.
 
 \paragraph{Additional Topics:}  
 Variants of \gls{cl-1qfa} using unary control languages have been recently proposed to explore succinctness and unary acceptance conditions \cite{mereghetti2024unary}. These help analyze minimal state configurations and potential hardware implementations.
@@ -122,7 +122,7 @@ The classical control can move the tape head both left and right. The quantum st
 \gls{2qcfa} accept strings using bounded error or with one-sided error. For example, languages like $L_{eq} = \{ a^n b^n \mid n \geq 1 \}$ can be accepted with one-sided bounded error in expected polynomial time \cite{ambainis2002two}.
 
 \paragraph{Sets of Languages Recognized:}  
-\gls{2qcfa} can recognize certain non-regular languages, including $L_{eq}$ and palindromes over unary alphabets, which makes them strictly more powerful than classical DFA or one-way QFA \cite{ambainis2002two, li2015hybrid}.
+\gls{2qcfa} can recognize certain non-\glspl{reg}, including $L_{eq}$ and palindromes over unary alphabets, which makes them strictly more powerful than classical DFA or one-way QFA \cite{ambainis2002two, li2015hybrid}.
 
 \paragraph{Closure Properties:}  
 The class of languages recognized by \gls{2qcfa} is not closed under union or intersection, due to the constraints of the probabilistic error bounds and two-way head movement. However, they maintain closure under reversal and concatenation in specific cases \cite{li2015hybrid}.
@@ -161,7 +161,7 @@ As in \gls{2qcfa}, the automaton evolves through interactions between classical 
 \gls{2tqcfa} can accept languages using bounded-error acceptance, typically with one-sided error. A notable example includes the language $L = \{ w \# w \mid w \in \{a, b\}^* \}$, which is non-regular and not recognizable by \gls{2qcfa}, but accepted by \gls{2tqcfa} using synchronous traversal of both input halves \cite{zheng2011two}.
 
 \paragraph{Sets of Languages Recognized:}  
-The language recognition power of \gls{2tqcfa} includes certain context-free and non-regular languages not recognizable by \gls{2qcfa}. Thus, \gls{2tqcfa} strictly extends the power of \gls{2qcfa} under bounded-error acceptance \cite{zheng2011two}.
+The language recognition power of \gls{2tqcfa} includes certain context-free and non-\glspl{reg} not recognizable by \gls{2qcfa}. Thus, \gls{2tqcfa} strictly extends the power of \gls{2qcfa} under bounded-error acceptance \cite{zheng2011two}.
 
 \paragraph{Closure Properties:}  
 Due to the added complexity of two-tape processing, closure properties are less well-defined. However, the model is still limited by finite memory and cannot recognize arbitrary context-free languages \cite{li2015hybrid}.
@@ -176,13 +176,13 @@ The primary advantage is an increased ability to perform input comparisons, usef
 To recognize $L = \{ w \# w \}$, a \gls{2tqcfa} reads $w$ on the first tape and stores information in the quantum register. It then compares this with the second half of the input on the second tape. Probabilistic subroutines are used to ensure correctness with bounded error \cite{zheng2011two}.
 
 \paragraph{Additional Topics:}  
-Variants of multi-tape quantum automata have been studied to explore even richer classes. Open problems include characterizing all non-regular languages recognizable by \gls{2tqcfa} with polynomial expected runtime.
+Variants of multi-tape quantum automata have been studied to explore even richer classes. Open problems include characterizing all non-\glspl{reg} recognizable by \gls{2tqcfa} with polynomial expected runtime.
 
 
 \subsubsection{\glsentryfull{ktqcfa}}
 
 \paragraph{Introduction:}  
-The \gls{ktqcfa} model generalizes the two-tape quantum-classical automaton to an arbitrary finite number $k$ of input tapes. This model, proposed in subsequent works building upon the \gls{2tqcfa} model \cite{zheng2011two}, enhances the automaton’s ability to process complex language patterns by allowing simultaneous access to multiple strings. Each tape is read by an independent head, all coordinated by a classical control unit and a constant-size quantum register.
+The \gls{ktqcfa} model generalizes the two-tape quantum-classical automaton to an arbitrary finite number $k$ of input tapes. This model, proposed in subsequent works building upon the \gls{2tqcfa} model \cite{zheng2011two}, enhances the automaton's ability to process complex language patterns by allowing simultaneous access to multiple strings. Each tape is read by an independent head, all coordinated by a classical control unit and a constant-size quantum register.
 
 \paragraph{Formal Definition:}  
 A \gls{ktqcfa} is defined similarly to a \gls{2tqcfa} but with $k$ tapes and $k$ input heads. The formal components include:

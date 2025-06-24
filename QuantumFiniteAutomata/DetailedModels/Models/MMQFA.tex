@@ -2,7 +2,7 @@
 \label{sec:mmqfa}
 
 \subsubsection{Introduction}
-\glspl{mm-1qfa} are a variant of quantum finite automata in which a measurement is performed after reading each input symbol. Introduced by Kondacs and Watrous in 1997~\cite{kondacs1997power}, \glspl{mm-1qfa} allow the automaton to collapse its quantum state at intermediate steps, thereby potentially influencing the computation dynamically. Although this mechanism can enhance the detection of accepting or rejecting conditions during the run, under the bounded error regime \glspl{mm-1qfa} are known to recognize only a proper subset of the regular languages~\cite{brodsky2002characterizations}. Recent work, such as by Lin~\cite{lin2012another}, has provided elegant methods for addressing the equivalence problem of \glspl{mm-1qfa}, further enriching our understanding of their computational properties.
+\glspl{mm-1qfa} are a variant of quantum finite automata in which a measurement is performed after reading each input symbol. Introduced by Kondacs and Watrous in 1997~\cite{kondacs1997power}, \glspl{mm-1qfa} allow the automaton to collapse its quantum state at intermediate steps, thereby potentially influencing the computation dynamically. Although this mechanism can enhance the detection of accepting or rejecting conditions during the run, under the bounded error regime \glspl{mm-1qfa} are known to recognize only a proper subset of the \glspl{reg}~\cite{brodsky2002characterizations}. Recent work, such as by Lin~\cite{lin2012another}, has provided elegant methods for addressing the equivalence problem of \glspl{mm-1qfa}, further enriching our understanding of their computational properties.
 
 \subsubsection{Formal Definition}
 A \glsentryfull{mm-1qfa} is defined as a 6-tuple
@@ -48,7 +48,7 @@ p_M(x) \le \lambda - \epsilon,
 where $\lambda$ is a predetermined cut-point (commonly set to $\frac{1}{2}$)~\cite{kondacs1997power,brodsky2002characterizations}.
 
 \subsubsection{Set of Languages Accepted}
-Under the bounded error constraint, \glspl{mm-1qfa} recognize a proper subset of the regular languages. In particular, the languages accepted by \glspl{mm-1qfa} must satisfy specific algebraic properties that restrict their expressive power. Although \glspl{mm-1qfa} can, in some cases, recognize nonregular languages when allowed unbounded error, the bounded error condition confines them to a class that is comparable to that of group languages~\cite{brodsky2002characterizations,kondacs1997power}. This limitation underscores the trade-off between the increased measurement frequency and the resultant reduction in language recognition capability.
+Under the bounded error constraint, \glspl{mm-1qfa} recognize a proper subset of the \glspl{reg}. In particular, the languages accepted by \glspl{mm-1qfa} must satisfy specific algebraic properties that restrict their expressive power. Although \glspl{mm-1qfa} can, in some cases, recognize non\glspl{reg} when allowed unbounded error, the bounded error condition confines them to a class that is comparable to that of group languages~\cite{brodsky2002characterizations,kondacs1997power}. This limitation underscores the trade-off between the increased measurement frequency and the resultant reduction in language recognition capability.
 
 \subsubsection{Closure Properties}
 The language class recognized by \glspl{mm-1qfa} with bounded error is known to enjoy several closure properties:
@@ -67,8 +67,8 @@ Recent work by Lin~\cite{lin2012another} further refines our understanding of th
 \end{itemize}
 Nevertheless, there are significant limitations:
 \begin{itemize}
-    \item The frequent measurements interrupt the quantum evolution, which can limit the automaton’s ability to harness quantum interference effectively.
-    \item As a result, under bounded error conditions, \glspl{mm-1qfa} recognize only a restricted subset of the regular languages.
+    \item The frequent measurements interrupt the quantum evolution, which can limit the automaton's ability to harness quantum interference effectively.
+    \item As a result, under bounded error conditions, \glspl{mm-1qfa} recognize only a restricted subset of the \glspl{reg}.
     \item The complexity of analyzing and minimizing \glspl{mm-1qfa} remains high, with state minimization posing an EXPSPACE challenge~\cite{mateus2012complexity} and lower bound results highlighting the inherent state complexity~\cite{ablayev2000lower}.
 \end{itemize}
 Moreover, when compared to \gls{mo-1qfa}s, \glspl{mm-1qfa} may offer greater recognition power in some unbounded error scenarios but at the cost of increased computational and implementation complexity~\cite{kondacs1997power,berzicna2001ambainis}.
@@ -86,9 +86,9 @@ The \gls{mm-1qfa} processes an input string such as $aa$ as follows:
 \begin{enumerate}
     \item Starting in state $\ket{q}$, the operator $U_a$ is applied and a measurement is performed. The measurement may collapse the state into:
     \begin{itemize}
-        \item $E_{acc}$ (state $q_2$) – leading to immediate acceptance,
-        \item $E_{rej}$ (state $q_1$) – leading to immediate rejection, or
-        \item $E_{non}$ (state $q_0$, in this example) – allowing the computation to continupe.
+        \item $E_{acc}$ (state $q_2$) - leading to immediate acceptance,
+        \item $E_{rej}$ (state $q_1$) - leading to immediate rejection, or
+        \item $E_{non}$ (state $q_0$, in this example) - allowing the computation to continupe.
     \end{itemize}
     \item If the first measurement yields a non-halting result, the second symbol is processed in a similar manner. The overall acceptance probability is the sum of the probabilities of all computation paths that eventually result in an outcome within $E_{acc}$.
 \end{enumerate}

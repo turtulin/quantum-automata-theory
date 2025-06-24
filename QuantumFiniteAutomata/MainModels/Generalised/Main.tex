@@ -1,6 +1,6 @@
 \subsection{Generalised Quantum Finite Automata}
 \label{sec:generalised-qfa}
-\glspl{1gqfa} extend the standard \glspl{qfa} by replacing the usual unitary‐based state transitions with the most general physically admissible maps—namely, trace‐preserving quantum operations. This modification permits non‐unitary evolution, allowing the automata to simulate probabilistic and classical automata while still operating with finite memory. Nevertheless, it has been shown that both the measure‐once and measure‐many versions of \gls{1gqfa} recognize exactly the regular languages (with bounded error) \cite{li2012characterizations}.
+\glspl{1gqfa} extend the standard \glspl{qfa} by replacing the usual unitary‐based state transitions with the most general physically admissible maps—namely, trace‐preserving quantum operations. This modification permits non‐unitary evolution, allowing the automata to simulate probabilistic and classical automata while still operating with finite memory. Nevertheless, it has been shown that both the measure‐once and measure‐many versions of \gls{1gqfa} recognize exactly the \glspl{reg} (with bounded error) \cite{li2012characterizations}.
 
 \subsubsection{\glsentrylong{mo-1gqfa}}
 A \gls{mo-1gqfa} generalizes the traditional \gls{mo-1qfa} by allowing each input symbol to trigger a trace‐preserving quantum operation (instead of a unitary transformation) on the system. In this model, no measurement is performed during the reading of the input; a single projective measurement is executed only at the end to decide acceptance or rejection \cite{li2012characterizations}.
@@ -45,18 +45,18 @@ A string $x\in\Sigma^*$ is accepted by $M$ if the acceptance probability meets t
 \end{enumerate}
 
 \paragraph{Set of Languages Accepted.}  
-It has been proved that under the bounded error criterion, \gls{mo-1gqfa} recognize precisely the class of regular languages. That is, for every regular language there exists an \gls{mo-1gqfa} recognizing it, and every language recognized by an \gls{mo-1gqfa} is regular \cite{li2012characterizations}.
+It has been proved that under the bounded error criterion, \gls{mo-1gqfa} recognize precisely the class of \glspl{reg}. That is, for every \gls{reg} there exists an \gls{mo-1gqfa} recognizing it, and every language recognized by an \gls{mo-1gqfa} is regular \cite{li2012characterizations}.
 
 \paragraph{Closure Properties.}  
 The class of languages recognized by \gls{mo-1gqfa} is closed under several standard operations:
 \begin{itemize}
   \item \textbf{Union and Intersection:} By suitable constructions (e.g., via direct sums and tensor products), if $L_1$ and $L_2$ are recognized by \gls{mo-1gqfa} then so are $L_1\cup L_2$ and $L_1\cap L_2$.
   \item \textbf{Complementation:} Replacing $P_{acc}$ with its complement $I-P_{acc}$ yields an automaton for the complement language.
-  \item \textbf{Inverse Homomorphism and Concatenation with Regular Languages:} These operations preserve the regularity of the language.
+  \item \textbf{Inverse Homomorphism and Concatenation with \glspl{reg}:} These operations preserve the regularity of the language.
 \end{itemize}
 
 \paragraph{Summary of Advantages and Limitations.}  
-The \gls{mo-1gqfa} model is advantageous due to its structural simplicity—requiring only a final measurement—and its ability to simulate classical probabilistic automata exactly via general trace‐preserving operations. However, despite the broadened operational framework, its computational power remains confined to recognizing regular languages (with bounded error). Furthermore, the state minimization problem for \gls{mo-1gqfa} is known to be EXPSPACE‐hard \cite{mateus2012complexity}.
+The \gls{mo-1gqfa} model is advantageous due to its structural simplicity—requiring only a final measurement—and its ability to simulate classical probabilistic automata exactly via general trace‐preserving operations. However, despite the broadened operational framework, its computational power remains confined to recognizing \glspl{reg} (with bounded error). Furthermore, the state minimization problem for \gls{mo-1gqfa} is known to be EXPSPACE‐hard \cite{mateus2012complexity}.
 
 \paragraph{Example.}  
 An example is provided by the simulation of a deterministic finite automaton (DFA) for the language
@@ -67,7 +67,7 @@ Here, one chooses
 \[
 \mathcal{H}=\mathrm{span}\{\ket{q_n},\ket{q_n},\dots,\ket{q_n}\},
 \]
-sets the initial state as $\rho_0=\sum_{i}\pi_i\,\ket{q_n}\bra{q_i}$ (with $\{\pi_i\}$ given by the DFA’s initial distribution), and defines each operation $\mathcal{E}_\sigma$ so that for each basis state $\ket{q_n}$,
+sets the initial state as $\rho_0=\sum_{i}\pi_i\,\ket{q_n}\bra{q_i}$ (with $\{\pi_i\}$ given by the DFA's initial distribution), and defines each operation $\mathcal{E}_\sigma$ so that for each basis state $\ket{q_n}$,
 \[
 \mathcal{E}_\sigma\bigl(\ket{q_n}\bra{q_i}\bigr)=\sum_{j}A(\sigma)_{ij}\,\ket{q_n}\bra{q_j},
 \]
@@ -120,7 +120,7 @@ The acceptance of an input string $x$ is defined by the cumulative probability t
 \end{enumerate}
 
 \paragraph{Set of Languages Accepted.}  
-It has been established that \gls{mm-1gqfa}, despite the intermediate measurements after each symbol, recognize exactly the class of regular languages (with bounded error). Thus, the frequency of measurements does not extend the language recognition power beyond that of \gls{mo-1gqfa} \cite{li2012characterizations}.
+It has been established that \gls{mm-1gqfa}, despite the intermediate measurements after each symbol, recognize exactly the class of \glspl{reg} (with bounded error). Thus, the frequency of measurements does not extend the language recognition power beyond that of \gls{mo-1gqfa} \cite{li2012characterizations}.
 
 \paragraph{Closure Properties.}  
 \gls{mm-1gqfa} are closed under standard operations. In particular, if $L_1$ and $L_2$ are recognized by \gls{mm-1gqfa} then:
@@ -131,7 +131,7 @@ It has been established that \gls{mm-1gqfa}, despite the intermediate measuremen
 \end{itemize}
 
 \paragraph{Summary of Advantages and Limitations.}  
-The \gls{mm-1gqfa} model offers the flexibility of making intermediate measurements, which may simplify the design of some automata. However, like \gls{mo-1gqfa}, its computational power remains limited to regular languages under the bounded error regime. Furthermore, the state minimization problem for \gls{mm-1gqfa} is EXPSPACE‐hard \cite{mateus2012complexity}.
+The \gls{mm-1gqfa} model offers the flexibility of making intermediate measurements, which may simplify the design of some automata. However, like \gls{mo-1gqfa}, its computational power remains limited to \glspl{reg} under the bounded error regime. Furthermore, the state minimization problem for \gls{mm-1gqfa} is EXPSPACE‐hard \cite{mateus2012complexity}.
 
 \paragraph{Example.}  
 For example, consider an \gls{mm-1gqfa} designed to recognize 
