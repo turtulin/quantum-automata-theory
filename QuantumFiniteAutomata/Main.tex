@@ -1,6 +1,37 @@
 \chapter{Quantum Finite Automata}
 \label{chap:quantum-finite-automata}
 
+The study of \glspl{qfa} arose from the question of how far the
+finite-memory paradigm of \glspl{cfa} extends when the transition
+map is replaced by symbol-controlled unitary operators followed by
+quantum measurement. Since the seminal formulations of measure-once and
+measure-many one-way machines \cite{kondacs1997power,
+moore2000quantum}, this minimalist model has revealed capabilities
+that distinguish it sharply from its deterministic counterpart; examples
+include exponential state savings in promise-problem recognition
+\cite{ambainis19981} and interactive proof power that eludes
+classical finite verifiers of identical size \cite{nishimura2009application}.
+
+This chapter offers a concise taxonomy that tracks the historical
+broadening of the model while keeping a uniform notation. We begin with
+the foundational one-way variants, then investigate how two-way head
+motion, hybrid quantum-classical control or bounded counters enlarge the
+language classes recognised, occasionally reaching beyond the regular
+languages \cite{brodsky2002characterizations,ambainis2002two,zheng2012one}. The survey closes with less common
+frameworks, such as postselection, promise settings and $\omega$-word machines, 
+that continue to challenge classical intuitions
+\cite{aaronson2005quantum,scegulnaja2010postselection,bhatia2019quantum}.
+
+Throughout the discussion each device is specified as a fixed-size tuple
+whose components highlight the role of the quantum state space, the
+observable structure and the head movement policy. Key results on
+expressive power, closure properties and decidability are presented, culminating in a comparative
+table that juxtaposes state complexity bounds and closure behaviour
+across all surveyed models. This structured overview equips the reader
+with the precise vocabulary and conceptual tools required for the later
+translation of \glspl{qfa} into executable quantum circuits developed in
+Chapter\,\ref{chap:automata-to-circuits}.
+
 \input{QuantumFiniteAutomata/DetailedModels/Main.tex}
 \input{QuantumFiniteAutomata/MainModels/Main.tex}
 \input{QuantumFiniteAutomata/OtherModels/Main.tex}

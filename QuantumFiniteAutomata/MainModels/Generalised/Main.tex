@@ -5,7 +5,7 @@
 \subsubsection{\glsentrylong{mo-1gqfa}}
 A \gls{mo-1gqfa} generalizes the traditional \gls{mo-1qfa} by allowing each input symbol to trigger a trace‐preserving quantum operation (instead of a unitary transformation) on the system. In this model, no measurement is performed during the reading of the input; a single projective measurement is executed only at the end to decide acceptance or rejection \cite{li2012characterizations}.
 
-\paragraph{Formal Definition.}  
+\paragraph{Formal Definition}
 An \gls{mo-1gqfa} is defined as the quintuple
 \[
 M = \{ \mathcal{H},\Sigma,\rho_0,\{\mathcal{E}_\sigma\}_{\sigma\in\Sigma},P_{acc}\},
@@ -30,7 +30,7 @@ and a final measurement in the basis $\{P_{acc},P_{rej}\}$ is performed. The acc
 f_M(x)=\mathrm{Tr}\bigl(P_{acc}\,\rho_x\bigr).
 \]
 
-\paragraph{Strings Acceptance.}  
+\paragraph{Strings Acceptance} 
 A string $x\in\Sigma^*$ is accepted by $M$ if the acceptance probability meets the specified criterion. Common acceptance criteria include:
 \begin{enumerate}
   \item \textbf{Bounded Error:} There exist a threshold $\lambda\in(0,1]$ and an error margin $\epsilon>0$ such that
@@ -44,10 +44,10 @@ A string $x\in\Sigma^*$ is accepted by $M$ if the acceptance probability meets t
   \item \textbf{Exact Acceptance:} In certain constructions (e.g., when simulating a deterministic finite automaton) one has $f_M(x)=1$ for accepted strings and $f_M(x)=0$ for rejected strings.
 \end{enumerate}
 
-\paragraph{Set of Languages Accepted.}  
+\paragraph{Set of Languages Accepted}  
 It has been proved that under the bounded error criterion, \gls{mo-1gqfa} recognize precisely the class of \glspl{reg}. That is, for every \gls{reg} there exists an \gls{mo-1gqfa} recognizing it, and every language recognized by an \gls{mo-1gqfa} is regular \cite{li2012characterizations}.
 
-\paragraph{Closure Properties.}  
+\paragraph{Closure Properties}  
 The class of languages recognized by \gls{mo-1gqfa} is closed under several standard operations:
 \begin{itemize}
   \item \textbf{Union and Intersection:} By suitable constructions (e.g., via direct sums and tensor products), if $L_1$ and $L_2$ are recognized by \gls{mo-1gqfa} then so are $L_1\cup L_2$ and $L_1\cap L_2$.
@@ -55,10 +55,10 @@ The class of languages recognized by \gls{mo-1gqfa} is closed under several stan
   \item \textbf{Inverse Homomorphism and Concatenation with \glspl{reg}:} These operations preserve the regularity of the language.
 \end{itemize}
 
-\paragraph{Summary of Advantages and Limitations.}  
+\paragraph{Summary of Advantages and Limitations}  
 The \gls{mo-1gqfa} model is advantageous due to its structural simplicity—requiring only a final measurement—and its ability to simulate classical probabilistic automata exactly via general trace‐preserving operations. However, despite the broadened operational framework, its computational power remains confined to recognizing \glspl{reg} (with bounded error). Furthermore, the state minimization problem for \gls{mo-1gqfa} is known to be EXPSPACE‐hard \cite{mateus2012complexity}.
 
-\paragraph{Example.}  
+\paragraph{Example}  
 An example is provided by the simulation of a deterministic finite automaton (DFA) for the language
 \[
 L=a^*b^*.
@@ -77,14 +77,14 @@ P_{acc}=\sum_{q_i\in F}\ket{q_n}\bra{q_i},
 \]
 where $F$ is the set of accepting states. This construction ensures that the acceptance probability $f_M(x)$ replicates the behavior of the DFA \cite{li2012characterizations}.
 
-\paragraph{Additional Topics.}  
+\paragraph{Additional Topics}  
 Further research on \gls{mo-1gqfa} includes the equivalence problem, where necessary and sufficient conditions are derived based on the linear span of the reachable density operators. In addition, advanced state minimization techniques have been developed, reducing the minimization problem to solving systems of polynomial inequalities with an EXPSPACE upper bound \cite{mercer2008lower}.
 
 \subsubsection{\glsentrylong{mm-1gqfa}}
-\paragraph{Introduction.}  
+\paragraph{Introduction} 
 \gls{mm-1gqfa} extend the \gls{mo-1gqfa} model by performing a measurement after processing each input symbol. In this model, after each trace‐preserving quantum operation corresponding to a symbol, a projective measurement is executed that partitions the state space into three mutually orthogonal subspaces—namely, the accepting subspace, the rejecting subspace, and the non‐halting subspace. If the outcome lies in the accepting or rejecting subspace, the computation halts immediately; otherwise, it continues with the next symbol \cite{li2012characterizations}.
 
-\paragraph{Formal Definition.}  
+\paragraph{Formal Definition} 
 An \gls{mm-1gqfa} is defined as the 6-tuple
 \[
 M = \{ \mathcal{H},\Sigma,\rho_0,\{\mathcal{E}_\sigma\}_{\sigma\in\Sigma\cup\{\cent,\$\}},\mathcal{H}_{acc},\mathcal{H}_{rej}\},
@@ -106,7 +106,7 @@ where
 \end{itemize}
 For an input string $x\in\Sigma^*$ (presented as $\cent\,x\,\$$), the automaton processes each symbol sequentially. If, at any step, the measurement projects onto $\mathcal{H}_{acc}$ (or $\mathcal{H}_{rej}$), the computation halts with acceptance (or rejection). Otherwise, if the outcome is in $\mathcal{H}_{non}$, the automaton continues processing the next symbol.
 
-\paragraph{Strings Acceptance.}  
+\paragraph{Strings Acceptance}  
 The acceptance of an input string $x$ is defined by the cumulative probability that the automaton halts in an accepting configuration. The common acceptance criteria include:
 \begin{enumerate}
   \item \textbf{Bounded Error:} There exist $\lambda\in(0,1]$ and $\epsilon>0$ such that
@@ -119,10 +119,10 @@ The acceptance of an input string $x$ is defined by the cumulative probability t
   \item \textbf{Cutpoint/Exact Acceptance:} As in the \gls{mo-1gqfa} model, acceptance may also be defined via an isolated cutpoint or by requiring exact acceptance.
 \end{enumerate}
 
-\paragraph{Set of Languages Accepted.}  
+\paragraph{Set of Languages Accepted} 
 It has been established that \gls{mm-1gqfa}, despite the intermediate measurements after each symbol, recognize exactly the class of \glspl{reg} (with bounded error). Thus, the frequency of measurements does not extend the language recognition power beyond that of \gls{mo-1gqfa} \cite{li2012characterizations}.
 
-\paragraph{Closure Properties.}  
+\paragraph{Closure Properties}  
 \gls{mm-1gqfa} are closed under standard operations. In particular, if $L_1$ and $L_2$ are recognized by \gls{mm-1gqfa} then:
 \begin{itemize}
   \item They are closed under \emph{union} and \emph{intersection} (by appropriate constructions using direct sums or tensor products),
@@ -130,17 +130,17 @@ It has been established that \gls{mm-1gqfa}, despite the intermediate measuremen
   \item And they are closed under other operations such as inverse homomorphism.
 \end{itemize}
 
-\paragraph{Summary of Advantages and Limitations.}  
+\paragraph{Summary of Advantages and Limitations} 
 The \gls{mm-1gqfa} model offers the flexibility of making intermediate measurements, which may simplify the design of some automata. However, like \gls{mo-1gqfa}, its computational power remains limited to \glspl{reg} under the bounded error regime. Furthermore, the state minimization problem for \gls{mm-1gqfa} is EXPSPACE‐hard \cite{mateus2012complexity}.
 
-\paragraph{Example.}  
+\paragraph{Example}  
 For example, consider an \gls{mm-1gqfa} designed to recognize 
 \[
 L=\{w\in\{a,b\}^* \mid \text{the last symbol of }w\text{ is }a\}.
 \]
 In this automaton, after each input symbol the machine performs a measurement. If a measurement outcome projects onto $\mathcal{H}_{acc}$ (indicating that the current configuration is accepting) and no previous measurement forced a rejection, the automaton eventually halts with acceptance. This construction guarantees that the cumulative acceptance probability meets the bounded error condition exactly when the input ends with an $a$ \cite{li2012characterizations}.
 
-\paragraph{Additional Topics.}  
+\paragraph{Additional Topics}  
 Recent research on \gls{1gqfa} has addressed the equivalence problem, providing necessary and sufficient conditions based on the linear span of the reachable density operators. Moreover, advanced state minimization techniques have been developed, reducing the minimization problem to solving systems of polynomial inequalities with an EXPSPACE upper bound \cite{mercer2008lower}. Future directions include exploring further generalizations and their potential applications in modeling noisy quantum systems.
 
 

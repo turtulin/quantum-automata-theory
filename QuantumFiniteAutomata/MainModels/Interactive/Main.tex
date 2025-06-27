@@ -7,8 +7,8 @@
 Interactive automata based on quantum interactive proof systems offer a striking demonstration of how even extremely resource‐limited verifiers—modeled by quantum finite automata (qfa's)—can, through interaction with a powerful prover, recognize nontrivial languages. Two principal models have been developed in this area:
   
 \begin{itemize}
-  \item \textbf{Quantum Interactive Proof (\gls{qip}) systems}, in which the verifier's internal moves remain hidden (private-coin), and
-  \item \textbf{Quantum Arthur-Merlin (\gls{qam}) systems}, where the verifier publicly announces his next move (public-coin).
+  \item \gls{qip} systems, in which the verifier's internal moves remain hidden (private-coin), and
+  \item \gls{qam} systems, where the verifier publicly announces his next move (public-coin).
 \end{itemize}
 
 In these models, the verifier is typically a two-way qfa, though one-way variants have also been considered. The seminal works by Nishimura and Yamakami \cite{nishimura2009application, nishimura2015interactive} and Zheng, Qiu, and Gruska \cite{zheng2015power} have established detailed protocols and complexity separations that reveal the potential of interactive proofs even when the verifier possesses only finite-dimensional quantum memory.
@@ -16,7 +16,7 @@ In these models, the verifier is typically a two-way qfa, though one-way variant
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Formal Definition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Formal Definition.}
+\paragraph{Formal Definition}
 A general \gls{qip} system with a qfa verifier is defined as a pair $(P,V)$, where:
 
 \textbf{Verifier.} The verifier $V$ is given by
@@ -43,7 +43,7 @@ The verifier's overall Hilbert space, denoted by $\mathit{\mathcal{H}}_V$, is sp
 \]
 acting on the prover's private Hilbert space $\mathit{\mathcal{H}}_P$. In some variants (denoted by the restriction 〈c-prover〉), the prover's unitaries are required to have only 0-1 entries, effectively making the prover deterministic.
 
-\paragraph{\gls{qam} Systems.} In the \gls{qam} variant, the verifier is additionally required to announce his next move via the communication cell, rendering the system a public-coin protocol. Thus, while the basic structure of $(P,V)$ remains the same, a \gls{qam} system is denoted as
+\paragraph{\gls{qam} Systems} In the \gls{qam} variant, the verifier is additionally required to announce his next move via the communication cell, rendering the system a public-coin protocol. Thus, while the basic structure of $(P,V)$ remains the same, a \gls{qam} system is denoted as
 \[
 \text{\gls{qam}}(\langle\text{restriction}\rangle) \quad \text{or} \quad \text{\gls{qip}}(\text{public}),
 \]
@@ -52,7 +52,7 @@ and the transition function $\delta$ is designed so that, after each move, the p
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Strings Acceptance
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Strings Acceptance.}
+\paragraph{Strings Acceptance}
 An interactive proof system $(P,V)$ accepts an input string $x\in\Sigma^*$ if, after a prescribed sequence of interaction rounds, the verifier eventually performs a halting measurement that yields an accepting configuration with high probability. Formally, the system recognizes a language $L\subseteq\Sigma^*$ if the following conditions hold:
 \begin{itemize}
   \item \textbf{Completeness:} For every $x\in L$, there exists a prover strategy $P$ such that the verifier accepts $x$ with probability at least $1-\epsilon$, where $\epsilon<1/2$.
@@ -63,7 +63,7 @@ Variants of acceptance include definitions via an isolated cutpoint or exact acc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Set of Languages Accepted
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Set of Languages Accepted.}
+\paragraph{Set of Languages Accepted}
 The language recognition power of these interactive systems depends on the verifier's model and the nature of the interaction:
 \begin{itemize}
   \item When the verifier is a \textbf{1qfa} (one-way qfa), it has been shown that
@@ -78,7 +78,7 @@ The language recognition power of these interactive systems depends on the verif
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Closure Properties
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Closure Properties.}
+\paragraph{Closure Properties}
 The language classes defined by \gls{qip} and \gls{qam} systems exhibit robust closure properties:
 \begin{itemize}
   \item They are closed under \emph{union} and \emph{intersection}, typically via parallel composition (using direct sums or tensor products).
@@ -90,7 +90,7 @@ These properties are established through constructions that combine multiple pro
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Summary of Advantages and Limitations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Summary of Advantages and Limitations.}
+\paragraph{Summary of Advantages and Limitations}
 Interactive proof systems with qfa verifiers offer several compelling advantages:
 \begin{itemize}
   \item \textbf{Finite Quantum Resources:} The verifier operates with a finite-dimensional quantum system, making the model realistic for devices with limited quantum memory.
@@ -107,7 +107,7 @@ However, there are also limitations:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Example
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Example.}
+\paragraph{Example}
 An illustrative example is the \gls{qip} protocol for the language
 \[
 \mathtt{Pal\#} = \{x\#x^R \mid x\in\{0,1\}^*\},
@@ -120,7 +120,7 @@ which comprises even-length palindromes separated by a delimiter. In the protoco
 \end{enumerate}
 This example clearly demonstrates how interaction compensates for the verifier's limited memory, enabling recognition of a nontrivial language.
 
-\paragraph{Additional Topics.}
+\paragraph{Additional Topics}
 Several open problems and future research directions emerge from this line of work:
 \begin{itemize}
   \item \textbf{Round Complexity:} How does limiting the number of interaction rounds (e.g., as in \gls{qip}\#($k$)) affect the recognition power and efficiency?

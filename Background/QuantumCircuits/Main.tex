@@ -1,7 +1,7 @@
 \section{Quantum Gates and Circuits}
 \label{sec:quantum-gates-and-circuits}
 
-The gate model formulates quantum computation as a sequence of reversible transformations that act on an ordered register of qubits. Each elementary transformation, or quantum logic gate, is represented by a unitary matrix that preserves the norm of the wavefunction and therefore the probabilistic interpretation of quantum states \cite{NCFlips}. By composing gates drawn from a finite universal set such as \gls{hadamard},  \gls{phase}, and \gls{cnot}, any unitary operator on a finite dimensional Hilbert space can be approximated to arbitrary accuracy, providing the foundation on which quantum algorithms like Shor's factoring routine and the \gls{qft} are constructed \cite{Barenco1995elementary,Shor1994}.
+The gate model formulates quantum computation as a sequence of reversible transformations that act on an ordered register of qubits. Each elementary transformation, or quantum logic gate, is represented by a unitary matrix that preserves the norm of the wavefunction and therefore the probabilistic interpretation of quantum states \cite{NCFlips}. By composing gates drawn from a finite universal set such as \gls{hadamard}, \gls{phase}, and \gls{cnot}, any unitary operator on a finite dimensional Hilbert space can be approximated to arbitrary accuracy, providing the foundation on which quantum algorithms like Shor's factoring routine and the \gls{qft} are constructed \cite{Barenco1995elementary,Shor1994}.
 
 Beyond abstract universality, physical realisations impose architectural constraints that influence gate granularity, qubit connectivity, and measurement timing. The criteria articulated by DiVincenzo identify coherent state preparation, high fidelity single and two qubit gates, and reliable read-out as indispensable requirements for scalable devices \cite{divincenzo2000criteria}. Present \gls{nisq} processors satisfy these conditions only approximately, which motivates depth-aware decompositions, noise-adaptive compilation, and the explicit accounting of ancillary resources \cite{Preskill2018nisq}. 
 
@@ -10,14 +10,14 @@ In the context of this thesis, quantum circuits serve as the executable target f
 \subsection{Common Quantum Gates}
 \label{sec:common-quantum-gates}
 
-Quantum logic gates are unitary operators acting on one or more qubits.  
-They constitute the elementary instruction set of the gate model of quantum computation \cite{NielsenChuang2010}.  
-A single-qubit gate realises a rotation of the Bloch vector, whereas a multi-qubit gate can generate entanglement, an intrinsically non-classical resource \cite{Barenco1995elementary}.  
+Quantum logic gates are unitary operators acting on one or more qubits. 
+They constitute the elementary instruction set of the gate model of quantum computation \cite{NielsenChuang2010}. 
+A single-qubit gate realises a rotation of the Bloch vector, whereas a multi-qubit gate can generate entanglement, an intrinsically non-classical resource \cite{Barenco1995elementary}. 
 This subsection recalls the canonical gate library, presents the corresponding matrices, and illustrates their circuit symbols \cite{Koch2022quantikz}.
 
 \subsubsection*{Single-qubit gates: Pauli \(X\), \(Y\), \(Z\)}
 
-The Pauli gates \(X\), \(Y\), and \(Z\) implement rotations by \(\pi\) about the \(x\), \(y\), and \(z\) axes of the Bloch sphere, respectively \cite{NielsenChuang2010}.  
+The Pauli gates \(X\), \(Y\), and \(Z\) implement rotations by \(\pi\) about the \(x\), \(y\), and \(z\) axes of the Bloch sphere, respectively \cite{NielsenChuang2010}. 
 In the computational basis \(\{\ket{0},\ket{1}\}\) they take the forms
 \[
 X=\begin{pmatrix}0&1\\[2pt]1&0\end{pmatrix},
@@ -26,22 +26,22 @@ Y=\begin{pmatrix}0&-i\\[2pt]i&0\end{pmatrix},
 \qquad
 Z=\begin{pmatrix}1&0\\[2pt]0&-1\end{pmatrix}.
 \]
-The gate \(X\) exchanges the computational basis states and therefore plays the role of a quantum NOT \cite{NCFlips}.  
-The gate \(Z\) leaves \(\ket{0}\) invariant while mapping \(\ket{1}\) to \(-\ket{1}\); it is consequently referred to as a phase flip \cite{PhaseFlip}.  
-The gate \(Y\) combines a bit flip with an intrinsic phase: \(Y\ket{0} = i\ket{1}\) and \(Y\ket{1} = -\,i\ket{0}\) \cite{NCFlips}.  
+The gate \(X\) exchanges the computational basis states and therefore plays the role of a quantum $NOT$ \cite{NCFlips}. 
+The gate \(Z\) leaves \(\ket{0}\) invariant while mapping \(\ket{1}\) to \(-\ket{1}\); it is consequently referred to as a phase flip \cite{PhaseFlip}. 
+The gate \(Y\) combines a bit flip with an intrinsic phase: \(Y\ket{0} = i\ket{1}\) and \(Y\ket{1} = -\,i\ket{0}\) \cite{NCFlips}. 
 All three operators square to the identity (up to a global phase) and mutually anticommute, properties that underpin stabiliser-based error-correction protocols \cite{Gottesman1997stabilizer}.
 
 \begin{figure}[ht]
-  \centering
-  \begin{quantikz}
-    \lstick{$\ket{q}$} & \gate{\mathsf{X}} & \qw
-  \end{quantikz}
-  \caption{Circuit symbol for the Pauli \(X\) gate.  Replacing the label by \(\mathsf{Y}\) or \(\mathsf{Z}\) yields the symbols for the remaining Pauli rotations.}
-  \label{fig:x-gate}
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{q}$} & \gate{X} & \qw
+ \end{quantikz}
+ \caption{Circuit symbol for the Pauli \(X\) gate. Replacing the label by \({Y}\) or \({Z}\) yields the symbols for the remaining Pauli rotations.}
+ \label{fig:x-gate}
 \end{figure}
 
-\subsubsection*{\glsentrylong{hadamard}}
-The \gls{hadamard} gate realises a rotation by \(\tfrac{\pi}{2}\) about the axis \((x+z)/\sqrt{2}\) on the Bloch sphere \cite{Deutsch1985}.  Its unitary matrix in the computational basis is
+\subsubsection*{\glsentryfull{hadamard}}
+The \gls{hadamard} gate realises a rotation by \(\tfrac{\pi}{2}\) about the axis \((x+z)/\sqrt{2}\) on the Bloch sphere \cite{Deutsch1985}. Its unitary matrix in the computational basis is
 \[
 \gls{hadamard}= \frac{1}{\sqrt{2}}
 \begin{pmatrix}
@@ -51,25 +51,25 @@ The \gls{hadamard} gate realises a rotation by \(\tfrac{\pi}{2}\) about the axis
 \]
 Acting on the basis states it produces the equal-weight superpositions
 \(\gls{hadamard}\ket{0}= \ket{+}\) and
-\(\gls{hadamard}\ket{1}= \ket{-}\), where  
-\(\ket{\pm}= (\ket{0}\pm\ket{1})/\sqrt{2}\) define the Hadamard basis \cite{NielsenChuang2010}.  
-A second application reverses the transformation since \(\gls{hadamard}^{2}=I\) up to global phase \cite{HadamardIteration}.  
-Geometrically, the operation transfers quantum states between the \(Z\) and \(X\) axes of the Bloch sphere, sending \(\ket{0}\) and \(\ket{1}\) to the equator and vice versa \cite{Gibney2019bloch}.  
+\(\gls{hadamard}\ket{1}= \ket{-}\), where 
+\(\ket{\pm}= (\ket{0}\pm\ket{1})/\sqrt{2}\) define the Hadamard basis \cite{NielsenChuang2010}. 
+A second application reverses the transformation since \(\gls{hadamard}^{2}=I\) up to global phase \cite{HadamardIteration}. 
+Geometrically, the operation transfers quantum states between the \(Z\) and \(X\) axes of the Bloch sphere, sending \(\ket{0}\) and \(\ket{1}\) to the equator and vice versa \cite{Gibney2019bloch}. 
 Because it satisfies \(\gls{hadamard} Z \gls{hadamard}=X\) and \(\gls{hadamard} X \gls{hadamard}=Z\), the gate exchanges the roles of bit-flip and phase-flip operators and is therefore indispensable for basis changes and interference patterns in algorithms such as Deutsch-Jozsa and Grover search \cite{Deutsch1992rapid,Grover1997fast,NCFlips}.
 
 \begin{figure}[ht]
-  \centering
-  \begin{quantikz}
-    \lstick{$\ket{q}$} & \gate{H} & \qw
-  \end{quantikz}
-  \caption{Circuit symbol for the \gls{hadamard} gate \cite{Koch2022quantikz}.}
-  \label{fig:h-gate}
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{q}$} & \gate{H} & \qw
+ \end{quantikz}
+ \caption{Circuit symbol for the \gls{hadamard} gate \cite{Koch2022quantikz}.}
+ \label{fig:h-gate}
 \end{figure}
 
-\subsubsection*{Phase rotations: \gls{phase}, \gls{tgate} and continuous \(R_{z}\)}
+\subsubsection*{Phase rotations: \glsentryfull{phase}, $T$ and continuous \(R_{z}\)}
 
-Phase rotations apply a relative phase to the state $\ket{1}$ while leaving $\ket{0}$ unchanged \cite{Gottesman1997stabilizer}.  
-The \gls{phase} gate introduces a phase of \(\pi/2\) and the \gls{tgate} gate a phase of \(\pi/4\); their unitaries are
+Phase rotations apply a relative phase to the state $\ket{1}$ while leaving $\ket{0}$ unchanged \cite{Gottesman1997stabilizer}. 
+The \gls{phase} gate introduces a phase of \(\pi/2\) and the $T$ gate a phase of \(\pi/4\); their unitaries are
 \[
 \gls{phase}= 
 \begin{pmatrix}
@@ -77,41 +77,41 @@ The \gls{phase} gate introduces a phase of \(\pi/2\) and the \gls{tgate} gate a 
 0 & i
 \end{pmatrix},
 \qquad
-\gls{tgate}= 
+T= 
 \begin{pmatrix}
 1 & 0\\[4pt]
 0 & e^{i\pi/4}
 \end{pmatrix},
 \]
 so that
-\(\gls{phase}\ket{1}=i\ket{1}\) and \(\gls{tgate}\ket{1}=e^{i\pi/4}\ket{1}\) \cite{NCFlips}.  
-Because \(\gls{phase}^{2}=Z\) and \(\gls{tgate}^{4}=Z\), the operations may be viewed as fractional powers of the Pauli \(Z\) rotation \cite{Bravyi2012magic}.  
+\(\gls{phase}\ket{1}=i\ket{1}\) and \($T$\ket{1}=e^{i\pi/4}\ket{1}\) \cite{NCFlips}. 
+Because \(\gls{phase}^{2}=Z\) and \($T$^{4}=Z\), the operations may be viewed as fractional powers of the Pauli \(Z\) rotation \cite{Bravyi2012magic}. 
 
 Neither gate is involutory; instead their adjoints are
 \[
-  \gls{phase}^{\dagger} =
-  \begin{pmatrix}
-    1 & 0\\[4pt]
-    0 & -i
-  \end{pmatrix},
-  \qquad
-  \gls{tgate}^{\dagger} =
-  \begin{pmatrix}
-    1 & 0\\[4pt]
-    0 & e^{-i\pi/4}
-  \end{pmatrix}.
+ \gls{phase}^{\dagger} =
+ \begin{pmatrix}
+ 1 & 0\\[4pt]
+ 0 & -i
+ \end{pmatrix},
+ \qquad
+ T^{\dagger} =
+ \begin{pmatrix}
+ 1 & 0\\[4pt]
+ 0 & e^{-i\pi/4}
+ \end{pmatrix}.
 \]
 
-The discrete set \(\{\gls{hadamard},\gls{phase},\mathrm{CNOT}\}\) generates the Clifford group, which is not universal for quantum computation, but adjoining the non-Clifford \gls{tgate} yields a universal gate library capable of approximating any single-qubit unitary to arbitrary precision \cite{Bravyi2012magic,Dawson2005solovay}.  
-In fault-tolerant architectures the cost of magic-state distillation makes the \gls{tgate} the dominant resource, so circuit depth is often quantified by its \(T\)-count \cite{Eastin2013thesis}.
+The discrete set \(\{\gls{hadamard},\gls{phase},\mathrm{CNOT}\}\) generates the Clifford group, which is not universal for quantum computation, but adjoining the non-Clifford $T$ yields a universal gate library capable of approximating any single-qubit unitary to arbitrary precision \cite{Bravyi2012magic,Dawson2005solovay}. 
+In fault-tolerant architectures the cost of magic-state distillation makes the $T$ gate the dominant resource, so circuit depth is often quantified by its \(T\)-count \cite{Eastin2013thesis}.
 
 \begin{figure}[ht]
-  \centering
-  \begin{quantikz}
-    \lstick{$\ket{q}$} & \gate{S} & \gate{T} & \qw
-  \end{quantikz}
-  \caption{Sequential application of an \gls{phase} gate followed by a \gls{tgate}.}
-  \label{fig:st-sequence}
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{q}$} & \gate{S} & \gate{T} & \qw
+ \end{quantikz}
+ \caption{Sequential application of an \gls{phase} gate followed by a $T$ gate.}
+ \label{fig:st-sequence}
 \end{figure}
 
 More generally, a rotation about a Pauli axis \(\sigma_{\alpha}\in\{X,Y,Z\}\) through an angle \(\theta\) is
@@ -132,18 +132,16 @@ e^{-i\theta/2} & 0\\[4pt]
 0 & e^{i\theta/2}
 \end{pmatrix}.
 \]
-The parameterised family \(\{R_{y}(\theta), R_{z}(\phi)\}\) forms a convenient basis for variational circuits, and any single-qubit unitary admits the Euler decomposition  
-\(U=R_{z}(\lambda)\,R_{y}(\theta)\,R_{z}(\phi)\) up to global phase \cite{NielsenChuang2010,Kandala2017hardware}.  
-Specialising \(\theta=0,\phi=\pi/2\) or \(\pi/4\) recovers the \gls{phase} and \gls{tgate} operations, respectively.
+The parameterised family \(\{R_{y}(\theta), R_{z}(\phi)\}\) forms a convenient basis for variational circuits, and any single-qubit unitary admits the Euler decomposition 
+\(U=R_{z}(\lambda)\,R_{y}(\theta)\,R_{z}(\phi)\) up to global phase \cite{NielsenChuang2010,Kandala2017hardware}. 
+Specialising \(\theta=0,\phi=\pi/2\) or \(\pi/4\) recovers the \gls{phase} and $T$ operations, respectively.
 
 \subsubsection*{Multi-qubit gates: entangling operations}
 
-Operations acting on two or more qubits can create quantum correlations that admit no classical description \cite{Bell1964}.  
+Operations acting on two or more qubits can create quantum correlations that admit no classical description \cite{Bell1964}. 
 Together with arbitrary single-qubit rotations they supply universality for quantum computation \cite{Barenco1995elementary}.
 
-\subsubsection*{\glsentrylong{cnot}}
-
-The \gls{cnot} gate flips the target qubit conditioned on the control being in the state $\ket{1}$ \cite{NielsenChuang2010}.  
+The \gls{cnot} gate flips the target qubit conditioned on the control being in the state $\ket{1}$ \cite{NielsenChuang2010}. 
 In the ordered basis \{$\ket{00}$,$\ket{01}$,$\ket{10}$,$\ket{11}$\} its unitary is
 \[
 \gls{cnot}=
@@ -154,27 +152,25 @@ In the ordered basis \{$\ket{00}$,$\ket{01}$,$\ket{10}$,$\ket{11}$\} its unitary
 0&0&1&0
 \end{pmatrix},
 \]
-implementing the map \(\ket{a,b}\mapsto\ket{a,a\oplus b}\).  
+implementing the map \(\ket{a,b}\mapsto\ket{a,a\oplus b}\). 
 Applied to a superposition it generates entanglement, for example
 \[
-\bigl(\tfrac{\ket{0}+\ket{1}}{\sqrt{2}}\bigr)\!\otimes\!\ket{0}
+\bigl(\tfrac{\ket{0}+\ket{1}}{\sqrt{2}}\bigr)\otimes\ket{0}
 \xrightarrow{\gls{cnot}}
 \tfrac{\ket{00}+\ket{11}}{\sqrt{2}},
 \]
-a Bell state \cite{Bell1964}.  
+a Bell state \cite{Bell1964}. 
 \gls{cnot} is self-inverse and belongs to the Clifford group \cite{Gottesman1997stabilizer}.
 
 \begin{figure}[ht]
-  \centering
-  \begin{quantikz}
-    \lstick{$\ket{c}$} & \ctrl{1} & \qw \\
-    \lstick{$\ket{t}$} & \targ{} & \qw
-  \end{quantikz}
-  \caption{Circuit symbol for the \gls{cnot} gate with control \(\ket{c}\) and target \(\ket{t}\) \cite{Koch2022quantikz}.}
-  \label{fig:cnot-gate}
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{c}$} & \ctrl{1} & \qw \\
+ \lstick{$\ket{t}$} & \targ{} & \qw
+ \end{quantikz}
+ \caption{Circuit symbol for the \gls{cnot} gate with control \(\ket{c}\) and target \(\ket{t}\) \cite{Koch2022quantikz}.}
+ \label{fig:cnot-gate}
 \end{figure}
-
-\subsubsection*{\glsentrylong{cz}}
 
 The \gls{cz} gate applies a phase flip to the joint state $\ket{11}$; its matrix is
 \[
@@ -185,203 +181,347 @@ The \gls{cz} gate applies a phase flip to the joint state $\ket{11}$; its matrix
 0&0&1&0\\[4pt]
 0&0&0&-1
 \end{pmatrix}
-\]
-\cite{NielsenChuang2010}.
+\]\cite{NielsenChuang2010}.
 It is related to \gls{cnot} by a Hadamard conjugation on the target,
-\(\gls{cz}_{(c,t)}=\gls{hadamard}_{t}\,\gls{cnot}_{(c,t)}\,\gls{hadamard}_{t}\) \cite{Barenco1995elementary},  
+\(\gls{cz}_{(c,t)}=\gls{hadamard}_{t}\,\gls{cnot}_{(c,t)}\,\gls{hadamard}_{t}\) \cite{Barenco1995elementary}, 
 and arises natively in several hardware platforms where controlled phase interactions dominate \cite{Arute2019supremacy}.
 
-\subsubsection*{\glsentrylong{swap}}
+\begin{figure}[ht]
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{c}$} & \ctrl{1} & \qw \\
+ \lstick{$\ket{t}$} & \gate{Z} & \qw
+ \end{quantikz}
+ \caption{Symbol for the \gls{cz} gate \cite{Koch2022quantikz}.}
+ \label{fig:cz}
+\end{figure}
 
-The \gls{swap} gate exchanges the states of two qubits: \(\ket{a,b}\mapsto\ket{b,a}\).  
-It decomposes into three \gls{cnot} gates,
-\(
+The \gls{swap} gate exchanges the quantum states of two qubits, 
+\(\ket{a,b}\mapsto\ket{b,a}\), and is represented by the unitary matrix
+\[
+\gls{swap}=
+\begin{pmatrix}
+1&0&0&0\\[4pt]
+0&0&1&0\\[4pt]
+0&1&0&0\\[4pt]
+0&0&0&1
+\end{pmatrix}
+\]\cite{NielsenChuang2010}. 
+Although \(\gls{swap}\) is a genuine two-qubit entangling gate, its action can be realised
+using exactly three \glspl{cnot}. 
+A standard decomposition is 
+\[
 \gls{swap}_{(1,2)}=
 \gls{cnot}_{1,2}\,
 \gls{cnot}_{2,1}\,
 \gls{cnot}_{1,2}
-\) \cite{Barenco1995elementary}.  
-Symbolically it is drawn as two crossing lines with \(\times\) markers on the intersection \cite{Koch2022quantikz}.
+\]\cite{Barenco1995elementary}. 
 
-\subsubsection*{\glsentrylong{toffoli} and \glsentrylong{cswap} gates}
-
-The three-qubit \gls{toffoli} gate flips a target conditioned on two controls being in $\ket{1}$.  
-It is universal for reversible classical computation \cite{Bennett1973logical} and admits a fault-tolerant decomposition using six \glspl{cnot}, seven \glspl{tgate} and single-qubit \gls{hadamard} gates \cite{Amy2013tcount}.  
 
 \begin{figure}[ht]
-  \centering
-  \begin{quantikz}
-    \lstick{$\ket{c_1}$} & \ctrl{2} & \qw \\
-    \lstick{$\ket{c_2}$} & \ctrl{1} & \qw \\
-    \lstick{$\ket{t}$}   & \targ{} & \qw
-  \end{quantikz}
-  \caption{Symbol for the \gls{toffoli} gate \cite{Koch2022quantikz}.}
-  \label{fig:toffoli}
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{q_1}$} & \swap{1} & \qw \\
+ \lstick{$\ket{q_2}$} & \targX{} & \qw
+ \end{quantikz}
+ \caption{Symbol for the \gls{swap} gate \cite{Koch2022quantikz}.}
+ \label{fig:swap}
 \end{figure}
 
-The \gls{cswap} gate swaps two targets conditioned on a single control and can be synthesised from \glspl{toffoli} \cite{FredkinGate1982}.  
+The three-qubit \gls{toffoli} gate flips a target conditioned on two controls being in $\ket{1}$. 
+It is universal for reversible classical computation \cite{Bennett1973logical} and admits a fault-tolerant decomposition using six \glspl{cnot}, seven $T$ and single-qubit \gls{hadamard} gates \cite{Amy2013tcount}. 
 
-\subsubsection*{Universality}
+\begin{figure}[ht]
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{c_1}$} & \ctrl{2} & \qw \\
+ \lstick{$\ket{c_2}$} & \ctrl{1} & \qw \\
+ \lstick{$\ket{t}$} & \targ{} & \qw
+ \end{quantikz}
+ \caption{Symbol for the \gls{toffoli} gate \cite{Koch2022quantikz}.}
+ \label{fig:toffoli}
+\end{figure}
 
-Any multi-qubit unitary can be approximated using single-qubit rotations together with \gls{cnot} or \gls{cz} gates \cite{Barenco1995elementary}.  
-Consequently sets such as \(\{\gls{hadamard},\gls{tgate},\gls{cnot}\}\) support universal quantum computation, and high-level gates are routinely compiled into the \(R_{z}/R_{x}\)+\gls{cnot} primitives of hardware back-ends like IBM’s \(U_{3}\)+\gls{cnot} basis \cite{Cross2017ibm,fedoriaka2025decomposition}.
+The \gls{cswap} gate swaps two targets conditioned on a single control and can be synthesised from \glspl{toffoli} \cite{FredkinGate1982}. 
+\begin{figure}[ht]
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{c}$} & \ctrl{1} & \qw \\
+ \lstick{$\ket{t_1}$} & \swap{1} & \qw \\
+ \lstick{$\ket{t_2}$} & \targX{} & \qw
+ \end{quantikz}
+ \caption{Symbol for the \gls{cswap} gate \cite{Koch2022quantikz,FredkinGate1982}.}
+ \label{fig:cswap}
+\end{figure}
+\begin{figure}[!htbp]
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{c}$} & \ctrl{2} & \ctrl{1} & \ctrl{2} & \qw \\
+ \lstick{$\ket{t_1}$} & \ctrl{1} & \targ{} & \ctrl{1} & \qw \\
+ \lstick{$\ket{t_2}$} & \targ{} & \ctrl{-1}& \targ{} & \qw
+ \end{quantikz}
+ \caption{Decomposition of the \gls{cswap} gate into three \glspl{toffoli} gates \cite{FredkinGate1982}.}
+ \label{fig:cswap-decomp}
+\end{figure}
+
+Any multi-qubit unitary can be approximated to arbitrary precision using single-qubit rotations together with \gls{cnot} or \gls{cz} gates \cite{Barenco1995elementary}. 
+This decomposition forms the foundation of the quantum circuit model, where arbitrary computations are expressed as sequences of elementary operations. 
+As a result, sets such as \(\{\gls{hadamard},T,\gls{cnot}\}\) are universal for quantum computing \cite{NielsenChuang2010}. 
+High-level gates are routinely compiled into the \(R_{z}/R_{x}\)+\gls{cnot} basis, which aligns with hardware primitives such as IBM's \(U_{3}\)+\gls{cnot} set \cite{Cross2017ibm,fedoriaka2025decomposition}.
 
 \subsection{Types of Quantum Circuits}
 
-Just as one can categorize classical circuits (combinational, sequential, etc.), we can distinguish various types of quantum circuits by their structure and purpose.\cite{NielsenChuang2010} Here we survey several important categories, each illustrated by a simple diagram:
+Similar to their classical counterparts, quantum circuits can be naturally categorised according to their computational function and structural features. The circuit model of quantum computation supports a richer taxonomy reflecting the distinctive characteristics of quantum information, such as superposition, entanglement, and measurement-induced collapse, in contrast to the traditional classification of classical circuits into categories like combinational and sequential \cite{NielsenChuang2010}.
+
+The representative classes of quantum circuits are surveyed in this subsection, with distinctions made based on the kind of gates employed, the presence of parameterisation, the function of measurement, and the interaction with classical control. To demonstrate the circuit structure and operational semantics of each category within the larger context of quantum algorithm design, a canonical example is given.
 
 \subsubsection*{Single-Qubit Circuits}
 
-A \textbf{single-qubit circuit} operates on a single qubit (or on multiple qubits but without entangling them).\cite{NielsenChuang2010} It consists of one or more single-qubit gates in sequence.\cite{Barenco1995elementary} Such circuits are conceptually the simplest, effecting arbitrary rotations on a single qubit's state.\cite{NielsenChuang2010} While a single qubit cannot exhibit entanglement, single-qubit subcircuits appear as components of larger algorithms (for example, state preparation or individual qubit rotations in a variational ansatz).\cite{Kandala2017hardware}
+A circuit that operates on a single qubit evolves the state vector on the Bloch sphere through one-qubit gates only. Such circuits are the elementary building blocks of the gate-based quantum-computing model and re-appear inside larger algorithms during state preparation, basis transformations and parameterised rotations used in variational ansätze \cite{Kandala2017hardware}.
 
-An example single-qubit circuit is shown below, taking an initial state $\ket{0}$ and applying a sequence of rotations ($H$, then $T$, then $X$), followed by a measurement:
+Every element of the special unitary group $\mathrm{SU}(2)$, up to a global phase, admits the Z-Y-Z Euler decomposition
+\[
+U \;=\; R_{z}(\alpha)\,R_{y}(\beta)\,R_{z}(\gamma),
+\]
+with real angles $\alpha,\beta,\gamma$. Hence any finite gate library that realises $R_{z}$ and $R_{y}$ is universal for single-qubit synthesis. A commonly employed minimal choice is the set $\{H,S,T\}$, where $H$ exchanges the computational and Hadamard eigen-bases, and the phase gates $S$ and $T$ supply the irrational phase that yields density on $\mathrm{SU}(2)$ \cite{Barenco1995elementary,Dawson2005solovay}. On fault-tolerant hardware the cost of exact synthesis is dominated by the number of $T$ gates, while approximation to precision $\varepsilon$ can be achieved with $\mathcal{O}\bigl(\log^{c}(1/\varepsilon)\bigr)$ gates through the Solovay-Kitaev algorithm \cite{Dawson2005solovay}.
 
-\begin{quantikz}
-\lstick{$\ket{0}$} & \gate{H} & \gate{T} & \gate{X} & \meter{} & \cw \\
-\end{quantikz}
+Although a lone qubit cannot generate entanglement, single-qubit circuits are invaluable for hardware calibration, tomography and demonstrations of quantum behaviour such as phase accumulation and axis-dependent rotations \cite{Barends2014superconducting}. The example below prepares a non-trivial state from $\ket{0}$, measures in the computational basis and routes the classical result to subsequent control logic.
+\begin{figure}[htbp]
+ \centering
+ \begin{quantikz}[thin]
+ \lstick{$\ket{0}$} & \gate{H} & \gate{T} & \gate{X} & \meter{} & \cw \\
+ \end{quantikz}
+ \caption{Single-qubit circuit that prepares the state $X\,T\,H\ket{0}$ and measures it in the computational basis; the outcome probabilities equal the squared moduli of the final amplitudes \cite{NielsenChuang2010}.}
+ \label{fig:single_qubit_HTX}
+ \end{figure}
+ 
 
-\noindent This circuit prepares the state $XTH\ket{0}$ and measures it (the outcome is a probabilistic function of the applied gates).\cite{NielsenChuang2010} In general, any single-qubit unitary can be implemented by an appropriate sequence of $H$, $S$, $T$ (or other rotation) gates, as discussed above.\cite{Dawson2005solovay} Single-qubit circuits are often used to calibrate hardware or illustrate basic quantum phenomena like Bloch-sphere rotations.\cite{Barends2014superconducting}
+The circuit realises the transformation $\ket{\psi}=X\,T\,H\ket{0}$ and then performs a projective measurement in the $\{\ket{0},\ket{1}\}$ basis; the outcome probabilities are the squared moduli of the amplitudes of $\ket{\psi}$ \cite{NielsenChuang2010}.
 
 \subsubsection*{Multi-Qubit Circuits}
 
-A \textbf{multi-qubit circuit} involves two or more qubits with gates that act on multiple qubits (such as CNOT or other entangling gates).\cite{Barenco1995elementary} These circuits can generate entanglement and are necessary for computational tasks where qubit interactions are required.\cite{Bell1964} Multi-qubit circuits range from small entangling subroutines (like creating a Bell pair) to large circuits comprising many interacting gates.\cite{NielsenChuang2010}
+The circuit model attains its full expressive power only when the logical register hosts at least two qubits. As soon as an operation couples distinct lines the global evolution can no longer be factorised into single-qubit operators, and quantum correlations enter as a computational resource. A single entangling gate such as a \gls{cnot}, \gls{cz}, or \gls{swap} already maps separable basis states onto superpositions whose amplitudes refuse to decompose across subsystems \cite{Barenco1995elementary}. In the axiomatic framework of quantum theory entanglement supplies the nonclassical advantage that powers quantum algorithms, error-correcting codes, and digital simulation \cite{Horodecki2009}.
 
-As a basic example, consider a two-qubit circuit that creates a Bell state.\cite{Bell1964} Starting from $\ket{00}$, we apply a Hadamard on the first qubit and then a CNOT with the first qubit as control and second as target:
+The canonical two-qubit routine prepares a Bell pair. Beginning from the computational basis state $\ket{00}$, a Hadamard rotation on the first line followed by a \gls{cnot} controlled by that line yields
+\[
+\frac{1}{\sqrt{2}}\bigl(\ket{00}+\ket{11}\bigr),
+\]
+one of the four maximally entangled Bell states \cite{Bell1964}. A single controlled operation therefore suffices to convert local superposition into nonlocal correlation.
 
-\begin{quantikz}
-\lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \qw \\
-\lstick{$\ket{0}$} & \qw   & \targ{} & \qw
-\end{quantikz}
+\begin{figure}[ht]
+ \centering
+ \begin{quantikz}[thin]
+ \lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \qw \\
+ \lstick{$\ket{0}$} & \qw & \targ{} & \qw
+ \end{quantikz}
+ \caption{Preparation of a Bell state. A Hadamard gate acts on the first qubit and a controlled NOT entangles the register, producing the state $(\ket{00}+\ket{11})/\sqrt{2}$.}
+ \label{fig:bell-prep}
+\end{figure}
 
-\noindent After these gates, the qubits are in the entangled state $\frac{1}{\sqrt{2}}(\ket{00} + \ket{11})$, one of the four Bell states.\cite{Bell1964} In general, multi-qubit circuits may involve many entangling gates.\cite{Arute2019supremacy} For instance, quantum adders, error-correcting code circuits, or oracle circuits for algorithms all involve networks of CNOTs (and related gates) spread across multiple qubits.\cite{Gottesman1997stabilizer} Multi-qubit circuits are the backbone of quantum algorithms, as they carry out the entangling operations that give quantum computing its power.\cite{Shor1994}
+Realistic algorithms rely on considerably deeper entangling fabrics. Quantum adders, stabiliser encoders, oracle constructions, and variational ansätze all deploy cascades of \glspl{cnot} (or hardware-native equivalents) distributed across many lines \cite{Gottesman1997stabilizer,Shor1994,Arute2019supremacy}. On \gls{nisq} processors the cost of those layers dominates both runtime and accumulated error because two-qubit gates are typically an order of magnitude noisier than single-qubit rotations. Consequently layout-aware compilation, topological mapping, and gate-count optimisation focus primarily on reducing the depth and connectivity overhead of the entangling subgraph.
 
-\subsubsection*{Parameterized (Variational) Circuits}
+Entanglement is therefore at once the enabler and the principal bottleneck of scalable quantum computation. The synthesis of efficient multi-qubit circuits demands a balance between algebraic decompositions that minimise entangling depth and architectural constraints that restrict admissible couplings. Ongoing research in optimal synthesis, error mitigation, and noise-adaptive layout seeks to narrow this gap and deliver practical advantages for near-term workloads \cite{NielsenChuang2010}.
 
-A \textbf{parameterized quantum circuit} (PQC) is a circuit that contains gates with continuous parameters (angles) which can be adjusted.\cite{Peruzzo2014vqe} These circuits are central to many \emph{variational quantum algorithms} and quantum machine-learning models.\cite{Cerezo2021variational} By treating gate angles as tunable parameters, one can use a classical optimization loop to iteratively adjust these parameters and minimize a cost function evaluated via quantum measurements.\cite{Peruzzo2014vqe} Such circuits are also called \emph{variational circuits} or \emph{ansatz circuits}.\cite{Kandala2017hardware}
+\subsubsection*{Parameterised (Variational) Circuits}
 
-Parameterized circuits often have a regular structure, e.g.\ layers of single-qubit rotations and entangling gates.\cite{Kandala2017hardware} An example 2-qubit parameterized circuit (one layer of a common variational ansatz) is shown below:
+A \gls{pqc} is a quantum circuit whose elementary gates depend continuously on tunable parameters, typically rotation angles, that can be updated during classical post-processing \cite{Peruzzo2014vqe}. These circuits underpin the family of hybrid quantum-classical methods known as \glspl{vqa}, as well as many quantum machine-learning architectures \cite{Cerezo2021variational}. By treating the gate angles as free variables, a classical optimiser iteratively adjusts them so as to minimise a cost functional estimated from repeated quantum measurements \cite{Peruzzo2014vqe}. The same constructs are also referred to as variational or ansatz circuits in the literature \cite{Kandala2017hardware}.
 
-\begin{quantikz}
-\lstick{$\ket{0}$} & \gate{R_y(\theta_1)} & \ctrl{1} & \gate{R_z(\phi_1)} & \qw \\
-\lstick{$\ket{0}$} & \gate{R_y(\theta_2)} & \targ{} & \gate{R_z(\phi_2)} & \qw
-\end{quantikz}
+Hardware-efficient parametrisations usually consist of alternating layers of single-qubit rotations and entangling gates, chosen to match the native connectivity of a given processor \cite{Kandala2017hardware}. This layered design strikes a compromise between expressibility and implementability, since it allows the circuit depth to scale linearly with the number of layers while maintaining a regular pattern that is friendly to compilation. An elementary two-qubit layer of such an ansatz is displayed in Figure \ref{fig:pqc-two-qubit}. Each qubit undergoes a rotation about the $Y$ axis by an angle $\theta_{i}$, is entangled through a \gls{cnot}, and is finally rotated about the $Z$ axis by an angle $\phi_{i}$; the parameter set $\{\theta_{i},\phi_{i}\}$ is updated during optimisation \cite{Peruzzo2014vqe}. Stacking $L$ identical layers enlarges the reachable manifold of states and therefore the representational power of the ansatz, albeit at the expense of an increased number of variational parameters and a higher exposure to noise \cite{Sim2019expressibility}.
 
-\noindent Here each qubit is rotated by some angle $\theta_i$ about $Y$ and then entangled, followed by $Z$-rotations by $\phi_i$. The angles ${\theta_i,\phi_i}$ are free parameters that can be optimized.\cite{Peruzzo2014vqe} Stacking multiple such layers increases the expressive power of the ansatz at the cost of more parameters.\cite{Sim2019expressibility} Variational circuits are used in algorithms like the Variational Quantum Eigensolver (for ground-state energies) and QAOA (Quantum Approximate Optimization Algorithm), as well as in quantum classifiers and neural networks.\cite{Farhi2014qaoa} They exemplify a hybrid quantum-classical approach: the quantum circuit provides a parameterized function, and a classical routine tunes the parameters.\cite{Cerezo2021variational}
+\begin{figure}[ht]
+ \centering
+ \begin{quantikz}[thin]
+ \lstick{$\ket{0}$} & \gate{R_{y}(\theta_{1})} & \ctrl{1} & \gate{R_{z}(\phi_{1})} & \qw \\
+ \lstick{$\ket{0}$} & \gate{R_{y}(\theta_{2})} & \targ{} & \gate{R_{z}(\phi_{2})} & \qw
+ \end{quantikz}
+ \caption{A single two-qubit layer of a hardware-efficient \gls{pqc}. Local $Y$-rotations with angles $\theta_{1}$ and $\theta_{2}$ create superposition, a controlled-NOT entangles the register, and $Z$-rotations with angles $\phi_{1}$ and $\phi_{2}$ supply additional degrees of freedom.}
+ \label{fig:pqc-two-qubit}
+\end{figure}
+
+\glspl{pqc} constitute the workhorse for ground-state estimation via the \gls{vqe}, for combinatorial optimisation in the Quantum Approximate Optimisation Algorithm, and for discriminative or generative models in quantum machine learning \cite{Farhi2014qaoa}. They exemplify the hybrid paradigm in which a quantum processor provides a differentiable, high-dimensional function while a classical computer searches the associated parameter space \cite{Cerezo2021variational}. Research directions now focus on enhancing expressibility without incurring barren-plateau gradients, mitigating noise through tailored ansätze, and devising derivative estimation schemes that reduce measurement overhead \cite{Sim2019expressibility}.
 
 \subsubsection*{Measurement-Based Circuits}
 
-A \textbf{measurement-based quantum circuit} refers to a model of quantum computation (the one-way quantum computer) where computation is driven by measurements on an entangled resource state.\cite{Raussendorf2001oneway} One first prepares a large entangled state (typically a \emph{cluster state}) and then performs a sequence of single-qubit measurements.\cite{Briegel2009measurement} The measurement bases and any feed-forward adjustments can implement an arbitrary quantum computation, despite using only measurements during the “computing” phase.\cite{Raussendorf2003measurement}
+In the measurement-based quantum computation model, also known as the one-way quantum computer, computation is driven entirely by adaptive single-qubit measurements performed on a highly entangled resource state \cite{Raussendorf2001oneway}. A universal resource is the two-dimensional cluster state, although lower-dimensional graphs suffice for restricted tasks and proof-of-principle demonstrations \cite{Briegel2009measurement}. The protocol separates state preparation from logical processing: first a cluster is created via nearest-neighbour controlled-$Z$ gates; subsequently, a sequence of measurements, whose bases are classically adjusted in real time according to earlier outcomes, realises the desired unitary evolution up to Pauli by-product operators \cite{Raussendorf2003measurement}.
 
-For example, consider a simple three-qubit linear cluster state.\cite{Raussendorf2001oneway} We start with three qubits in $\ket{+}$ states, entangle neighbors via CZ gates, then measure qubits 1 and 2 while qubit 3 remains unmeasured:
+To illustrate the mechanism, consider a linear three-qubit cluster. Each qubit is initialised in the $\ket{+}$ eigenstate of $X$, entangled with its neighbour through a controlled-$Z$, and then the first two qubits are measured while the third remains unmeasured. Conditional feed-forward ensures that the randomness inherent in projective measurement translates into deterministic logical action on the output qubit.
 
-\begin{quantikz}
-\lstick{$\ket{+}$} & \ctrl{1} & \qw   & \meter{} & \cw \\
-\lstick{$\ket{+}$} & \targ{} & \ctrl{1} & \meter{} & \cw \\
-\lstick{$\ket{+}$} & \qw   & \targ{} & \qw
-\end{quantikz}
+Because any gate-based circuit admits translation to a measurement pattern on a suitable cluster, measurement-based quantum computation is computationally equivalent to the standard circuit model \cite{Briegel2009measurement}. The separation between offline entanglement generation and online adaptive measurements has motivated fault-tolerant schemes compatible with photonic and modular architectures, where long-range two-qubit gates are challenging but high-fidelity single-qubit operations and measurements are readily available \cite{Raussendorf2003measurement}.
 
-\noindent Depending on the measurement outcomes, the state of qubit 3 corresponds to the result of a quantum computation; conditional $X$ or $Z$ corrections (feed-forward) may be applied.\cite{Raussendorf2003measurement} This model is equivalent in power to the standard gate model—any gate circuit can be translated to a measurement pattern on a cluster state.\cite{Briegel2009measurement}
+\begin{figure}[ht]
+ \centering
+ \begin{quantikz}[thin]
+ \lstick{$\ket{+}$} & \ctrl{1} & \qw & \meter{} & \cw \\
+ \lstick{$\ket{+}$} & \targ{} & \ctrl{1} & \meter{} & \cw \\
+ \lstick{$\ket{+}$} & \qw & \targ{} & \qw
+ \end{quantikz}
+ \caption{Three-qubit linear cluster used to demonstrate measurement-based quantum computation. After entangling the register with controlled-$Z$ gates, qubits 1 and 2 are measured in suitably chosen bases. Feed-forward Pauli corrections on qubit 3 map the stochastic measurement results onto a deterministic logical operation equivalent to a single-qubit gate.}
+ \label{fig:mbqc-linear-cluster}
+ \end{figure}
+ 
 
-\subsubsection*{Hybrid Quantum-Classical Circuits}
+ \subsubsection*{Hybrid Quantum-Classical Circuits}
 
-In the current \gls{nisq} era, many practical algorithms use a \textbf{hybrid quantum-classical} approach, wherein quantum circuits are interleaved with classical processing.\cite{Preskill2018nisq} Variational circuits described above are a prime example: the quantum processor prepares a state and performs measurements, and a classical computer processes those results to adjust parameters for the next round.\cite{Cerezo2021variational} Another example is quantum error correction with feedback, where measurement outcomes (syndrome bits) are fed to classical logic that decides further quantum operations in real-time.\cite{Kelly2015error}
-
-Hybrid circuits leverage the strengths of both paradigms: quantum circuits for state preparation and interference on exponentially large state spaces, and classical computations for flexible control and optimization.\cite{Preskill2018nisq} 
-
-\noindent In this flow, the quantum circuit is executed and measured to evaluate a cost function, and a classical optimizer computes new parameters for the next quantum run.\cite{Cerezo2021variational} Hybrid circuits thus are not a single static circuit but a sequence of partial circuits and classical computations.\cite{Preskill2018nisq} Nonetheless, one can represent a single iteration in an expanded quantum circuit diagram by explicitly including measurement operations mid-circuit and classically-controlled gates.\cite{Kelly2015error}
-
-In summary, the above categories illustrate the diversity of quantum circuit styles. A given quantum algorithm may encompass several of these aspects.\cite{Shor1994} Understanding the circuit types helps in designing and optimizing quantum algorithms for real hardware.\cite{Arute2019supremacy}
-
-
+ In the \gls{nisq} era, noise levels and qubit counts limit the depth of purely quantum workloads, motivating \glspl{hqc} in which coherent evolutions alternate with classical post-processing \cite{Preskill2018nisq}. A prototypical instance is the \gls{vqe}: the quantum processor prepares a parameterised state and measures observables, while a classical optimiser updates the parameters so as to minimise the energy expectation value \cite{Cerezo2021variational}. Real-time feedback is likewise essential in active quantum error correction, where measurement outcomes (syndrome bits) are interpreted by classical logic that decides the corrective operations to apply before further decoherence accrues \cite{Kelly2015error}.
+ 
+ \glspl{hqc} exploit complementary strengths. Quantum circuitry explores Hilbert spaces that grow exponentially with qubit number, whereas classical computation affords flexible control flow, arbitrary bandwidth memory, and mature optimisation heuristics \cite{Preskill2018nisq}. A single optimisation step consists of executing the quantum circuit, collecting measurement data to evaluate the cost function, and using a classical routine to compute new parameters for the subsequent quantum run \cite{Cerezo2021variational}. The global algorithm is therefore a sequence of partial quantum circuits interleaved with classical kernels rather than a monolithic unitary \cite{Preskill2018nisq}. Nonetheless, circuit diagrams can depict one iteration explicitly by inserting mid-circuit measurement symbols and classically controlled gates, making the data flow transparent \cite{Kelly2015error}.
+ 
+ \begin{figure}[ht]
+ \centering
+ \begin{quantikz}[row sep={0.6cm,between origins},column sep=0.7cm,thin]
+ \lstick{$\ket{0}$} & \gate{R_{y}(\theta_{1})} & \ctrl{1} & \gate{R_{z}(\phi_{1})} & \meter{} & \cw \\
+ \lstick{$\ket{0}$} & \gate{R_{y}(\theta_{2})} & \targ{} & \gate{R_{z}(\phi_{2})} & \meter{} & \cw
+ \end{quantikz}
+ \caption{Single iteration of a \gls{vqe} rendered as an \gls{hqc} circuit. Parameterised rotations and entangling gates prepare the quantum state; projective measurements extract expectation values that are forwarded to a classical optimiser, which in turn updates the angles $\{\theta_{i},\phi_{i}\}$ before the next invocation of the circuit.}
+ \label{fig:hqc-loop}
+\end{figure}
+ 
+ Hybrid strategies generalise beyond energy minimisation. The quantum approximate optimisation algorithm tunes discrete decision variables, adaptive phase-estimation tightens eigenvalue estimates, and Bayesian feedback protocols steer quantum sensors towards the Heisenberg limit, all through iterative quantum-classical loops \cite{Cerezo2021variational}. Current research optimises the communication latency between the two domains, integrates machine-learning controllers that predict favourable parameter updates, and develops analytic gradient estimators that reduce the number of quantum evaluations required per step. Mastering such co-designed workflows is essential for extracting useful performance from near-term processors and for paving a smooth transition towards fully fault-tolerant architectures.
+ 
 \subsection{Example Quantum Algorithms as Circuits}
+\label{subsec:example_algorithms_circuits}
 
-To see these gates and circuit paradigms in action, we now examine three foundational quantum algorithms and their circuit implementations: the Deutsch-Jozsa algorithm, Grover's search algorithm, and the Quantum Fourier Transform.\cite{NielsenChuang2010} For each, we describe the circuit and how the algorithm leverages quantum gates to achieve a speed-up or functionality beyond classical means.\cite{Preskill2018nisq}
+Quantum circuits provide a concrete framework in which the abstract principles of superposition, interference and entanglement manifest as algorithmic resources. By arranging single-qubit rotations and entangling two-qubit gates into ordered layers, designers can synthesise unitary transformations that would be impractical to describe or simulate classically. To illustrate this correspondence we revisit three paradigmatic algorithms routinely cited as milestones in quantum computing: the \gls{dj} algorithm, Grover amplitude amplification and the Quantum Fourier Transform (\gls{qft}) \cite{NielsenChuang2010}. The \gls{dj} algorithm exploits phase kickback to distinguish balanced from constant Boolean oracles in a single query, establishing an exponential gap in query complexity. Grover's procedure rephrases the search task as a coherent rotation toward the marked state, achieving quadratic speed-up through iterative applications of an oracle-controlled phase inversion and a diffusion operator. The \gls{qft} realises a basis change that maps computational-basis vectors to phase-encoded superpositions, serving as the central subroutine in period-finding and phase-estimation protocols. Each example exposes a distinct mechanism by which a modest set of one- and two-qubit gates outperforms the best known classical procedures \cite{Preskill2018nisq}. The presentation below emphasises the circuit topologies, the precise ordering of gates, the accumulation and cancellation of relative phases, the interference patterns induced by measurement and the explicit scaling of gate counts with register size; these details are indispensable when later mapping higher-level computational models such as \glspl{qfa} onto executable hardware circuits that must respect connectivity, coherence times and error budgets.
 
 \subsubsection*{Deutsch-Jozsa Algorithm}
 
-The Deutsch-Jozsa (DJ) algorithm is one of the first examples of a quantum algorithm that outperforms the classical deterministic result for a specific problem.\cite{Deutsch1992rapid} The task is to determine whether a Boolean function $f:\{0,1\}^n \to \{0,1\}$ is constant or \emph{balanced}, promised that $f$ is one or the other.\cite{Deutsch1992rapid} Classically, in the worst case $2^{n-1}+1$ queries are required.\cite{Cleve1998dj} The Deutsch-Jozsa quantum algorithm solves it with a single query to an oracle $U_f$ that implements $f$.\cite{Deutsch1992rapid}
+The \gls{dj} algorithm furnishes one of the earliest demonstrations of an exponential separation between quantum and deterministic classical query complexity \cite{Deutsch1992rapid}. The promise problem is to decide whether a Boolean function $f:\{0,1\}^n\to\{0,1\}$ is constant or balanced, given oracle access to $U_f:\ket{x}\ket{y}\mapsto\ket{x}\ket{y\oplus f(x)}$ \cite{Cleve1998dj}. A deterministic classical algorithm requires $2^{\,n-1}+1$ queries in the worst case, whereas the quantum procedure returns a definitive answer with a single evaluation \cite{Deutsch1992rapid}.
 
-The circuit for the Deutsch-Jozsa algorithm is as follows.\cite{NielsenChuang2010} We have $n$ qubits for the input (initialized to $\ket{0\cdots0}$) and one output qubit (initialized to $\ket{1}$). First, a layer of Hadamard gates is applied to all qubits, creating a uniform superposition and putting the output qubit in $\ket{-}$.\cite{Deutsch1992rapid} Next, the oracle $U_f$ is applied, mapping $\ket{x}\ket{y}\to\ket{x}\ket{y\oplus f(x)}$.\cite{Cleve1998dj} Finally, another Hadamard layer is applied to the $n$ input qubits, and they are measured.\cite{NielsenChuang2010}
+The register comprises $n$ input qubits initialised in $\ket{0^{\otimes n}}$ and one work qubit prepared in $\ket{1}$ \cite{NielsenChuang2010}. A layer of Hadamard gates places the input into an equal superposition and the work qubit into $\ket{-}=(\ket{0}-\ket{1})/\sqrt 2$ \cite{Deutsch1992rapid}. After the oracle acts, a second Hadamard layer on the input register implements an $n$-qubit Walsh-Hadamard transform that converts relative phases into computational-basis amplitudes \cite{Cleve1998dj}. Measuring the input yields $\ket{0^{\otimes n}}$ if $f$ is constant and any other string if $f$ is balanced, achieving certainty in a single query \cite{Deutsch1992rapid}.
 
-The complete circuit for $n=2$ is:
+Because $U_f$ leaves the work qubit in $\ket{-}$ its effect can be viewed as a relative phase $(-1)^{f(x)}$ applied to $\ket{x}$ \cite{Deutsch1992rapid}. The second Hadamard layer therefore interferes amplitudes constructively on $\ket{0^{\otimes n}}$ when all phases coincide (constant case) and destructively otherwise (balanced case), exemplifying global property extraction by quantum interference \cite{NielsenChuang2010}.
 
+\begin{center}
 \begin{quantikz}
-\lstick{$\ket{0}_{q_0}$} & \gate{H} & \gate[3,nwires=2]{U_f} & \gate{H} & \meter{} & \cw \\
-\lstick{$\ket{0}_{q_1}$} & \gate{H} &                & \gate{H} & \meter{} & \cw \\
-\lstick{$\ket{1}_{q_2}$} & \gate{H} &                & \qw   & \qw   &
+\lstick{$\ket{0}_{q_0}$} & \gate{H} & \gate[wires=3]{U_f} & \gate{H} & \meter{} & \cw \\
+\lstick{$\ket{0}_{q_1}$} & \gate{H} & & \gate{H} & \meter{} & \cw \\
+\lstick{$\ket{1}_{q_2}$} & \gate{H} & & \qw & \qw &
 \end{quantikz}
+\end{center}
 
-In this diagram, $U_f$ is a multi-qubit oracle acting on all three qubits.\cite{Cleve1998dj} The output qubit $q_2$ returns to $\ket{-}$ regardless of $f$, so it is ignored in the final measurement.\cite{NielsenChuang2010} Measuring the input qubits yields $0^n$ if $f$ is constant and a non-zero string if $f$ is balanced.\cite{Deutsch1992rapid}
-
-This works because $U_f$ imprints $(-1)^{f(x)}$ as a phase on the input register (phase kickback).\cite{Cleve1998dj} The final Hadamards perform interference: identical phases yield constructive interference on $\ket{0\cdots0}$, while balanced phases cancel there and appear elsewhere, distinguishing the two cases with certainty in one query.\cite{NielsenChuang2010} The DJ algorithm illustrates how superposition and interference evaluate a global property of a function efficiently.\cite{Deutsch1992rapid}
+In the diagram $U_f$ acts on all qubits; the work line $q_2$ returns to $\ket{-}$ independently of $f$ and is discarded prior to measurement \cite{NielsenChuang2010}. The algorithm thus highlights how carefully engineered phase relations allow a quantum circuit to evaluate a global promise with a single oracle invocation.
 
 \subsubsection*{Grover's Search Algorithm}
 
-Grover's algorithm searches an unstructured list of $N=2^n$ items for a marked item, achieving a quadratic speed-up over classical search.\cite{Grover1997fast} Classically one needs $O(N)$ queries; Grover requires $O(\sqrt{N})$.\cite{Boyer1998tight} The algorithm iteratively applies the Grover operator $G = D\,U_f$, where $U_f$ flips the phase of the marked state and $D$ (diffusion) inverts amplitudes about the average.\cite{Brassard2002amplification}
+Grover's algorithm addresses the unstructured search problem by locating a single marked element among $N=2^{n}$ possibilities with a quadratic query reduction relative to classical exhaustive search \cite{Grover1997fast}. The procedure begins by preparing the uniform superposition $\ket{s}=H^{\otimes n}\ket{0^{\otimes n}}$, on which two reflections are alternately applied: an oracle reflection $U_{f}=I-2\ket{\omega}\bra{\omega}$ that flips the phase of the marked state $\ket{\omega}$ and a diffusion reflection $D=2\ket{s}\bra{s}-I$ that inverts amplitudes about the global mean \cite{Brassard2002amplification}. The combined Grover operator $G=D\,U_{f}$ effects a rotation by angle $2\theta$ in the two-dimensional subspace spanned by $\ket{\omega}$ and $\ket{s_{\perp}}$, where $\sin\theta=1/\sqrt{N}$; after $r\approx\frac{\pi}{4}\sqrt{N}$ iterations the probability of observing $\ket{\omega}$ peaks at virtually unity, establishing an optimal $O(\sqrt{N})$ query complexity bound proved tight by the hybrid argument \cite{Boyer1998tight}. At the circuit level each iteration consists of $n$ Hadamards, an $n$-qubit controlled-phase oracle and a sequence $H^{\otimes n}X^{\otimes n}Z_{0^{n}}X^{\otimes n}H^{\otimes n}$ realising the diffusion step with only one- and two-qubit gates using an $(n-1)$-control $Z$ on the all-zero state \cite{NielsenChuang2010}. Ancilla-free decompositions of the multi-control $Z$ are feasible at $O(n)$ Toffoli-depth using standard gate libraries, while fault-tolerant implementations can trade depth for $T$-count by leveraging relative-phase Toffolis and measurement-based uncomputation. Resource estimation therefore shows that a full Grover search over $n=40$ qubits, sufficient for key-search problems, would require roughly $10^{6}$ $T$ gates when executed on a surface-code protected architecture, orders of magnitude below the cost of competing classical brute-force methods. The canonical circuit and a worked example for $n=2$ are given below, with $\ket{11}$ designated as the marked item.
 
-A Grover iteration on $n$ qubits is:
-
-\begin{quantikz}
+\begin{figure}[ht]
+ \centering
+ \begin{quantikz}
  \lstick{$\ket{0}^{\otimes n}$}
-   & \gate{H^{\otimes n}}
-   & \gate{U_f}
-   & \gate{D}
-   & \meter{} \qwbundle{n}
-\end{quantikz}
+ & \gate{H^{\otimes n}}
+ & \gate{U_{f}}
+ & \gate{D}
+ & \meter{} \qwbundle{n}
+ \end{quantikz}
+ \caption{Grover iteration circuit for an $n$-qubit register showing the oracle reflection $U_{f}$ followed by the diffusion operator $D$.}
+ \label{fig:grover_generic}
+ \end{figure}
+ 
+ \begin{figure}[ht]
+ \centering
+ \begin{quantikz}
+ \lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \gate{H} & \gate{X} & \ctrl{1} & \gate{X} & \gate{H} & \meter{} & \cw \\
+ \lstick{$\ket{0}$} & \gate{H} & \gate{Z} & \gate{H} & \gate{X} & \targ{} & \gate{X} & \gate{H} & \meter{} & \cw
+ \end{quantikz}
+ \caption{Explicit two-qubit Grover circuit with $\ket{11}$ marked, illustrating the oracle phase flip via a controlled-$Z$ and the subsequent diffusion step.}
+ \label{fig:grover_two_qubit}
+ \end{figure}
+ 
 
-
-For $n=2$, marking $\ket{11}$ as the solution, an explicit circuit is:
-
-\begin{quantikz}
-\lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \gate{H} & \gate{X} & \ctrl{1} & \gate{X} & \gate{H} & \meter{} & \cw \\
-\lstick{$\ket{0}$} & \gate{H} & \gate{Z} & \gate{H} & \gate{X} & \targ{} & \gate{X} & \gate{H} & \meter{} & \cw
-\end{quantikz}
-
-Here the first Hadamards create a uniform superposition.\cite{Grover1997fast} The oracle $U_f$ is the controlled-$Z$ on $\ket{11}$.\cite{Brassard2002amplification} The remaining gates implement diffusion: $H^{\otimes n}X^{\otimes n}Z_{\ket{0^n}}X^{\otimes n}H^{\otimes n}$.\cite{NielsenChuang2010} Repeating $r\approx\frac{\pi}{4}\sqrt{N}$ iterations maximizes success probability.\cite{Grover1997fast,Boyer1998tight} Grover thus exploits amplitude amplification to boost the marked state's probability quadratically faster than classical search.\cite{Brassard2002amplification}
-
+The first Hadamards create the equal-amplitude superposition, the controlled-$Z$ implements the oracle phase flip on $\ket{11}$, and the remaining gates perform diffusion. Repeating the entire block the prescribed number of times concentrates amplitude on the marked state, demonstrating how coherent amplitude amplification converts modest gate counts into a quadratic performance advantage over classical search.
 
 \subsubsection*{Quantum Fourier Transform (QFT)}
 
-The Quantum Fourier Transform is a quantum analogue of the discrete Fourier transform applied to the amplitudes of a quantum state.\cite{NielsenChuang2010} It is a key component in many quantum algorithms, including Shor's factoring and quantum phase estimation.\cite{Shor1994} The QFT on $n$ qubits is a unitary $U_{\mathrm{QFT}}$ that maps a basis state $\ket{j}$ to a phase-weighted superposition:
-$$
-\ket{j} \;\mapsto\; \frac{1}{2^{n/2}}\sum_{k=0}^{2^{n}-1} e^{2\pi i jk / 2^{n}}\,\ket{k}.
-$$\cite{NielsenChuang2010}
+The (\gls{qft}) is the unitary analogue of the classical discrete Fourier transform, acting directly on the amplitudes of an $n$-qubit register to encode computational-basis indices into relative phases. It serves as the core subroutine in algorithms such as Shor integer factoring and quantum phase estimation, where interference in the Fourier basis extracts periodicity and eigen-phase information from a black-box unitary. Formally the transform maps
+\[
+\ket{j}\;\longmapsto\;\frac{1}{2^{n/2}}\sum_{k=0}^{2^{n}-1}e^{2\pi i jk/2^{n}}\ket{k},
+\]
+thereby re-expressing the computational basis in a phase-weighted superposition that can be measured to reveal frequency-domain structure. An exact gate-level realisation decomposes into $n$ layers, each beginning with a Hadamard on qubit $q_\ell$ followed by controlled-phase rotations $R_{k}= \text{diag}(1,e^{2\pi i/2^{k}})$ from $q_\ell$ onto successively less-significant qubits; this yields the canonical $n(n+1)/2$ gate count that is asymptotically optimal for a fully coherent Fourier transform without ancillary qubits. In practice final qubit-order reversal is implemented by a sequence of SWAPs or absorbed into classical post-processing, while approximate variants truncate small-angle rotations to reduce depth on noisy hardware at the cost of bounded fidelity loss. 
 
-The standard QFT circuit uses $O(n^2)$ one- and two-qubit gates: Hadamards and controlled phase rotations.\cite{Cleve1998qft} For three qubits ($n=3$), the circuit (ignoring final swaps) is:
-
+\begin{figure}[ht]
+\centering
 \begin{quantikz}
-\lstick{$\ket{q_0}$} & \gate{H} & \ctrl{1} & \ctrl{2} & \qw   & \qw   & \qw   & \meter{} & \cw \\
-\lstick{$\ket{q_1}$} & \qw   & \gate{R_2} & \qw   & \gate{H} & \ctrl{1} & \qw   & \meter{} & \cw \\
-\lstick{$\ket{q_2}$} & \qw   & \qw   & \gate{R_3} & \qw   & \gate{R_2} & \gate{H} & \meter{} & \cw
+\lstick{$\ket{q_0}$} & \gate{H} & \ctrl{1} & \ctrl{2} & \qw & \qw & \qw & \meter{} & \cw \\
+\lstick{$\ket{q_1}$} & \qw & \gate{R_2} & \qw & \gate{H} & \ctrl{1} & \qw & \meter{} & \cw \\
+\lstick{$\ket{q_2}$} & \qw & \qw & \gate{R_3} & \qw & \gate{R_2} & \gate{H} & \meter{} & \cw
 \end{quantikz}
+\caption{Three-qubit \gls{qft} circuit without final SWAP gates.}
+\label{fig:qft_three_qubit}
+\end{figure}
 
-Here $R_k$ denotes a $Z$-rotation by $2\pi/2^{k}$.\cite{NielsenChuang2010} Swapping $q_0$ and $q_2$ at the end yields the textbook output order.\cite{Cleve1998qft} In general, the QFT circuit requires $n(n+1)/2$ gates, exponentially fewer than a classical DFT over $2^{n}$ elements encoded naïvely in gates.\cite{NielsenChuang2010} After QFT, measuring the qubits in algorithms like phase estimation reveals frequency-domain information encoded in the phases.\cite{Kitaev1995phase}
+%The sequence of Hadamards and controlled rotations realises the Fourier basis change, while measurements can be deferred until after optional qubit-order reversal.
 
-An approximate QFT can omit small-angle rotations to reduce gate count further with bounded error, a common optimization on NISQ hardware.\cite{Barenco1996approxqft} Nonetheless, the exact QFT circuit remains a canonical example of an efficient, highly structured quantum circuit.\cite{Shor1994}
+The exact circuit thus achieves an exponential data-size compression relative to a naïve classical implementation that would require $2^{n}$ complex multiplications, and its highly regular structure makes it an ideal benchmark for compilation strategies and fault-tolerant resource estimation in larger algorithmic pipelines that incorporate \glspl{qfa} and other automata-based primitives.
 
 \subsection{Decomposition of Arbitrary Unitaries into Quantum Circuits}
+\label{subsec:unitary_decomposition}
 
-Given an arbitrary unitary operation $U$ on $n$ qubits ($2^{n}\times2^{n}$ matrix), we ask how to implement it as a gate sequence from a universal set.\cite{Shende2006synthesis} This is the problem of \textbf{quantum circuit synthesis} or unitary decomposition.
+Quantum circuit synthesis asks how an arbitrary $n$-qubit unitary $U\in\mathrm{U}\left(2^{n}\right)$ can be realised exactly or approximately by a finite sequence of gates drawn from a universal library, typically the Clifford\,+\,$T$ set. The task is fundamental for compilation, resource estimation and verification, because every high-level quantum algorithm must eventually be expressed at this gate level. Exact synthesis is information-theoretically constrained: a generic unitary carries $4^{\,n}-1$ real parameters, so any gate sequence that exhausts the reachable space requires $\Omega\left(4^{n}\right)$ elementary rotations \cite{Shende2006synthesis}. 
 
-A general strategy breaks $U$ into a product of simpler unitaries that affect only a two-dimensional subspace—\emph{two-level unitaries}.\cite{Reck1994optics} Fedoriaka's algorithm (2019) follows this approach, eliminating off-diagonal elements one by one with two-level operations.\cite{fedoriaka2025decomposition} Each two-level unitary acts non-trivially on basis states $\ket{i},\ket{j}$ and as identity elsewhere, analogous to a Givens rotation.\cite{Reck1994optics}
+A constructive strategy meeting this lower bound factorises $U$ into a product of two-level unitaries that each alter amplitudes in a two-dimensional subspace spanned by computational basis states $\ket{i}$ and $\ket{j}$ \cite{Reck1994optics}. Fedoriaka's elimination algorithm arranges these two-level factors so that $\ket{i}$ and $\ket{j}$ differ in exactly one qubit \cite{fedoriaka2025decomposition}. Under this condition every factor becomes a single-qubit rotation on the differing qubit, controlled on the remaining $n-1$ lines. The rotation is therefore a fully controlled gate $C^{\,n-1}\bigl(R_{y}(\theta)\bigr)$ or $C^{\,n-1}\bigl(R_{z}(\phi)\bigr)$ that can be further decomposed into $\mathcal{O}(n)$ \gls{cnot}s and single-qubit phases, or implemented directly on platforms with native multi-control support \cite{Barenco1995elementary}. 
 
-\paragraph{Two-Level Decomposition and Gray Codes.} 
-Choosing the sequence so that $\ket{i}$ and $\ket{j}$ differ in exactly one qubit simplifies implementation: the two-level unitary becomes a single-qubit rotation controlled on the other $n-1$ qubits.\cite{Barenco1995elementary} Ordering basis states in a Gray-code sequence ensures consecutive pairs differ by one bit.\cite{Bullock2004gray} One conceptually permutes $U$ to Gray order with a permutation $P$ and then decomposes $PUP^T$; the permutation itself can be realized by fixed SWAP networks or absorbed into labeling.\cite{Bullock2004gray}
+Choosing the ordering of basis states according to a binary Gray code guarantees that successive pairs differ in exactly one bit, allowing the two-level factors to march systematically across the matrix while never increasing the Hamming distance beyond one \cite{Bullock2004gray}. Conceptually the matrix is first permuted by a Gray-order permutation $P$, the product $PUP^{\mathsf{T}}$ is decomposed, and the permutation is later undone by relabeling or by a fixed swap network whose depth scales linearly with $n$. The algorithm applies $\tfrac12\,2^{n}\left(2^{n}-1\right)$ two-level rotations, giving a gate count $\Theta\left(4^{n}\right)$ that saturates the optimal asymptotic bound up to constant factors \cite{Shende2006synthesis}. 
 
-\paragraph{Fully-Controlled Rotation Implementation.} 
-If $\ket{i}$ and $\ket{j}$ differ only in qubit $k$, the required operation is a single-qubit rotation on $k$ controlled on the other qubits matching the shared bit pattern—a fully controlled gate $C^{\,n-1}(R_y(\theta))$ or $C^{\,n-1}(R_z(\phi))$.\cite{fedoriaka2025decomposition} Such gates may be further decomposed into CNOTs plus single-qubit rotations or implemented directly if native controls are available.\cite{Barenco1995elementary}
+Several practical optimisations reduce the constant overhead. Consecutive $X$ controls on the same line often cancel, global phases can be deferred to a single final $R_{1}$ rotation and sparsity in $U$ eliminates whole classes of two-level operations \cite{fedoriaka2025decomposition}. When $U$ is block diagonal or tensor factorable the synthesis cost drops to polynomial in $n$; for example, if $U=\bigotimes_{k=1}^{n}U_{k}$ only $n$ single-qubit gates are required \cite{Barenco1995elementary}. 
 
-Applying all such fully controlled rotations (and necessary $X$ flips on controls) yields a circuit of roughly $4^{n}$ basic gates, matching the asymptotic lower bound for exact synthesis of a generic $n$-qubit unitary.\cite{Shende2006synthesis}
+Alternative exact techniques achieve the same asymptotic footprint while sometimes yielding circuits with more regular structure. The \gls{csd} recursively partitions $U$ into uniformly controlled rotations, leading to the quantum Shannon family of circuits that are well suited to optimisation by templates and peephole rules \cite{Miller2006csd}. Householder-reflection methods similarly match the $\Theta\left(4^{n}\right)$ bound but distribute entangling gates differently, which can be advantageous under restricted qubit connectivity \cite{Shende2006synthesis}. 
 
-\paragraph{Circuit Complexity and Optimizations.} 
-The number of two-level unitaries required is $\tfrac12\,2^{n}(2^{n}-1)=\Theta(4^{n})$, reflecting the $4^{n}$ real degrees of freedom in a generic $2^{n}\times2^{n}$ unitary.\cite{Shende2006synthesis} Consequently, any \emph{exact} circuit for an arbitrary unitary must use at least $\Omega(4^{n})$ elementary gates; Fedoriaka's Gray-code method saturates this bound up to constant factors.\cite{fedoriaka2025decomposition}
+In applications where approximation is acceptable the Solovay-Kitaev theorem guarantees that any exact decomposition can be truncated and then refined to precision $\varepsilon$ with length $\mathcal{O}\bigl(\log^{c}(1/\varepsilon)\bigr)$ over a fixed universal set, with $c\approx3.97$ independent of $n$ \cite{Dawson2005solovay}. State-of-the-art compilers layer numerical optimisation on top of analytical backbones such as \gls{csd}. They invoke iterative KAK factorizations, constraint solvers or the ZX-calculus to compress depths further on noisy intermediate-scale quantum hardware while monitoring accumulated approximation error \cite{Heyfron2018zx}. 
 
-Fedoriaka also describes practical optimizations: consecutive $X$ flips on the same qubit often cancel, reducing gate count without altering functionality.\cite{fedoriaka2025decomposition} A final global phase can be fixed with a single $R_1$ gate, so one need not track global phases throughout the decomposition.\cite{Reck1994optics} 
-If $U$ happens to be sparse or block-diagonal, many off-diagonal elements are already zero and corresponding two-level rotations can be skipped, yielding circuits far shorter than the $4^{n}$ worst case.\cite{Bullock2004gray} When $U$ factors as a tensor product of single-qubit unitaries, only $n$ gates are needed.\cite{Barenco1995elementary}
+Exact Gray-code elimination therefore provides a conceptually transparent synthesis that is provably optimal in the worst case, yet the exponential scaling highlights why practical quantum advantage relies on structured operators such as the \gls{qft}, oracle reflections or variational ansätze whose decompositions grow only polynomially with problem size \cite{Preskill2018nisq}. 
 
-Beyond Fedoriaka's elimination, other exact synthesis techniques exist. The \emph{cosine-sine decomposition} (CSD) recursively splits $U$ into smaller blocks, leading to the \emph{quantum Shannon decomposition} family of circuits with similar $\Theta(4^{n})$ size but often nicer structure (uniformly-controlled rotations).\cite{Miller2006csd} Householder-reflection methods achieve the same bound with different gate patterns.\cite{Shende2006synthesis}
 
-If approximation suffices, the Solovay-Kitaev theorem guarantees any unitary can be approximated to error $\varepsilon$ with length $O\bigl(\log^{c}(1/\varepsilon)\bigr)$ over a fixed universal set ($c\approx3.97$), independent of $n$ once an exact synthesis for basis gates is available.\cite{Dawson2005solovay} Modern numerical compilers combine CSD back-bones with iterative \emph{KAK} or \emph{ZX-calculus} reductions to trade accuracy for shorter depth on NISQ devices.\cite{Heyfron2018zx}
+\paragraph{Example 1: two-qubit random unitary.}  
+Consider the numerically specified $4\times4$ matrix
+\[
+U_{\mathrm{ex}}=
+\begin{pmatrix}
+0 & \tfrac{1}{\sqrt2} & \tfrac{1}{\sqrt2} & 0 \\
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & -1 \\
+0 & \tfrac{1}{\sqrt2} & -\tfrac{1}{\sqrt2} & 0
+\end{pmatrix},
+\]
+labelled in Gray order $\{\ket{00},\ket{01},\ket{11},\ket{10}\}$.  
+Fedoriaka's procedure eliminates the off-diagonal entries in three steps:
+\begin{enumerate}
+\item Apply $C^{1}\bigl(R_{y}(\theta_{1})\bigr)$ on $q_{0}$ controlled by $q_{1}$ to zero the $(1,0)$ element.  
+\item Apply $C^{1}\bigl(R_{z}(\phi_{1})\bigr)$ on $q_{0}$ controlled by $q_{1}$ to adjust the relative phase.  
+\item Apply a single-qubit phase $R_{z}(\gamma)$ on $q_{1}$ to fix the global determinant.  
+\end{enumerate}
+A minimal gate-level implementation is illustrated in Figure \ref{fig:fedoriaka_twoqubit}. After local cancellations the circuit contains two \gls{cnot}s and five single-qubit rotations, underscoring that small instances can be substantially cheaper than the worst-case bound.
 
-\paragraph{Summary.} 
-Arbitrary $n$-qubit unitaries can be decomposed exactly by a sequence of two-level operations ordered via Gray codes, each realized as a fully-controlled single-qubit rotation.\cite{fedoriaka2025decomposition} The resulting circuit uses $\Theta(4^{n})$ gates, matching information-theoretic lower bounds.\cite{Shende2006synthesis} Further optimizations—gate-cancellation, exploiting sparsity, or adopting alternative decompositions such as CSD—trim constant factors but not the exponential scaling. Hence, practical quantum advantage hinges on exploiting \emph{structured} unitaries (QFT, oracles, variational ansätze) whose circuits grow only polynomially.\cite{Preskill2018nisq}
+\begin{figure}[ht]
+\centering
+\begin{quantikz}
+\lstick{$q_{0}$} & \gate{R_{z}(\phi_{1})} & \ctrl{1} & \gate{R_{y}(\theta_{1})} & \ctrl{1} & \qw \\
+\lstick{$q_{1}$} & \gate{R_{z}(\gamma)} & \targ{} & \qw & \targ{} & \qw
+\end{quantikz}
+\caption{Gray-code two-qubit decomposition of $U_{\mathrm{ex}}$. The fully controlled rotations emerge as \gls{cnot} sandwiches with single-qubit phases.}
+\label{fig:fedoriaka_twoqubit}
+\end{figure}
+
+\paragraph{Example 2: block-diagonal three-qubit unitary.}  
+Let  
+\[
+U_{\mathrm{blk}}=
+\begin{pmatrix}
+U_{0} & 0 \\ 0 & U_{1}
+\end{pmatrix},
+\qquad
+U_{0}=R_{y}(\alpha),\;
+U_{1}=R_{z}(\beta),
+\]
+where the most significant qubit indexes the blocks. The matrix is already sparse; only two fully controlled single-qubit rotations are needed:
+\[
+C^{2}\bigl(R_{y}(\alpha)\bigr)\quad\text{and}\quad
+C^{2}\bigl(R_{z}(\beta)\bigr).
+\]
+Each decomposes into six \gls{cnot}s and four elementary rotations in the Clifford\,+\,$T$ set. The total depth therefore scales linearly with $n$ instead of exponentially, demonstrating how exploitable structure in $U$ suppresses the gate count far below the Gray-code worst case.
+
+\paragraph{Example 3: tensor-product unitary.}  
+If $U=U_{1}\otimes U_{2}\otimes\dots\otimes U_{n}$ the circuit is simply the parallel application of the $n$ single-qubit matrices $U_{k}$. No entangling gates are required, so the synthesis cost is exactly $n$ elementary rotations. This instance saturates the best possible scaling for a non-trivial $n$-qubit operator, confirming that exponential overhead is not intrinsic but rather tied to entangling structure.
+
+These examples translate the abstract complexity analysis into concrete gate sequences, supplying reference circuits and resource counts that can be validated experimentally or within automated compilers.
+
