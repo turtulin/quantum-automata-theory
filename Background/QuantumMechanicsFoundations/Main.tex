@@ -3,7 +3,7 @@
 
 Quantum theory delivers a linear-algebraic description of microscopic
 systems that has withstood every experimental test to date
-\cite{Dirac1930,NielsenChuang2010}. The finite-dimensional fragment of
+\cite{dirac1981principles,nielsen2010quantum}. The finite-dimensional fragment of
 this theory already suffices for reversible computing,
 cryptography and the automata models investigated later in the thesis.
 Accordingly the presentation below restricts attention to finite
@@ -34,7 +34,7 @@ Quantum information is encoded in the state of a two-level system, the
 \gls{qubit}. Although physical realisations differ, ranging from
 photonic polarisations and superconducting circuits to nuclear spins, the mathematical
 model is uniform: a unit vector in a two-dimensional complex Hilbert
-space \cite{Dirac1930,NielsenChuang2010}. Dirac's bra-ket notation
+space \cite{dirac1981principles,nielsen2010quantum}. Dirac's bra-ket notation
 offers a compact syntax for such vectors and fixes
 \(\{\ket{0},\ket{1}\}\) as the computational basis used
 throughout the thesis.
@@ -55,14 +55,14 @@ Equivalently one may parameterise the state as
  \theta\in[0,\pi],\;\phi\in[0,2\pi),
 \]
 where the pair \((\theta,\phi)\) locates \(\ket{\psi}\) on the Bloch
-sphere \cite{NielsenChuang2010}.
+sphere \cite{nielsen2010quantum}.
 \end{definition}
 
 The Bloch sphere embeds all pure qubit states on the surface of a unit
 sphere in \(\mathbb R^{3}\); its poles represent the basis vectors while
 global phases \(e^{\mathrm i\gamma}\ket{\psi}\) collapse to the same
 point because overall phase has no observable consequence
-\cite{Sakurai1994}. Figure~\ref{fig:bloch_sphere} displays the geometry
+\cite{nielsen2010quantum}. Figure~\ref{fig:bloch_sphere} displays the geometry
 and the two angular coordinates that parameterise a state.
 
 \begin{figure}[ht]
@@ -115,13 +115,13 @@ and the two angular coordinates that parameterise a state.
  Quantum information is encoded in vectors of a finite-dimensional Hilbert space~$\mathcal H$.  
  Linearity of~$\mathcal H$ implies that a linear combination of admissible vectors is again an admissible vector.  
  
- \begin{definition}[Principle of superposition {\cite{Sakurai1994}}]
+ \begin{definition}[Principle of superposition {\cite{nielsen2010quantum}}]
    Let $\{\ket{\psi_i}\}_{i\in I}\subset\mathcal H$ be a family of normalised state vectors and let $\{\alpha_i\}_{i\in I}\subset\mathbb C$ satisfy $\sum_{i\in I}\lvert\alpha_i\rvert^2=1$.  
    The vector $\ket{\Psi}=\sum_{i\in I}\alpha_i\ket{\psi_i}$ is a valid quantum state and is called a superposition of the~$\ket{\psi_i}$.
  \end{definition}
  
  Superposition yields interference phenomena that have no classical counterpart; amplitudes, not probabilities, add.  
- In protocols such as the Deutsch-Jozsa algorithm and amplitude amplification the relative phases between components of~$\ket{\Psi}$ are adjusted in order to concentrate probability mass on measurement outcomes that reveal global properties of the input~\cite{NielsenChuang2010}.  
+ In protocols such as the Deutsch-Jozsa algorithm and amplitude amplification the relative phases between components of~$\ket{\Psi}$ are adjusted in order to concentrate probability mass on measurement outcomes that reveal global properties of the input~\cite{nielsen2010quantum}.  
  
  \begin{remark}
    For a single qubit any pure state can be written as $\ket{\psi}=\cos\frac\theta2\ket{0}+e^{i\phi}\sin\frac\theta2\ket{1}$ with $\theta\in[0,\pi]$ and $\phi\in[0,2\pi)$.  
@@ -138,7 +138,7 @@ and the two angular coordinates that parameterise a state.
    A pure state $\ket{\Psi}_{AB}\in\mathcal H_{AB}$ is entangled if there exist no states $\ket{\psi}_A\in\mathcal H_A$ and $\ket{\phi}_B\in\mathcal H_B$ such that $\ket{\Psi}_{AB}=\ket{\psi}_A\otimes\ket{\phi}_B$.
  \end{definition}
  
- \begin{example}[Bell pair {\cite{Bell1964}}]
+ \begin{example}[Bell pair {\cite{bell1964einstein}}]
    The state
    \[
      \ket{\Psi^-}=\frac1{\sqrt2}\bigl(\ket{0}_A\ket{1}_B-\ket{1}_A\ket{0}_B\bigr)
@@ -147,7 +147,7 @@ and the two angular coordinates that parameterise a state.
    Tracing out either subsystem produces the maximally mixed single-qubit density operator $\frac12I$, confirming that no local description captures the correlations present in~$\ket{\Psi^-}$.
  \end{example}
  
- \begin{proposition}[Schmidt criterion {\cite{NielsenChuang2010}}]
+ \begin{proposition}[Schmidt criterion {\cite{nielsen2010quantum}}]
    A bipartite pure state is separable if and only if its Schmidt rank equals~$1$.
  \end{proposition}
  
@@ -172,7 +172,7 @@ and the two angular coordinates that parameterise a state.
  \subsection{Measurement and Probabilistic Outcomes}\label{subsec:measurement_probabilistic}
 
 Measurement translates the abstract formalism of quantum mechanics into experimentally accessible numbers.  
-The bridge is supplied by the measurement postulates, stated here for finite-dimensional systems~\cite{vonNeumann1955,NielsenChuang2010}.
+The bridge is supplied by the measurement postulates, stated here for finite-dimensional systems~\cite{vonNeumann1955,nielsen2010quantum}.
 
 \begin{definition}[Observable {\cite{vonNeumann1955}}]\label{def:observable}
 	An observable is a Hermitian operator $M\in\mathcal L(\mathcal H)$ that admits the spectral decomposition
@@ -197,7 +197,7 @@ The bridge is supplied by the measurement postulates, stated here for finite-dim
 Projective measurements are often too restrictive: realistic detectors have finite resolution, and many protocols require non-orthogonal outcomes.  
 The most general measurement allowed by quantum theory is the \gls{povm}, introduced next.
 
-\begin{definition}[\gls{povm} {\cite{Kraus1983,NielsenChuang2010}}]\label{def:povm}
+\begin{definition}[\gls{povm} {\cite{kraus1983states,nielsen2010quantum}}]\label{def:povm}
 	A set of positive semi-definite operators $\{E_{k}\}\subset\mathcal L(\mathcal H)$ is a \gls{povm} if $\sum_{k}E_{k}=\mathbb I$.  
 	For an input state $\ket{\psi}$ the probability of outcome $k$ is
 	\[
@@ -206,7 +206,7 @@ The most general measurement allowed by quantum theory is the \gls{povm}, introd
 	There exist operators $\{M_{k}\}$, called Kraus operators, such that $E_{k}=M_{k}^{\dagger}M_{k}$ and $\sum_{k}M_{k}^{\dagger}M_{k}=\mathbb I$.
 \end{definition}
 
-\begin{proposition}[State-update rule {\cite{Kraus1983}}]\label{prop:kraus_update}
+\begin{proposition}[State-update rule {\cite{kraus1983states}}]\label{prop:kraus_update}
 	When outcome $k$ of a \gls{povm} is observed, the (unnormalised) post-measurement state is
 	$M_{k}\ket{\psi},$
 	and the normalised state equals $M_{k}\ket{\psi}/\sqrt{P(k)}$.
@@ -242,13 +242,13 @@ Linearity of quantum dynamics has a profound implication for information process
 	This contradicts the premise that $\ket{\psi}$ and $\ket{\phi}$ are non-orthogonal; thus no perfect cloner exists.
 \end{proof}
 
-The impossibility of perfect cloning secures quantum key distribution, forbids noiseless amplification of unknown signals, and motivates approximate or probabilistic cloning strategies analysed in later chapters~\cite{Scarani2005}.
+The impossibility of perfect cloning secures quantum key distribution, forbids noiseless amplification of unknown signals, and motivates approximate or probabilistic cloning strategies analysed in later chapters~\cite{scarani2005quantum}.
 \subsection{Decoherence and Open Systems}\label{subsec:decoherence_open}
 
 Isolated dynamics represent an idealisation; every realistic device exchanges energy and information with uncontrolled external degrees of freedom~\cite{Breuer2002}.  
 A quantum description that ignores the environment replaces pure vectors by statistical operators.
 
-\begin{definition}[Density operator {\cite{NielsenChuang2010}}]\label{def:density}
+\begin{definition}[Density operator {\cite{nielsen2010quantum}}]\label{def:density}
 	A density operator on a Hilbert space~$\mathcal H$ is a positive semidefinite matrix $\rho\in\mathcal L(\mathcal H)$ that satisfies $\operatorname{Tr}\rho=1$.  
 	It encodes an ensemble $\{p_{i},\ket{\psi_{i}}\}$ through $\rho=\sum_{i}p_{i}\ket{\psi_{i}}\bra{\psi_{i}}$.
 \end{definition}
@@ -267,7 +267,7 @@ is generally mixed and its off-diagonal elements in a preferred basis decay, a p
 	A linear map $\mathcal E:\mathcal L(\mathcal H)\to\mathcal L(\mathcal H)$ is a quantum channel if it is completely positive and trace preserving.
 \end{definition}
 
-\begin{proposition}[Kraus representation {\cite{Kraus1983}}]\label{prop:kraus}
+\begin{proposition}[Kraus representation {\cite{kraus1983states}}]\label{prop:kraus}
 	Every completely positive and trace preserving map admits operators $\{L_{k}\}$ on~$\mathcal H$ such that
 	\[
 		\mathcal E(\rho)=\sum_{k}L_{k}\rho L_{k}^{\dagger},
@@ -299,7 +299,7 @@ The generator guarantees complete positivity of the channel $e^{t\mathcal L}$ fo
 \subsection{Unitary Evolution and Quantum Dynamics}\label{subsec:unitary_dynamics}
 
 In the absence of measurements and uncontrollable perturbations, a quantum system is considered closed.
-Its state vector evolves according to the postulate of unitary time development~\cite{NielsenChuang2010}.
+Its state vector evolves according to the postulate of unitary time development~\cite{nielsen2010quantum}.
 
 \begin{definition}[Unitary operator]\label{def:unitary}
 	A linear map $U:\mathcal H\longrightarrow\mathcal H$ is unitary if $U^{\dagger}U=UU^{\dagger}=\mathbb I$.  
@@ -321,7 +321,7 @@ Dynamics are generated by the system Hamiltonian~$H=H^{\dagger}$ through the tim
 		U(t,t_{0}) = \mathcal T
 		\exp\Bigl[-\frac{\mathrm i}{\hbar}\int_{t_{0}}^{t}H(t')\,\mathrm dt'\Bigr],
 	\]
-	where $\mathcal T$ denotes the time-ordering operator~\cite{Sakurai1994}.  
+	where $\mathcal T$ denotes the time-ordering operator~\cite{nielsen2010quantum}.  
 	The propagator satisfies $U(t,t)=\mathbb I$ and the composition law $U(t_{2},t_{0})=U(t_{2},t_{1})U(t_{1},t_{0})$.
 \end{proposition}
 
@@ -330,7 +330,7 @@ Dynamics are generated by the system Hamiltonian~$H=H^{\dagger}$ through the tim
 	\[
 		U(t,t_{0}) = \exp\bigl[-\mathrm iH(t-t_{0})/\hbar\bigr] ,
 	\]
-	which implements a one-parameter unitary group generated by $H$~\cite{Sakurai1994}.
+	which implements a one-parameter unitary group generated by $H$~\cite{nielsen2010quantum}.
 \end{remark}
 
 \begin{example}[Qubit rotation about the $z$ axis]\label{ex:qubit_rotation}
