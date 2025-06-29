@@ -24,7 +24,7 @@ equation is specialised to finite-dimensional unitary evolution,
 establishing the toolkit used in subsequent chapters on quantum finite
 automata.
 
-Relativistic extensions handled by quantum field theory, such as those described by the \gls{qft}, remain outside the present scope \cite{Weinberg1995}; every
+Relativistic extensions handled by quantum field theory, such as those described by the \gls{qft}, remain outside the present scope \cite{weinberg1995quantum}; every
 example and proof will rely only on the finite-dimensional machinery
 summarised here.
 
@@ -134,7 +134,7 @@ and the two angular coordinates that parameterise a state.
  A joint pure state lives in $\mathcal H_{AB}=\mathcal H_A\otimes\mathcal H_B$.  
  Some joint states are separable; others are not.
  
- \begin{definition}[Entangled state {\cite{Horodecki2009}}]\label{def:entangled}
+ \begin{definition}[Entangled state {\cite{horodecki2009quantum}}]\label{def:entangled}
    A pure state $\ket{\Psi}_{AB}\in\mathcal H_{AB}$ is entangled if there exist no states $\ket{\psi}_A\in\mathcal H_A$ and $\ket{\phi}_B\in\mathcal H_B$ such that $\ket{\Psi}_{AB}=\ket{\psi}_A\otimes\ket{\phi}_B$.
  \end{definition}
  
@@ -158,13 +158,13 @@ and the two angular coordinates that parameterise a state.
  
  
  Entanglement is a resource underpinning quintessential quantum protocols.  
- It enables perfect teleportation of an unknown qubit state and doubles the classical capacity of a single qubit through superdense coding~\cite{Bennett1993}.  
- Experimentally, violations of Bell inequalities exclude local hidden-variable theories and confirm the non-classical character of entangled correlations~\cite{Aspect1982}.  
+ It enables perfect teleportation of an unknown qubit state and doubles the classical capacity of a single qubit through superdense coding~\cite{bennett1993teleporting}.  
+ Experimentally, violations of Bell inequalities exclude local hidden-variable theories and confirm the non-classical character of entangled correlations~\cite{aspect1982experimental}.  
  
  \begin{remark}
    Entanglement extends beyond two parties.  
    Greenberger-Horne-Zeilinger states and graph states furnish multipartite resources for measurement-based quantum computation.  
-   Resource theories quantify entanglement via monotones such as the von~Neumann entropy of the reduced state~\cite{Horodecki2009}.
+   Resource theories quantify entanglement via monotones such as the von~Neumann entropy of the reduced state~\cite{horodecki2009quantum}.
  \end{remark}
  
  Entanglement appears implicitly in later chapters: composite state registers of \glspl{qfa} may evolve into non-separable configurations even when each register individually undergoes unitary dynamics.  
@@ -172,9 +172,9 @@ and the two angular coordinates that parameterise a state.
  \subsection{Measurement and Probabilistic Outcomes}\label{subsec:measurement_probabilistic}
 
 Measurement translates the abstract formalism of quantum mechanics into experimentally accessible numbers.  
-The bridge is supplied by the measurement postulates, stated here for finite-dimensional systems~\cite{vonNeumann1955,nielsen2010quantum}.
+The bridge is supplied by the measurement postulates, stated here for finite-dimensional systems~\cite{von2018mathematical,nielsen2010quantum}.
 
-\begin{definition}[Observable {\cite{vonNeumann1955}}]\label{def:observable}
+\begin{definition}[Observable {\cite{von2018mathematical}}]\label{def:observable}
 	An observable is a Hermitian operator $M\in\mathcal L(\mathcal H)$ that admits the spectral decomposition
 	\[
 		M=\sum_{m}m\,\Pi_{m},
@@ -182,7 +182,7 @@ The bridge is supplied by the measurement postulates, stated here for finite-dim
 	with orthogonal projectors $\{\Pi_{m}\}$ satisfying $\Pi_{m}\Pi_{m'}=\delta_{m,m'}\Pi_{m}$ and $\sum_{m}\Pi_{m}=\mathbb I$.
 \end{definition}
 
-\begin{definition}[Projective measurement {\cite{Born1926}}]\label{def:projective_measurement}
+\begin{definition}[Projective measurement \cite{born1925quantentheorie}]\label{def:projective_measurement}
 	Let $M$ be an observable with eigenstates $\{\ket{m}\}$ and projectors $\Pi_{m}= \ket{m}\bra{m}$.  
 	For an input state $\ket{\psi}$ the probability of obtaining outcome $m$ is
 	\[
@@ -224,7 +224,7 @@ The most general measurement allowed by quantum theory is the \gls{povm}, introd
 
 Linearity of quantum dynamics has a profound implication for information processing.
 
-\begin{theorem}[No-cloning {\cite{Wootters1982,Dieks1982}}]\label{thm:nocloning}
+\begin{theorem}[No-cloning {\cite{wootters1982single,dieks1982communication}}]\label{thm:nocloning}
 	There exists no unitary operator $U$ and no fixed blank state $\ket{b}$ such that
 	\[
 		U\bigl(\ket{\psi}\otimes\ket{b}\bigr)=\ket{\psi}\otimes\ket{\psi}
@@ -245,7 +245,7 @@ Linearity of quantum dynamics has a profound implication for information process
 The impossibility of perfect cloning secures quantum key distribution, forbids noiseless amplification of unknown signals, and motivates approximate or probabilistic cloning strategies analysed in later chapters~\cite{scarani2005quantum}.
 \subsection{Decoherence and Open Systems}\label{subsec:decoherence_open}
 
-Isolated dynamics represent an idealisation; every realistic device exchanges energy and information with uncontrolled external degrees of freedom~\cite{Breuer2002}.  
+Isolated dynamics represent an idealisation; every realistic device exchanges energy and information with uncontrolled external degrees of freedom~\cite{breuer2002theory}.  
 A quantum description that ignores the environment replaces pure vectors by statistical operators.
 
 \begin{definition}[Density operator {\cite{nielsen2010quantum}}]\label{def:density}
@@ -261,7 +261,7 @@ If $\ket{\Psi}_{SE}$ evolves unitarily under $U_{SE}$ the reduced state
 \[
 	\rho_{S}(t)=\operatorname{Tr}_{E}\bigl[\,U_{SE}(t)\,\rho_{SE}(0)\,U_{SE}^{\dagger}(t)\bigr]
 \]
-is generally mixed and its off-diagonal elements in a preferred basis decay, a phenomenon called decoherence~\cite{Zurek2003,Schlosshauer2005}.  
+is generally mixed and its off-diagonal elements in a preferred basis decay, a phenomenon called decoherence~\cite{zurek2003decoherence,schlosshauer2004decoherence}.  
 
 \begin{definition}[Quantum channel]\label{def:channel}
 	A linear map $\mathcal E:\mathcal L(\mathcal H)\to\mathcal L(\mathcal H)$ is a quantum channel if it is completely positive and trace preserving.
@@ -284,7 +284,7 @@ is generally mixed and its off-diagonal elements in a preferred basis decay, a p
 \end{example}
 
 
-When environmental correlations relax quickly (Markovian limit) the family $\{\rho(t)\}_{t\ge0}$ forms a quantum dynamical semigroup with generator in \gls{gksl} form~\cite{Gorini1976,Lindblad1976}:
+When environmental correlations relax quickly (Markovian limit) the family $\{\rho(t)\}_{t\ge0}$ forms a quantum dynamical semigroup with generator in \gls{gksl} form~\cite{gorini1976completely,lindblad1976generators}:
 
 \begin{definition}[Lindblad master equation]\label{def:lindblad}
 	For a system Hamiltonian $H$ and Lindblad operators $\{L_{k}\}$ the Markovian evolution obeys
@@ -308,7 +308,7 @@ Its state vector evolves according to the postulate of unitary time development~
 \end{definition}
 
 
-Dynamics are generated by the system Hamiltonian~$H=H^{\dagger}$ through the time-dependent Schrödinger equation~\cite{Schrodinger1926}
+Dynamics are generated by the system Hamiltonian~$H=H^{\dagger}$ through the time-dependent Schrödinger equation~\cite{schrodingjsr19262}
 \[
 	\mathrm i\hbar\frac{\mathrm d}{\mathrm dt}\ket{\psi(t)} = H(t)\ket{\psi(t)} .
 \]
