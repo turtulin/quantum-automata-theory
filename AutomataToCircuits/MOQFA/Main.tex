@@ -1,4 +1,4 @@
-\section{Measure-Once One-Way Quantum Finite Automaton to Circuit}
+\section{\glsentrylong{mo-1qfa} to Circuit}
 \label{sec:moqfa-to-circuit}
 
 This section presents the compilation of the \gls{mo-1qfa} model into an executable quantum circuit, elucidating the precise correspondence between automaton-level abstractions and gate-level constructs. The internal state set $Q$ is represented using $\lceil\log_{2}|Q|\rceil$ qubits, encoding each classical state $q \in Q$ into a computational basis vector of the quantum register. Each symbol $\sigma \in \Sigma$ is associated with a unitary matrix $U_\sigma$, which governs the evolution of the state vector upon reading $\sigma$; these operators are later decomposed into sequences of elementary gates drawn from a universal set (e.g., Clifford+$T$ or $\{\mathrm{CNOT}, R_z, H\}$). The initial state preparation maps the all-zero register to the automaton's start state via minimal gate operations. Finally, the accepting condition is enforced via a projective measurement onto a subspace defined by the set of accepting states $F$, implemented as a single multi-controlled rotation followed by a standard measurement. This mapping supports systematic synthesis of circuits from automaton descriptions while preserving the semantics of quantum language recognition.
@@ -6,7 +6,7 @@ This section presents the compilation of the \gls{mo-1qfa} model into an executa
 \subsection{Mapping Automaton Components to Circuit Elements}
 A \gls{mo-1qfa} is defined as a tuple
 \[
-  A = (Q,\Sigma,\delta,q_0,F),
+  A = (Q,\Sigma,\delta,q_0,F), 
 \]
 as introduced in Section~\ref{sec:moqfa}. The goal is to construct, for any such automaton, a quantum circuit that faithfully reproduces its evolution and acceptance behaviour. This is achieved by mapping each formal component to a corresponding physical construct within the circuit model, preserving the semantics of quantum language recognition.
 

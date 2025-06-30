@@ -1,7 +1,7 @@
 \subsection{\glsentrylong{1qfa}}
 \label{sec:1-way-qfa}
 
-\gls{1qfa} are the quantum analog of classical one-way finite automata where the input tape is read from left to right without revisiting symbols. They provide a model for finite quantum computation that is more restricted than two-way quantum finite automata but often simpler to implement and analyze.
+\gls{1qfa} are the quantum analog of classical one-way finite automata where the input tape is read from left to right without revisiting symbols. They provide a model for finite quantum computation that is more restricted than \glspl{2qfa} but often simpler to implement and analyze.
 
 Among the most studied variants of \gls{1qfa} are the \gls{mo-1qfa} and the \gls{mm-1qfa}, which are addressed in detail in Section~\ref{sec:detailed-models}. These automata differ primarily in the timing of their measurements: \gls{mo-1qfa} perform a single measurement at the end of the computation, while \gls{mm-1qfa} perform measurements after reading each input symbol.
 
@@ -41,8 +41,7 @@ An example is the language of all strings over \{a, b\} with an even number of a
 \paragraph{Additional Topics}
 Measure-only models relate to trace monoids with idempotent generators and have been used in language algebraic characterizations \cite{comin2013extended, bertoni2010trace}.
 
-\subsubsection{One-Way Quantum Finite Automata with Two Observables (1QFA(2))}
-\paragraph{Introduction}
+\subsubsection{\glsentryfull{1qfa2}}
 The \gls{1qfa2} model introduces a second observable to the \gls{mo-1qfa} framework, enhancing the capacity to distinguish input strings. It can be seen as an intermediate enhancement over classical \gls{mo-1qfa}.
 
 \paragraph{Formal Definition}
@@ -70,8 +69,7 @@ The model is more expressive than \gls{mo-1qfa} but remains less powerful than g
 \paragraph{Additional Topics}
 This line of work aligns with the broader research aim of incrementally extending the expressive power of \gls{1qfa} models, as seen in the approach of \cite{ciamarra2001quantum}.
 
-\subsubsection{Two-Tape One-Way Quantum Finite Automata with Two Heads (2tQFA(2))}
-\paragraph{Introduction}
+\subsubsection{\glsentryfull{2t1qfa2}}
 The \gls{2t1qfa2} model incorporates two tapes and two heads, enabling cross-comparison between symbols of the input and reference tape, enhancing the recognition of complex patterns.
 
 \paragraph{Formal Definition}
@@ -95,8 +93,7 @@ Outperforms classical and most one-way quantum models in expressive power.
 \paragraph{Additional Topics}
 This model exemplifies a practical direction in extending \gls{1qfa} expressivity by architectural enhancement.
 
-\subsubsection{Nondeterministic Quantum Finite Automata (NQFA)}
-\paragraph{Introduction}
+\subsubsection{\glsentryfull{nqfa}}
 \gls{nqfa} introduce nondeterminism in the quantum setting. Unlike probabilistic nondeterminism, here the nondeterminism arises from quantum measurement outcomes and amplitude branches.
 
 \paragraph{Formal Definition}
@@ -117,8 +114,7 @@ The model is powerful yet lacks constructive methods for deterministic acceptanc
 \paragraph{Comparison}
 More expressive than \gls{mo-1qfa}, \gls{mm-1qfa}, and even probabilistic finite automata in some cases.
 
-\subsubsection{Reversible Quantum Finite Automata (RevQFA)}
-\paragraph{Introduction}
+\subsubsection{\glsentryfull{revqfa}}
 \gls{revqfa} enforce reversibility in state transitions, in line with quantum mechanics principles, where computation steps are invertible.
 
 \paragraph{Formal Definition}

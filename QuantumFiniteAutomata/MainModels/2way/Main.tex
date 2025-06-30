@@ -1,13 +1,13 @@
-\subsection{Two-way Quantum Finite Automata}
+\subsection{\glsentrylong{2qfa}}
 \label{sec:2-way-qfa}
 
 \glspl{qfa} can be classified based on the measurement policy and head movement direction. In this subsection, we focus exclusively on \glspl{2qfa} models that operate under pure quantum evolution: namely, the \gls{mo-2qfa} and \gls{mm-2qfa}. These automata extend the capabilities of their one-way counterparts by allowing bidirectional movement of the tape head, while differing in how often measurements are performed during computation.
 
-\subsubsection{Measure-Once Two-Way Quantum Finite Automata (MO-2QFA)}
+\subsubsection{\glsentryfull{mo-2qfa}}
 
 The \gls{mo-2qfa} was formally introduced by Xi et al. \cite{xi2008some} as the natural two-way extension of the (\gls{mo-1qfa}). It performs unitary transformations while scanning the input in both directions but conducts a projective measurement only once—at the end of the input.
 
-\paragraph{Formal Definition.} An \gls{mo-2qfa} is defined as a 5-tuple $M = (Q, \Sigma, \delta, q_0, Q_a)$ where:
+\paragraph{Formal Definition} An \gls{mo-2qfa} is defined as a 5-tuple $M = (Q, \Sigma, \delta, q_0, Q_a)$ where:
 \begin{itemize}
     \item $Q$ is a finite set of quantum states,
     \item $\Sigma$ is a finite input alphabet,
@@ -17,25 +17,25 @@ The \gls{mo-2qfa} was formally introduced by Xi et al. \cite{xi2008some} as the 
 \end{itemize}
 The unitary evolution is enforced through conditions of orthogonality and separability as outlined in \cite{xi2008some}.
 
-\paragraph{Strings Acceptance.} Acceptance is defined via a single projective measurement after the entire input string, delimited by endmarkers, is processed. A string is accepted with a probability computed from the projection onto the accepting subspace. The model supports acceptance with bounded error, cutpoint, and exact acceptance depending on configuration \cite{xi2008some}.
+\paragraph{Strings Acceptance} Acceptance is defined via a single projective measurement after the entire input string, delimited by endmarkers, is processed. A string is accepted with a probability computed from the projection onto the accepting subspace. The model supports acceptance with bounded error, cutpoint, and exact acceptance depending on configuration \cite{xi2008some}.
 
-\paragraph{Set of Languages Recognised.} The class of languages recognized by \gls{mo-2qfa} strictly contains the languages recognized by \gls{mo-1qfa}, and it includes some non\glspl{reg}. In fact, \gls{mo-2qfa} can recognize proper supersets of group languages and supports complex operations such as intersection and reversal \cite{xi2008some}.
+\paragraph{Set of Languages Recognised} The class of languages recognized by \gls{mo-2qfa} strictly contains the languages recognized by \gls{mo-1qfa}, and it includes some non\glspl{reg}. In fact, \gls{mo-2qfa} can recognize proper supersets of group languages and supports complex operations such as intersection and reversal \cite{xi2008some}.
 
-\paragraph{Closure Properties.} The languages recognized by \gls{mo-2qfa} are closed under union, intersection, complement, and reversal. Notably, the closure under intersection and union can be achieved by direct sum and tensor product constructions, respectively \cite{xi2008some}.
+\paragraph{Closure Properties} The languages recognized by \gls{mo-2qfa} are closed under union, intersection, complement, and reversal. Notably, the closure under intersection and union can be achieved by direct sum and tensor product constructions, respectively \cite{xi2008some}.
 
-\paragraph{Advantages and Limitations.} The main advantage of \gls{mo-2qfa} lies in its improved recognition power over one-way models. However, the measurement at the end implies potentially high computational complexity for simulating classical behavior. Its limitation includes the reliance on exact unitary constraints and nontrivial implementation challenges \cite{xi2008some}.
+\paragraph{Advantages and Limitations} The main advantage of \gls{mo-2qfa} lies in its improved recognition power over one-way models. However, the measurement at the end implies potentially high computational complexity for simulating classical behavior. Its limitation includes the reliance on exact unitary constraints and nontrivial implementation challenges \cite{xi2008some}.
 
-\paragraph{Comparison.} Compared to \gls{mo-1qfa}, the \gls{mo-2qfa} is strictly more powerful due to its bidirectional scanning ability. It is less expressive than \gls{mm-2qfa} in general, since the latter allows more frequent measurements and thus a richer computational structure.
+\paragraph{Comparison} Compared to \gls{mo-1qfa}, the \gls{mo-2qfa} is strictly more powerful due to its bidirectional scanning ability. It is less expressive than \gls{mm-2qfa} in general, since the latter allows more frequent measurements and thus a richer computational structure.
 
-\paragraph{Example.} An example from \cite{xi2008some} shows that \gls{mo-2qfa} can recognize the language $L = \{ a^nb^n \mid n \geq 1 \}$ with bounded error—something not possible with any one-way QFA model.
+\paragraph{Example} An example from \cite{xi2008some} shows that \gls{mo-2qfa} can recognize the language $L = \{ a^nb^n \mid n \geq 1 \}$ with bounded error—something not possible with any one-way QFA model.
 
-\paragraph{Additional Topics.} The authors suggest future directions include studying the closure under concatenation in more general terms and optimizing state complexity for specific regular operations \cite{xi2008some}.
+\paragraph{Additional Topics} The authors suggest future directions include studying the closure under concatenation in more general terms and optimizing state complexity for specific regular operations \cite{xi2008some}.
 
-\subsubsection{Measure-Many Two-Way Quantum Finite Automata (MM-2QFA)}
+\subsubsection{\glsentryfull{mm-2qfa}}
 
-\paragraph{Introduction.} The \gls{mm-2qfa} was introduced by Kondacs and Watrous \cite{kondacs1997power} and represents the most powerful pure QFA model in terms of language recognition. It performs a measurement at each computational step and allows head movement in both directions.
+The \gls{mm-2qfa} was introduced by Kondacs and Watrous \cite{kondacs1997power} and represents the most powerful pure QFA model in terms of language recognition. It performs a measurement at each computational step and allows head movement in both directions.
 
-\paragraph{Formal Definition.} An \gls{mm-2qfa} is a 6-tuple $M = (Q, \Sigma, \delta, q_0, Q_a, Q_r)$ where:
+\paragraph{Formal Definition} An \gls{mm-2qfa} is a 6-tuple $M = (Q, \Sigma, \delta, q_0, Q_a, Q_r)$ where:
 \begin{itemize}
     \item $Q$ is the finite set of states partitioned into $Q_n$ (non-halting), $Q_a$ (accepting), and $Q_r$ (rejecting) states,
     \item $\delta: Q \times \Gamma \times Q \times D \to \mathbb{C}$ is the transition function,
@@ -43,17 +43,17 @@ The unitary evolution is enforced through conditions of orthogonality and separa
 \end{itemize}
 Well-formedness constraints are necessary to ensure unitarity and validity of transition amplitudes \cite{kondacs1997power}.
 
-\paragraph{Strings Acceptance.} A string is accepted if, during any computational step, the machine transitions into an accepting state. This supports acceptance with bounded error, cutpoint, and exact modes depending on the configuration of the measurement \cite{kondacs1997power}.
+\paragraph{Strings Acceptance} A string is accepted if, during any computational step, the machine transitions into an accepting state. This supports acceptance with bounded error, cutpoint, and exact modes depending on the configuration of the measurement \cite{kondacs1997power}.
 
-\paragraph{Set of Languages Recognised.} The \gls{mm-2qfa} can recognize non\glspl{reg} such as $L_{eq} = \{ a^n b^n \mid n \geq 0 \}$ with bounded error in linear time. This is a significant enhancement over any classical 2PFA or 1QFA model \cite{kondacs1997power}.
+\paragraph{Set of Languages Recognised} The \gls{mm-2qfa} can recognize non\glspl{reg} such as $L_{eq} = \{ a^n b^n \mid n \geq 0 \}$ with bounded error in linear time. This is a significant enhancement over any classical 2PFA or 1QFA model \cite{kondacs1997power}.
 
-\paragraph{Closure Properties.} The class of languages recognized by \gls{mm-2qfa} is not known to be closed under union or intersection. This is a key limitation of the model despite its high expressive power.
+\paragraph{Closure Properties} The class of languages recognized by \gls{mm-2qfa} is not known to be closed under union or intersection. This is a key limitation of the model despite its high expressive power.
 
-\paragraph{Advantages and Limitations.} The model can recognize non\glspl{reg} efficiently, offering exponential advantages in space over classical automata. However, it is more complex to analyze due to frequent measurements and lacks closure under basic operations \cite{kondacs1997power, qiu2008state}.
+\paragraph{Advantages and Limitations} The model can recognize non\glspl{reg} efficiently, offering exponential advantages in space over classical automata. However, it is more complex to analyze due to frequent measurements and lacks closure under basic operations \cite{kondacs1997power, qiu2008state}.
 
-\paragraph{Comparison.} \gls{mm-2qfa} is strictly more powerful than all one-way models (\gls{mo-1qfa}, \gls{mm-1qfa}) and more powerful than \gls{mo-2qfa} in general. However, its structure is harder to simulate and analyze, limiting its practical implementation.
+\paragraph{Comparison} \gls{mm-2qfa} is strictly more powerful than all one-way models (\gls{mo-1qfa}, \gls{mm-1qfa}) and more powerful than \gls{mo-2qfa} in general. However, its structure is harder to simulate and analyze, limiting its practical implementation.
 
-\paragraph{Example.} Kondacs and Watrous \cite{kondacs1997power} present a \gls{mm-2qfa} that recognizes $L_{eq}$ in linear time with bounded error—a feat requiring exponential time for classical two-way probabilistic automata.
+\paragraph{Example} Kondacs and Watrous \cite{kondacs1997power} present a \gls{mm-2qfa} that recognizes $L_{eq}$ in linear time with bounded error—a feat requiring exponential time for classical two-way probabilistic automata.
 
-\paragraph{Additional Topics.} Extensions to hybrid models such as \glspl{2qcfa} and \glsentryfull{qip} with \gls{2qfa} verifiers have been proposed to harness the strengths of \gls{mm-2qfa} while addressing its limitations \cite{pani2011empowering, qiu2008state}.
+\paragraph{Additional Topics} Extensions to hybrid models such as \glspl{2qcfa} and \glsentryfull{qip} with \gls{2qfa} verifiers have been proposed to harness the strengths of \gls{mm-2qfa} while addressing its limitations \cite{pani2011empowering, qiu2008state}.
 

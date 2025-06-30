@@ -1,11 +1,11 @@
 \subsection{Multi-letter Models}
 \label{sec:multi-letter-qfa}
 
-Multiletter Quantum Finite Automata (\gls{ml-qfa}) are a generalization of traditional quantum finite automata, where transitions depend on multiple letters read from the input, rather than a single letter. This allows them to capture more complex patterns in the input string.
+\gls{ml-qfa} are a generalization of traditional \glspl{qfa}, where transitions depend on multiple letters read from the input, rather than a single letter. This allows them to capture more complex patterns in the input string.
 
 \subsubsection{\glsentryfull{ml-qfa}}
 
-Multiletter QFA were introduced to extend the capability of classical and quantum models by applying unitary operations based on the last $k$ letters read rather than just one. This enables them to recognize languages outside the reach of traditional measure-once or measure-many 1QFA models \cite{belovs2007multi}.
+\gls{ml-qfa} were introduced to extend the capability of classical and quantum models by applying unitary operations based on the last $k$ letters read rather than just one. This enables them to recognize languages outside the reach of traditional measure-once or measure-many 1QFA models \cite{belovs2007multi}.
 
 \paragraph{Formal Definition}
 A $k$-letter \gls{ml-qfa} is a 5-tuple $A = (Q, Q_{acc}, \ket{\psi_0}, \Sigma, \mu')$, where:
@@ -39,10 +39,9 @@ The language $(a + b)^*a$ is a canonical example recognized by 2-letter ML-QFA, 
 \paragraph{Additional Topics}
 Research is ongoing in determining exact hierarchies, equivalence testing, and applying ML-QFA in quantum protocol verification \cite{lin2012equivalence, qiu2008decidability}.
 
-\subsubsection{Multiletter Measure-Many Quantum Finite Automata (ML-MMQFA)}
+\subsubsection{Multiletter Measure-Many Quantum Finite Automata (\gls{ml-mmqfa})}
 
-\paragraph{Introduction}
-\gls{ml-mmqfa} combine the power of measure-many acceptance strategies with multiletter transitions, extending both classical MM-1QFA and ML-QFA. In this model, a measurement is performed after each quantum evolution step, but the evolution itself depends on the last $k$ letters read. This hybrid structure allows ML-MMQFA to accept more complex languages than ML-QFA or MM-1QFA alone \cite{lin2012equivalence}.
+\gls{ml-mmqfa} combine the power of measure-many acceptance strategies with multiletter transitions, extending both classical MM-1QFA and ML-QFA. In this model, a measurement is performed after each quantum evolution step, but the evolution itself depends on the last $k$ letters read. This hybrid structure allows \gls{ml-mmqfa} to accept more complex languages than ML-QFA or MM-1QFA alone \cite{lin2012equivalence}.
 
 \paragraph{Formal Definition}
 A $k$-letter \gls{ml-mmqfa} is a 7-tuple $A = (Q, Q_{acc}, Q_{rej}, \ket{\psi_0}, \Sigma, \mu', \mathcal{O})$, where:
@@ -65,19 +64,19 @@ P_A(\omega) = \sum_{i=0}^{n+1} \left\| P_{acc} U_{x_i} \left( \prod_{j=i-1}^{0} 
 A string is accepted if this probability exceeds a cutpoint (for probabilistic acceptance), or is exactly 1 (for exact acceptance). Both strict and non-strict cutpoints are considered \cite{lin2012equivalence}.
 
 \paragraph{Sets of Languages Accepted}
-ML-MMQFA can recognize languages beyond the regular class. They accept some languages that are not accepted by classical QFA or even standard MM-1QFA, especially under non-strict cutpoint semantics \cite{qiu2009hierarchy, lin2012equivalence}.
+\gls{ml-mmqfa} can recognize languages beyond the regular class. They accept some languages that are not accepted by classical QFA or even standard MM-1QFA, especially under non-strict cutpoint semantics \cite{qiu2009hierarchy, lin2012equivalence}.
 
 \paragraph{Closure Properties}
-The set of languages recognized by ML-MMQFA is not closed under union, intersection, or complementation for general acceptance modes. Notably, these properties depend heavily on the acceptance criteria used (bounded-error, cutpoint, etc.) \cite{qiu2009hierarchy}.
+The set of languages recognized by \gls{ml-mmqfa} is not closed under union, intersection, or complementation for general acceptance modes. Notably, these properties depend heavily on the acceptance criteria used (bounded-error, cutpoint, etc.) \cite{qiu2009hierarchy}.
 
 \paragraph{Advantages and Limitations}
-ML-MMQFA are more powerful than both ML-QFA and MM-1QFA. However, they inherit the undecidability of the emptiness and equivalence problems for non-strict and strict cutpoint semantics \cite{qiu2008decidability, lin2012equivalence}. Their expressive power comes at the cost of analytical and implementation complexity.
+\gls{ml-mmqfa} are more powerful than both ML-QFA and MM-1QFA. However, they inherit the undecidability of the emptiness and equivalence problems for non-strict and strict cutpoint semantics \cite{qiu2008decidability, lin2012equivalence}. Their expressive power comes at the cost of analytical and implementation complexity.
 
 \paragraph{Comparison} 
-ML-MMQFA strictly subsume ML-QFA under the same input size and acceptance criteria. They are not comparable in power with general QFA models that allow additional memory or two-way movement. Compared to MM-1QFA, ML-MMQFA can accept non-stochastic languages \cite{qiu2009hierarchy}.
+\gls{ml-mmqfa} strictly subsume ML-QFA under the same input size and acceptance criteria. They are not comparable in power with general QFA models that allow additional memory or two-way movement. Compared to MM-1QFA, \gls{ml-mmqfa} can accept non-stochastic languages \cite{qiu2009hierarchy}.
 
 \paragraph{Example}
-An ML-MMQFA with 2-letter transitions and intermediate measurements can accept the language $(a+b)^*a$ with higher robustness to probabilistic acceptance thresholds than an ML-QFA \cite{belovs2007multi}.
+An \gls{ml-mmqfa} with 2-letter transitions and intermediate measurements can accept the language $(a+b)^*a$ with higher robustness to probabilistic acceptance thresholds than an ML-QFA \cite{belovs2007multi}.
 
 \paragraph{Additional Topics}
 Further work focuses on state complexity, succinctness, and simulation algorithms between different classes. The diagonal sum construction plays a key role in analyzing equivalence and decidability \cite{lin2012equivalence}.
@@ -85,8 +84,6 @@ Further work focuses on state complexity, succinctness, and simulation algorithm
 
 
 \subsubsection{\glsentryfull{ml-revqfa}}
-%TODO: https://link.springer.com/chapter/10.1007/978-3-540-73208-2_9 review
-\paragraph{Introduction}
 \gls{ml-revqfa} extend the multiletter framework by imposing reversibility constraints on the quantum evolution. These automata are designed so that each computation step is invertible, maintaining the core principle of reversibility from quantum mechanics and enhancing coherence preservation \cite{belovs2007multi}.
 
 \paragraph{Formal Definition}
@@ -102,19 +99,19 @@ P_A(\omega) = \| P_{acc} U_{\omega} \ket{\psi_0} \|^2
 with $U_{\omega}$ computed from the sequence of reversible unitaries associated with the $k$-letter substrings \cite{belovs2007multi}.
 
 \paragraph{Sets of Languages Accepted}
-ML-revQFA are strictly more limited than general ML-QFA due to their reversibility constraint. They can recognize a subset of \glspl{reg} and do not accept all \glspl{reg} with bounded error, particularly under exact acceptance criteria.
+\gls{ml-revqfa} are strictly more limited than general ML-QFA due to their reversibility constraint. They can recognize a subset of \glspl{reg} and do not accept all \glspl{reg} with bounded error, particularly under exact acceptance criteria.
 
 \paragraph{Closure Properties}
-The class of languages recognized by ML-revQFA is not closed under union or complement. Reversibility limits the computational power of these models in comparison with more general multiletter QFA models \cite{belovs2007multi}.
+The class of languages recognized by \gls{ml-revqfa} is not closed under union or complement. Reversibility limits the computational power of these models in comparison with more general multiletter QFA models \cite{belovs2007multi}.
 
 \paragraph{Advantages and Limitations}
-Reversible automata are appealing for quantum computing implementations due to better coherence and energy efficiency. However, their expressiveness is constrained. ML-revQFA cannot recognize some simple \glspl{reg} that non-reversible ML-QFA can handle \cite{belovs2007multi}.
+Reversible automata are appealing for quantum computing implementations due to better coherence and energy efficiency. However, their expressiveness is constrained. \gls{ml-revqfa} cannot recognize some simple \glspl{reg} that non-reversible ML-QFA can handle \cite{belovs2007multi}.
 
 \paragraph{Comparison}
-ML-revQFA are less powerful than both ML-QFA and ML-MMQFA. They are closely related to reversible classical automata and group automata. Compared to non-reversible models, they generally require more states or cannot recognize the same languages under equivalent semantics \cite{belovs2007multi}.
+\gls{ml-revqfa} are less powerful than both ML-QFA and \gls{ml-mmqfa}. They are closely related to reversible classical automata and group automata. Compared to non-reversible models, they generally require more states or cannot recognize the same languages under equivalent semantics \cite{belovs2007multi}.
 
 \paragraph{Example}
-It was shown that ML-revQFA cannot accept the language $(a+b)^*a$ even when using multiletter transitions, while a general ML-QFA can accept it with bounded error \cite{belovs2007multi}.
+It was shown that \gls{ml-revqfa} cannot accept the language $(a+b)^*a$ even when using multiletter transitions, while a general ML-QFA can accept it with bounded error \cite{belovs2007multi}.
 
 \paragraph{Additional Topics}
 Future research may explore connections with quantum error correction, fault-tolerant reversible computing, and applications in energy-efficient quantum hardware design.

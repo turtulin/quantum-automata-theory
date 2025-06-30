@@ -1,9 +1,9 @@
 \subsection{Generalised Quantum Finite Automata}
 \label{sec:generalised-qfa}
-\glspl{1gqfa} extend the standard \glspl{qfa} by replacing the usual unitary‐based state transitions with the most general physically admissible maps—namely, trace‐preserving quantum operations. This modification permits non‐unitary evolution, allowing the automata to simulate probabilistic and classical automata while still operating with finite memory. Nevertheless, it has been shown that both the measure‐once and measure‐many versions of \gls{1gqfa} recognize exactly the \glspl{reg} (with bounded error) \cite{li2012characterizations}.
+\glspl{1gqfa} extend the standard \glspl{qfa} by replacing the usual unitary-based state transitions with the most general physically admissible maps—namely, trace-preserving quantum operations. This modification permits non-unitary evolution, allowing the automata to simulate probabilistic and classical automata while still operating with finite memory. Nevertheless, it has been shown that both the measure-once and measure-many versions of \gls{1gqfa} recognize exactly the \glspl{reg} (with bounded error) \cite{li2012characterizations}.
 
 \subsubsection{\glsentrylong{mo-1gqfa}}
-A \gls{mo-1gqfa} generalizes the traditional \gls{mo-1qfa} by allowing each input symbol to trigger a trace‐preserving quantum operation (instead of a unitary transformation) on the system. In this model, no measurement is performed during the reading of the input; a single projective measurement is executed only at the end to decide acceptance or rejection \cite{li2012characterizations}.
+A \gls{mo-1gqfa} generalizes the traditional \gls{mo-1qfa} by allowing each input symbol to trigger a trace-preserving quantum operation (instead of a unitary transformation) on the system. In this model, no measurement is performed during the reading of the input; a single projective measurement is executed only at the end to decide acceptance or rejection \cite{li2012characterizations}.
 
 \paragraph{Formal Definition}
 An \gls{mo-1gqfa} is defined as the quintuple
@@ -15,7 +15,7 @@ where
   \item $\mathcal{H}$ is a finite-dimensional Hilbert space,
   \item $\Sigma$ is a finite input alphabet,
   \item $\rho_0\in D(\mathcal{H})$ is the initial density operator,
-  \item For each $\sigma\in\Sigma$, the state transition is given by the trace‐preserving quantum operation 
+  \item For each $\sigma\in\Sigma$, the state transition is given by the trace-preserving quantum operation 
   \[
   \mathcal{E}_\sigma(\rho)=\sum_{k} \mathcal{E}_{\sigma,k}\,\rho\,\mathcal{E}_{\sigma,k}^\dagger,\quad \text{with } \sum_{k} \mathcal{E}_{\sigma,k}^\dagger \mathcal{E}_{\sigma,k}=I,
   \]
@@ -56,7 +56,7 @@ The class of languages recognized by \gls{mo-1gqfa} is closed under several stan
 \end{itemize}
 
 \paragraph{Summary of Advantages and Limitations}  
-The \gls{mo-1gqfa} model is advantageous due to its structural simplicity—requiring only a final measurement—and its ability to simulate classical probabilistic automata exactly via general trace‐preserving operations. However, despite the broadened operational framework, its computational power remains confined to recognizing \glspl{reg} (with bounded error). Furthermore, the state minimization problem for \gls{mo-1gqfa} is known to be EXPSPACE‐hard \cite{mateus2012complexity}.
+The \gls{mo-1gqfa} model is advantageous due to its structural simplicity—requiring only a final measurement—and its ability to simulate classical probabilistic automata exactly via general trace-preserving operations. However, despite the broadened operational framework, its computational power remains confined to recognizing \glspl{reg} (with bounded error). Furthermore, the state minimization problem for \gls{mo-1gqfa} is known to be EXPSPACE-hard \cite{mateus2012complexity}.
 
 \paragraph{Example}  
 An example is provided by the simulation of a deterministic finite automaton (DFA) for the language
@@ -81,8 +81,7 @@ where $F$ is the set of accepting states. This construction ensures that the acc
 Further research on \gls{mo-1gqfa} includes the equivalence problem, where necessary and sufficient conditions are derived based on the linear span of the reachable density operators. In addition, advanced state minimization techniques have been developed, reducing the minimization problem to solving systems of polynomial inequalities with an EXPSPACE upper bound \cite{mercer2008lower}.
 
 \subsubsection{\glsentrylong{mm-1gqfa}}
-\paragraph{Introduction} 
-\gls{mm-1gqfa} extend the \gls{mo-1gqfa} model by performing a measurement after processing each input symbol. In this model, after each trace‐preserving quantum operation corresponding to a symbol, a projective measurement is executed that partitions the state space into three mutually orthogonal subspaces—namely, the accepting subspace, the rejecting subspace, and the non‐halting subspace. If the outcome lies in the accepting or rejecting subspace, the computation halts immediately; otherwise, it continues with the next symbol \cite{li2012characterizations}.
+\gls{mm-1gqfa} extend the \gls{mo-1gqfa} model by performing a measurement after processing each input symbol. In this model, after each trace-preserving quantum operation corresponding to a symbol, a projective measurement is executed that partitions the state space into three mutually orthogonal subspaces—namely, the accepting subspace, the rejecting subspace, and the non-halting subspace. If the outcome lies in the accepting or rejecting subspace, the computation halts immediately; otherwise, it continues with the next symbol \cite{li2012characterizations}.
 
 \paragraph{Formal Definition} 
 An \gls{mm-1gqfa} is defined as the 6-tuple
@@ -98,7 +97,7 @@ where
   with $\mathcal{H}_{acc}$ and $\mathcal{H}_{rej}$ denoting the accepting and rejecting subspaces, and $\mathcal{H}_{non}$ the non-halting subspace;
   \item $\Sigma$ is a finite input alphabet, and the symbols $\cent$ and $\$$ serve as the left and right end-markers, respectively;
   \item $\rho_0\in D(\mathcal{H})$ is the initial state with $\mathrm{supp}(\rho_0)\subseteq \mathcal{H}_{non}$;
-  \item For each $\sigma\in\Sigma\cup\{\cent,\$\}$, the state transition is given by the trace‐preserving quantum operation 
+  \item For each $\sigma\in\Sigma\cup\{\cent,\$\}$, the state transition is given by the trace-preserving quantum operation 
   \[
   \mathcal{E}_\sigma(\rho)=\sum_{k} \mathcal{E}_{\sigma,k}\,\rho\,\mathcal{E}_{\sigma,k}^\dagger,\quad \text{with } \sum_{k} \mathcal{E}_{\sigma,k}^\dagger \mathcal{E}_{\sigma,k}=I;
   \]
@@ -125,13 +124,13 @@ It has been established that \gls{mm-1gqfa}, despite the intermediate measuremen
 \paragraph{Closure Properties}  
 \gls{mm-1gqfa} are closed under standard operations. In particular, if $L_1$ and $L_2$ are recognized by \gls{mm-1gqfa} then:
 \begin{itemize}
-  \item They are closed under \emph{union} and \emph{intersection} (by appropriate constructions using direct sums or tensor products),
-  \item They are closed under \emph{complementation} (by swapping the roles of $\mathcal{H}_{acc}$ and $\mathcal{H}_{rej}$),
+  \item They are closed under union and intersection (by appropriate constructions using direct sums or tensor products),
+  \item They are closed under complementation (by swapping the roles of $\mathcal{H}_{acc}$ and $\mathcal{H}_{rej}$),
   \item And they are closed under other operations such as inverse homomorphism.
 \end{itemize}
 
 \paragraph{Summary of Advantages and Limitations} 
-The \gls{mm-1gqfa} model offers the flexibility of making intermediate measurements, which may simplify the design of some automata. However, like \gls{mo-1gqfa}, its computational power remains limited to \glspl{reg} under the bounded error regime. Furthermore, the state minimization problem for \gls{mm-1gqfa} is EXPSPACE‐hard \cite{mateus2012complexity}.
+The \gls{mm-1gqfa} model offers the flexibility of making intermediate measurements, which may simplify the design of some automata. However, like \gls{mo-1gqfa}, its computational power remains limited to \glspl{reg} under the bounded error regime. Furthermore, the state minimization problem for \gls{mm-1gqfa} is EXPSPACE-hard \cite{mateus2012complexity}.
 
 \paragraph{Example}  
 For example, consider an \gls{mm-1gqfa} designed to recognize 

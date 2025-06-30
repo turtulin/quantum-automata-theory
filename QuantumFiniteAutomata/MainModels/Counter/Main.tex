@@ -1,7 +1,7 @@
 \subsection{Quantum Finite Automata with Counters}
 \label{sec:qfa-with-counters}
 
-Quantum finite automata with counters extend the computational power of \gls{qfa} by incorporating classical or quantum counters into the system. These models provide hybrid computational capabilities where quantum state transitions are influenced by the counter value and vice versa, enabling the recognition of certain non-\glspl{reg} with bounded error which classical counterparts fail to recognize.
+\glspl{qfa} with counters extend the computational power of \gls{qfa} by incorporating classical or quantum counters into the system. These models provide hybrid computational capabilities where quantum state transitions are influenced by the counter value and vice versa, enabling the recognition of certain non-\glspl{reg} with bounded error which classical counterparts fail to recognize.
 
 In the literature, various models of \gls{qfa} with counters have been proposed. This subsection explores the prominent models including \gls{qf1ca}, \gls{2qf1ca}, \gls{1qfkca}, and \gls{rtq1ca}, detailing their structure, properties, capabilities, and limitations based on foundational work such as \cite{bonner2001quantum, kravtsev1999quantum, pani2011empowering, cem2012quantum}.
 
@@ -15,7 +15,7 @@ Formally, a \gls{qf1ca} consists of a finite set of states $Q$, an input alphabe
 \paragraph{Strings Acceptance} 
 \gls{qf1ca} can accept strings using bounded-error probabilistic acceptance. They can recognize non-\glspl{reg} such as $L_1 = \{ w \in \Sigma^* : \text{equal number of 0's and 1's in } x \}$ when augmented with additional structure in the input \cite{bonner2001quantum}.
 
-\paragraph{Sets of Languages Accepted} 
+\paragraph{Sets of Languages Accepted}
 The class of languages accepted by \gls{qf1ca} with bounded error properly includes the class of languages accepted by classical deterministic and probabilistic one-counter automata \cite{bonner2001quantum}.
 
 \paragraph{Closure Properties} 
@@ -35,7 +35,6 @@ Current research investigates the influence of quantum control on counter update
 
 \subsubsection{Two-Way Quantum Finite One-Counter Automata (2QF1CA)}
 
-\paragraph{Introduction}
 \gls{2qf1ca} enhances the \gls{qf1ca} model by allowing two-way head movement on the input tape, significantly expanding computational capabilities. This flexibility enables the automaton to reprocess information with context, analogous to two-way classical finite automata but equipped with quantum transitions and a counter.
 
 \paragraph{Formal Definition}
@@ -64,7 +63,6 @@ Further topics include automaton minimization, real-time simulation constraints,
 
 \subsubsection{One-Way Quantum Finite $k$-Counter Automata (1QFkCA)}
 
-\paragraph{Introduction}
 The \gls{1qfkca} model generalizes the \gls{qf1ca} by including $k$ classical counters. Each counter is independently incremented, decremented, or checked against zero, enabling multi-dimensional memory augmentation in the quantum control logic \cite{cem2012quantum}.
 
 \paragraph{Formal Definition}
@@ -91,9 +89,8 @@ In \cite{cem2012quantum}, a \gls{1qfkca} was shown to recognize the language $a^
 \paragraph{Additional Topics}
 Potential topics include quantum counter compression, fault tolerance in counters, and counter sharing protocols in hybrid quantum-classical systems.
 
-\subsubsection{Realtime Quantum One-Counter Automata (rtQ1CA)}
+\subsubsection{\glsentryfull{rtq1ca}}
 
-\paragraph{Introduction}
 \gls{rtq1ca} represents a restricted subclass of \gls{qf1ca} in which the input head moves strictly right at each step, processing the input in real-time. This model explores trade-offs between real-time operation and computational power \cite{cem2012quantum}.
 
 \paragraph{Formal Definition}

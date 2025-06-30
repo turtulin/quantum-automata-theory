@@ -5,7 +5,7 @@ Once the circuit skeleton is constructed for a given \gls{mo-1qfa} or \gls{mm-1q
 
 \subsection{Offline Synthesis}
 
-The \emph{offline synthesis} strategy precomputes a gate decomposition for each unitary matrix $U_{\sigma}$ associated with the alphabet $\Sigma$. This approach is particularly suitable when the automaton is fixed and used to process multiple inputs of the same language class. The steps are:
+The offline synthesis strategy precomputes a gate decomposition for each unitary matrix $U_{\sigma}$ associated with the alphabet $\Sigma$. This approach is particularly suitable when the automaton is fixed and used to process multiple inputs of the same language class. The steps are:
 
 \begin{itemize}
     \item For every $\sigma \in \Sigma$, extract the unitary matrix $U_{\sigma}$ defined by the automaton's transition function $\delta$.
@@ -17,7 +17,7 @@ This method guarantees high performance at runtime, as no decomposition is neede
 
 \subsection{Template-Based Parameter Loading}
 
-An alternative method is \emph{template-based parameter loading}, where the circuit skeleton includes parametrized gates (e.g., Euler-angle rotations) and the actual rotation angles are injected at runtime based on the specific $U_{\sigma}$ required. This is achieved by:
+An alternative method is template-based parameter loading, where the circuit skeleton includes parametrized gates (e.g., Euler-angle rotations) and the actual rotation angles are injected at runtime based on the specific $U_{\sigma}$ required. This is achieved by:
 
 \begin{itemize}
     \item Designing each $U_{\sigma}$ as a composition of generic rotation gates (e.g., $R_z(\theta_1) R_y(\theta_2) R_z(\theta_3)$).
