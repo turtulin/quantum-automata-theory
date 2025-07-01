@@ -99,7 +99,7 @@ The two-phase compilation strategy promotes modularity: the symbolic template ca
 %TODO: change this in environment example
 \subsection{Step-by-Step Examples}
 To concretise the abstract compilation scheme described above, we now present explicit examples illustrating the end-to-end translation of \gls{mo-1qfa} instances into executable quantum circuits. Each example begins with a formal automaton specification and proceeds through template generation, gate instantiation for a specific input word, and—when appropriate—optimised decomposition into native gates. These case studies demonstrate the generality of the approach and clarify how structural automaton features influence circuit depth, gate choice, and measurement configuration.
-\paragraph{Single-Letter Alphabet.}
+\paragraph{Single-Letter Alphabet}
 \label{ex:moqfa-single-letter}
 Consider the \gls{mo-1qfa} defined by
 \[
@@ -173,7 +173,7 @@ p_M(a) = \|P_{\text{acc}} H \ket{0}\|^2 = \left|\tfrac{1}{\sqrt{2}}\right|^2 = \
 
 
 %TODO: change the name of the example
-\paragraph{Two-Symbol Word of Length $L = 2$.} 
+\paragraph{Two-Symbol Word of Length $L = 2$} 
 \label{ex:moqfa-two-symbols}
 Consider a \gls{mo-1qfa} defined by:
 \[
@@ -252,7 +252,7 @@ We compile the automaton on the input word $x = ab$, of length $L = 2$.
 \label{fig:example2-vertical}
 \end{figure}
 
-\paragraph{Example 3: Cyclic Automaton, $L = 3$.} \label{ex:moqfa-cycle}
+\paragraph{Example 3: Cyclic Automaton, $L = 3$} \label{ex:moqfa-cycle}
 Consider a \gls{mo-1qfa} with
 \[
 Q = \{q_0, q_1, q_2\}, \quad \Sigma = \{a\}, \quad q_0 \text{ initial}, \quad F = \{q_0\}.
@@ -337,7 +337,7 @@ When the number of repetitions is not a multiple of the cycle length, or when in
 \label{fig:example3-vertical}
 \end{figure}
 
-\paragraph{Partial Cycle Without Optimisation.} \label{ex:moqfa-partial-cycle}
+\paragraph{Partial Cycle Without Optimisation} \label{ex:moqfa-partial-cycle}
 We now consider a variation of Example~\ref{ex:moqfa-cycle} in which the cycle is only partially traversed. Let the automaton be defined as
 \[
 Q = \{q_0, q_1, q_2\}, \quad \Sigma = \{a\}, \quad q_0 \text{ initial}, \quad F = \{q_1\},
