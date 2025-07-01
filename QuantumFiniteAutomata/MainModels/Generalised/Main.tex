@@ -2,7 +2,7 @@
 \label{sec:generalised-qfa}
 \glspl{1gqfa} extend the standard \glspl{qfa} by replacing the usual unitary-based state transitions with the most general physically admissible maps—namely, trace-preserving quantum operations. This modification permits non-unitary evolution, allowing the automata to simulate probabilistic and classical automata while still operating with finite memory. Nevertheless, it has been shown that both the measure-once and measure-many versions of \gls{1gqfa} recognize exactly the \glspl{reg} (with bounded error) \cite{li2012characterizations}.
 
-\subsubsection{\glsentrylong{mo-1gqfa}}
+\subsubsection{\glsentryfull{mo-1gqfa}}
 A \gls{mo-1gqfa} generalizes the traditional \gls{mo-1qfa} by allowing each input symbol to trigger a trace-preserving quantum operation (instead of a unitary transformation) on the system. In this model, no measurement is performed during the reading of the input; a single projective measurement is executed only at the end to decide acceptance or rejection \cite{li2012characterizations}.
 
 \paragraph{Formal Definition}
@@ -80,7 +80,7 @@ where $F$ is the set of accepting states. This construction ensures that the acc
 \paragraph{Additional Topics}  
 Further research on \gls{mo-1gqfa} includes the equivalence problem, where necessary and sufficient conditions are derived based on the linear span of the reachable density operators. In addition, advanced state minimization techniques have been developed, reducing the minimization problem to solving systems of polynomial inequalities with an EXPSPACE upper bound \cite{mercer2008lower}.
 
-\subsubsection{\glsentrylong{mm-1gqfa}}
+\subsubsection{\glsentryfull{mm-1gqfa}}
 \gls{mm-1gqfa} extend the \gls{mo-1gqfa} model by performing a measurement after processing each input symbol. In this model, after each trace-preserving quantum operation corresponding to a symbol, a projective measurement is executed that partitions the state space into three mutually orthogonal subspaces—namely, the accepting subspace, the rejecting subspace, and the non-halting subspace. If the outcome lies in the accepting or rejecting subspace, the computation halts immediately; otherwise, it continues with the next symbol \cite{li2012characterizations}.
 
 \paragraph{Formal Definition} 
@@ -141,6 +141,3 @@ In this automaton, after each input symbol the machine performs a measurement. I
 
 \paragraph{Additional Topics}  
 Recent research on \gls{1gqfa} has addressed the equivalence problem, providing necessary and sufficient conditions based on the linear span of the reachable density operators. Moreover, advanced state minimization techniques have been developed, reducing the minimization problem to solving systems of polynomial inequalities with an EXPSPACE upper bound \cite{mercer2008lower}. Future directions include exploring further generalizations and their potential applications in modeling noisy quantum systems.
-
-
-%TODO: missing comparisons

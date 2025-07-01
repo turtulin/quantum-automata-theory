@@ -5,7 +5,7 @@
 
 In the literature, various models of \gls{qfa} with counters have been proposed. This subsection explores the prominent models including \gls{qf1ca}, \gls{2qf1ca}, \gls{1qfkca}, and \gls{rtq1ca}, detailing their structure, properties, capabilities, and limitations based on foundational work such as \cite{bonner2001quantum, kravtsev1999quantum, pani2011empowering, cem2012quantum}.
 
-\subsubsection{Quantum Finite One-Counter Automata (QF1CA)}
+\subsubsection{\glsentryfull{qf1ca}}
 
 A \gls{qf1ca} is a one-way \gls{qfa} that uses a classical counter, capable of incrementing or decrementing its value and testing for zero. This model merges quantum transitions with classical counter logic, providing a new pathway for recognizing languages beyond the regular set \cite{kravtsev1999quantum}.
 
@@ -33,7 +33,7 @@ A \gls{qf1ca} recognizing the language $L_1$ as shown above was constructed in \
 \paragraph{Additional Topics} 
 Current research investigates the influence of quantum control on counter updates and the simulation of classical pushdown automata using counters in hybrid quantum settings.
 
-\subsubsection{Two-Way Quantum Finite One-Counter Automata (2QF1CA)}
+\subsubsection{\glsentryfull{2qf1ca}}
 
 \gls{2qf1ca} enhances the \gls{qf1ca} model by allowing two-way head movement on the input tape, significantly expanding computational capabilities. This flexibility enables the automaton to reprocess information with context, analogous to two-way classical finite automata but equipped with quantum transitions and a counter.
 
@@ -61,7 +61,7 @@ Recognition of $L_2$ involving interleaved structures demonstrates the superiori
 \paragraph{Additional Topics}
 Further topics include automaton minimization, real-time simulation constraints, and efficient quantum algorithm implementation.
 
-\subsubsection{One-Way Quantum Finite $k$-Counter Automata (1QFkCA)}
+\subsubsection{\glsentryfull{1qfkca}}
 
 The \gls{1qfkca} model generalizes the \gls{qf1ca} by including $k$ classical counters. Each counter is independently incremented, decremented, or checked against zero, enabling multi-dimensional memory augmentation in the quantum control logic \cite{cem2012quantum}.
 
