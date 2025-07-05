@@ -10,7 +10,7 @@ Interactive automata based on quantum interactive proof systems offer a striking
 
 In these models, the verifier is typically a two-way qfa, though one-way variants have also been considered. The seminal works by Nishimura and Yamakami \cite{nishimura2009application, nishimura2015interactive} and Zheng, Qiu, and Gruska \cite{zheng2015power} have established detailed protocols and complexity separations that reveal the potential of interactive proofs even when the verifier possesses only finite-dimensional quantum memory.
 
-\paragraph{Formal Definition}
+\begin{definition}[Quantum Interactive Proof System]
 A general \gls{qip} system with a qfa verifier is defined as a pair $(P,V)$, where:
 
 \textbf{Verifier.} The verifier $V$ is given by
@@ -36,6 +36,7 @@ The verifier's overall Hilbert space, denoted by $\mathit{\mathcal{H}}_V$, is sp
 \{U_{x,P,i}\}_{i\ge1},
 \]
 acting on the prover's private Hilbert space $\mathit{\mathcal{H}}_P$. In some variants (denoted by the restriction 〈c-prover〉), the prover's unitaries are required to have only 0-1 entries, effectively making the prover deterministic.
+\end{definition}
 
 \paragraph{\gls{qam} Systems} In the \gls{qam} variant, the verifier is additionally required to announce his next move via the communication cell, rendering the system a public-coin protocol. Thus, while the basic structure of $(P,V)$ remains the same, a \gls{qam} system is denoted as
 \[
@@ -86,19 +87,6 @@ However, there are also limitations:
   \item {Technical Complexity:} The design and analysis of these interactive protocols are intricate, involving careful balancing of quantum and classical information.
 \end{itemize}
 
-\paragraph{Example}
-An illustrative example is the \gls{qip} protocol for the language
-\[
-\mathtt{Pal\#} = \{x\#x^R \mid x\in\{0,1\}^*\},
-\]
-which comprises even-length palindromes separated by a delimiter. In the protocol described in \cite{nishimura2015interactive}, the verifier (modeled as a 2qfa) interacts with a quantum prover in the following way:
-\begin{enumerate}
-  \item The verifier scans the input (framed by the endmarkers $\cent$ and $\$$) and, based on its transition function $\delta$, generates a superposition reflecting potential midpoints.
-  \item Through a sequence of rounds, the verifier requests the prover to indicate the position of the center. In the \gls{qam} variant, the verifier publicly announces his next move to assist the prover.
-  \item Finally, the verifier applies a \gls{qft} to consolidate the information and performs a measurement. If the input is indeed of the form $x\#x^R$, the verifier accepts with high probability; otherwise, it rejects.
-\end{enumerate}
-This example clearly demonstrates how interaction compensates for the verifier's limited memory, enabling recognition of a nontrivial language.
-
 \paragraph{Additional Topics}
 Several open problems and future research directions emerge from this line of work:
 \begin{itemize}
@@ -116,3 +104,17 @@ These issues continue to be central to the ongoing exploration of the interplay 
   
   \item Variants Based on Prover Restrictions: Some works also examine the effect of restricting the prover to classical behavior (i.e., using only 0-1 unitary operators, sometimes denoted by the restriction 〈c-prover〉). This yields interactive models that can be compared with their fully quantum counterparts.
 \end{itemize}
+
+\begin{example}
+An illustrative example is the \gls{qip} protocol for the language
+\[
+\mathtt{Pal\#} = \{x\#x^R \mid x\in\{0,1\}^*\},
+\]
+which comprises even-length palindromes separated by a delimiter. In the protocol described in \cite{nishimura2015interactive}, the verifier (modeled as a 2qfa) interacts with a quantum prover in the following way:
+\begin{enumerate}
+  \item The verifier scans the input (framed by the endmarkers $\cent$ and $\$$) and, based on its transition function $\delta$, generates a superposition reflecting potential midpoints.
+  \item Through a sequence of rounds, the verifier requests the prover to indicate the position of the center. In the \gls{qam} variant, the verifier publicly announces his next move to assist the prover.
+  \item Finally, the verifier applies a \gls{qft} to consolidate the information and performs a measurement. If the input is indeed of the form $x\#x^R$, the verifier accepts with high probability; otherwise, it rejects.
+\end{enumerate}
+This example clearly demonstrates how interaction compensates for the verifier's limited memory, enabling recognition of a nontrivial language.
+\end{example}

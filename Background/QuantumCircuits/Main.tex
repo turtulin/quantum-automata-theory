@@ -362,9 +362,9 @@ Because any gate-based circuit admits translation to a measurement pattern on a 
 
  \subsubsection*{Hybrid Quantum-Classical Circuits}
 
- In the \gls{nisq} era, noise levels and qubit counts limit the depth of purely quantum workloads, motivating \glspl{hqc} in which coherent evolutions alternate with classical post-processing \cite{preskill2018quantum}. A prototypical instance is the \gls{vqe}: the quantum processor prepares a parameterised state and measures observables, while a classical optimiser updates the parameters so as to minimise the energy expectation value \cite{cerezo2021variational}. Real-time feedback is likewise essential in active quantum error correction, where measurement outcomes (syndrome bits) are interpreted by classical logic that decides the corrective operations to apply before further decoherence accrues \cite{kelly2015state}.
+ In the \gls{nisq} era, noise levels and qubit counts limit the depth of purely quantum workloads, motivating \gls{hqc} circuits in which coherent evolutions alternate with classical post-processing \cite{preskill2018quantum}. A prototypical instance is the \gls{vqe}: the quantum processor prepares a parameterised state and measures observables, while a classical optimiser updates the parameters so as to minimise the energy expectation value \cite{cerezo2021variational}. Real-time feedback is likewise essential in active quantum error correction, where measurement outcomes (syndrome bits) are interpreted by classical logic that decides the corrective operations to apply before further decoherence accrues \cite{kelly2015state}.
  
- \glspl{hqc} exploit complementary strengths. Quantum circuitry explores Hilbert spaces that grow exponentially with qubit number, whereas classical computation affords flexible control flow, arbitrary bandwidth memory, and mature optimisation heuristics \cite{preskill2018quantum}. A single optimisation step consists of executing the quantum circuit, collecting measurement data to evaluate the cost function, and using a classical routine to compute new parameters for the subsequent quantum run \cite{cerezo2021variational}. The global algorithm is therefore a sequence of partial quantum circuits interleaved with classical kernels rather than a monolithic unitary \cite{preskill2018quantum}. Nonetheless, circuit diagrams can depict one iteration explicitly by inserting mid-circuit measurement symbols and classically controlled gates, making the data flow transparent \cite{kelly2015state}.
+ \gls{hqc} circuits exploit complementary strengths. Quantum circuitry explores Hilbert spaces that grow exponentially with qubit number, whereas classical computation affords flexible control flow, arbitrary bandwidth memory, and mature optimisation heuristics \cite{preskill2018quantum}. A single optimisation step consists of executing the quantum circuit, collecting measurement data to evaluate the cost function, and using a classical routine to compute new parameters for the subsequent quantum run \cite{cerezo2021variational}. The global algorithm is therefore a sequence of partial quantum circuits interleaved with classical kernels rather than a monolithic unitary \cite{preskill2018quantum}. Nonetheless, circuit diagrams can depict one iteration explicitly by inserting mid-circuit measurement symbols and classically controlled gates, making the data flow transparent \cite{kelly2015state}.
  
  \begin{figure}[ht]
  \centering
@@ -391,16 +391,16 @@ The register comprises $n$ input qubits initialised in $\ket{0^{\otimes n}}$ and
 
 Because $U_f$ leaves the work qubit in $\ket{-}$ its effect can be viewed as a relative phase $(-1)^{f(x)}$ applied to $\ket{x}$ \cite{deutsch1992rapid}. The second Hadamard layer therefore interferes amplitudes constructively on $\ket{0^{\otimes n}}$ when all phases coincide (constant case) and destructively otherwise (balanced case), exemplifying global property extraction by quantum interference \cite{nielsen2010quantum}.
 
-\begin{center}
-\begin{quantikz}
-\lstick{$\ket{0}_{q_0}$} & \gate{H} & \gate[wires=3]{U_f} & \gate{H} & \meter{} & \cw \\
-\lstick{$\ket{0}_{q_1}$} & \gate{H} & & \gate{H} & \meter{} & \cw \\
-\lstick{$\ket{1}_{q_2}$} & \gate{H} & & \qw & \qw &
-\end{quantikz}
-\end{center}
-
-In the diagram $U_f$ acts on all qubits; the work line $q_2$ returns to $\ket{-}$ independently of $f$ and is discarded prior to measurement \cite{nielsen2010quantum}. The algorithm thus highlights how carefully engineered phase relations allow a quantum circuit to evaluate a global promise with a single oracle invocation.
-
+\begin{figure}[h]
+    \centering
+    \begin{quantikz}
+    \lstick{$\ket{0}_{q_0}$} & \gate{H} & \gate[wires=3]{U_f} & \gate{H} & \meter{} & \cw \\
+    \lstick{$\ket{0}_{q_1}$} & \gate{H} &                        & \gate{H} & \meter{} & \cw \\
+    \lstick{$\ket{1}_{q_2}$} & \gate{H} &                        & \qw      & \qw      &
+    \end{quantikz}
+    \caption{Circuit representation of the \gls{dj} algorithm. The oracle $U_f$ acts on both the input and work registers. The final measurement discriminates between constant and balanced Boolean functions by detecting constructive or destructive interference on $\ket{0^{\otimes n}}$ \cite{deutsch1992rapid, cleve1998quantum, nielsen2010quantum}.}
+    \end{figure}
+    
 \subsubsection*{Grover's Search Algorithm}
 
 Grover's algorithm addresses the unstructured search problem by locating a single marked element among $N=2^{n}$ possibilities with a quadratic query reduction relative to classical exhaustive search \cite{grover1997quantum}. The procedure begins by preparing the uniform superposition $\ket{s}=H^{\otimes n}\ket{0^{\otimes n}}$, on which two reflections are alternately applied: an oracle reflection $U_{f}=I-2\ket{\omega}\bra{\omega}$ that flips the phase of the marked state $\ket{\omega}$ and a diffusion reflection $D=2\ket{s}\bra{s}-I$ that inverts amplitudes about the global mean \cite{brassard2000quantum}. The combined Grover operator $G=D\,U_{f}$ effects a rotation by angle $2\theta$ in the two-dimensional subspace spanned by $\ket{\omega}$ and $\ket{s_{\perp}}$, where $\sin\theta=1/\sqrt{N}$; after $r\approx\frac{\pi}{4}\sqrt{N}$ iterations the probability of observing $\ket{\omega}$ peaks at virtually unity, establishing an optimal $O(\sqrt{N})$ query complexity bound proved tight by the hybrid argument \cite{boyer1998tight}. At the circuit level each iteration consists of $n$ Hadamards, an $n$-qubit controlled-phase oracle and a sequence $H^{\otimes n}X^{\otimes n}Z_{0^{n}}X^{\otimes n}H^{\otimes n}$ realising the diffusion step with only one- and two-qubit gates using an $(n-1)$-control $Z$ on the all-zero state \cite{nielsen2010quantum}. Ancilla-free decompositions of the multi-control $Z$ are feasible at $O(n)$ Toffoli-depth using standard gate libraries, while fault-tolerant implementations can trade depth for $T$-count by leveraging relative-phase Toffolis and measurement-based uncomputation. Resource estimation therefore shows that a full Grover search over $n=40$ qubits, sufficient for key-search problems, would require roughly $10^{6}$ $T$ gates when executed on a surface-code protected architecture, orders of magnitude below the cost of competing classical brute-force methods. The canonical circuit and a worked example for $n=2$ are given below, with $\ket{11}$ designated as the marked item.
@@ -472,7 +472,7 @@ In applications where approximation is acceptable the Solovay-Kitaev theorem gua
 Exact Gray-code elimination therefore provides a conceptually transparent synthesis that is provably optimal in the worst case, yet the exponential scaling highlights why practical quantum advantage relies on structured operators such as the \gls{qft}, oracle reflections or variational ansätze whose decompositions grow only polynomially with problem size \cite{preskill2018quantum}. 
 
 
-\paragraph{Example 1: two-qubit random unitary.}  
+\begin{example}[Two-qubit random unitary]  
 Consider the numerically specified $4\times4$ matrix
 \[
 U_{\mathrm{ex}}=
@@ -501,8 +501,9 @@ A minimal gate-level implementation is illustrated in Figure \ref{fig:fedoriaka_
 \caption{Gray-code two-qubit decomposition of $U_{\mathrm{ex}}$. The fully controlled rotations emerge as \gls{cnot} sandwiches with single-qubit phases.}
 \label{fig:fedoriaka_twoqubit}
 \end{figure}
+\end{example}
 
-\paragraph{Example 2: block-diagonal three-qubit unitary.}  
+\begin{example}[Block-diagonal three-qubit unitary]
 Let  
 \[
 U_{\mathrm{blk}}=
@@ -519,9 +520,11 @@ C^{2}\bigl(R_{y}(\alpha)\bigr)\quad\text{and}\quad
 C^{2}\bigl(R_{z}(\beta)\bigr).
 \]
 Each decomposes into six \gls{cnot}s and four elementary rotations in the Clifford\,+\,$T$ set. The total depth therefore scales linearly with $n$ instead of exponentially, demonstrating how exploitable structure in $U$ suppresses the gate count far below the Gray-code worst case.
+\end{example}
 
-\paragraph{Example 3: tensor-product unitary.}  
+\begin{example}[Tensor-product unitary]
 If $U=U_{1}\otimes U_{2}\otimes\dots\otimes U_{n}$ the circuit is simply the parallel application of the $n$ single-qubit matrices $U_{k}$. No entangling gates are required, so the synthesis cost is exactly $n$ elementary rotations. This instance saturates the best possible scaling for a non-trivial $n$-qubit operator, confirming that exponential overhead is not intrinsic but rather tied to entangling structure.
+\end{example}
 
 These examples translate the abstract complexity analysis into concrete gate sequences, supplying reference circuits and resource counts that can be validated experimentally or within automated compilers.
 

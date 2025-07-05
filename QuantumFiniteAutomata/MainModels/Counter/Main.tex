@@ -9,8 +9,9 @@ In the literature, various models of \gls{qfa} with counters have been proposed.
 
 A \gls{qf1ca} is a one-way \gls{qfa} that uses a classical counter, capable of incrementing or decrementing its value and testing for zero. This model merges quantum transitions with classical counter logic, providing a new pathway for recognizing languages beyond the regular set \cite{kravtsev1999quantum}.
 
-\paragraph{Formal Definition} 
+\begin{definition}[\gls{qf1ca}]
 Formally, a \gls{qf1ca} consists of a finite set of states $Q$, an input alphabet $\Sigma$, a classical counter with values in $\mathbb{Z}$, and a transition function $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \rightarrow \mathbb{C}$ where $\{0,1\}$ indicates whether the counter is zero or not. The system operates unitarily, with counter updates contingent on the current state and symbol read.
+\end{definition}
 
 \paragraph{Strings Acceptance} 
 \gls{qf1ca} can accept strings using bounded-error probabilistic acceptance. They can recognize non-\glspl{reg} such as $L_1 = \{ w \in \Sigma^* : \text{equal number of 0's and 1's in } x \}$ when augmented with additional structure in the input \cite{bonner2001quantum}.
@@ -27,18 +28,20 @@ A notable advantage is the ability to recognize certain context-free languages w
 \paragraph{Comparison} 
 Compared to \gls{1qfa} or \gls{mo-1qfa}, \gls{qf1ca} exhibit significantly higher computational power due to the counter's memory augmentation.
 
-\paragraph{Example} 
-A \gls{qf1ca} recognizing the language $L_1$ as shown above was constructed in \cite{bonner2001quantum}, showing correct acceptance probabilities distinguishing it from deterministic models.
-
 \paragraph{Additional Topics} 
 Current research investigates the influence of quantum control on counter updates and the simulation of classical pushdown automata using counters in hybrid quantum settings.
+
+\begin{example}
+A \gls{qf1ca} recognizing the language $L_1$ as shown above was constructed in \cite{bonner2001quantum}, showing correct acceptance probabilities distinguishing it from deterministic models.
+\end{example}
 
 \subsubsection{\glsentryfull{2qf1ca}}
 
 \gls{2qf1ca} enhances the \gls{qf1ca} model by allowing two-way head movement on the input tape, significantly expanding computational capabilities. This flexibility enables the automaton to reprocess information with context, analogous to two-way classical finite automata but equipped with quantum transitions and a counter.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{2qf1ca}]
 A \gls{2qf1ca} is defined by a tuple $(Q, \Sigma, \delta, q_0, Q_a, Q_r)$, where $\delta$ maps configurations including direction: $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \times \{-1,0,1\} \rightarrow \mathbb{C}$. The last component indicates the head movement (-1 for left, 0 for stay, 1 for right), and the counter updates accordingly.
+\end{definition}
 
 \paragraph{Strings Acceptance}
 \gls{2qf1ca} can recognize more complex languages such as $L_2$ from \cite{bonner2001quantum}, composed of multiple $L_1$ segments demarcated by control symbols. These languages are not recognizable by 1QF1CA or classical probabilistic variants.
@@ -55,18 +58,20 @@ The key strength of \gls{2qf1ca} lies in its bidirectional input scanning which 
 \paragraph{Comparison}
 Compared to \gls{qf1ca}, the two-way model shows enhanced language recognition at the cost of more complex design and verification.
 
-\paragraph{Example}
-Recognition of $L_2$ involving interleaved structures demonstrates the superiority of \gls{2qf1ca} over classical and one-way quantum models as outlined in \cite{bonner2001quantum}.
-
 \paragraph{Additional Topics}
 Further topics include automaton minimization, real-time simulation constraints, and efficient quantum algorithm implementation.
+
+\begin{example}
+Recognition of $L_2$ involving interleaved structures demonstrates the superiority of \gls{2qf1ca} over classical and one-way quantum models as outlined in \cite{bonner2001quantum}.
+\end{example}
 
 \subsubsection{\glsentryfull{1qfkca}}
 
 The \gls{1qfkca} model generalizes the \gls{qf1ca} by including $k$ classical counters. Each counter is independently incremented, decremented, or checked against zero, enabling multi-dimensional memory augmentation in the quantum control logic \cite{cem2012quantum}.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{1qfkca}]
 Formally, a \gls{1qfkca} is given by a transition function $\delta: Q \times \Sigma \times \{0,1\}^k \times Q \times \{-1,0,1\}^k \rightarrow \mathbb{C}$ with the counter vector defining current zero/non-zero statuses and updates.
+\end{definition}
 
 \paragraph{Strings Acceptance}
 Languages involving multiple numeric relationships, such as $L = \{ a^n b^n c^n \mid n \geq 1 \}$, can be recognized in bounded error by appropriately configured \gls{1qfkca}.
@@ -83,18 +88,20 @@ Their capability to recognize complex dependencies is advantageous, but the expo
 \paragraph{Comparison}
 Compared to \gls{qf1ca}, this model is exponentially more powerful but with higher operational complexity.
 
-\paragraph{Example}
-In \cite{cem2012quantum}, a \gls{1qfkca} was shown to recognize the language $a^n b^n c^n$ via three synchronized counters incremented and decremented according to the current segment of the input.
-
 \paragraph{Additional Topics}
 Potential topics include quantum counter compression, fault tolerance in counters, and counter sharing protocols in hybrid quantum-classical systems.
+
+\begin{example}
+In \cite{cem2012quantum}, a \gls{1qfkca} was shown to recognize the language $a^n b^n c^n$ via three synchronized counters incremented and decremented according to the current segment of the input.
+\end{example}
 
 \subsubsection{\glsentryfull{rtq1ca}}
 
 \gls{rtq1ca} represents a restricted subclass of \gls{qf1ca} in which the input head moves strictly right at each step, processing the input in real-time. This model explores trade-offs between real-time operation and computational power \cite{cem2012quantum}.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{rtq1ca}]
 Defined similarly to \gls{qf1ca} but with a strict constraint on the transition direction (right only). The transition function thus omits head direction: $\delta: Q \times \Sigma \times \{0,1\} \times Q \times \{-1,0,1\} \rightarrow \mathbb{C}$.
+\end{definition}
 
 \paragraph{Strings Acceptance}
 Though more limited, \gls{rtq1ca} can still recognize several non-\glspl{reg} with carefully crafted transition amplitudes and counter updates.
@@ -111,8 +118,9 @@ The main advantage is speed and simplicity in implementation, but at a significa
 \paragraph{Comparison}
 \gls{rtq1ca} are less powerful than general \gls{qf1ca}, but more powerful than classical real-time automata due to quantum parallelism.
 
-\paragraph{Example}
-An \gls{rtq1ca} can probabilistically accept strings with a balanced number of 0's and 1's using only real-time passes and interference.
-
 \paragraph{Additional Topics}
 Real-time simulation fidelity and circuit-based implementations of \gls{rtq1ca} models are open areas of study.
+
+\begin{example}
+An \gls{rtq1ca} can probabilistically accept strings with a balanced number of 0's and 1's using only real-time passes and interference.
+\end{example}

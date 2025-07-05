@@ -1,10 +1,9 @@
 \subsection{\glsentrylong{mo-1qfa}}
 \label{sec:moqfa}
 
-\subsubsection{Introduction}
 \glspl{mo-1qfa} represent one of the simplest models of quantum computation in the realm of automata theory. Introduced by Moore and Crutchfield in 2000~\cite{moore2000quantum}, \glspl{mo-1qfa} evolve solely through unitary transformations corresponding to the input symbols and perform a single measurement at the end of the computation. This model has been further characterized by Brodsky and Pippenger~\cite{brodsky2002characterizations}, and it is known for its conceptual simplicity as well as for its limitations. Notably, when restricted to bounded error, \glspl{mo-1qfa} recognize exactly the class of group languages—a proper subset of the \glspl{reg}. In contrast, the measure-many variant ~\cite{kondacs1997power} employs intermediate measurements and exhibits different acceptance capabilities.
 
-\subsubsection{Formal Definition}
+\begin{definition}[\gls{mo-1qfa}]
 An \gls{mo-1qfa} is formally defined as a 5-tuple 
 \[
 M = (Q,\Sigma,\delta,q_0,F),
@@ -21,6 +20,8 @@ where:
     \item $q_0 \in Q$ is the initial state, and
     \item $F\subseteq Q$ is the set of accepting states.
 \end{itemize}
+\end{definition}
+
 For an input string $x=x_1x_2\cdots x_n$, the computation proceeds by applying the corresponding unitary matrices sequentially:
 \[
 \ket{\Psi_x} = U_{x_n}U_{x_{n-1}}\cdots U_{x_1}\ket{q_0}.
@@ -60,30 +61,32 @@ Additional algebraic properties, including aspects related to the pumping lemma 
 \subsubsection{Summary of Advantages and Limitations}
 \glspl{mo-1qfa} are praised for their simplicity. Since the quantum state evolves unitarily until a single measurement is made, the model avoids the complications associated with intermediate state collapses. This simplicity has practical implications; for example, recent experimental work has shown that custom control pulses can significantly reduce error rates in IBM-Q implementations~\cite{lussi2024implementing}, and photonic implementations have further demonstrated the feasibility of \glspl{mo-1qfa} in optical setups~\cite{candeloro2021enhanced}. On the downside, the acceptance power of \glspl{mo-1qfa} is limited—when operating under bounded error, they recognize only the group languages, which form a strict subset of the \glspl{reg}. In contrast, \glspl{mm-1qfa} offer greater acceptance power but at the cost of increased model complexity~\cite{kondacs1997power,berzicna2001ambainis}.
 
-\subsubsection{Example}
-Consider a simple \gls{mo-1qfa} defined over the unary alphabet $\Sigma=\{a\}$ with state set $Q=\{q_0,q_1\}$, initial state $q_0$, and accepting state set $F=\{q_1\}$. Let the unitary operator corresponding to the symbol $a$ be defined by the rotation matrix:
-\[
-U_a = \begin{pmatrix}
-\cos\theta & -\sin\theta \\
-\sin\theta & \cos\theta
-\end{pmatrix},
-\]
-for a fixed angle $\theta$. For an input string $a^n$, the state evolves as:
-\[
-\ket{\Psi_{a^n}} = U_a^n \ket{q_0}.
-\]
-The acceptance probability is computed as:
-\[
-p_M(a^n)=\|P\,\ket{\Psi_{a^n}}\|^2,
-\]
-where the projection operator $P$ is given by $P=\ket{q_1}\bra{q_1}$. By appropriately choosing $\theta$, the automaton can be tuned so that $p_M(a^n)$ exceeds the cut-point $\lambda$ (for example, $\lambda=\frac{1}{2}$) if and only if $a^n$ belongs to the target language. This example illustrates the essential mechanism of \glspl{mo-1qfa}, as described in~\cite{moore2000quantum,brodsky2002characterizations}.
 
 \subsubsection{Additional Topics}
-\paragraph{Learning and Optimization:} Recent work by Chu et al.~\cite{chu2023approximately} has introduced methods that combine active learning with non-linear optimization to approximately learn the parameters of \glspl{mo-1qfa}. These techniques provide insights into how one can recover the unitary transformations and state structure from observed data.
+\paragraph{Learning and Optimization.} Recent work by Chu et al.~\cite{chu2023approximately} has introduced methods that combine active learning with non-linear optimization to approximately learn the parameters of \glspl{mo-1qfa}. These techniques provide insights into how one can recover the unitary transformations and state structure from observed data.
 
-\paragraph{Complexity and Minimization:} The problem of minimizing the number of states in an \gls{mo-1qfa} was originally posed by Moore and Crutchfield~\cite{moore2000quantum}. Subsequent work by Mateus, Qiu, and Li~\cite{mateus2012complexity} has established an EXPSPACE upper bound for the minimization problem, framing it as a challenge in solving systems of algebraic polynomial (in)equations.
+\paragraph{Complexity and Minimization.} The problem of minimizing the number of states in an \gls{mo-1qfa} was originally posed by Moore and Crutchfield~\cite{moore2000quantum}. Subsequent work by Mateus, Qiu, and Li~\cite{mateus2012complexity} has established an EXPSPACE upper bound for the minimization problem, framing it as a challenge in solving systems of algebraic polynomial (in)equations.
 
-\paragraph{Experimental Implementations:} Experimental realizations of \glspl{mo-1qfa} have also been explored. Lussi et al.~\cite{lussi2024implementing} demonstrated an implementation on IBM-Q devices using custom control pulses, while photonic approaches have been reported in~\cite{candeloro2021enhanced}. These works highlight both the practical challenges and the potential advantages of implementing \glspl{mo-1qfa} on current quantum hardware.
+\paragraph{Experimental Implementations.} Experimental realizations of \glspl{mo-1qfa} have also been explored. Lussi et al.~\cite{lussi2024implementing} demonstrated an implementation on IBM-Q devices using custom control pulses, while photonic approaches have been reported in~\cite{candeloro2021enhanced}. These works highlight both the practical challenges and the potential advantages of implementing \glspl{mo-1qfa} on current quantum hardware.
 
-\paragraph{Future Directions:} Future research may focus on further enhancing experimental implementations, developing more robust learning algorithms for \glspl{mo-1qfa}, and exploring new minimization techniques that could lead to more efficient automata. Extensions that combine features of \glspl{mo-1qfa} and \gls{mm-1qfa}s may also provide richer language recognition capabilities and deepen our understanding of quantum computational models.
+\paragraph{Future Directions.} Future research may focus on further enhancing experimental implementations, developing more robust learning algorithms for \glspl{mo-1qfa}, and exploring new minimization techniques that could lead to more efficient automata. Extensions that combine features of \glspl{mo-1qfa} and \gls{mm-1qfa}s may also provide richer language recognition capabilities and deepen our understanding of quantum computational models.
 
+\begin{example}[\gls{mo-1qfa} for Unary Languages]    
+    Consider a simple \gls{mo-1qfa} defined over the unary alphabet $\Sigma=\{a\}$ with state set $Q=\{q_0,q_1\}$, initial state $q_0$, and accepting state set $F=\{q_1\}$. Let the unitary operator corresponding to the symbol $a$ be defined by the rotation matrix:
+    \[
+    U_a = \begin{pmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+    \end{pmatrix},
+    \]
+    for a fixed angle $\theta$. For an input string $a^n$, the state evolves as:
+    \[
+    \ket{\Psi_{a^n}} = U_a^n \ket{q_0}.
+    \]
+    The acceptance probability is computed as:
+    \[
+    p_M(a^n)=\|P\,\ket{\Psi_{a^n}}\|^2,
+    \]
+    where the projection operator $P$ is given by $P=\ket{q_1}\bra{q_1}$. By appropriately choosing $\theta$, the automaton can be tuned so that $p_M(a^n)$ exceeds the cut-point $\lambda$ (for example, $\lambda=\frac{1}{2}$) if and only if $a^n$ belongs to the target language. This example illustrates the essential mechanism of \glspl{mo-1qfa}, as described in~\cite{moore2000quantum,brodsky2002characterizations}.
+    \end{example}
+    

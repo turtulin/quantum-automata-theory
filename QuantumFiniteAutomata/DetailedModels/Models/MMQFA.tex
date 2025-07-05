@@ -1,10 +1,8 @@
 \subsection{\glsentrylong{mm-1qfa}}
 \label{sec:mmqfa}
-
-\subsubsection{Introduction}
 \glspl{mm-1qfa} are a variant of \glspl{qfa} in which a measurement is performed after reading each input symbol. Introduced by Kondacs and Watrous in 1997~\cite{kondacs1997power}, \glspl{mm-1qfa} allow the automaton to collapse its quantum state at intermediate steps, thereby potentially influencing the computation dynamically. Although this mechanism can enhance the detection of accepting or rejecting conditions during the run, under the bounded error regime \glspl{mm-1qfa} are known to recognize only a proper subset of the \glspl{reg}~\cite{brodsky2002characterizations}. Recent work, such as by Lin~\cite{lin2012another}, has provided elegant methods for addressing the equivalence problem of \glspl{mm-1qfa}, further enriching our understanding of their computational properties.
 
-\subsubsection{Formal Definition}
+\begin{definition}[\gls{mm-1qfa}]
 A \glsentryfull{mm-1qfa} is defined as a 6-tuple
 \[
 M = (Q,\Sigma,\delta,q_0,Q_{acc},Q_{rej}),
@@ -22,6 +20,8 @@ where:
     \item $Q_{acc} \subseteq Q$ is the set of accepting (halting) states, and
     \item $Q_{rej} \subseteq Q$ is the set of rejecting (halting) states.
 \end{itemize}
+\end{definition}
+
 After each symbol is read, the automaton's current state is measured with respect to the decomposition
 \[
 E_{acc} = \text{span}\{\ket{q} : q \in Q_{acc}\},\quad
@@ -73,31 +73,32 @@ Nevertheless, there are significant limitations:
 \end{itemize}
 Moreover, when compared to \gls{mo-1qfa}s, \glspl{mm-1qfa} may offer greater recognition power in some unbounded error scenarios but at the cost of increased computational and implementation complexity~\cite{kondacs1997power,berzicna2001ambainis}.
 
-\subsubsection{Example}
-Consider an \gls{mm-1qfa} defined over the alphabet $\Sigma=\{a\}$ with the state set $Q=\{q_0,q_1,q_2\}$, where $q_0$ is the initial state, $Q_{acc}=\{q_2\}$, and $Q_{rej}=\{q_1\}$. Let the unitary operator for the symbol $a$ be given by:
-\[
-U_a = \begin{pmatrix}
-\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 0 \\[1mm]
-\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 0 \\[1mm]
-0 & 0 & 1
-\end{pmatrix}.
-\]
-The \gls{mm-1qfa} processes an input string such as $aa$ as follows:
-\begin{enumerate}
-    \item Starting in state $\ket{q}$, the operator $U_a$ is applied and a measurement is performed. The measurement may collapse the state into:
-    \begin{itemize}
-        \item $E_{acc}$ (state $q_2$) - leading to immediate acceptance,
-        \item $E_{rej}$ (state $q_1$) - leading to immediate rejection, or
-        \item $E_{non}$ (state $q_0$, in this example) - allowing the computation to continupe.
-    \end{itemize}
-    \item If the first measurement yields a non-halting result, the second symbol is processed in a similar manner. The overall acceptance probability is the sum of the probabilities of all computation paths that eventually result in an outcome within $E_{acc}$.
-\end{enumerate}
-This example demonstrates the stepwise measurement process that characterizes \glspl{mm-1qfa}~\cite{kondacs1997power,lin2012another}.
 
 \subsubsection{Additional Topics}
-\paragraph{Equivalence and Decision Problems:} Lin~\cite{lin2012another} presents a simplified approach for deciding the equivalence of two \glspl{mm-1qfa} by reducing the problem to comparing initial vectors, thereby streamlining the decision process.
+\paragraph{Equivalence and Decision Problems.} Lin~\cite{lin2012another} presents a simplified approach for deciding the equivalence of two \glspl{mm-1qfa} by reducing the problem to comparing initial vectors, thereby streamlining the decision process.
 
-\paragraph{State Complexity and Lower Bounds:} Lower bound results for \gls{1qfa}, such as those by Ablayev and Gainutdinova~\cite{ablayev2000lower}, provide insights into the inherent state complexity challenges that also impact \glspl{mm-1qfa}.
+\paragraph{State Complexity and Lower Bounds.} Lower bound results for \gls{1qfa}, such as those by Ablayev and Gainutdinova~\cite{ablayev2000lower}, provide insights into the inherent state complexity challenges that also impact \glspl{mm-1qfa}.
  
-\paragraph{Experimental Considerations:} While experimental implementations have predominantly focused on \gls{mo-1qfa}s due to their relative simplicity, future work may explore the adaptation of techniques (e.g., custom pulse shaping as demonstrated in~\cite{lussi2024implementing}) to the more complex \gls{mm-1qfa} framework.
+\paragraph{Experimental Considerations.} While experimental implementations have predominantly focused on \gls{mo-1qfa}s due to their relative simplicity, future work may explore the adaptation of techniques (e.g., custom pulse shaping as demonstrated in~\cite{lussi2024implementing}) to the more complex \gls{mm-1qfa} framework.
 
+\begin{example}[Example of \gls{mm-1qfa} Processing]
+    Consider an \gls{mm-1qfa} defined over the alphabet $\Sigma=\{a\}$ with the state set $Q=\{q_0,q_1,q_2\}$, where $q_0$ is the initial state, $Q_{acc}=\{q_2\}$, and $Q_{rej}=\{q_1\}$. Let the unitary operator for the symbol $a$ be given by:
+    \[
+    U_a = \begin{pmatrix}
+    \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 0 \\[1mm]
+    \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 0 \\[1mm]
+    0 & 0 & 1
+    \end{pmatrix}.
+    \]
+    The \gls{mm-1qfa} processes an input string such as $aa$ as follows:
+    \begin{enumerate}
+        \item Starting in state $\ket{q}$, the operator $U_a$ is applied and a measurement is performed. The measurement may collapse the state into:
+        \begin{itemize}
+            \item $E_{acc}$ (state $q_2$) - leading to immediate acceptance,
+            \item $E_{rej}$ (state $q_1$) - leading to immediate rejection, or
+            \item $E_{non}$ (state $q_0$, in this example) - allowing the computation to continupe.
+        \end{itemize}
+        \item If the first measurement yields a non-halting result, the second symbol is processed in a similar manner. The overall acceptance probability is the sum of the probabilities of all computation paths that eventually result in an outcome within $E_{acc}$.
+    \end{enumerate}
+    This example demonstrates the stepwise measurement process that characterizes \glspl{mm-1qfa}~\cite{kondacs1997power,lin2012another}.
+\end{example}

@@ -7,7 +7,7 @@
 
 \gls{ml-qfa} were introduced to extend the capability of classical and quantum models by applying unitary operations based on the last $k$ letters read rather than just one. This enables them to recognize languages outside the reach of traditional measure-once or measure-many 1QFA models \cite{belovs2007multi}.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{ml-qfa}]
 A $k$-letter \gls{ml-qfa} is a 5-tuple $A = (Q, Q_{acc}, \ket{\psi_0}, \Sigma, \mu')$, where:
 \begin{itemize}
     \item $Q$ is a finite set of states,
@@ -16,6 +16,8 @@ A $k$-letter \gls{ml-qfa} is a 5-tuple $A = (Q, Q_{acc}, \ket{\psi_0}, \Sigma, \
     \item $\Sigma$ is the input alphabet,
     \item $\mu': (\Sigma \cup \{\Lambda\})^k \to U(\mathbb{C}^n)$ is a function assigning a unitary operator to every $k$-tuple of symbols.
 \end{itemize}
+\end{definition}
+
 The transition applies the unitary associated with the last $k$ letters read. For input $\omega = x_1 x_2 \dots x_n$, the computation evolves through unitary applications as specified in Eq. (1) and acceptance is determined using a projection operator $P_{acc}$ \cite{qiu2009hierarchy}.
 
 \paragraph{Strings Acceptance}
@@ -33,17 +35,18 @@ ML-QFA demonstrate higher computational power with fewer states in certain scena
 \paragraph{Comparison}
 ML-QFA are more expressive than MO-1QFA and MM-1QFA under the same acceptance criteria, but less so than two-way or general quantum automata with additional memory models \cite{qiu2011multi}.
 
-\paragraph{Example}
-The language $(a + b)^*a$ is a canonical example recognized by 2-letter ML-QFA, using a transition function dependent on the last two characters read \cite{belovs2007multi}.
-
 \paragraph{Additional Topics}
 Research is ongoing in determining exact hierarchies, equivalence testing, and applying ML-QFA in quantum protocol verification \cite{lin2012equivalence, qiu2008decidability}.
+
+\begin{example}
+The language $(a + b)^*a$ is a canonical example recognized by 2-letter ML-QFA, using a transition function dependent on the last two characters read \cite{belovs2007multi}.
+\end{example}
 
 \subsubsection{\glsentryfull{ml-mmqfa}}
 
 \gls{ml-mmqfa} combine the power of measure-many acceptance strategies with multiletter transitions, extending both classical MM-1QFA and ML-QFA. In this model, a measurement is performed after each quantum evolution step, but the evolution itself depends on the last $k$ letters read. This hybrid structure allows \gls{ml-mmqfa} to accept more complex languages than ML-QFA or MM-1QFA alone \cite{lin2012equivalence}.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{ml-mmqfa}]
 A $k$-letter \gls{ml-mmqfa} is a 7-tuple $A = (Q, Q_{acc}, Q_{rej}, \ket{\psi_0}, \Sigma, \mu', \mathcal{O})$, where:
 \begin{itemize}
     \item $Q$ is the finite set of states,
@@ -54,6 +57,8 @@ A $k$-letter \gls{ml-mmqfa} is a 7-tuple $A = (Q, Q_{acc}, Q_{rej}, \ket{\psi_0}
     \item $\mu': (\Sigma \cup \{\Lambda, \text{\textsterling}, \$\})^k \to U(\mathbb{C}^n)$ assigns a unitary matrix to each $k$-letter word,
     \item $\mathcal{O} = \{P_{acc}, P_{rej}, P_{non}\}$ is a projective measurement partitioning the Hilbert space based on $Q_{acc}$, $Q_{rej}$, and the non-halting subspace.
 \end{itemize}
+\end{definition}
+
 Computation starts with the end-marked input £$x_1x_2 \dots x_n\$$, and proceeds by interleaving unitary evolutions with projective measurements.
 
 \paragraph{Strings Acceptance}
@@ -75,21 +80,21 @@ The set of languages recognized by \gls{ml-mmqfa} is not closed under union, int
 \paragraph{Comparison} 
 \gls{ml-mmqfa} strictly subsume ML-QFA under the same input size and acceptance criteria. They are not comparable in power with general QFA models that allow additional memory or two-way movement. Compared to MM-1QFA, \gls{ml-mmqfa} can accept non-stochastic languages \cite{qiu2009hierarchy}.
 
-\paragraph{Example}
-An \gls{ml-mmqfa} with 2-letter transitions and intermediate measurements can accept the language $(a+b)^*a$ with higher robustness to probabilistic acceptance thresholds than an ML-QFA \cite{belovs2007multi}.
-
 \paragraph{Additional Topics}
 Further work focuses on state complexity, succinctness, and simulation algorithms between different classes. The diagonal sum construction plays a key role in analyzing equivalence and decidability \cite{lin2012equivalence}.
 
+\begin{example}
+An \gls{ml-mmqfa} with 2-letter transitions and intermediate measurements can accept the language $(a+b)^*a$ with higher robustness to probabilistic acceptance thresholds than an ML-QFA \cite{belovs2007multi}.
+\end{example}
 
 
 \subsubsection{\glsentryfull{ml-revqfa}}
 \gls{ml-revqfa} extend the multiletter framework by imposing reversibility constraints on the quantum evolution. These automata are designed so that each computation step is invertible, maintaining the core principle of reversibility from quantum mechanics and enhancing coherence preservation \cite{belovs2007multi}.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{ml-revqfa}]
 A $k$-letter \gls{ml-revqfa} is a special case of $k$-letter \gls{ml-qfa} where each unitary transformation $\mu'(\omega)$ satisfies the additional constraint that $\mu'(\omega)^{-1} = \mu'(\omega)^\dagger$ for all $\omega \in (\Sigma \cup \{\Lambda\})^k$, and the set of such transformations forms a group under composition.
-
 The automaton is defined as a 5-tuple $A = (Q, Q_{acc}, \ket{\psi_0}, \Sigma, \mu')$, with $\mu'$ restricted to reversible unitary matrices.
+\end{definition}
 
 \paragraph{Strings Acceptance}
 Acceptance is defined as in ML-QFA using a projector $P_{acc}$. For an input string $\omega$, the acceptance probability is:
@@ -110,10 +115,9 @@ Reversible automata are appealing for quantum computing implementations due to b
 \paragraph{Comparison}
 \gls{ml-revqfa} are less powerful than both ML-QFA and \gls{ml-mmqfa}. They are closely related to reversible classical automata and group automata. Compared to non-reversible models, they generally require more states or cannot recognize the same languages under equivalent semantics \cite{belovs2007multi}.
 
-\paragraph{Example}
-It was shown that \gls{ml-revqfa} cannot accept the language $(a+b)^*a$ even when using multiletter transitions, while a general ML-QFA can accept it with bounded error \cite{belovs2007multi}.
-
 \paragraph{Additional Topics}
 Future research may explore connections with quantum error correction, fault-tolerant reversible computing, and applications in energy-efficient quantum hardware design.
 
-
+\begin{example}
+It was shown that \gls{ml-revqfa} cannot accept the language $(a+b)^*a$ even when using multiletter transitions, while a general ML-QFA can accept it with bounded error \cite{belovs2007multi}.
+\end{example}

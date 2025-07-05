@@ -10,7 +10,7 @@ Beyond these foundational models, several other types of \gls{1qfa} have been pr
 \subsubsection{\glsentryfull{mon-1qfa}}
 The \gls{mon-1qfa} is a special model in which only measurement operations are used for computation, with no intermediate unitary evolutions. This model simplifies quantum computation by relying solely on projective measurements.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{mon-1qfa}]
 A \gls{mon-1qfa} is defined as a tuple \( A = (Q, \Sigma, \rho_0, \{P_{\sigma}\}_{\sigma \in \Sigma}, Q_{acc}) \) where:
 \begin{itemize}
     \item \( Q \) is a finite set of states,
@@ -19,6 +19,7 @@ A \gls{mon-1qfa} is defined as a tuple \( A = (Q, \Sigma, \rho_0, \{P_{\sigma}\}
     \item \( P_{\sigma} \) is the measurement operator for each input symbol \( \sigma \),
     \item \( Q_{acc} \subseteq Q \) is the set of accepting states.
 \end{itemize}
+\end{definition}
 
 \paragraph{Strings Acceptance}
 Acceptance is determined by applying the appropriate projective measurement after each symbol and measuring the final state. Acceptance can be defined with a bounded-error threshold.
@@ -35,21 +36,23 @@ They offer a hardware-friendly model due to the absence of unitaries, but are st
 \paragraph{Comparison}
 Compared to \gls{mo-1qfa} and \gls{mm-1qfa}, \gls{mon-1qfa} are less powerful due to the absence of unitary evolution.
 
-\paragraph{Example}
-An example is the language of all strings over \{a, b\} with an even number of a's. It can be recognized by a suitable choice of projective measurements.
-
 \paragraph{Additional Topics}
 Measure-only models relate to trace monoids with idempotent generators and have been used in language algebraic characterizations \cite{comin2013extended, bertoni2010trace}.
+
+\begin{example}
+An example is the language of all strings over \{a, b\} with an even number of a's. It can be recognized by a suitable choice of projective measurements.
+\end{example}
 
 \subsubsection{\glsentryfull{1qfa2}}
 The \gls{1qfa2} model introduces a second observable to the \gls{mo-1qfa} framework, enhancing the capacity to distinguish input strings. It can be seen as an intermediate enhancement over classical \gls{mo-1qfa}.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{1qfa2}]
 A \gls{1qfa2} is defined similarly to a standard \gls{mo-1qfa}, but it includes two projective measurements applied in alternation during computation:
 \[
 A = (Q, \Sigma, \rho_0, \{U_{\sigma}\}, \{P_1, P_2\}, Q_{acc})
 \]
 where the two measurements \( P_1 \) and \( P_2 \) alternate throughout the computation.
+\end{definition}
 
 \paragraph{Strings Acceptance}
 A string is accepted based on the final outcome after alternating between the two measurements. Acceptance is typically defined with bounded error.
@@ -72,8 +75,9 @@ This line of work aligns with the broader research aim of incrementally extendin
 \subsubsection{\glsentryfull{2t1qfa2}}
 The \gls{2t1qfa2} model incorporates two tapes and two heads, enabling cross-comparison between symbols of the input and reference tape, enhancing the recognition of complex patterns.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{2t1qfa2}]
 Formally, a \gls{2t1qfa2} is a 7-tuple \( A = (Q, \Sigma, \delta, q_0, Q_{acc}, Q_{rej}, \mathbb{T}) \), where \( \mathbb{T} \) denotes the tape set. The quantum evolution occurs in tandem over both tapes with corresponding heads.
+\end{definition}
 
 \paragraph{Strings Acceptance}
 Acceptance is determined through measurement at halting, typically with bounded error.
@@ -96,8 +100,9 @@ This model exemplifies a practical direction in extending \gls{1qfa} expressivit
 \subsubsection{\glsentryfull{nqfa}}
 \gls{nqfa} introduce nondeterminism in the quantum setting. Unlike probabilistic nondeterminism, here the nondeterminism arises from quantum measurement outcomes and amplitude branches.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{nqfa}]
 An \gls{nqfa} is a 5-tuple \( A = (Q, \Sigma, \psi_0, \{U_\sigma\}, Q_{acc}) \), and uses a cutpoint acceptance mode, where a string \( x \) is accepted if \( \mathbb{P}(x) > \lambda \) for some threshold \( \lambda \).
+\end{definition}
 
 \paragraph{Strings Acceptance}
 \gls{nqfa} recognize strings based on acceptance with nonzero amplitude, allowing acceptance of non\glspl{reg} with bounded error \cite{yakaryilmaz2009languages}.
@@ -117,8 +122,9 @@ More expressive than \gls{mo-1qfa}, \gls{mm-1qfa}, and even probabilistic finite
 \subsubsection{\glsentryfull{revqfa}}
 \gls{revqfa} enforce reversibility in state transitions, in line with quantum mechanics principles, where computation steps are invertible.
 
-\paragraph{Formal Definition}
+\begin{definition}[\gls{revqfa}]
 Defined similarly to \gls{mo-1qfa}, but all transitions are reversible, and state evolution is enforced to be unitary across all paths. Measurement occurs only at the end.
+\end{definition}
 
 \paragraph{Strings Acceptance}
 A string is accepted based on the final state post unitary evolution.
