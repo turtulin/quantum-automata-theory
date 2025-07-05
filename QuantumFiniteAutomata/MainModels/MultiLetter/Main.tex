@@ -47,7 +47,7 @@ The language $(a + b)^*a$ is a canonical example recognised by 2-letter ML-QFA, 
 \gls{ml-mmqfa} combine the power of measure-many acceptance strategies with multiletter transitions, extending both classical MM-1QFA and ML-QFA. In this model, a measurement is performed after each quantum evolution step, but the evolution itself depends on the last $k$ letters read. This hybrid structure allows \gls{ml-mmqfa} to accept more complex languages than ML-QFA or MM-1QFA alone \cite{lin2012equivalence}.
 
 \begin{definition}[\gls{ml-mmqfa}]
-A $k$-letter \gls{ml-mmqfa} is a 7-tuple $A = (Q, Q_{acc}, Q_{rej}, \ket{\psi_0}, \Sigma, \mu', \mathcal{O})$, where:
+A $k$-letter \gls{ml-mmqfa} is a 7-tuple \[A = (Q, Q_{acc}, Q_{rej}, \ket{\psi_0}, \Sigma, \mu', \mathcal{O}),\] where:
 \begin{itemize}
     \item $Q$ is the finite set of states,
     \item $Q_{acc} \subset Q$ is the set of accepting states,
