@@ -1,6 +1,6 @@
 \subsection{\glsentrylong{mm-1qfa}}
 \label{sec:mmqfa}
-\glspl{mm-1qfa} are a variant of \glspl{qfa} in which a measurement is performed after reading each input symbol. Introduced by Kondacs and Watrous in 1997~\cite{kondacs1997power}, \glspl{mm-1qfa} allow the automaton to collapse its quantum state at intermediate steps, thereby potentially influencing the computation dynamically. Although this mechanism can enhance the detection of accepting or rejecting conditions during the run, under the bounded error regime \glspl{mm-1qfa} are known to recognize only a proper subset of the \glspl{reg}~\cite{brodsky2002characterizations}. Recent work, such as by Lin~\cite{lin2012another}, has provided elegant methods for addressing the equivalence problem of \glspl{mm-1qfa}, further enriching our understanding of their computational properties.
+\glspl{mm-1qfa} are a variant of \glspl{qfa} in which a measurement is performed after reading each input symbol. Introduced by Kondacs and Watrous in 1997~\cite{kondacs1997power}, \glspl{mm-1qfa} allow the automaton to collapse its quantum state at intermediate steps, thereby potentially influencing the computation dynamically. Although this mechanism can enhance the detection of accepting or rejecting conditions during the run, under the bounded error regime \glspl{mm-1qfa} are known to recognise only a proper subset of the \glspl{reg}~\cite{brodsky2002characterizations}. Recent work, such as by Lin~\cite{lin2012another}, has provided elegant methods for addressing the equivalence problem of \glspl{mm-1qfa}, further enriching our understanding of their computational properties.
 
 \begin{definition}[\gls{mm-1qfa}]
 A \glsentryfull{mm-1qfa} is defined as a 6-tuple
@@ -48,16 +48,16 @@ p_M(x) \le \lambda - \epsilon,
 where $\lambda$ is a predetermined cut-point (commonly set to $\frac{1}{2}$)~\cite{kondacs1997power,brodsky2002characterizations}.
 
 \subsubsection{Set of Languages Accepted}
-Under the bounded error constraint, \glspl{mm-1qfa} recognize a proper subset of the \glspl{reg}. In particular, the languages accepted by \glspl{mm-1qfa} must satisfy specific algebraic properties that restrict their expressive power. Although \glspl{mm-1qfa} can, in some cases, recognize non\glspl{reg} when allowed unbounded error, the bounded error condition confines them to a class that is comparable to that of group languages~\cite{brodsky2002characterizations,kondacs1997power}. This limitation underscores the trade-off between the increased measurement frequency and the resultant reduction in language recognition capability.
+Under the bounded error constraint, \glspl{mm-1qfa} recognise a proper subset of the \glspl{reg}. In particular, the languages accepted by \glspl{mm-1qfa} must satisfy specific algebraic properties that restrict their expressive power. Although \glspl{mm-1qfa} can, in some cases, recognise non\glspl{reg} when allowed unbounded error, the bounded error condition confines them to a class that is comparable to that of group languages~\cite{brodsky2002characterizations,kondacs1997power}. This limitation underscores the trade-off between the increased measurement frequency and the resultant reduction in language recognition capability.
 
 \subsubsection{Closure Properties}
-The language class recognized by \glspl{mm-1qfa} with bounded error is known to enjoy several closure properties:
+The language class recognised by \glspl{mm-1qfa} with bounded error is known to enjoy several closure properties:
 \begin{itemize}
     \item It is closed under complement and inverse homomorphisms~\cite{brodsky2002characterizations}.
     \item It is closed under word quotients~\cite{brodsky2002characterizations}.
     \item However, the class is not closed under arbitrary homomorphisms~\cite{kondacs1997power,bertoni2003quantum}.
 \end{itemize}
-Recent work by Lin~\cite{lin2012another} further refines our understanding of these closure properties by addressing the equivalence problem for \glspl{mm-1qfa}, thereby linking the structural properties of the recognized languages to the underlying automata.
+Recent work by Lin~\cite{lin2012another} further refines our understanding of these closure properties by addressing the equivalence problem for \glspl{mm-1qfa}, thereby linking the structural properties of the recognised languages to the underlying automata.
 
 \subsubsection{Summary of Advantages and Limitations}
 \glspl{mm-1qfa} offer notable advantages:
@@ -68,7 +68,7 @@ Recent work by Lin~\cite{lin2012another} further refines our understanding of th
 Nevertheless, there are significant limitations:
 \begin{itemize}
     \item The frequent measurements interrupt the quantum evolution, which can limit the automaton's ability to harness quantum interference effectively.
-    \item As a result, under bounded error conditions, \glspl{mm-1qfa} recognize only a restricted subset of the \glspl{reg}.
+    \item As a result, under bounded error conditions, \glspl{mm-1qfa} recognise only a restricted subset of the \glspl{reg}.
     \item The complexity of analyzing and minimizing \glspl{mm-1qfa} remains high, with state minimization posing an EXPSPACE challenge~\cite{mateus2012complexity} and lower bound results highlighting the inherent state complexity~\cite{ablayev2000lower}.
 \end{itemize}
 Moreover, when compared to \gls{mo-1qfa}s, \glspl{mm-1qfa} may offer greater recognition power in some unbounded error scenarios but at the cost of increased computational and implementation complexity~\cite{kondacs1997power,berzicna2001ambainis}.
@@ -100,5 +100,5 @@ Moreover, when compared to \gls{mo-1qfa}s, \glspl{mm-1qfa} may offer greater rec
         \end{itemize}
         \item If the first measurement yields a non-halting result, the second symbol is processed in a similar manner. The overall acceptance probability is the sum of the probabilities of all computation paths that eventually result in an outcome within $E_{acc}$.
     \end{enumerate}
-    This example demonstrates the stepwise measurement process that characterizes \glspl{mm-1qfa}~\cite{kondacs1997power,lin2012another}.
+    This example demonstrates the stepwise measurement process that characterises \glspl{mm-1qfa}~\cite{kondacs1997power,lin2012another}.
 \end{example}

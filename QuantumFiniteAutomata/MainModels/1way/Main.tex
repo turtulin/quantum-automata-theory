@@ -1,7 +1,7 @@
 \subsection{One-Way Quantum Finite Automata}
 \label{sec:1-way-qfa}
 
-\gls{1qfa} are the quantum analog of classical one-way finite automata where the input tape is read from left to right without revisiting symbols. They provide a model for finite quantum computation that is more restricted than \glspl{2qfa} but often simpler to implement and analyze.
+\gls{1qfa} are the quantum analog of classical one-way finite automata where the input tape is read from left to right without revisiting symbols. They provide a model for finite quantum computation that is more restricted than \glspl{2qfa} but often simpler to implement and analyse.
 
 Among the most studied variants of \gls{1qfa} are the \gls{mo-1qfa} and the \gls{mm-1qfa}, which are addressed in detail in Section~\ref{sec:detailed-models}. These automata differ primarily in the timing of their measurements: \gls{mo-1qfa} perform a single measurement at the end of the computation, while \gls{mm-1qfa} perform measurements after reading each input symbol.
 
@@ -28,7 +28,7 @@ Acceptance is determined by applying the appropriate projective measurement afte
 The class of languages accepted by \gls{mon-1qfa} is strictly less powerful than the class of \glspl{reg}. It corresponds to a particular class of \glspl{reg} known as literally idempotent piecewise testable languages \cite{bertoni2010trace}.
 
 \paragraph{Closure Properties}
-The languages recognized by \gls{mon-1qfa} are not closed under union or complementation \cite{bertoni2010trace}.
+The languages recognised by \gls{mon-1qfa} are not closed under union or complementation \cite{bertoni2010trace}.
 
 \paragraph{Advantages and Limitations}
 They offer a hardware-friendly model due to the absence of unitaries, but are strictly less powerful than \gls{mo-1qfa} and \gls{mm-1qfa}.
@@ -40,7 +40,7 @@ Compared to \gls{mo-1qfa} and \gls{mm-1qfa}, \gls{mon-1qfa} are less powerful du
 Measure-only models relate to trace monoids with idempotent generators and have been used in language algebraic characterizations \cite{comin2013extended, bertoni2010trace}.
 
 \begin{example}
-An example is the language of all strings over \{a, b\} with an even number of a's. It can be recognized by a suitable choice of projective measurements.
+An example is the language of all strings over \{a, b\} with an even number of a's. It can be recognised by a suitable choice of projective measurements.
 \end{example}
 
 \subsubsection{\glsentryfull{1qfa2}}
@@ -58,7 +58,7 @@ where the two measurements \( P_1 \) and \( P_2 \) alternate throughout the comp
 A string is accepted based on the final outcome after alternating between the two measurements. Acceptance is typically defined with bounded error.
 
 \paragraph{Sets of Languages Accepted}
-The class of languages recognized is still a proper subset of \glspl{reg}, although strictly more than \gls{mo-1qfa}.
+The class of languages recognised is still a proper subset of \glspl{reg}, although strictly more than \gls{mo-1qfa}.
 
 \paragraph{Closure Properties}
 These automata do not have known closure under union or intersection.
@@ -83,7 +83,7 @@ Formally, a \gls{2t1qfa2} is a 7-tuple \( A = (Q, \Sigma, \delta, q_0, Q_{acc}, 
 Acceptance is determined through measurement at halting, typically with bounded error.
 
 \paragraph{Sets of Languages Accepted}
-\gls{2t1qfa2} can recognize some non\glspl{reg}, exceeding the capabilities of classical one-way automata and standard \gls{1qfa} models \cite{ganguly20162}.
+\gls{2t1qfa2} can recognise some non\glspl{reg}, exceeding the capabilities of classical one-way automata and standard \gls{1qfa} models \cite{ganguly20162}.
 
 \paragraph{Closure Properties}
 Closure properties remain largely unexplored, with no known results under union or complement.
@@ -105,10 +105,10 @@ An \gls{nqfa} is a 5-tuple \( A = (Q, \Sigma, \psi_0, \{U_\sigma\}, Q_{acc}) \),
 \end{definition}
 
 \paragraph{Strings Acceptance}
-\gls{nqfa} recognize strings based on acceptance with nonzero amplitude, allowing acceptance of non\glspl{reg} with bounded error \cite{yakaryilmaz2009languages}.
+\gls{nqfa} recognise strings based on acceptance with nonzero amplitude, allowing acceptance of non\glspl{reg} with bounded error \cite{yakaryilmaz2009languages}.
 
 \paragraph{Sets of Languages Accepted}
-This model strictly recognizes more than \glspl{reg}, offering power comparable to or exceeding classical nondeterministic finite automata.
+This model strictly recognises more than \glspl{reg}, offering power comparable to or exceeding classical nondeterministic finite automata.
 
 \paragraph{Closure Properties}
 \gls{nqfa} are not closed under complement or union.
@@ -130,7 +130,7 @@ Defined similarly to \gls{mo-1qfa}, but all transitions are reversible, and stat
 A string is accepted based on the final state post unitary evolution.
 
 \paragraph{Sets of Languages Accepted}
-Recognizes all \glspl{reg} \cite{yamakami2014one}, differing from many other \gls{1qfa} models.
+Recognises all \glspl{reg} \cite{yamakami2014one}, differing from many other \gls{1qfa} models.
 
 \paragraph{Closure Properties}
 Closed under Boolean operations due to equivalence with classical deterministic automata.

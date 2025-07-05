@@ -1,7 +1,7 @@
 \subsection{Quantum Interactive Proof Systems}
 \label{sec:interactive-automata}
 
-Interactive automata based on quantum interactive proof systems offer a striking demonstration of how even extremely resource-limited verifiers—modeled by \glspl{qfa}—can, through interaction with a powerful prover, recognize nontrivial languages. Two principal models have been developed in this area:
+Interactive automata based on quantum interactive proof systems offer a striking demonstration of how even extremely resource-limited verifiers—modeled by \glspl{qfa}—can, through interaction with a powerful prover, recognise nontrivial languages. Two principal models have been developed in this area:
   
 \begin{itemize}
   \item \gls{qip} systems, in which the verifier's internal moves remain hidden (private-coin), and
@@ -45,7 +45,7 @@ acting on the prover's private Hilbert space $\mathit{\mathcal{H}}_P$. In some v
 and the transition function $\delta$ is designed so that, after each move, the pair $(q',\gamma',d)$ is revealed to the prover.
 
 \paragraph{Strings Acceptance}
-An interactive proof system $(P,V)$ accepts an input string $x\in\Sigma^*$ if, after a prescribed sequence of interaction rounds, the verifier eventually performs a halting measurement that yields an accepting configuration with high probability. Formally, the system recognizes a language $L\subseteq\Sigma^*$ if the following conditions hold:
+An interactive proof system $(P,V)$ accepts an input string $x\in\Sigma^*$ if, after a prescribed sequence of interaction rounds, the verifier eventually performs a halting measurement that yields an accepting configuration with high probability. Formally, the system recognises a language $L\subseteq\Sigma^*$ if the following conditions hold:
 \begin{itemize}
   \item \textbf{Completeness:} For every $x\in L$, there exists a prover strategy $P$ such that the verifier accepts $x$ with probability at least $1-\epsilon$, where $\epsilon<1/2$.
   \item \textbf{Soundness:} For every $x\notin L$, for every prover strategy $P^*$, the verifier rejects $x$ with probability at least $1-\epsilon$.
@@ -59,8 +59,8 @@ The language recognition power of these interactive systems depends on the verif
   \[
   \text{\gls{qip}(1qfa)} = \text{REG},
   \]
-  meaning that even with interaction the system recognizes only the \glspl{reg} \cite{nishimura2009application}.
-  \item In contrast, when the verifier is a \gls{2qfa}, the interactive proof system can recognize languages that are not regular. For example, several protocols with 2qfa verifiers operating in expected polynomial time have been shown to outperform classical AM systems with 2pfa verifiers \cite{zheng2015power, nishimura2015interactive}.
+  meaning that even with interaction the system recognises only the \glspl{reg} \cite{nishimura2009application}.
+  \item In contrast, when the verifier is a \gls{2qfa}, the interactive proof system can recognise languages that are not regular. For example, several protocols with 2qfa verifiers operating in expected polynomial time have been shown to outperform classical AM systems with 2pfa verifiers \cite{zheng2015power, nishimura2015interactive}.
   \item In the public-coin (\gls{qam}) variant, where the verifier reveals its next move, the additional information sometimes further enhances the system's power, and comparisons with classical Arthur-Merlin systems have been established.
 \end{itemize}
 
@@ -77,7 +77,7 @@ These properties are established through constructions that combine multiple pro
 Interactive proof systems with \glspl{qfa} verifiers offer several compelling advantages:
 \begin{itemize}
   \item Finite Quantum Resources: The verifier operates with a finite-dimensional quantum system, making the model realistic for devices with limited quantum memory.
-  \item Enhanced Recognition via Interaction: Even though a standalone qfa (especially a 1qfa) may recognize only \glspl{reg}, interaction with a powerful prover can significantly boost the verifier's ability, particularly when using two-way qfa verifiers.
+  \item Enhanced Recognition via Interaction: Even though a standalone qfa (especially a 1qfa) may recognise only \glspl{reg}, interaction with a powerful prover can significantly boost the verifier's ability, particularly when using two-way qfa verifiers.
   \item Flexibility through Protocol Variants: By varying whether the system is a \gls{qip} (private-coin) or \gls{qam} (public-coin) system, and by imposing restrictions on the prover (quantum vs. classical), one can fine-tune the computational power and compare with classical interactive proof systems.
 \end{itemize}
 However, there are also limitations:
@@ -91,7 +91,7 @@ However, there are also limitations:
 Several open problems and future research directions emerge from this line of work:
 \begin{itemize}
   \item Round Complexity: How does limiting the number of interaction rounds (e.g., as in \gls{qip}\#($k$)) affect the recognition power and efficiency?
-  \item Prover Restrictions: What are the precise differences in computational power when the prover is restricted to classical behavior (〈c-prover〉) versus full quantum capability?
+  \item Prover Restrictions: What are the precise differences in computational power when the prover is restricted to classical behaviour (〈c-prover〉) versus full quantum capability?
   \item Public vs. Private Protocols: Further analysis is needed to understand the trade-offs between \gls{qip} (private-coin) and \gls{qam} (public-coin) systems.
   \item Resource-Bounded Protocols: Tightening the upper and lower bounds on running time and state complexity for these systems remains a challenging task.
 \end{itemize}
@@ -100,9 +100,9 @@ These issues continue to be central to the ongoing exploration of the interplay 
 \begin{itemize}
   \item Limited-Round Interactive Systems (QIP\#($k$)): In some works (e.g., by Nishimura and Yamakami), the number of interaction rounds is explicitly bounded. These models, often denoted by QIP\#($k$) (with $k$ indicating the maximum number of rounds), allow a more refined complexity classification of interactive protocols.
   
-  \item Interactive Proof Systems with Semi-Quantum Verifiers: Another significant model is the one in which the verifier is not a full-fledged \gls{qfa} but a semi-quantum \gls{2qfa}. In such systems—as studied, for instance, by Zheng, Qiu, and Gruska—the verifier possesses both classical and quantum states, using limited quantum resources alongside classical processing. These systems (sometimes denoted QAM(2QCFA) in the public-coin setting) have been shown to recognize languages beyond those recognizable by two-way probabilistic finite automata.
+  \item Interactive Proof Systems with Semi-Quantum Verifiers: Another significant model is the one in which the verifier is not a full-fledged \gls{qfa} but a semi-quantum \gls{2qfa}. In such systems—as studied, for instance, by Zheng, Qiu, and Gruska—the verifier possesses both classical and quantum states, using limited quantum resources alongside classical processing. These systems (sometimes denoted QAM(2QCFA) in the public-coin setting) have been shown to recognise languages beyond those recognizable by two-way probabilistic finite automata.
   
-  \item Variants Based on Prover Restrictions: Some works also examine the effect of restricting the prover to classical behavior (i.e., using only 0-1 unitary operators, sometimes denoted by the restriction 〈c-prover〉). This yields interactive models that can be compared with their fully quantum counterparts.
+  \item Variants Based on Prover Restrictions: Some works also examine the effect of restricting the prover to classical behaviour (i.e., using only 0-1 unitary operators, sometimes denoted by the restriction 〈c-prover〉). This yields interactive models that can be compared with their fully quantum counterparts.
 \end{itemize}
 
 \begin{example}
@@ -113,7 +113,7 @@ An illustrative example is the \gls{qip} protocol for the language
 which comprises even-length palindromes separated by a delimiter. In the protocol described in \cite{nishimura2015interactive}, the verifier (modeled as a 2qfa) interacts with a quantum prover in the following way:
 \begin{enumerate}
   \item The verifier scans the input (framed by the endmarkers $\cent$ and $\$$) and, based on its transition function $\delta$, generates a superposition reflecting potential midpoints.
-  \item Through a sequence of rounds, the verifier requests the prover to indicate the position of the center. In the \gls{qam} variant, the verifier publicly announces his next move to assist the prover.
+  \item Through a sequence of rounds, the verifier requests the prover to indicate the position of the centre. In the \gls{qam} variant, the verifier publicly announces his next move to assist the prover.
   \item Finally, the verifier applies a \gls{qft} to consolidate the information and performs a measurement. If the input is indeed of the form $x\#x^R$, the verifier accepts with high probability; otherwise, it rejects.
 \end{enumerate}
 This example clearly demonstrates how interaction compensates for the verifier's limited memory, enabling recognition of a nontrivial language.
